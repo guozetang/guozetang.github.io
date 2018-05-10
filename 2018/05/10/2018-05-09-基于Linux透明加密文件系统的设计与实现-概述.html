@@ -87,18 +87,29 @@
 
 
 
-<meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta name="description" content="基于Linux透明加密文件系统的设计与实现选题背景现在人们对计算机系统安全问题考虑的越来越多，对计算机系统安全的要求也越来越严格，数据安全早已不在是军方和政府要害部门的特殊需求。现在，几乎所有的应用领域包括银行、电子交易、政府、互联网络、专用网络和企业内部网络都有数据安全的需求。与此同时个人计算机的数据泄密问题也日益突出。加密技术在现代计算机系统安全中扮演着越来越重要的角色。而加密文件系统是加密技">
 <meta name="keywords" content="唐国泽,  Terry Blog, 博客, 个人网站, 互联网, 无人机">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://yoursite.com/2018/05/09/hello-world.html">
+<meta property="og:title" content="Terry Tang">
+<meta property="og:url" content="http://yoursite.com/2018/05/10/2018-05-09-基于Linux透明加密文件系统的设计与实现-概述.html">
 <meta property="og:site_name" content="Terry Tang">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="基于Linux透明加密文件系统的设计与实现选题背景现在人们对计算机系统安全问题考虑的越来越多，对计算机系统安全的要求也越来越严格，数据安全早已不在是军方和政府要害部门的特殊需求。现在，几乎所有的应用领域包括银行、电子交易、政府、互联网络、专用网络和企业内部网络都有数据安全的需求。与此同时个人计算机的数据泄密问题也日益突出。加密技术在现代计算机系统安全中扮演着越来越重要的角色。而加密文件系统是加密技">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-05-09T18:03:06.965Z">
+<meta property="og:image" content="http://yoursite.com/img/in-post/18_05_Linux文件加密系统框架示意图.png">
+<meta property="og:image" content="http://yoursite.com/img/in-post/18_05_Linux透明加密文件系统Read操作.png">
+<meta property="og:image" content="http://yoursite.com/img/in-post/18_05_Linux透明加密文件系统Write操作.png">
+<meta property="og:image" content="http://yoursite.com/img/in-post/18_05_09_Linux透明加密文件系统详细结构示意图.png">
+<meta property="og:image" content="http://yoursite.com/img/in-post/18_05_09_Linux透明加密文件系统秘钥管理示意图.png">
+<meta property="og:image" content="http://yoursite.com/img/in-post/18_05_09_Linux透明加密文件系统工作流程示意图.png">
+<meta property="og:image" content="http://yoursite.com/img/in-post/18_05_09_Linux用户操作之加解密图形界面.png">
+<meta property="og:image" content="http://yoursite.com/img/in-post/18_05_09_文件系统挂载后操作界面.png">
+<meta property="og:image" content="http://yoursite.com/img/in-post/18_05_09_文件系统交互式脚本书写.png">
+<meta property="og:image" content="http://yoursite.com/img/in-post/18_05_09_QT与Shell脚本交互示意图.png">
+<meta property="og:updated_time" content="2018-05-09T19:23:10.442Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta name="twitter:title" content="Terry Tang">
+<meta name="twitter:description" content="基于Linux透明加密文件系统的设计与实现选题背景现在人们对计算机系统安全问题考虑的越来越多，对计算机系统安全的要求也越来越严格，数据安全早已不在是军方和政府要害部门的特殊需求。现在，几乎所有的应用领域包括银行、电子交易、政府、互联网络、专用网络和企业内部网络都有数据安全的需求。与此同时个人计算机的数据泄密问题也日益突出。加密技术在现代计算机系统安全中扮演着越来越重要的角色。而加密文件系统是加密技">
+<meta name="twitter:image" content="http://yoursite.com/img/in-post/18_05_Linux文件加密系统框架示意图.png">
 
 
 
@@ -128,13 +139,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/05/09/hello-world.html"/>
+  <link rel="canonical" href="http://yoursite.com/2018/05/10/2018-05-09-基于Linux透明加密文件系统的设计与实现-概述.html"/>
 
 
 
 
 
-  <title>Hello World | Terry Tang</title>
+  <title> | Terry Tang</title>
   
 
 
@@ -271,7 +282,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/09/hello-world.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/10/2018-05-09-基于Linux透明加密文件系统的设计与实现-概述.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Terry Tang">
@@ -288,7 +299,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">Hello World</h2>
+          <h2 class="post-title" itemprop="name headline"></h2>
         
 
         <div class="post-meta">
@@ -300,8 +311,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-09T14:03:06-04:00">
-                2018-05-09
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-10T00:57:49-04:00">
+                2018-05-10
               </time>
             
 
@@ -319,9 +330,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/05/09/hello-world.html#comments" itemprop="discussionUrl">
+                <a href="/2018/05/10/2018-05-09-基于Linux透明加密文件系统的设计与实现-概述.html#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="/2018/05/09/hello-world.html" itemprop="commentCount"></span>
+                        data-disqus-identifier="/2018/05/10/2018-05-09-基于Linux透明加密文件系统的设计与实现-概述.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -343,7 +354,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  78
+                  1,304
                 </span>
               
 
@@ -359,7 +370,7 @@
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
                 <span title="Reading time">
-                  1
+                  4
                 </span>
               
             </div>
@@ -380,15 +391,45 @@
       
 
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+        <h1 id="基于Linux透明加密文件系统的设计与实现"><a href="#基于Linux透明加密文件系统的设计与实现" class="headerlink" title="基于Linux透明加密文件系统的设计与实现"></a>基于Linux透明加密文件系统的设计与实现</h1><h1 id="选题背景"><a href="#选题背景" class="headerlink" title="选题背景"></a>选题背景</h1><p>现在人们对计算机系统安全问题考虑的越来越多，对计算机系统安全的要求也越来越严格，数据安全早已不在是军方和政府要害部门的特殊需求。现在，几乎所有的应用领域包括银行、电子交易、政府、互联网络、专用网络和企业内部网络都有数据安全的需求。与此同时个人计算机的数据泄密问题也日益突出。加密技术在现代计算机系统安全中扮演着越来越重要的角色。而加密文件系统是加密技术中比较成熟和通用的方式。</p>
+<h1 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h1><p>对几种现有典型加密文件系统分析，我们可以发现传统的加密文件系统都存在着不同程度的问题，主要集中在这几个方面：数据的保护不完全；性能低下；密钥管理机制不够完善；界面交互性差；透明度差。</p>
+<ul>
+<li>针对用户：普通Ubuntu等Linux系统个人用户者</li>
+<li>用户特点：对命令行操作并不是很熟悉</li>
+</ul>
+<h1 id="设计目标"><a href="#设计目标" class="headerlink" title="设计目标"></a>设计目标</h1><p>集合需求分析，我们的设计目标是：</p>
+<ul>
+<li>对系统的运算速度不能产生太大的影响；</li>
+<li>整个加解密过程对用户而言是透明的，授权访问者可以很直观的读取文件明文，而非授权访问者读取到的都是已经加密过后的密文；</li>
+<li>在相似的操作系统中能够很好的进行移植。  </li>
+</ul>
+<p>根据这些需求，并结合现有加密文件系统的分析，我们选用堆叠式文件系统的方式来实现。设计的系统框架如下:<br><img src="/img/in-post/18_05_Linux文件加密系统框架示意图.png" alt="18_05_Linux文件加密系统框架示意图"> </p>
+<h1 id="系统简介"><a href="#系统简介" class="headerlink" title="系统简介"></a>系统简介</h1><p>系统的主体功能是通过堆叠式文件系统来实现本地数据的加解密工作，具体需要实现的有：</p>
+<ul>
+<li>加密文件系统开发，以一个独立的内核模块进行部署；</li>
+<li>用户操作界面的开发，对用户更友好；</li>
+<li>用户认证机制和文件加密密码验证结合，提高安全性；</li>
+<li>除了正文，也可以对文件名加密；</li>
+<li>用户可以自由选择下层文件系统来存放加密文件。  </li>
+</ul>
+<h2 id="系统框架"><a href="#系统框架" class="headerlink" title="系统框架"></a>系统框架</h2><h3 id="Read操作"><a href="#Read操作" class="headerlink" title="Read操作"></a>Read操作</h3><p>当用户发起read操作，加密文件系统中相关函数就被VFS中的系统调用sys_read()调用来处理这一个请求，他必须首先调用下层文件系统的read()以读取加密过的文件数据，然后解密文件数据，最后将解密后的原数据返回给用户。<br><img src="/img/in-post/18_05_Linux透明加密文件系统Read操作.png" alt="18_05_Linux透明加密文件系统Read操作"> </p>
+<p>write操作<br>用户进程的write()函数经过系统通用的VFS层，就转化成了系统调用sys_write()；VFS层的系统调用sys_write()函数再调用堆叠式加密文件系统中的encrypt_write()函数，然后compressfs_write()函数对上层用户空间传来的数据进行加密；之后再调用位于加密文件系统下层的具体文件系统中write()函数；将加密后的数据写入底层的具体文件系统当中去。<br><img src="/img/in-post/18_05_Linux透明加密文件系统Write操作.png" alt="18_05_Linux透明加密文件系统Write操作"> </p>
+<h3 id="文件系统详细结构图"><a href="#文件系统详细结构图" class="headerlink" title="文件系统详细结构图"></a>文件系统详细结构图</h3><p><img src="/img/in-post/18_05_09_Linux透明加密文件系统详细结构示意图.png" alt="18_05_09_Linux透明加密文件系统详细结构示意图"> </p>
+<h3 id="秘钥管理"><a href="#秘钥管理" class="headerlink" title="秘钥管理"></a>秘钥管理</h3><p><img src="/img/in-post/18_05_09_Linux透明加密文件系统秘钥管理示意图.png" alt="18_05_09_Linux透明加密文件系统秘钥管理示意图"> </p>
+<h1 id="成果展示"><a href="#成果展示" class="headerlink" title="成果展示"></a>成果展示</h1><h2 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h2><p><img src="/img/in-post/18_05_09_Linux透明加密文件系统工作流程示意图.png" alt="18_05_09_Linux透明加密文件系统工作流程示意图"> </p>
+<h2 id="用户操作界面"><a href="#用户操作界面" class="headerlink" title="用户操作界面"></a>用户操作界面</h2><h3 id="用户加解密操作"><a href="#用户加解密操作" class="headerlink" title="用户加解密操作"></a>用户加解密操作</h3><p><img src="/img/in-post/18_05_09_Linux用户操作之加解密图形界面.png" alt="18_05_09_Linux用户操作之加解密图形界面"> </p>
+<h3 id="文件挂载后的操作界面"><a href="#文件挂载后的操作界面" class="headerlink" title="文件挂载后的操作界面"></a>文件挂载后的操作界面</h3><p><img src="/img/in-post/18_05_09_文件系统挂载后操作界面.png" alt="18_05_09_文件系统挂载后操作界面"> </p>
+<h1 id="技术难点"><a href="#技术难点" class="headerlink" title="技术难点"></a>技术难点</h1><h2 id="加密文件系统实现方式选择（三种选择）"><a href="#加密文件系统实现方式选择（三种选择）" class="headerlink" title="加密文件系统实现方式选择（三种选择）"></a>加密文件系统实现方式选择（三种选择）</h2><ul>
+<li>基于应用层来实现文件的加解密；</li>
+<li>修改现有文件系统来实现；</li>
+<li>堆叠式文件系统。  </li>
+</ul>
+<p>综合用户需求我们选择的是第三种方案，用堆叠式文件系统来实现透明加密。</p>
+<h2 id="加密位置的选择"><a href="#加密位置的选择" class="headerlink" title="加密位置的选择"></a>加密位置的选择</h2><p>加密文件系统实现的难点之一在于找到一个Linux核心代码中合适的位置进行加解密操作。加密位置选择得好，便于实现，而且对系统的性能影响要比较小。我们选择的原则就是尽可能的将加解密操作延后。对于写操作，只在实际写入磁盘的时候才进行加密，对于读操作，只有在接近送到用户空间的缓冲区的时候才进行解密，加密的位置要让数据在Buffer Cache中是以明文形式存在的，以便能够利用Linux的缓冲机制提高加密文件系统的性能。反之，假设我们在Linux Buffer Cache层以上进行加解密操作，这就意味着对于加密的文件，Buffer Cache中存在的是密文，每次内核需要Buffer Cache中的内容的时候都要先进行加解密的工作，这将会大大的降低系统的性能。</p>
+<h2 id="交互式脚本书写"><a href="#交互式脚本书写" class="headerlink" title="交互式脚本书写"></a>交互式脚本书写</h2><p>如何书写与文件系统运行时候的交互式脚本，实现加密文件系统的自动化挂载过程。</p>
+<p><img src="/img/in-post/18_05_09_文件系统交互式脚本书写.png" alt="18_05_09_文件系统交互式脚本书写">   </p>
+<h2 id="QT与Shell脚本交互"><a href="#QT与Shell脚本交互" class="headerlink" title="QT与Shell脚本交互"></a>QT与Shell脚本交互</h2><p>如何将QT图形界面获取到的参数传递给脚本，并启动脚本，如何返回脚本的执行情况给图形化界面。</p>
+<p><img src="/img/in-post/18_05_09_QT与Shell脚本交互示意图.png" alt="18_05_09_QT与Shell脚本交互示意图"> </p>
 
       
     </div>
@@ -438,7 +479,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>Post link:</strong>
-    <a href="http://yoursite.com/2018/05/09/hello-world.html" title="Hello World">http://yoursite.com/2018/05/09/hello-world.html</a>
+    <a href="http://yoursite.com/2018/05/10/2018-05-09-基于Linux透明加密文件系统的设计与实现-概述.html" title="">http://yoursite.com/2018/05/10/2018-05-09-基于Linux透明加密文件系统的设计与实现-概述.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>Copyright Notice: </strong>
@@ -460,8 +501,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/08/2018-05-08-Some-issues-with-MSI-GE60-2PG.html" rel="next" title="Some Issues With MSI GE60 2PG">
-                <i class="fa fa-chevron-left"></i> Some Issues With MSI GE60 2PG
+              <a href="/2018/05/10/2018-05-08-Linux透明加密文件系统1-代码分析.html" rel="next" title="">
+                <i class="fa fa-chevron-left"></i> 
               </a>
             
           </div>
@@ -469,10 +510,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/05/09/Test.html" rel="prev" title="Test">
-                Test <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -643,7 +680,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基于Linux透明加密文件系统的设计与实现"><span class="nav-number">1.</span> <span class="nav-text">基于Linux透明加密文件系统的设计与实现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#选题背景"><span class="nav-number">2.</span> <span class="nav-text">选题背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#需求分析"><span class="nav-number">3.</span> <span class="nav-text">需求分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#设计目标"><span class="nav-number">4.</span> <span class="nav-text">设计目标</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#系统简介"><span class="nav-number">5.</span> <span class="nav-text">系统简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#系统框架"><span class="nav-number">5.1.</span> <span class="nav-text">系统框架</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Read操作"><span class="nav-number">5.1.1.</span> <span class="nav-text">Read操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件系统详细结构图"><span class="nav-number">5.1.2.</span> <span class="nav-text">文件系统详细结构图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#秘钥管理"><span class="nav-number">5.1.3.</span> <span class="nav-text">秘钥管理</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#成果展示"><span class="nav-number">6.</span> <span class="nav-text">成果展示</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#工作流程"><span class="nav-number">6.1.</span> <span class="nav-text">工作流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用户操作界面"><span class="nav-number">6.2.</span> <span class="nav-text">用户操作界面</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用户加解密操作"><span class="nav-number">6.2.1.</span> <span class="nav-text">用户加解密操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件挂载后的操作界面"><span class="nav-number">6.2.2.</span> <span class="nav-text">文件挂载后的操作界面</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#技术难点"><span class="nav-number">7.</span> <span class="nav-text">技术难点</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#加密文件系统实现方式选择（三种选择）"><span class="nav-number">7.1.</span> <span class="nav-text">加密文件系统实现方式选择（三种选择）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加密位置的选择"><span class="nav-number">7.2.</span> <span class="nav-text">加密位置的选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#交互式脚本书写"><span class="nav-number">7.3.</span> <span class="nav-text">交互式脚本书写</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#QT与Shell脚本交互"><span class="nav-number">7.4.</span> <span class="nav-text">QT与Shell脚本交互</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -829,9 +866,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://yoursite.com/2018/05/09/hello-world.html';
-          this.page.identifier = '/2018/05/09/hello-world.html';
-          this.page.title = 'Hello World';
+          this.page.url = 'http://yoursite.com/2018/05/10/2018-05-09-基于Linux透明加密文件系统的设计与实现-概述.html';
+          this.page.identifier = '/2018/05/10/2018-05-09-基于Linux透明加密文件系统的设计与实现-概述.html';
+          this.page.title = '';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://Tang Guoze.disqus.com/embed.js';
