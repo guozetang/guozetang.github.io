@@ -87,13 +87,13 @@
 
 
 
-<meta name="description" content="唐国泽 原创作品转载请注明出处 《Linux内核分析》MOOC课程http://mooc.study.163.com/course/USTC-1000029000 UNIX操作系统，是一个强大的多用户、多任务操作系统，支持多种处理器架构，按照操作系统的分类，属于分时操作系统  UNIX  United  is  an  architecture  for  a  distributed  sys">
+<meta name="description" content="唐国泽 原创作品转载请注明出处 《Linux内核分析》MOOC课程http://mooc.study.163.com/course/USTC-1000029000 UNIX操作系统，是一个强大的多用户、多任务操作系统，支持多种处理器架构，按照操作系统的分类，属于分时操作系统  UNIX  United  is  an  architecture  for  a  distributed  syst">
 <meta name="keywords" content="Linux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux内核分析课程9_UNIX United操作系统分析">
 <meta property="og:url" content="http://guozetang.github.io/blog/2015/05/07/UNIX United system.html">
 <meta property="og:site_name" content="Terry Tang">
-<meta property="og:description" content="唐国泽 原创作品转载请注明出处 《Linux内核分析》MOOC课程http://mooc.study.163.com/course/USTC-1000029000 UNIX操作系统，是一个强大的多用户、多任务操作系统，支持多种处理器架构，按照操作系统的分类，属于分时操作系统  UNIX  United  is  an  architecture  for  a  distributed  sys">
+<meta property="og:description" content="唐国泽 原创作品转载请注明出处 《Linux内核分析》MOOC课程http://mooc.study.163.com/course/USTC-1000029000 UNIX操作系统，是一个强大的多用户、多任务操作系统，支持多种处理器架构，按照操作系统的分类，属于分时操作系统  UNIX  United  is  an  architecture  for  a  distributed  syst">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://img.blog.csdn.net/20150427221713582">
 <meta property="og:image" content="http://img.blog.csdn.net/20150427221836262">
@@ -102,7 +102,7 @@
 <meta property="og:updated_time" content="2018-05-10T17:21:50.236Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux内核分析课程9_UNIX United操作系统分析">
-<meta name="twitter:description" content="唐国泽 原创作品转载请注明出处 《Linux内核分析》MOOC课程http://mooc.study.163.com/course/USTC-1000029000 UNIX操作系统，是一个强大的多用户、多任务操作系统，支持多种处理器架构，按照操作系统的分类，属于分时操作系统  UNIX  United  is  an  architecture  for  a  distributed  sys">
+<meta name="twitter:description" content="唐国泽 原创作品转载请注明出处 《Linux内核分析》MOOC课程http://mooc.study.163.com/course/USTC-1000029000 UNIX操作系统，是一个强大的多用户、多任务操作系统，支持多种处理器架构，按照操作系统的分类，属于分时操作系统  UNIX  United  is  an  architecture  for  a  distributed  syst">
 <meta name="twitter:image" content="http://img.blog.csdn.net/20150427221713582">
 
 
@@ -113,7 +113,7 @@
     root: '/',
     scheme: 'Mist',
     version: '5.1.4',
-    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"position":"right","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
     tabs: true,
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
@@ -197,7 +197,7 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-h-square"></i> <br />
             
             Home
           </a>
@@ -356,6 +356,17 @@
 
           
           
+             <span id="/blog/2015/05/07/UNIX United system.html" class="leancloud_visitors" data-flag-title="Linux内核分析课程9_UNIX United操作系统分析">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
 
           
 
@@ -407,23 +418,23 @@
       
 
       
-        <p>﻿唐国泽 原创作品转载请注明出处 《Linux内核分析》MOOC课程<a href="http://mooc.study.163.com/course/USTC-1000029000" target="_blank" rel="noopener">http://mooc.study.163.com/course/USTC-1000029000</a></p>
+        <p>唐国泽 原创作品转载请注明出处 《Linux内核分析》MOOC课程<a href="http://mooc.study.163.com/course/USTC-1000029000" target="_blank" rel="noopener">http://mooc.study.163.com/course/USTC-1000029000</a></p>
 <p>UNIX操作系统，是一个强大的多用户、多任务操作系统，支持多种处理器架构，按照操作系统的分类，属于分时操作系统</p>
 <blockquote>
 <p>UNIX  United  is  an  architecture  for  a  distributed  system  based  on UNIX.<br>UNIX United可以看做是一种多台UNIX组成分布式系统的解决方案。</p>
 </blockquote>
-<h1 id="1-Introduction"><a href="#1-Introduction" class="headerlink" title="1.Introduction"></a>1.Introduction</h1><p>UNIX United系统是通过将一组的UNIX系统计算机，在上层叠加一个系统方式，是值在操作的时候，完全隐藏所有的处理器通信和网络协议。并且所有的UNUX工作方式（如：设备保护，访问和文件访问，进程间通信，输入/输出，重定向）都是一样的，和独立的UNIX没有任何差别。</p>
+<h1><span id="1introduction">1.Introduction</span></h1><p>UNIX United系统是通过将一组的UNIX系统计算机，在上层叠加一个系统方式，是值在操作的时候，完全隐藏所有的处理器通信和网络协议。并且所有的UNUX工作方式（如：设备保护，访问和文件访问，进程间通信，输入/输出，重定向）都是一样的，和独立的UNIX没有任何差别。</p>
 <blockquote>
 <p>参考文献：<br>《The Newcastle Connection or UNIXes of the world Unite!》<br>《The Architecture of UNIX United》</p>
 </blockquote>
 <p><strong>疑问：对文件访问的控制是怎么处理的呢？</strong></p>
-<h1 id="2-对文件访问的处理"><a href="#2-对文件访问的处理" class="headerlink" title="2.对文件访问的处理"></a>2.对文件访问的处理</h1><p>　　<img src="http://img.blog.csdn.net/20150427221713582" alt="这里写图片描述"></p>
+<h1><span id="2对文件访问的处理">2.对文件访问的处理</span></h1><p>　　<img src="http://img.blog.csdn.net/20150427221713582" alt="这里写图片描述"></p>
 <p>简单的举一个例子，我们有两个独立的UNIX系统主机，现在将其构建成UNIX United System, 构建之后，UNIX1的用户如何读取UNIX2的文件呢？<br>　　<img src="http://img.blog.csdn.net/20150427221836262" alt="这里写图片描述"><br>　　不知道大家是否还记得: <strong>“ / ” 表示根目录，“</strong> .. ”表示当前目录的上一层目录，那么问题来了，“ /..  ”表示什么呢？</p>
 <blockquote>
 <p>如果在UNIX１主机上复制文件a到UNIX２上，可以这样操作。<br>cp  /user/brian/a   /../unix2/user/brian/a<br>现在问题再一次出现，这个cp使用的是UNIX1中的cp还是UNIX2中的cp呢？</p>
 </blockquote>
-<h1 id="３-用户认证和访问权限控制"><a href="#３-用户认证和访问权限控制" class="headerlink" title="３.用户认证和访问权限控制"></a>３.用户认证和访问权限控制</h1><p>UNIX中用户认证相关的文件：用户，组，用户密码，Root<br>UNIX United System中，各个子UNIX System拥有自己独立的users,user groups and user password file,root; 但每个系统都有义务对要登录UNIX United System的用户进行认证，那怎么认证呢？<br>比如机器A上的用户u, 我们记为“A/u”，身份认证由A完成，但用户u可以访问所有A和B上属于该用户的文件。</p>
-<h1 id="4-连接通信-远程文件访问的处理"><a href="#4-连接通信-远程文件访问的处理" class="headerlink" title="4.连接通信-远程文件访问的处理"></a>4.连接通信-远程文件访问的处理</h1><p>　　<img src="http://img.blog.csdn.net/20150427221907760" alt="这里写图片描述"></p>
+<h1><span id="3用户认证和访问权限控制">３.用户认证和访问权限控制</span></h1><p>UNIX中用户认证相关的文件：用户，组，用户密码，Root<br>UNIX United System中，各个子UNIX System拥有自己独立的users,user groups and user password file,root; 但每个系统都有义务对要登录UNIX United System的用户进行认证，那怎么认证呢？<br>比如机器A上的用户u, 我们记为“A/u”，身份认证由A完成，但用户u可以访问所有A和B上属于该用户的文件。</p>
+<h1><span id="4连接通信-远程文件访问的处理">4.连接通信-远程文件访问的处理</span></h1><p>　　<img src="http://img.blog.csdn.net/20150427221907760" alt="这里写图片描述"></p>
 <p>在原有UNIX的基础上添加了一个通信链路和一个软件层, 这两部分的位置在UNIX Kernel和UNIX software之间。Newcastle Connection相当于是一个“过滤器”，过滤出要重定向其他系统的系统调用，而UNIX1和UNIX2之间的通信是通过远程过程调用(Remote Procedure Call，RPC)来交流的。<br>　　<img src="http://img.blog.csdn.net/20150427222109033" alt="这里写图片描述"></p>
 <blockquote>
 <p>流程如下所示：</p>
@@ -637,7 +648,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
@@ -704,7 +715,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Introduction"><span class="nav-number">1.</span> <span class="nav-text">1.Introduction</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-对文件访问的处理"><span class="nav-number">2.</span> <span class="nav-text">2.对文件访问的处理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#３-用户认证和访问权限控制"><span class="nav-number">3.</span> <span class="nav-text">３.用户认证和访问权限控制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-连接通信-远程文件访问的处理"><span class="nav-number">4.</span> <span class="nav-text">4.连接通信-远程文件访问的处理</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">1.Introduction</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">2.</span> <span class="nav-text">2.对文件访问的处理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">3.</span> <span class="nav-text">３.用户认证和访问权限控制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">4.</span> <span class="nav-text">4.连接通信-远程文件访问的处理</span></a></li></ol></div>
             
 
           </div>
@@ -934,6 +945,113 @@
 
 
   
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8j9NjCI1JIfLgByAEHLWN0Jt-gzGzoHsz", "cR3zNFmdKKaFBwURFDXSzV49");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
 
   
 

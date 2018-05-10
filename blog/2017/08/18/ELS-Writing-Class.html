@@ -108,7 +108,7 @@
     root: '/',
     scheme: 'Mist',
     version: '5.1.4',
-    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"position":"right","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
     tabs: true,
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
@@ -192,7 +192,7 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-h-square"></i> <br />
             
             Home
           </a>
@@ -329,6 +329,17 @@
 
           
           
+             <span id="/blog/2017/08/18/ELS-Writing-Class.html" class="leancloud_visitors" data-flag-title="ELS Writing Class">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
 
           
 
@@ -380,7 +391,7 @@
       
 
       
-        <h1 id="ELS-Writing-class"><a href="#ELS-Writing-class" class="headerlink" title="ELS Writing class"></a>ELS Writing class</h1><h3 id="2-How-to-find-a-Perfect-rental-home-for-students"><a href="#2-How-to-find-a-Perfect-rental-home-for-students" class="headerlink" title="2.How to find a Perfect rental home for students."></a>2.How to find a Perfect rental home for students.</h3><p>&emsp;&emsp;  Renting a home is the most important thing before a student enters university. It requires some progress before going the rent.You need to think about the kind of propery you are looking for. Where you want to live, and the budget you have available. Do you think it’s a painful thing? Believe it or not, renting a good home is not as diffiuclt ad you think, especially if you work through the process following these steps which will make your search smarter and more efficent.  </p>
+        <h1><span id="els-writing-class">ELS Writing class</span></h1><h3><span id="2how-to-find-a-perfect-rental-home-for-students">2.How to find a Perfect rental home for students.</span></h3><p>&emsp;&emsp;  Renting a home is the most important thing before a student enters university. It requires some progress before going the rent.You need to think about the kind of propery you are looking for. Where you want to live, and the budget you have available. Do you think it’s a painful thing? Believe it or not, renting a good home is not as diffiuclt ad you think, especially if you work through the process following these steps which will make your search smarter and more efficent.  </p>
 <p>&emsp;&emsp;  First, Decide the requirements that you want that you want or need. There are a lot of factors to consider. For instance, write down all the things that you are thinking in mind, the location has to be close the university, the minimum square footage the home, whether you want furnished and unfurnished, the number of bed rooms and bathrooms, garden, and so on. In addition, there are some other requirements which depend on your personal lifestyle. For example, whether the private peoperty owner also resides in the home or whether a couple can share the room.  </p>
 <p>&emsp;&emsp; Next set a budget and stick to it. Search for property to rent online and look at the local prices to make sure that your budget is sensible. In addition to your rental costs, you will also need to budget for other related expenses, such as utility bills, cable and Internet, deposit, removal costs, and some others in order to make your home livable.  </p>
 <p>&emsp;&emsp;  After that, search and select a perfect home. There are a plenty of ways to search a home for you. For example, search online, local newspaper, agents, board in your area, friends and classmates. Then choose a few homes you like.  </p>
@@ -588,7 +599,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
@@ -655,7 +666,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ELS-Writing-class"><span class="nav-number">1.</span> <span class="nav-text">ELS Writing class</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-How-to-find-a-Perfect-rental-home-for-students"><span class="nav-number">1.0.1.</span> <span class="nav-text">2.How to find a Perfect rental home for students.</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">ELS Writing class</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">1.0.1.</span> <span class="nav-text">2.How to find a Perfect rental home for students.</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
@@ -885,6 +896,113 @@
 
 
   
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8j9NjCI1JIfLgByAEHLWN0Jt-gzGzoHsz", "cR3zNFmdKKaFBwURFDXSzV49");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
 
   
 

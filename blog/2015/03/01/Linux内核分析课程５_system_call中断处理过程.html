@@ -87,13 +87,13 @@
 
 
 
-<meta name="description" content="Linux内核课第四周作业。本文在云课堂中实验楼完成。　　唐国泽 原创作品转载请注明出处 《Linux内核分析》MOOC课程http://mooc.study.163.com/course/USTC-1000029000  　　主要内容：　　1.调试sys_exit()　　2.系统调用源代码分析　　3.系统调用小结 #一.加入自定义的系统调用CallExit.　　修改menu/test.c文">
+<meta name="description" content="Linux内核课第四周作业。本文在云课堂中实验楼完成。　　唐国泽 原创作品转载请注明出处 《Linux内核分析》MOOC课程http://mooc.study.163.com/course/USTC-1000029000  　　主要内容：　　1.调试sys_exit()　　2.系统调用源代码分析　　3.系统调用小结 #一.加入自定义的系统调用CallExit.　　修改menu/test.c文件，加">
 <meta name="keywords" content="Linux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux内核分析课程5_System Call中断处理过程">
 <meta property="og:url" content="http://guozetang.github.io/blog/2015/03/01/Linux内核分析课程５_system_call中断处理过程.html">
 <meta property="og:site_name" content="Terry Tang">
-<meta property="og:description" content="Linux内核课第四周作业。本文在云课堂中实验楼完成。　　唐国泽 原创作品转载请注明出处 《Linux内核分析》MOOC课程http://mooc.study.163.com/course/USTC-1000029000  　　主要内容：　　1.调试sys_exit()　　2.系统调用源代码分析　　3.系统调用小结 #一.加入自定义的系统调用CallExit.　　修改menu/test.c文">
+<meta property="og:description" content="Linux内核课第四周作业。本文在云课堂中实验楼完成。　　唐国泽 原创作品转载请注明出处 《Linux内核分析》MOOC课程http://mooc.study.163.com/course/USTC-1000029000  　　主要内容：　　1.调试sys_exit()　　2.系统调用源代码分析　　3.系统调用小结 #一.加入自定义的系统调用CallExit.　　修改menu/test.c文件，加">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://img.blog.csdn.net/20150405172545647">
 <meta property="og:image" content="http://img.blog.csdn.net/20150405181638295">
@@ -101,7 +101,7 @@
 <meta property="og:updated_time" content="2018-05-10T17:29:03.936Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux内核分析课程5_System Call中断处理过程">
-<meta name="twitter:description" content="Linux内核课第四周作业。本文在云课堂中实验楼完成。　　唐国泽 原创作品转载请注明出处 《Linux内核分析》MOOC课程http://mooc.study.163.com/course/USTC-1000029000  　　主要内容：　　1.调试sys_exit()　　2.系统调用源代码分析　　3.系统调用小结 #一.加入自定义的系统调用CallExit.　　修改menu/test.c文">
+<meta name="twitter:description" content="Linux内核课第四周作业。本文在云课堂中实验楼完成。　　唐国泽 原创作品转载请注明出处 《Linux内核分析》MOOC课程http://mooc.study.163.com/course/USTC-1000029000  　　主要内容：　　1.调试sys_exit()　　2.系统调用源代码分析　　3.系统调用小结 #一.加入自定义的系统调用CallExit.　　修改menu/test.c文件，加">
 <meta name="twitter:image" content="http://img.blog.csdn.net/20150405172545647">
 
 
@@ -112,7 +112,7 @@
     root: '/',
     scheme: 'Mist',
     version: '5.1.4',
-    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"position":"right","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
     tabs: true,
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
@@ -196,7 +196,7 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-h-square"></i> <br />
             
             Home
           </a>
@@ -355,6 +355,17 @@
 
           
           
+             <span id="/blog/2015/03/01/Linux内核分析课程５_system_call中断处理过程.html" class="leancloud_visitors" data-flag-title="Linux内核分析课程5_System Call中断处理过程">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
 
           
 
@@ -406,7 +417,7 @@
       
 
       
-        <p>﻿<br>　　Linux内核课第四周作业。本文在云课堂中实验楼完成。<br>　　唐国泽 原创作品转载请注明出处 《Linux内核分析》MOOC课程<a href="http://mooc.study.163.com/course/USTC-1000029000" target="_blank" rel="noopener">http://mooc.study.163.com/course/USTC-1000029000</a></p>
+        <p>Linux内核课第四周作业。本文在云课堂中实验楼完成。<br>　　唐国泽 原创作品转载请注明出处 《Linux内核分析》MOOC课程<a href="http://mooc.study.163.com/course/USTC-1000029000" target="_blank" rel="noopener">http://mooc.study.163.com/course/USTC-1000029000</a></p>
 <hr>
 <p>　　主要内容：<br>　　1.调试sys_exit()<br>　　2.系统调用源代码分析<br>　　3.系统调用小结</p>
 <p>#一.加入自定义的系统调用CallExit.<br>　　修改menu/test.c文件，加入自己定义的系统调用函数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;time.h&gt;</span><br><span class="line">#include &quot;menu.h&quot;</span><br><span class="line">#include&lt;sys/types.h&gt;</span><br><span class="line">#include&lt;unistd.h&gt;</span><br><span class="line">#define FONTSIZE 10</span><br><span class="line">......</span><br><span class="line">......</span><br><span class="line">int CallExit(int argc,char *argvs)</span><br><span class="line">&#123;</span><br><span class="line">    pid_t pc,pr;</span><br><span class="line">    int t;</span><br><span class="line">    pc =fork();</span><br><span class="line">    if(pc &lt; 0)</span><br><span class="line">        printf(&quot;Fork error!\n&quot;);</span><br><span class="line">    else if(pc == 0)&#123;</span><br><span class="line">        printf(&quot;This is child process with pid of %d\n&quot;,getpid());</span><br><span class="line">        sleep(5);</span><br><span class="line">    &#125;</span><br><span class="line">    else&#123;</span><br><span class="line">        pr=wait(NULL);</span><br><span class="line">        printf(&quot;I catched a child process with pid of %d\n&quot;,pr);</span><br><span class="line">    &#125;</span><br><span class="line">    exit(0);</span><br><span class="line">&#125;</span><br><span class="line">int CallExit_asm(int argc,char *argvs)</span><br><span class="line">&#123;</span><br><span class="line">    pid_t pc,pr;</span><br><span class="line">    int t;</span><br><span class="line">    pc =fork();</span><br><span class="line">    if(pc &lt; 0)</span><br><span class="line">        printf(&quot;Fork error!\n&quot;);</span><br><span class="line">    else if(pc == 0)&#123;</span><br><span class="line">        printf(&quot;This is child process with pid of %d\n&quot;,getpid());</span><br><span class="line">        sleep(5);</span><br><span class="line">    &#125;</span><br><span class="line">    else&#123;</span><br><span class="line">        pr=wait(NULL);</span><br><span class="line">        printf(&quot;I catched a child process with pid of %d\n&quot;,pr);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    asm volatile(</span><br><span class="line">            &quot;mov $0x1,%%eax\n\t&quot;</span><br><span class="line">            &quot;mov $0x0,%%ebx\n\t&quot;</span><br><span class="line">            &quot;int $0x80\n\t&quot;</span><br><span class="line">            &quot;mov %%eax,%0\n\t&quot;</span><br><span class="line">            :&quot;=m&quot; (t)</span><br><span class="line">            );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    PrintMenuOS();</span><br><span class="line">    SetPrompt(&quot;MenuOS&gt;&gt;&quot;);</span><br><span class="line">    MenuConfig(&quot;version&quot;,&quot;MenuOS V1.0(Based on Linux 3.18.6)&quot;,NULL);</span><br><span class="line">    MenuConfig(&quot;quit&quot;,&quot;Quit from MenuOS&quot;,Quit);</span><br><span class="line">    MenuConfig(&quot;time&quot;,&quot;Show System Time&quot;,Time);</span><br><span class="line">    MenuConfig(&quot;time-asm&quot;,&quot;Show System Time(asm)&quot;,TimeAsm);</span><br><span class="line">    **MenuConfig(&quot;CallExit&quot;,&quot;Exit Systemcall&quot;,CallExit);**</span><br><span class="line">    **MenuConfig(&quot;CallExit_asm&quot;,&quot;Exit_asm Systemcall&quot;,CallExit_asm);**</span><br><span class="line">    ExecuteMenu();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
@@ -607,7 +618,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
@@ -888,6 +899,113 @@
 
 
   
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8j9NjCI1JIfLgByAEHLWN0Jt-gzGzoHsz", "cR3zNFmdKKaFBwURFDXSzV49");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
 
   
 

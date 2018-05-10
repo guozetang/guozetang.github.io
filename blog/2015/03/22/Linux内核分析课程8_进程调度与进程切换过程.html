@@ -87,13 +87,13 @@
 
 
 
-<meta name="description" content="Linux内核课第八周作业。本文在云课堂中实验楼完成。　　唐国泽 原创作品转载请注明出处 《Linux内核分析》MOOC课程http://mooc.study.163.com/course/USTC-1000029000   #一.schedule()函数介绍 ##１.进程调度的时机　　中断处理过程（包括时钟中断、I/O中断、系统调用和异常）中，直接调用schedule()，或者返回用户态时">
+<meta name="description" content="Linux内核课第八周作业。本文在云课堂中实验楼完成。　　唐国泽 原创作品转载请注明出处 《Linux内核分析》MOOC课程http://mooc.study.163.com/course/USTC-1000029000   #一.schedule()函数介绍 ##１.进程调度的时机　　中断处理过程（包括时钟中断、I/O中断、系统调用和异常）中，直接调用schedule()，或者返回用户态时根据n">
 <meta name="keywords" content="Linux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux内核分析课程8_进程调度与进程切换过程">
 <meta property="og:url" content="http://guozetang.github.io/blog/2015/03/22/Linux内核分析课程8_进程调度与进程切换过程.html">
 <meta property="og:site_name" content="Terry Tang">
-<meta property="og:description" content="Linux内核课第八周作业。本文在云课堂中实验楼完成。　　唐国泽 原创作品转载请注明出处 《Linux内核分析》MOOC课程http://mooc.study.163.com/course/USTC-1000029000   #一.schedule()函数介绍 ##１.进程调度的时机　　中断处理过程（包括时钟中断、I/O中断、系统调用和异常）中，直接调用schedule()，或者返回用户态时">
+<meta property="og:description" content="Linux内核课第八周作业。本文在云课堂中实验楼完成。　　唐国泽 原创作品转载请注明出处 《Linux内核分析》MOOC课程http://mooc.study.163.com/course/USTC-1000029000   #一.schedule()函数介绍 ##１.进程调度的时机　　中断处理过程（包括时钟中断、I/O中断、系统调用和异常）中，直接调用schedule()，或者返回用户态时根据n">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://img.blog.csdn.net/20150426132041286">
 <meta property="og:image" content="http://img.blog.csdn.net/20150426132355288">
@@ -109,7 +109,7 @@
 <meta property="og:updated_time" content="2018-05-10T17:14:59.738Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux内核分析课程8_进程调度与进程切换过程">
-<meta name="twitter:description" content="Linux内核课第八周作业。本文在云课堂中实验楼完成。　　唐国泽 原创作品转载请注明出处 《Linux内核分析》MOOC课程http://mooc.study.163.com/course/USTC-1000029000   #一.schedule()函数介绍 ##１.进程调度的时机　　中断处理过程（包括时钟中断、I/O中断、系统调用和异常）中，直接调用schedule()，或者返回用户态时">
+<meta name="twitter:description" content="Linux内核课第八周作业。本文在云课堂中实验楼完成。　　唐国泽 原创作品转载请注明出处 《Linux内核分析》MOOC课程http://mooc.study.163.com/course/USTC-1000029000   #一.schedule()函数介绍 ##１.进程调度的时机　　中断处理过程（包括时钟中断、I/O中断、系统调用和异常）中，直接调用schedule()，或者返回用户态时根据n">
 <meta name="twitter:image" content="http://img.blog.csdn.net/20150426132041286">
 
 
@@ -120,7 +120,7 @@
     root: '/',
     scheme: 'Mist',
     version: '5.1.4',
-    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"position":"right","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
     tabs: true,
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
@@ -204,7 +204,7 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-h-square"></i> <br />
             
             Home
           </a>
@@ -363,6 +363,17 @@
 
           
           
+             <span id="/blog/2015/03/22/Linux内核分析课程8_进程调度与进程切换过程.html" class="leancloud_visitors" data-flag-title="Linux内核分析课程8_进程调度与进程切换过程">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
 
           
 
@@ -414,7 +425,7 @@
       
 
       
-        <p>﻿<br>　　Linux内核课第八周作业。本文在云课堂中实验楼完成。<br>　　唐国泽 原创作品转载请注明出处 《Linux内核分析》MOOC课程<a href="http://mooc.study.163.com/course/USTC-1000029000" target="_blank" rel="noopener">http://mooc.study.163.com/course/USTC-1000029000</a> </p>
+        <p>Linux内核课第八周作业。本文在云课堂中实验楼完成。<br>　　唐国泽 原创作品转载请注明出处 《Linux内核分析》MOOC课程<a href="http://mooc.study.163.com/course/USTC-1000029000" target="_blank" rel="noopener">http://mooc.study.163.com/course/USTC-1000029000</a> </p>
 <hr>
 <p>#一.schedule()函数介绍</p>
 <p>##１.进程调度的时机<br>　　中断处理过程（包括<strong>时钟中断、I/O中断、系统调用和异常</strong>）中，直接调用schedule()，或者返回用户态时根据need_resched标记调用schedule()；<br>　　<strong>内核线程</strong>可以<strong>直接</strong>调用<strong>schedule()</strong>进行进程切换，也可以在中断处理过程中进行调度，也就是说内核线程作为一类的特殊的进程可以主动调度，也可以被动调度；<br>　　<strong>用户态进程无法实现主动调度，仅能通过陷入内核态后的某个时机点进行调度</strong>，即在中断处理过程中进行调度。</p>
@@ -624,7 +635,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
@@ -905,6 +916,113 @@
 
 
   
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8j9NjCI1JIfLgByAEHLWN0Jt-gzGzoHsz", "cR3zNFmdKKaFBwURFDXSzV49");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
 
   
 

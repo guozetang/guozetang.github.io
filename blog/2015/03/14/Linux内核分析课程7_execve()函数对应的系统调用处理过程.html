@@ -128,7 +128,7 @@
     root: '/',
     scheme: 'Mist',
     version: '5.1.4',
-    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"position":"right","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
     tabs: true,
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
@@ -212,7 +212,7 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-h-square"></i> <br />
             
             Home
           </a>
@@ -371,6 +371,17 @@
 
           
           
+             <span id="/blog/2015/03/14/Linux内核分析课程7_execve()函数对应的系统调用处理过程.html" class="leancloud_visitors" data-flag-title="Linux内核分析课程7_execve()函数对应的系统调用处理过程">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
 
           
 
@@ -430,10 +441,10 @@
 <p><strong>在我们的操作系统中,也有如此浪漫情怀的庄生梦蝶—–exec()函数族.</strong><br>庄周（调用execve的可执行程序）入睡（调用execve陷入内核），醒来（系统调用execve返回用户态）发现自己是蝴蝶（被execve加载的可执行程序）</p>
 </blockquote>
 </blockquote>
-<h1 id="一-exec函数族"><a href="#一-exec函数族" class="headerlink" title="一. exec函数族"></a>一. exec函数族</h1><h2 id="一-介绍"><a href="#一-介绍" class="headerlink" title="(一) 介绍"></a>(一) 介绍</h2><p>fork()函数, 相当于是创建了一个新的进程, 但该子进程复制的确实父进程的内容, 如果让其执行下去,那么也是执行和父进程相同的内容呢, <strong>但实际中,我们执行的是新的任务, 那么在这里是如何实现的呢?</strong>   </p>
+<h1><span id="一-exec函数族">一. exec函数族</span></h1><h2><span id="一-介绍">(一) 介绍</span></h2><p>fork()函数, 相当于是创建了一个新的进程, 但该子进程复制的确实父进程的内容, 如果让其执行下去,那么也是执行和父进程相同的内容呢, <strong>但实际中,我们执行的是新的任务, 那么在这里是如何实现的呢?</strong>   </p>
 <p>exec函数族就实现了在一个进程中启动另外一个程序的方法. 它可以根据指定的文件名或目录名找到可执行文件，并用它来取代原调用进程的数据段、代码段和堆栈段，在执行完之后，原调用进程的内容除了进程号外，其他全部被新的进程替换了。另外，这里的可执行文件既可以是二进制文件，也可以是Linux下任何可执行的脚本文件。  </p>
 <p>那什么时候使用exec函数呢? 除了我们上面提到的fork()之后调用exec()函数来执行一个新进程外,还有当进程认为自己继续执行下去也没有什么实际的工作的时候,就可以调用exec函数来庄周梦蝶,化成蝶了.  </p>
-<h2 id="二-函数族具体实现"><a href="#二-函数族具体实现" class="headerlink" title="(二) 函数族具体实现"></a>(二) 函数族具体实现</h2><p>在linux下,有六个exec开头的函数, 来实现:<br>　　　　　　<img src="http://img.blog.csdn.net/20150419090050973" alt="Exec开头的函数">  </p>
+<h2><span id="二-函数族具体实现">(二) 函数族具体实现</span></h2><p>在linux下,有六个exec开头的函数, 来实现:<br>　　　　　　<img src="http://img.blog.csdn.net/20150419090050973" alt="Exec开头的函数">  </p>
 <p>这6个函数在函数名和使用语法的规则上都有细微的区别，下面就从可执行文件查找方式、参数传递方式和环境变量这几个方面进行比较。  </p>
 <ul>
 <li><p>查找方式：表1中的前4个函数的查找方式都是完整的文件目录路径，而最后两个函数（也就是以 p 结尾的两个函数）可以只给出文件名，系统就会自动按照环境变量“$PATH” 所指定的路径进行查找。</p>
@@ -443,17 +454,17 @@
 <li><p>环境变量： exec函数族可以默认系统的环境变量，也可以传入指定的环境变量。这里以 “e”(environment)结尾的两个函数 execle()和 execve()就可以在 envp[]中指定当前进程所使用的环境变量。<br>表2再对这6个函数中的函数名和对应语法做了一个小结，主要指出了函数名中每一位对应所表明的含义，以此表加以记住这6个函数。<br> 　　　　　<img src="http://img.blog.csdn.net/20150419090214948" alt="这里写图片描述"><br>　　 事实上，这6个函数中真正的系统调用只有execve()，其他5个都是库函数，它们最终都会调用execve()这个系统调用。在使用exec函数族时，一定要加上错误判断语句。exec 很容易执行失败，其中最常见的原因有：<br>　　1. 找不到文件或路径，此时 errno 被设置为 ENOENT。<br>　　2. 数组argv 和envp  忘记用NULL结束，此时，errno被设置为 EFAUL。<br>　　3. 没有对应可执行文件的运行权限，此时 errno 被设置为EACCES。  </p>
 </li>
 </ul>
-<h1 id="二-实验分析"><a href="#二-实验分析" class="headerlink" title="二.实验分析"></a>二.实验分析</h1><p>　　实践来检验理论, 才能让自己的知识学习的更加牢固。<br>　　进入gdb调试,设置断点:<br>    　　　　　<img src="http://img.blog.csdn.net/20150419103512697" alt="这里写图片描述"><br>    　　　　　<img src="http://img.blog.csdn.net/20150419103006540" alt="这里写图片描述"></p>
+<h1><span id="二实验分析">二.实验分析</span></h1><p>　　实践来检验理论, 才能让自己的知识学习的更加牢固。<br>　　进入gdb调试,设置断点:<br>    　　　　　<img src="http://img.blog.csdn.net/20150419103512697" alt="这里写图片描述"><br>    　　　　　<img src="http://img.blog.csdn.net/20150419103006540" alt="这里写图片描述"></p>
 <p>　　主要设置了以下几个断点。<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> 　 <span class="selector-tag">b</span> sys_execve</span><br><span class="line"><span class="selector-tag">b</span> do_execve</span><br><span class="line"><span class="selector-tag">b</span> do_open_exev</span><br><span class="line"><span class="selector-tag">b</span> do search_binary_handler</span><br><span class="line"><span class="selector-tag">b</span> load_elf_binary</span><br><span class="line"><span class="selector-tag">b</span> start_thread</span><br><span class="line"><span class="selector-tag">b</span> init_elf_binfmt</span><br></pre></td></tr></table></figure></p>
 <p>　　下面就主要分析这几个断点处的函数功能实现了.</p>
-<h3 id="1-首先分析函数实现"><a href="#1-首先分析函数实现" class="headerlink" title="1.首先分析函数实现"></a>1.首先分析函数实现</h3><p>　　　　<img src="http://img.blog.csdn.net/20150419103501911" alt="这里写图片描述"><br>　　在函数中,我们可明显的看到,在fork执行完成之后,我们通过execlp()加载了可执行程序hello.<br>　　<strong>在这里调用的是execlp(), 最终调用的也是execve()这个系统调用。</strong><br>　　　<img src="http://img.blog.csdn.net/20150419104224288" alt="这里写图片描述"><br>　　<br>　　清晰的看到, 系统调用之后执行了do_execve()</p>
-<h3 id="2-do-execve-函数分析"><a href="#2-do-execve-函数分析" class="headerlink" title="2.do_execve()函数分析"></a>2.do_execve()函数分析</h3><p>　　　<img src="http://img.blog.csdn.net/20150419104620091" alt="这里写图片描述">  </p>
-<h4 id="1-在do-execve中限设置了相应的参数和环境变量-然后调用了do-execve-common-函数"><a href="#1-在do-execve中限设置了相应的参数和环境变量-然后调用了do-execve-common-函数" class="headerlink" title="1)在do_execve中限设置了相应的参数和环境变量,然后调用了do_execve_common()函数"></a>1)在do_execve中限设置了相应的参数和环境变量,然后调用了do_execve_common()函数</h4><p>　　　<img src="http://img.blog.csdn.net/20150419104910194" alt="这里写图片描述">  </p>
-<h4 id="2-do-execve-common-函数介绍"><a href="#2-do-execve-common-函数介绍" class="headerlink" title="2)do_execve_common()函数介绍"></a>2)do_execve_common()函数介绍</h4><p>　　在do_execve_common()函数中,先打开对应文件,在这里是hello<br>　　　　<img src="http://img.blog.csdn.net/20150419105414098" alt="这里写图片描述">  </p>
+<h3><span id="1首先分析函数实现">1.首先分析函数实现</span></h3><p>　　　　<img src="http://img.blog.csdn.net/20150419103501911" alt="这里写图片描述"><br>　　在函数中,我们可明显的看到,在fork执行完成之后,我们通过execlp()加载了可执行程序hello.<br>　　<strong>在这里调用的是execlp(), 最终调用的也是execve()这个系统调用。</strong><br>　　　<img src="http://img.blog.csdn.net/20150419104224288" alt="这里写图片描述"><br>　　<br>　　清晰的看到, 系统调用之后执行了do_execve()</p>
+<h3><span id="2do_execve函数分析">2.do_execve()函数分析</span></h3><p>　　　<img src="http://img.blog.csdn.net/20150419104620091" alt="这里写图片描述">  </p>
+<h4><span id="1在do_execve中限设置了相应的参数和环境变量然后调用了do_execve_common函数">1)在do_execve中限设置了相应的参数和环境变量,然后调用了do_execve_common()函数</span></h4><p>　　　<img src="http://img.blog.csdn.net/20150419104910194" alt="这里写图片描述">  </p>
+<h4><span id="2do_execve_common函数介绍">2)do_execve_common()函数介绍</span></h4><p>　　在do_execve_common()函数中,先打开对应文件,在这里是hello<br>　　　　<img src="http://img.blog.csdn.net/20150419105414098" alt="这里写图片描述">  </p>
 <p>　　接着将文件名,环境变量,命令行参数拷贝到新分配的页面中:<br>　　　<img src="http://img.blog.csdn.net/20150419105640089" alt="这里写图片描述">  </p>
 <p>　　最后执行 exec_binprm来执行该可执行文件格式的处理函数:<br>　　　　<img src="http://img.blog.csdn.net/20150419105803409" alt="这里写图片描述">  </p>
 <p>　　接着详细分析exec_binprm中函数的执行过程, 分析如何来加载elf文件格式的.<br>　　　<img src="http://img.blog.csdn.net/20150419105908923" alt="这里写图片描述"><br>　　<br>　　在该函数中, 可以看到调用了search_binary_handler(bprm)函数,该函数寻找符合文件格式对应的解析模块.<br>　　<img src="http://img.blog.csdn.net/20150419110352163" alt="这里写图片描述"><br>　　<br>　　其中的linux_binfmt *fmt结构体为:<br>　　<img src="http://img.blog.csdn.net/20150419110414668" alt="这里写图片描述"><br>　　<br>　　我们这里调用的是hello可执行文件,为elf格式,所有最后查找后调用为:<br>　　<img src="http://img.blog.csdn.net/20150419110631908" alt="这里写图片描述"><br>　　<br>　　对应elf格式查找可得:<br>　　<img src="http://img.blog.csdn.net/20150419110915302" alt="这里写图片描述"><br>　　<br>　　对于ELF格式的可执行文件fmt-&gt;load_binary(bprm);执行的应该是load_elf_binary其内部是和ELF文件格式解析的部分需要和ELF文件格式标准结合起来阅读<br>　　对应elf文件的格式为:<br>　　<img src="http://img.blog.csdn.net/20150419111339036" alt="这里写图片描述"><br>　　整个ELF映像就是由文件头、区段头表、程序头表、一定数量的区段、以及一定数量的部构成，而ELF映像的装入/启动过程，则就是在各种头部信息的指引下将某些部或区段装入一个进程的用户空间，并为其运行做好准备(例如装入所需的共享库)，最后(在目标进程首次受调度运行时)让CPU进入其程序入口的过程。接着是对elf_bss 、elf_brk、start_code、end_code等等变量的初始化。这些变量分别纪录着当前(到此刻为止)目标映像的bss段、代码段、数据段、以及动态分配“堆” 在用户空间的位置。除start_code的初始值为0xffffffff外，其余均为0。随着映像内容的装入，这些变量也会逐步得到调整。<br>　　load_elf_binary函数的作用就是读入了程序头表，并对start_code等变量进行初始化.<br>　　<img src="http://img.blog.csdn.net/20150419111332010" alt="这里写图片描述"><br>　　在load_elf_binary的最后调用<br>　　<img src="http://img.blog.csdn.net/20150419111658554" alt="这里写图片描述"><br>　　在这里就把新程序的ip和sp存入堆栈,覆盖掉了之前的ip,sp,之后,子进程返回的话,就从hello中的main开始执行了.</p>
-<h2 id="3-函数执行流程示意图"><a href="#3-函数执行流程示意图" class="headerlink" title="3.函数执行流程示意图:"></a>3.函数执行流程示意图:</h2><p><code>`</code><br>execlp-&gt;hello<br>call *sys_execve<br>……..do_execve<br>…………….. do_execve_common<br>……………………. exec_binprm<br>……………………………..search_binary_handler(bprm)<br>…………………………………..linux_binfmt= elf_format<br>……………………………………….elf_format-&gt; load_elf_binary<br>……………………………………….load_elf_binary<br>……………………………………………..start_thread<br>ret</p>
+<h2><span id="3函数执行流程示意图">3.函数执行流程示意图:</span></h2><p><code>`</code><br>execlp-&gt;hello<br>call *sys_execve<br>……..do_execve<br>…………….. do_execve_common<br>……………………. exec_binprm<br>……………………………..search_binary_handler(bprm)<br>…………………………………..linux_binfmt= elf_format<br>……………………………………….elf_format-&gt; load_elf_binary<br>……………………………………….load_elf_binary<br>……………………………………………..start_thread<br>ret</p>
 
       
     </div>
@@ -656,7 +667,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
@@ -723,7 +734,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一-exec函数族"><span class="nav-number">1.</span> <span class="nav-text">一. exec函数族</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一-介绍"><span class="nav-number">1.1.</span> <span class="nav-text">(一) 介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-函数族具体实现"><span class="nav-number">1.2.</span> <span class="nav-text">(二) 函数族具体实现</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二-实验分析"><span class="nav-number">2.</span> <span class="nav-text">二.实验分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-首先分析函数实现"><span class="nav-number">2.0.1.</span> <span class="nav-text">1.首先分析函数实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-do-execve-函数分析"><span class="nav-number">2.0.2.</span> <span class="nav-text">2.do_execve()函数分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-在do-execve中限设置了相应的参数和环境变量-然后调用了do-execve-common-函数"><span class="nav-number">2.0.2.1.</span> <span class="nav-text">1)在do_execve中限设置了相应的参数和环境变量,然后调用了do_execve_common()函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-do-execve-common-函数介绍"><span class="nav-number">2.0.2.2.</span> <span class="nav-text">2)do_execve_common()函数介绍</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-函数执行流程示意图"><span class="nav-number">2.1.</span> <span class="nav-text">3.函数执行流程示意图:</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">一. exec函数族</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.1.</span> <span class="nav-text">(一) 介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.2.</span> <span class="nav-text">(二) 函数族具体实现</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">2.</span> <span class="nav-text">二.实验分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">2.0.1.</span> <span class="nav-text">1.首先分析函数实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">2.0.2.</span> <span class="nav-text">2.do_execve()函数分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#undefined"><span class="nav-number">2.0.2.1.</span> <span class="nav-text">1)在do_execve中限设置了相应的参数和环境变量,然后调用了do_execve_common()函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#undefined"><span class="nav-number">2.0.2.2.</span> <span class="nav-text">2)do_execve_common()函数介绍</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">2.1.</span> <span class="nav-text">3.函数执行流程示意图:</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -953,6 +964,113 @@
 
 
   
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8j9NjCI1JIfLgByAEHLWN0Jt-gzGzoHsz", "cR3zNFmdKKaFBwURFDXSzV49");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
 
   
 
