@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" media="all" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+  
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/bitbug_favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Terry" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="唐国泽 原创作品转载请注明出处 《Linux内核分析》MOOC课程http://mooc.study.163.com/course/USTC-1000029000  #一.学习目录索引 　　Linux内核分析学习博客整理： 　　Linux内核分析课程1_计算机是如何工作的 　　计算机的工作过程，一言以蔽之：执行程序的过程；所以分析计算机的工作原理也就是分析计算机存储程序，执行程序的原理，所以，">
+<meta name="keywords" content="唐国泽,  Terry Blog, 博客, 个人网站, 互联网, 无人机">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Terry Tang">
+<meta property="og:url" content="http://yoursite.com/blog/2017/06/06/Linux内核分析课程_学习索引（总结）.html">
+<meta property="og:site_name" content="Terry Tang">
+<meta property="og:description" content="唐国泽 原创作品转载请注明出处 《Linux内核分析》MOOC课程http://mooc.study.163.com/course/USTC-1000029000  #一.学习目录索引 　　Linux内核分析学习博客整理： 　　Linux内核分析课程1_计算机是如何工作的 　　计算机的工作过程，一言以蔽之：执行程序的过程；所以分析计算机的工作原理也就是分析计算机存储程序，执行程序的原理，所以，">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-05-08T03:01:20.202Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Terry Tang">
+<meta name="twitter:description" content="唐国泽 原创作品转载请注明出处 《Linux内核分析》MOOC课程http://mooc.study.163.com/course/USTC-1000029000  #一.学习目录索引 　　Linux内核分析学习博客整理： 　　Linux内核分析课程1_计算机是如何工作的 　　计算机的工作过程，一言以蔽之：执行程序的过程；所以分析计算机的工作原理也就是分析计算机存储程序，执行程序的原理，所以，">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/blog/2017/06/06/Linux内核分析课程_学习索引（总结）.html"/>
+
+
+
+
+
+  <title> | Terry Tang</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Terry Tang</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">Terry Blog & 唐国泽的博客</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/blog/2017/06/06/Linux内核分析课程_学习索引（总结）.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Terry Tang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Terry Tang">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline"></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-06T00:00:00-04:00">
+                2017-06-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/blog/2017/06/06/Linux内核分析课程_学习索引（总结）.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="/blog/2017/06/06/Linux内核分析课程_学习索引（总结）.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  1,774
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  6
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>　　唐国泽 原创作品转载请注明出处 《Linux内核分析》MOOC课程<a href="http://mooc.study.163.com/course/USTC-1000029000" target="_blank" rel="noopener">http://mooc.study.163.com/course/USTC-1000029000</a></p>
+<hr>
+<p>#一.学习目录索引<br> 　　Linux内核分析学习博客整理：<br> 　　<a href="http://blog.csdn.net/tang152453/article/details/44087589" target="_blank" rel="noopener">Linux内核分析课程1_计算机是如何工作的</a><br> 　　计算机的工作过程，一言以蔽之：执行程序的过程；所以分析计算机的工作原理也就是分析计算机存储程序，执行程序的原理，所以，我们就需要先通过了解程序存储的这个过程。<br> 　　这篇博客主要分析了计算机的组成和计算机的工作原理，并例举C语言和汇编的转化，最后给出了程序执行时候堆栈变化的动态示意图。<br> 　　<br>　　<a href="http://blog.csdn.net/tang152453/article/details/44204925" target="_blank" rel="noopener">Linux内核分析课程2_操作系统是如何工作的</a><br>　　操作系统的工作原理，可以说是计算机工作原理的第二部分：程序控制的过程，程序控制的体现有中断，系统调用，进程调度等。<br>　　博客中主要分析了操作系统的工作过程，用了一个时间中断函数来模拟了中断程序执行的过程，并给出了相应的堆栈变化示意图。</p>
+<p> 　　<a href="http://blog.csdn.net/tang152453/article/details/44536913" target="_blank" rel="noopener">Linux内核分析课程3_start_kernel()函数分析</a><br> 　　start_kernel()这个函数是内核由引导程序引导以后，由自解压程序解压以后执行的第一个函数，可以认为是整个内核的入口函数，start_kernel()做的工作就是线性的初始化一些内核的基础机制，如中断，内存管理，进程管理，信号，文件系统，KO等！最后就启动一个init线程，init线程再读取文件系统里的init程序，做为系统的第一个进程而存在！<br> 　　博客中对linux启动过程中的start_kernel()函数进行分析，了解其主要的实现功能，在这里，主要对代码进行了解析。<br> 　　主要解析了：start_kernel() -&gt; rest_init() -&gt; kernel_init() -&gt; 启动init进程<br> 　　<br> 　　<a href="http://blog.csdn.net/tang152453/article/details/44726799" target="_blank" rel="noopener">Linux内核分析课程4_Linux系统调用</a><br> 　　系统调用，顾名思义，说的是操作系统提供给用户程序调用的一组“特殊”接口。用户程序可以通过这组“特殊”接口来获得操作系统内核提供的服务，比如用户可以通过文件系统相关的调用请求系统打开文件、关闭文件或读写文件，可以通过时钟相关的系统调用获得系统时间或设置定时器等。<br> 　　从逻辑上来说，系统调用可被看成是一个内核与用户空间程序交互的接口——它好比一个中间人，把用户进程的请求传达给内核，待内核把请求处理完毕后再将处理结果送回给用户空间。<br> 　　博客中详细的分析了系统调用的原理，实现方式和意义；API，系统调用，系统命令，内核函数之间的区别，最后分别用C语言和汇编来实现了exit系统调用。</p>
+<p> 　　<a href="http://blog.csdn.net/tang152453/article/details/44888515" target="_blank" rel="noopener">Linux内核分析课程5_system_call中断处理过程</a><br> 　　　系统调用流程介绍：<br>　　　1.执行用户程序(如:fork,exit)<br>　　　2.根据glibc中的函数实现，取得系统调用号并执行int $0x80产生中断。<br>　　　3.进行地址空间的转换和堆栈的切换，执行SAVE_ALL。（进行内核模式）<br>　　　4.进行中断处理，根据系统调用表调用内核函数。<br>　　　5.执行内核函数。<br>　　　6.执行RESTORE_ALL并返回用户模式<br> 　　本文中使用gdb调试了sys_exit系统调用，并对系统调用的源代码进行了详细的分析。<br> 　　<br>　　<a href="http://blog.csdn.net/tang152453/article/details/45011085" target="_blank" rel="noopener">Linux内核分析课程6_进程创建</a><br>　　在 Linux 内核中,供用户创建进程的系统调用fork()函数的响应函数是 sys_fork()、sys_clone()、sys_vfork()。这三个函数都是通过调用内核函数 do_fork() 来实现的。<br>　　本篇博客详细分析了进程创建过程(fork())的详细执行过程。<br>　　<br>　　<a href="http://blog.csdn.net/tang152453/article/details/45126661" target="_blank" rel="noopener">Linux内核分析课程7_execve()函数对应的系统调用处理过程</a><br>　　昔者庄周梦为蝴蝶，栩栩然蝴蝶也，自喻适志与，不知周也。俄然觉，则蘧蘧然周也。不知周之梦为蝴蝶与，蝴蝶之梦为周与？周与蝴蝶，则必有分矣。此之谓物化。（《庄子·齐物论》）<br>　　在我们的操作系统中,也有如此浪漫情怀的庄生梦蝶—–exec()函数族.<br>　　博客中中对exec()函数族进行了介绍，之后对do_execve()函数进行了分析。<br>　　<br> 　　<a href="http://blog.csdn.net/tang152453/article/details/45287701" target="_blank" rel="noopener">Linux内核分析课程8_进程调度与进程切换过程</a><br> 　　进程调度中schedule()函数选择一个新的进程来运行，并调用context_switch进行上下文的切换，这个宏调用switch_to来进行关键上下文切换。主要调用过程：<br>　　　　next = pick_next_task(rq, prev);//进程调度算法都封装这个函数内部<br>　　　　context_switch(rq, prev, next);//进程上下文切换<br>　　　　switch_to利用了prev和next两个参数：prev指向当前进程，next指向被调度的进程<br> 　　博客中对schedule函数进行了相关介绍，以及分析了schedule函数的内核实现的详细流程。</p>
+<hr>
+<p>#二.学习心得<br>  1.对Linux系统的认识<br>  　　很幸运参加了这为期两个月的MOOC课程《Linux内核分析》，让我对Linux系统有了更深的认识。<br>  　　Linux系统的开源思想是最值得我们学习的，开源的思想也会成为我们软件行业的主导的。<br>  　　Linux系统最为核心也就是进程调度，中断处理，时钟和文件系统，我们只要对这几个方面了解到了，也就了解了Linux系统的关键了。</p>
+<p>2.学习Linux内核的心得<br>　　学习Linux内核的过程也半年多了，从嵌入式系统设计中的ucos初步认识操作系统(核心：进程调度)，嵌入式操作系统中的（ARM中的Linux）再到Linux内核分析(x86体系下)，一步一步的深入，在这个过程中，有几本书对我影响很多，给大家推荐一下，第一本《Linux内核设计与实现》，想学习linux内核就要先了解相应的机制之后再去看源代码的话，可能会收获到更多，而这本书介绍了诸如进程管理、系统调用、中断和中断处理程序、内核同步、时间管理、内存管理、地址空间、调试技术等方面，内容比较浅显易懂，比较适合学习Linux内核的新人学习；之后就不得不提到《深入理解Linux内核》这本书了，这本最好是能深入学习。简而言之，第一本，提纲性阅读；第二本，适合深入阅读。<br>　　当然，纸上得来终觉浅，绝知此事要躬行；在书本学习的基础上，需要我们利用好gdb这个调试工具，多跟踪一下内核的一些机制的执行流程，在实践中验证知识，才能更好的掌握知识。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>Donate comment here</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Terry Tang WeChat Pay"/>
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Terry Tang Alipay"/>
+        <p>Alipay</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:</strong>
+    Terry Tang
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link:</strong>
+    <a href="http://yoursite.com/blog/2017/06/06/Linux内核分析课程_学习索引（总结）.html" title="">http://yoursite.com/blog/2017/06/06/Linux内核分析课程_学习索引（总结）.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice: </strong>
+    All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> unless stating additionally.
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2017/06/06/《程序员的自我修养--链接、装载与库》第一章阅读笔记.html" rel="next" title="">
+                <i class="fa fa-chevron-left"></i> 
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2017/08/13/Linux内核分析课程５_system_call中断处理过程.html" rel="prev" title="">
+                 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.png"
+                alt="Terry Tang" />
+            
+              <p class="site-author-name" itemprop="name">Terry Tang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/guozetang" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:guozetang@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.facebook.com/guozetang" target="_blank" title="Facebook">
+                      
+                        <i class="fa fa-fw fa-facebook"></i>Facebook</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.linkedin.com/in/guoze-tang-81b096162" target="_blank" title="Linkedin">
+                      
+                        <i class="fa fa-fw fa-linkedin"></i>Linkedin</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://instagram.com/guozetang" target="_blank" title="Instagram">
+                      
+                        <i class="fa fa-fw fa-instagram"></i>Instagram</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Terry Tang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> | Hosted by <a href="https://github.com">Github</a></div>
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazyload/1.9.3/jquery.lazyload.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://Tang Guoze.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/blog/2017/06/06/Linux内核分析课程_学习索引（总结）.html';
+          this.page.identifier = '/blog/2017/06/06/Linux内核分析课程_学习索引（总结）.html';
+          this.page.title = '';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://Tang Guoze.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
