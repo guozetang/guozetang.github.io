@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Hexo</title>
+  <title>Terry Tang</title>
   
-  
+  <subtitle>Terry Blog &amp; 唐国泽的博客</subtitle>
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
@@ -10,7 +10,7 @@
   <id>http://yoursite.com/</id>
   
   <author>
-    <name>John Doe</name>
+    <name>Terry Tang</name>
     
   </author>
   
@@ -18,8 +18,8 @@
   
   <entry>
     <title>Test</title>
-    <link href="http://yoursite.com/2018/05/09/Test/"/>
-    <id>http://yoursite.com/2018/05/09/Test/</id>
+    <link href="http://yoursite.com//blog/2018/05/09/Test.html"/>
+    <id>http://yoursite.com//blog/2018/05/09/Test.html</id>
     <published>2018-05-09T18:12:25.000Z</published>
     <updated>2018-05-09T18:12:25.212Z</updated>
     
@@ -32,8 +32,8 @@
   
   <entry>
     <title>Hello World</title>
-    <link href="http://yoursite.com/2018/05/09/hello-world/"/>
-    <id>http://yoursite.com/2018/05/09/hello-world/</id>
+    <link href="http://yoursite.com//blog/2018/05/09/hello-world.html"/>
+    <id>http://yoursite.com//blog/2018/05/09/hello-world.html</id>
     <published>2018-05-09T18:03:06.965Z</published>
     <updated>2018-05-09T18:03:06.965Z</updated>
     
