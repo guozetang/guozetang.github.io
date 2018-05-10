@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2018/05/09/Test.html</loc>
+    
+    <lastmod>2018-05-10T04:59:49.367Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/about/index.html</loc>
+    
+    <lastmod>2018-05-10T03:55:19.700Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/categories/index.html</loc>
     
     <lastmod>2018-05-10T03:26:48.677Z</lastmod>
@@ -16,16 +30,100 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/blog/2018/05/09/Test.html</loc>
+    <loc>http://yoursite.com/2018/05/08/%E5%9F%BA%E4%BA%8ELinux%E9%80%8F%E6%98%8E%E5%8A%A0%E5%AF%86%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9A%84%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0_%E6%A6%82%E8%BF%B0.html</loc>
     
-    <lastmod>2018-05-09T18:12:25.212Z</lastmod>
+    <lastmod>2018-05-09T19:23:10.442Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://yoursite.com/blog/2018/05/09/hello-world.html</loc>
+    <loc>http://yoursite.com/2018/05/09/hello-world.html</loc>
     
     <lastmod>2018-05-09T18:03:06.965Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2018/05/08/Some%20issues%20with%20MSI%20GE60%202PG.html</loc>
+    
+    <lastmod>2018-05-09T14:03:13.317Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2014/03/20/Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E8%AF%BE%E7%A8%8B7_execve()%E5%87%BD%E6%95%B0%E5%AF%B9%E5%BA%94%E7%9A%84%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E5%A4%84%E7%90%86%E8%BF%87%E7%A8%8B.html</loc>
+    
+    <lastmod>2018-05-09T13:31:46.865Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2015/04/22/Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E8%AF%BE%E7%A8%8B8_%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E4%B8%8E%E8%BF%9B%E7%A8%8B%E5%88%87%E6%8D%A2%E8%BF%87%E7%A8%8B%20(1).html</loc>
+    
+    <lastmod>2018-05-09T02:43:25.479Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2018/05/07/Linux%E9%80%8F%E6%98%8E%E5%8A%A0%E5%AF%86%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F1_%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90.html</loc>
+    
+    <lastmod>2018-05-08T18:40:53.529Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2015/07/12/Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E8%AF%BE%E7%A8%8B6_%E8%BF%9B%E7%A8%8B%E5%88%9B%E5%BB%BA.html</loc>
+    
+    <lastmod>2018-05-08T03:51:40.906Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2017/08/12/Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E8%AF%BE%E7%A8%8B%EF%BC%95_system_call%E4%B8%AD%E6%96%AD%E5%A4%84%E7%90%86%E8%BF%87%E7%A8%8B.html</loc>
+    
+    <lastmod>2018-05-08T03:01:20.217Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2017/08/17/ELS-Writing-Class.html</loc>
+    
+    <lastmod>2018-05-08T03:01:20.217Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/06/05/Test%20UNIX%20United%20system%20%E5%88%86%E6%9E%90.md.html</loc>
+    
+    <lastmod>2018-05-08T03:01:20.202Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2017/06/05/Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E8%AF%BE%E7%A8%8B_%E5%AD%A6%E4%B9%A0%E7%B4%A2%E5%BC%95%EF%BC%88%E6%80%BB%E7%BB%93%EF%BC%89.html</loc>
+    
+    <lastmod>2018-05-08T03:01:20.202Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2017/06/05/Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E8%AF%BE%E7%A8%8B8_%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E4%B8%8E%E8%BF%9B%E7%A8%8B%E5%88%87%E6%8D%A2%E8%BF%87%E7%A8%8B.html</loc>
+    
+    <lastmod>2018-05-08T03:01:20.202Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2016/06/05/UNIX%20United%20system%20%E5%88%86%E6%9E%90.html</loc>
+    
+    <lastmod>2018-05-08T03:01:20.202Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2017/06/05/%E3%80%8A%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB--%E9%93%BE%E6%8E%A5%E3%80%81%E8%A3%85%E8%BD%BD%E4%B8%8E%E5%BA%93%E3%80%8B%E7%AC%AC%E4%B8%80%E7%AB%A0%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0.html</loc>
+    
+    <lastmod>2018-05-08T03:01:20.202Z</lastmod>
     
   </url>
   
