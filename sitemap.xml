@@ -2,175 +2,112 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://yoursite.com/blog/2018/05/10/Linux%E9%80%8F%E6%98%8E%E5%8A%A0%E5%AF%86%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F1_%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90.html</loc>
+    <loc>http://guozetang.github.io/blog/2015/03/07/Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E8%AF%BE%E7%A8%8B6_%E8%BF%9B%E7%A8%8B%E5%88%9B%E5%BB%BA.html</loc>
     
-    <lastmod>2018-05-10T17:00:14.746Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/blog/2018/05/10/Linux%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1.html</loc>
-    
-    <lastmod>2018-05-10T16:49:36.966Z</lastmod>
+    <lastmod>2018-05-10T20:51:57.575Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://yoursite.com/blog/2018/05/10/Test4.html</loc>
+    <loc>http://guozetang.github.io/blog/2018/05/07/%E5%9F%BA%E4%BA%8ELinux%E9%80%8F%E6%98%8E%E5%8A%A0%E5%AF%86%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9A%84%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0.html</loc>
     
-    <lastmod>2018-05-10T16:39:27.939Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/blog/2018/05/10/Test3.html</loc>
-    
-    <lastmod>2018-05-10T16:38:31.776Z</lastmod>
+    <lastmod>2018-05-10T19:26:42.840Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://yoursite.com/blog/2018/05/10/Test2.html</loc>
+    <loc>http://guozetang.github.io/blog/2018/05/10/Use-Hexo-to-built-my-Blog.html</loc>
     
-    <lastmod>2018-05-10T16:23:27.347Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/blog/2018/05/10/Use-Hexo-Next-build-Blog-on-Github.html</loc>
-    
-    <lastmod>2018-05-10T16:22:42.377Z</lastmod>
+    <lastmod>2018-05-10T19:13:51.937Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://yoursite.com/blog/2018/05/10/%E2%80%9CHexo-Next-Github-Blog%E2%80%9D.html</loc>
+    <loc>http://guozetang.github.io/blog/2015/03/14/Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E8%AF%BE%E7%A8%8B7_execve()%E5%87%BD%E6%95%B0%E5%AF%B9%E5%BA%94%E7%9A%84%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E5%A4%84%E7%90%86%E8%BF%87%E7%A8%8B.html</loc>
     
-    <lastmod>2018-05-10T16:20:34.718Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/blog/2018/05/09/Test.html</loc>
-    
-    <lastmod>2018-05-10T04:59:49.367Z</lastmod>
+    <lastmod>2018-05-10T18:05:59.209Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://yoursite.com/about/index.html</loc>
+    <loc>http://guozetang.github.io/about/index.html</loc>
     
-    <lastmod>2018-05-10T03:55:19.700Z</lastmod>
+    <lastmod>2018-05-10T17:31:12.167Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://yoursite.com/categories/index.html</loc>
+    <loc>http://guozetang.github.io/blog/2015/03/01/Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E8%AF%BE%E7%A8%8B%EF%BC%95_system_call%E4%B8%AD%E6%96%AD%E5%A4%84%E7%90%86%E8%BF%87%E7%A8%8B.html</loc>
+    
+    <lastmod>2018-05-10T17:29:03.936Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://guozetang.github.io/blog/2018/05/08/Some%20issues%20with%20MSI%20GE60%202PG.html</loc>
+    
+    <lastmod>2018-05-10T17:25:52.326Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://guozetang.github.io/blog/2015/06/14/Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E8%AF%BE%E7%A8%8B_%E5%AD%A6%E4%B9%A0%E7%B4%A2%E5%BC%95%EF%BC%88%E6%80%BB%E7%BB%93%EF%BC%89.html</loc>
+    
+    <lastmod>2018-05-10T17:25:43.672Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://guozetang.github.io/blog/2018/05/09/%E3%80%8A%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB--%E9%93%BE%E6%8E%A5%E3%80%81%E8%A3%85%E8%BD%BD%E4%B8%8E%E5%BA%93%E3%80%8B%E7%AC%AC%E4%B8%80%E7%AB%A0%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0.html</loc>
+    
+    <lastmod>2018-05-10T17:24:48.241Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://guozetang.github.io/blog/2015/05/07/UNIX%20United%20system.html</loc>
+    
+    <lastmod>2018-05-10T17:21:50.236Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://guozetang.github.io/blog/2018/05/08/Linux%E9%80%8F%E6%98%8E%E5%8A%A0%E5%AF%86%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F1_%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90.html</loc>
+    
+    <lastmod>2018-05-10T17:20:51.672Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://guozetang.github.io/blog/2015/03/22/Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E8%AF%BE%E7%A8%8B8_%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E4%B8%8E%E8%BF%9B%E7%A8%8B%E5%88%87%E6%8D%A2%E8%BF%87%E7%A8%8B.html</loc>
+    
+    <lastmod>2018-05-10T17:14:59.738Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://guozetang.github.io/blog/2017/08/18/ELS-Writing-Class.html</loc>
+    
+    <lastmod>2018-05-10T17:09:11.119Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://guozetang.github.io/categories/index.html</loc>
     
     <lastmod>2018-05-10T03:26:48.677Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://yoursite.com/tags/index.html</loc>
+    <loc>http://guozetang.github.io/tags/index.html</loc>
     
     <lastmod>2018-05-10T03:26:26.327Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://yoursite.com/blog/2018/05/09/%E5%9F%BA%E4%BA%8ELinux%E9%80%8F%E6%98%8E%E5%8A%A0%E5%AF%86%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9A%84%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0_%E6%A6%82%E8%BF%B0.html</loc>
-    
-    <lastmod>2018-05-09T19:23:10.442Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/blog/2018/05/09/hello-world.html</loc>
-    
-    <lastmod>2018-05-09T18:03:06.965Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/blog/2018/05/08/Some%20issues%20with%20MSI%20GE60%202PG.html</loc>
-    
-    <lastmod>2018-05-09T14:03:13.317Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/blog/2014/03/21/Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E8%AF%BE%E7%A8%8B7_execve()%E5%87%BD%E6%95%B0%E5%AF%B9%E5%BA%94%E7%9A%84%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E5%A4%84%E7%90%86%E8%BF%87%E7%A8%8B.html</loc>
-    
-    <lastmod>2018-05-09T13:31:46.865Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/blog/2015/04/23/Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E8%AF%BE%E7%A8%8B8_%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E4%B8%8E%E8%BF%9B%E7%A8%8B%E5%88%87%E6%8D%A2%E8%BF%87%E7%A8%8B%20(1).html</loc>
-    
-    <lastmod>2018-05-09T02:43:25.479Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/blog/2015/07/13/Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E8%AF%BE%E7%A8%8B6_%E8%BF%9B%E7%A8%8B%E5%88%9B%E5%BB%BA.html</loc>
-    
-    <lastmod>2018-05-08T03:51:40.906Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/blog/2017/08/13/Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E8%AF%BE%E7%A8%8B%EF%BC%95_system_call%E4%B8%AD%E6%96%AD%E5%A4%84%E7%90%86%E8%BF%87%E7%A8%8B.html</loc>
-    
-    <lastmod>2018-05-08T03:01:20.217Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/blog/2017/08/18/ELS-Writing-Class.html</loc>
-    
-    <lastmod>2018-05-08T03:01:20.217Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/blog/2017/06/06/Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E8%AF%BE%E7%A8%8B_%E5%AD%A6%E4%B9%A0%E7%B4%A2%E5%BC%95%EF%BC%88%E6%80%BB%E7%BB%93%EF%BC%89.html</loc>
-    
-    <lastmod>2018-05-08T03:01:20.202Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/blog/2017/06/06/%E3%80%8A%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB--%E9%93%BE%E6%8E%A5%E3%80%81%E8%A3%85%E8%BD%BD%E4%B8%8E%E5%BA%93%E3%80%8B%E7%AC%AC%E4%B8%80%E7%AB%A0%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0.html</loc>
-    
-    <lastmod>2018-05-08T03:01:20.202Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/blog/2016/06/06/UNIX%20United%20system%20%E5%88%86%E6%9E%90.html</loc>
-    
-    <lastmod>2018-05-08T03:01:20.202Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/blog/2016/06/06/Test%20UNIX%20United%20system%20%E5%88%86%E6%9E%90.md.html</loc>
-    
-    <lastmod>2018-05-08T03:01:20.202Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/blog/2017/06/06/Linux%E5%86%85%E6%A0%B8%E5%88%86%E6%9E%90%E8%AF%BE%E7%A8%8B8_%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E4%B8%8E%E8%BF%9B%E7%A8%8B%E5%88%87%E6%8D%A2%E8%BF%87%E7%A8%8B.html</loc>
-    
-    <lastmod>2018-05-08T03:01:20.202Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com//404.html</loc>
+    <loc>http://guozetang.github.io//404.html</loc>
     
     <lastmod>2018-05-08T03:01:20.183Z</lastmod>
     

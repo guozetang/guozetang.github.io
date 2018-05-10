@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" media="all" href="/blog/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+  
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/bitbug_favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/blog/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Linux," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Linux内核课第七周作业。本文在云课堂中实验楼完成。唐国泽 原创作品转载请注明出处 《Linux内核分析》MOOC课程     昔者庄周梦为蝴蝶，栩栩然蝴蝶也，自喻适志与，不知周也。俄然觉，则蘧蘧然周也。不知周之梦为蝴蝶与，蝴蝶之梦为周与？周与蝴蝶，则必有分矣。此之谓物化。（《庄子·齐物论》）    在我们的操作系统中,也有如此浪漫情怀的庄生梦蝶—–exec()函数族.庄周（调用execve的可">
+<meta name="keywords" content="Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux内核分析课程7_execve()函数对应的系统调用处理过程">
+<meta property="og:url" content="http://guozetang.github.io/blog/2015/03/14/Linux内核分析课程7_execve()函数对应的系统调用处理过程.html">
+<meta property="og:site_name" content="Terry Tang">
+<meta property="og:description" content="Linux内核课第七周作业。本文在云课堂中实验楼完成。唐国泽 原创作品转载请注明出处 《Linux内核分析》MOOC课程     昔者庄周梦为蝴蝶，栩栩然蝴蝶也，自喻适志与，不知周也。俄然觉，则蘧蘧然周也。不知周之梦为蝴蝶与，蝴蝶之梦为周与？周与蝴蝶，则必有分矣。此之谓物化。（《庄子·齐物论》）    在我们的操作系统中,也有如此浪漫情怀的庄生梦蝶—–exec()函数族.庄周（调用execve的可">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://img.blog.csdn.net/20150419090050973">
+<meta property="og:image" content="http://img.blog.csdn.net/20150419090214948">
+<meta property="og:image" content="http://img.blog.csdn.net/20150419103512697">
+<meta property="og:image" content="http://img.blog.csdn.net/20150419103006540">
+<meta property="og:image" content="http://img.blog.csdn.net/20150419103501911">
+<meta property="og:image" content="http://img.blog.csdn.net/20150419104224288">
+<meta property="og:image" content="http://img.blog.csdn.net/20150419104620091">
+<meta property="og:image" content="http://img.blog.csdn.net/20150419104910194">
+<meta property="og:image" content="http://img.blog.csdn.net/20150419105414098">
+<meta property="og:image" content="http://img.blog.csdn.net/20150419105640089">
+<meta property="og:image" content="http://img.blog.csdn.net/20150419105803409">
+<meta property="og:image" content="http://img.blog.csdn.net/20150419105908923">
+<meta property="og:image" content="http://img.blog.csdn.net/20150419110352163">
+<meta property="og:image" content="http://img.blog.csdn.net/20150419110414668">
+<meta property="og:image" content="http://img.blog.csdn.net/20150419110631908">
+<meta property="og:image" content="http://img.blog.csdn.net/20150419110915302">
+<meta property="og:image" content="http://img.blog.csdn.net/20150419111339036">
+<meta property="og:image" content="http://img.blog.csdn.net/20150419111332010">
+<meta property="og:image" content="http://img.blog.csdn.net/20150419111658554">
+<meta property="og:updated_time" content="2018-05-10T18:05:59.209Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux内核分析课程7_execve()函数对应的系统调用处理过程">
+<meta name="twitter:description" content="Linux内核课第七周作业。本文在云课堂中实验楼完成。唐国泽 原创作品转载请注明出处 《Linux内核分析》MOOC课程     昔者庄周梦为蝴蝶，栩栩然蝴蝶也，自喻适志与，不知周也。俄然觉，则蘧蘧然周也。不知周之梦为蝴蝶与，蝴蝶之梦为周与？周与蝴蝶，则必有分矣。此之谓物化。（《庄子·齐物论》）    在我们的操作系统中,也有如此浪漫情怀的庄生梦蝶—–exec()函数族.庄周（调用execve的可">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20150419090050973">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://guozetang.github.io/blog/2015/03/14/Linux内核分析课程7_execve()函数对应的系统调用处理过程.html"/>
+
+
+
+
+
+  <title>Linux内核分析课程7_execve()函数对应的系统调用处理过程 | Terry Tang</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Terry Tang</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">Terry Blog & 唐国泽的博客</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/blog/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://guozetang.github.io/blog/blog/2015/03/14/Linux内核分析课程7_execve()函数对应的系统调用处理过程.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Terry Tang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/blog/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Terry Tang">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Linux内核分析课程7_execve()函数对应的系统调用处理过程</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-03-14T13:04:27-04:00">
+                2015-03-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/Linux内核分析课程/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux内核分析课程</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/blog/blog/2015/03/14/Linux内核分析课程7_execve()函数对应的系统调用处理过程.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="/blog/2015/03/14/Linux内核分析课程7_execve()函数对应的系统调用处理过程.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  1,853
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  7
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Linux内核课第七周作业。本文在云课堂中实验楼完成。<br>唐国泽 原创作品转载请注明出处 <a href="http://mooc.study.163.com/course/USTC-1000029000" target="_blank" rel="noopener">《Linux内核分析》MOOC课程</a>  </p>
+<hr>
+<blockquote>
+<p>昔者庄周梦为蝴蝶，栩栩然蝴蝶也，自喻适志与，不知周也。俄然觉，则蘧蘧然周也。不知周之梦为蝴蝶与，蝴蝶之梦为周与？周与蝴蝶，则必有分矣。此之谓物化。（《庄子·齐物论》）  </p>
+<blockquote>
+<p><strong>在我们的操作系统中,也有如此浪漫情怀的庄生梦蝶—–exec()函数族.</strong><br>庄周（调用execve的可执行程序）入睡（调用execve陷入内核），醒来（系统调用execve返回用户态）发现自己是蝴蝶（被execve加载的可执行程序）</p>
+</blockquote>
+</blockquote>
+<h1 id="一-exec函数族"><a href="#一-exec函数族" class="headerlink" title="一. exec函数族"></a>一. exec函数族</h1><h2 id="一-介绍"><a href="#一-介绍" class="headerlink" title="(一) 介绍"></a>(一) 介绍</h2><p>fork()函数, 相当于是创建了一个新的进程, 但该子进程复制的确实父进程的内容, 如果让其执行下去,那么也是执行和父进程相同的内容呢, <strong>但实际中,我们执行的是新的任务, 那么在这里是如何实现的呢?</strong>   </p>
+<p>exec函数族就实现了在一个进程中启动另外一个程序的方法. 它可以根据指定的文件名或目录名找到可执行文件，并用它来取代原调用进程的数据段、代码段和堆栈段，在执行完之后，原调用进程的内容除了进程号外，其他全部被新的进程替换了。另外，这里的可执行文件既可以是二进制文件，也可以是Linux下任何可执行的脚本文件。  </p>
+<p>那什么时候使用exec函数呢? 除了我们上面提到的fork()之后调用exec()函数来执行一个新进程外,还有当进程认为自己继续执行下去也没有什么实际的工作的时候,就可以调用exec函数来庄周梦蝶,化成蝶了.  </p>
+<h2 id="二-函数族具体实现"><a href="#二-函数族具体实现" class="headerlink" title="(二) 函数族具体实现"></a>(二) 函数族具体实现</h2><p>在linux下,有六个exec开头的函数, 来实现:<br>　　　　　　<img src="http://img.blog.csdn.net/20150419090050973" alt="Exec开头的函数">  </p>
+<p>这6个函数在函数名和使用语法的规则上都有细微的区别，下面就从可执行文件查找方式、参数传递方式和环境变量这几个方面进行比较。  </p>
+<ul>
+<li><p>查找方式：表1中的前4个函数的查找方式都是完整的文件目录路径，而最后两个函数（也就是以 p 结尾的两个函数）可以只给出文件名，系统就会自动按照环境变量“$PATH” 所指定的路径进行查找。</p>
+</li>
+<li><p>参数传递方式：exec函数族的参数传递有两种：一种是逐个列举的方式，而另一种则是将所有参数整体构造指针数组传递。在这里是以函数名的第5位字母来区分的，字母为 “l”(list)的表示逐个列举参数的方式，其语法为：<br><code>const char *arg;字母为“v”(vector)的表示将所有参数整体构造指针数组传递，其语法为 char *const argv[]&#39;`</code>。<br>这里的参数实际上就是用户在使用这个可执行文件时所需的全部命令选项字符串（包括该可执行程序命令本身）。要注意的是，这些参数必须以NULL结束。</p>
+</li>
+<li><p>环境变量： exec函数族可以默认系统的环境变量，也可以传入指定的环境变量。这里以 “e”(environment)结尾的两个函数 execle()和 execve()就可以在 envp[]中指定当前进程所使用的环境变量。<br>表2再对这6个函数中的函数名和对应语法做了一个小结，主要指出了函数名中每一位对应所表明的含义，以此表加以记住这6个函数。<br> 　　　　　<img src="http://img.blog.csdn.net/20150419090214948" alt="这里写图片描述"><br>　　 事实上，这6个函数中真正的系统调用只有execve()，其他5个都是库函数，它们最终都会调用execve()这个系统调用。在使用exec函数族时，一定要加上错误判断语句。exec 很容易执行失败，其中最常见的原因有：<br>　　1. 找不到文件或路径，此时 errno 被设置为 ENOENT。<br>　　2. 数组argv 和envp  忘记用NULL结束，此时，errno被设置为 EFAUL。<br>　　3. 没有对应可执行文件的运行权限，此时 errno 被设置为EACCES。  </p>
+</li>
+</ul>
+<h1 id="二-实验分析"><a href="#二-实验分析" class="headerlink" title="二.实验分析"></a>二.实验分析</h1><p>　　实践来检验理论, 才能让自己的知识学习的更加牢固。<br>　　进入gdb调试,设置断点:<br>    　　　　　<img src="http://img.blog.csdn.net/20150419103512697" alt="这里写图片描述"><br>    　　　　　<img src="http://img.blog.csdn.net/20150419103006540" alt="这里写图片描述"></p>
+<p>　　主要设置了以下几个断点。<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> 　 <span class="selector-tag">b</span> sys_execve</span><br><span class="line"><span class="selector-tag">b</span> do_execve</span><br><span class="line"><span class="selector-tag">b</span> do_open_exev</span><br><span class="line"><span class="selector-tag">b</span> do search_binary_handler</span><br><span class="line"><span class="selector-tag">b</span> load_elf_binary</span><br><span class="line"><span class="selector-tag">b</span> start_thread</span><br><span class="line"><span class="selector-tag">b</span> init_elf_binfmt</span><br></pre></td></tr></table></figure></p>
+<p>　　下面就主要分析这几个断点处的函数功能实现了.</p>
+<h3 id="1-首先分析函数实现"><a href="#1-首先分析函数实现" class="headerlink" title="1.首先分析函数实现"></a>1.首先分析函数实现</h3><p>　　　　<img src="http://img.blog.csdn.net/20150419103501911" alt="这里写图片描述"><br>　　在函数中,我们可明显的看到,在fork执行完成之后,我们通过execlp()加载了可执行程序hello.<br>　　<strong>在这里调用的是execlp(), 最终调用的也是execve()这个系统调用。</strong><br>　　　<img src="http://img.blog.csdn.net/20150419104224288" alt="这里写图片描述"><br>　　<br>　　清晰的看到, 系统调用之后执行了do_execve()</p>
+<h3 id="2-do-execve-函数分析"><a href="#2-do-execve-函数分析" class="headerlink" title="2.do_execve()函数分析"></a>2.do_execve()函数分析</h3><p>　　　<img src="http://img.blog.csdn.net/20150419104620091" alt="这里写图片描述">  </p>
+<h4 id="1-在do-execve中限设置了相应的参数和环境变量-然后调用了do-execve-common-函数"><a href="#1-在do-execve中限设置了相应的参数和环境变量-然后调用了do-execve-common-函数" class="headerlink" title="1)在do_execve中限设置了相应的参数和环境变量,然后调用了do_execve_common()函数"></a>1)在do_execve中限设置了相应的参数和环境变量,然后调用了do_execve_common()函数</h4><p>　　　<img src="http://img.blog.csdn.net/20150419104910194" alt="这里写图片描述">  </p>
+<h4 id="2-do-execve-common-函数介绍"><a href="#2-do-execve-common-函数介绍" class="headerlink" title="2)do_execve_common()函数介绍"></a>2)do_execve_common()函数介绍</h4><p>　　在do_execve_common()函数中,先打开对应文件,在这里是hello<br>　　　　<img src="http://img.blog.csdn.net/20150419105414098" alt="这里写图片描述">  </p>
+<p>　　接着将文件名,环境变量,命令行参数拷贝到新分配的页面中:<br>　　　<img src="http://img.blog.csdn.net/20150419105640089" alt="这里写图片描述">  </p>
+<p>　　最后执行 exec_binprm来执行该可执行文件格式的处理函数:<br>　　　　<img src="http://img.blog.csdn.net/20150419105803409" alt="这里写图片描述">  </p>
+<p>　　接着详细分析exec_binprm中函数的执行过程, 分析如何来加载elf文件格式的.<br>　　　<img src="http://img.blog.csdn.net/20150419105908923" alt="这里写图片描述"><br>　　<br>　　在该函数中, 可以看到调用了search_binary_handler(bprm)函数,该函数寻找符合文件格式对应的解析模块.<br>　　<img src="http://img.blog.csdn.net/20150419110352163" alt="这里写图片描述"><br>　　<br>　　其中的linux_binfmt *fmt结构体为:<br>　　<img src="http://img.blog.csdn.net/20150419110414668" alt="这里写图片描述"><br>　　<br>　　我们这里调用的是hello可执行文件,为elf格式,所有最后查找后调用为:<br>　　<img src="http://img.blog.csdn.net/20150419110631908" alt="这里写图片描述"><br>　　<br>　　对应elf格式查找可得:<br>　　<img src="http://img.blog.csdn.net/20150419110915302" alt="这里写图片描述"><br>　　<br>　　对于ELF格式的可执行文件fmt-&gt;load_binary(bprm);执行的应该是load_elf_binary其内部是和ELF文件格式解析的部分需要和ELF文件格式标准结合起来阅读<br>　　对应elf文件的格式为:<br>　　<img src="http://img.blog.csdn.net/20150419111339036" alt="这里写图片描述"><br>　　整个ELF映像就是由文件头、区段头表、程序头表、一定数量的区段、以及一定数量的部构成，而ELF映像的装入/启动过程，则就是在各种头部信息的指引下将某些部或区段装入一个进程的用户空间，并为其运行做好准备(例如装入所需的共享库)，最后(在目标进程首次受调度运行时)让CPU进入其程序入口的过程。接着是对elf_bss 、elf_brk、start_code、end_code等等变量的初始化。这些变量分别纪录着当前(到此刻为止)目标映像的bss段、代码段、数据段、以及动态分配“堆” 在用户空间的位置。除start_code的初始值为0xffffffff外，其余均为0。随着映像内容的装入，这些变量也会逐步得到调整。<br>　　load_elf_binary函数的作用就是读入了程序头表，并对start_code等变量进行初始化.<br>　　<img src="http://img.blog.csdn.net/20150419111332010" alt="这里写图片描述"><br>　　在load_elf_binary的最后调用<br>　　<img src="http://img.blog.csdn.net/20150419111658554" alt="这里写图片描述"><br>　　在这里就把新程序的ip和sp存入堆栈,覆盖掉了之前的ip,sp,之后,子进程返回的话,就从hello中的main开始执行了.</p>
+<h2 id="3-函数执行流程示意图"><a href="#3-函数执行流程示意图" class="headerlink" title="3.函数执行流程示意图:"></a>3.函数执行流程示意图:</h2><p><code>`</code><br>execlp-&gt;hello<br>call *sys_execve<br>……..do_execve<br>…………….. do_execve_common<br>……………………. exec_binprm<br>……………………………..search_binary_handler(bprm)<br>…………………………………..linux_binfmt= elf_format<br>……………………………………….elf_format-&gt; load_elf_binary<br>……………………………………….load_elf_binary<br>……………………………………………..start_thread<br>ret</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>Donate comment here</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Terry Tang WeChat Pay"/>
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Terry Tang Alipay"/>
+        <p>Alipay</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:</strong>
+    Terry Tang
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link:</strong>
+    <a href="http://guozetang.github.io/blog/2015/03/14/Linux内核分析课程7_execve()函数对应的系统调用处理过程.html" title="Linux内核分析课程7_execve()函数对应的系统调用处理过程">http://guozetang.github.io/blog/2015/03/14/Linux内核分析课程7_execve()函数对应的系统调用处理过程.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice: </strong>
+    All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> unless stating additionally.
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/Linux/" rel="tag"># Linux</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/blog/2015/03/07/Linux内核分析课程6_进程创建.html" rel="next" title="Linux内核分析课程6_进程创建">
+                <i class="fa fa-chevron-left"></i> Linux内核分析课程6_进程创建
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/blog/2015/03/22/Linux内核分析课程8_进程调度与进程切换过程.html" rel="prev" title="Linux内核分析课程8_进程调度与进程切换过程">
+                Linux内核分析课程8_进程调度与进程切换过程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/blog/uploads/avatar.png"
+                alt="Terry Tang" />
+            
+              <p class="site-author-name" itemprop="name">Terry Tang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/blog/archives/">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/blog/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/blog/tags/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/guozetang" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:guozetang@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.facebook.com/guozetang" target="_blank" title="Facebook">
+                      
+                        <i class="fa fa-fw fa-facebook"></i>Facebook</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.linkedin.com/in/guoze-tang-81b096162" target="_blank" title="Linkedin">
+                      
+                        <i class="fa fa-fw fa-linkedin"></i>Linkedin</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://instagram.com/guozetang" target="_blank" title="Instagram">
+                      
+                        <i class="fa fa-fw fa-instagram"></i>Instagram</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一-exec函数族"><span class="nav-number">1.</span> <span class="nav-text">一. exec函数族</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一-介绍"><span class="nav-number">1.1.</span> <span class="nav-text">(一) 介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-函数族具体实现"><span class="nav-number">1.2.</span> <span class="nav-text">(二) 函数族具体实现</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二-实验分析"><span class="nav-number">2.</span> <span class="nav-text">二.实验分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-首先分析函数实现"><span class="nav-number">2.0.1.</span> <span class="nav-text">1.首先分析函数实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-do-execve-函数分析"><span class="nav-number">2.0.2.</span> <span class="nav-text">2.do_execve()函数分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-在do-execve中限设置了相应的参数和环境变量-然后调用了do-execve-common-函数"><span class="nav-number">2.0.2.1.</span> <span class="nav-text">1)在do_execve中限设置了相应的参数和环境变量,然后调用了do_execve_common()函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-do-execve-common-函数介绍"><span class="nav-number">2.0.2.2.</span> <span class="nav-text">2)do_execve_common()函数介绍</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-函数执行流程示意图"><span class="nav-number">2.1.</span> <span class="nav-text">3.函数执行流程示意图:</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Terry Tang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> | Hosted by <a href="https://github.com">Github</a></div>
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazyload/1.9.3/jquery.lazyload.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://Tang Guoze.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://guozetang.github.io/blog/2015/03/14/Linux内核分析课程7_execve()函数对应的系统调用处理过程.html';
+          this.page.identifier = '/blog/2015/03/14/Linux内核分析课程7_execve()函数对应的系统调用处理过程.html';
+          this.page.title = 'Linux内核分析课程7_execve()函数对应的系统调用处理过程';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://Tang Guoze.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
