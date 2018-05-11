@@ -1,8 +1,8 @@
 ---
 title: 使用Hero+Next主题+Github搭建博客
 date: 2018-05-10 15:13:51
-categories:
-tags: hexo
+categories: Lift
+tags: Hexo
 ---
 使用Jekyll搭建在github上博客已经快一年了，但一年的时间并没有写很多的文章。一部分原因是由于自己懈怠，另一部分也由于Jekyll写博客有很多不便之处。不能自动生成目录，以及每次新建文章都需要自己的手动设置目录结构以及添加Jekyll解析的格式内容在每一篇文章中，这是一件非常繁琐而无趣的工作。遵循自己动手丰衣足食的原则，查询目前比较流行的搭建博客的方式之后，决定使用Hero+Next主题在github上搭建博客。本篇博客记录搭建过程中的配置与优化。
 
@@ -13,10 +13,28 @@ tags: hexo
 > - 如果完全不熟悉Hexo的原理以及之前没有使用过git的同学，请参考：  
    [使用 Hexo 基于 GitHub Pages 搭建个人博客（一）](https://ehlxr.me/2016/07/23/%E4%BD%BF%E7%94%A8Hexo%E5%9F%BA%E4%BA%8EGitHub-Pages%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%80%EF%BC%89/)   
    [使用 Hexo 基于 GitHub Pages 搭建个人博客（二）](https://ehlxr.me/2016/07/23/%E4%BD%BF%E7%94%A8Hexo%E5%9F%BA%E4%BA%8EGitHub-Pages%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%BA%8C%EF%BC%89/)
-   
+<!-- more -->
 完成Hexo搭建博客之后，可以参考一些配置说明,做一些优化：
 [使用 Hexo 基于 GitHub Pages 搭建个人博客](https://ehlxr.me/2016/08/30/%E4%BD%BF%E7%94%A8Hexo%E5%9F%BA%E4%BA%8EGitHub-Pages%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%89%EF%BC%89/)
-
+# Hexo基本操作
+### 基本命令
+```sh
+hexo new "postName" #新建文章
+hexo new page "pageName" #新建页面
+hexo generate #生成静态页面至public目录
+hexo server #开启预览访问端口（默认端口4000，'ctrl + c'关闭server）
+hexo deploy #将.deploy目录部署到GitHub
+hexo help  # 查看帮助
+hexo version  #查看Hexo的版本
+hexo deploy -g  #生成加部署
+hexo server -g  #生成加预览
+命令的简写
+hexo n == hexo new
+hexo g == hexo generate
+hexo s == hexo server
+hexo d == hexo deploy
+```
+*****
 # Hexo 文章图片管理
 数无形时少直觉，很多时候一个配图能清晰的表达我们的观点。所以，我们需要研究Hexo写文章时插入图片的方法。主要有两种方式：
 - 本地引用  
@@ -111,6 +129,14 @@ ipm install hexo-deployer-git
 
 
 # 其他功能参考网页
+## 博客首页的显示问题
+### 内容全部显示，不收缩
+解决方式：配置Next主题中的`_config.yml`里面的
+`auto_excerpt = true`
+### 内容显示一部分，但是显示格式不是Markdown的格式
+使用 <!-- more --> 替代 auto_excerpt
 
-#### [为NexT主题添加文章阅读量统计功能](https://notes.wanghao.work/2015-10-21-%E4%B8%BANexT%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E6%96%87%E7%AB%A0%E9%98%85%E8%AF%BB%E9%87%8F%E7%BB%9F%E8%AE%A1%E5%8A%9F%E8%83%BD.html#%E9%85%8D%E7%BD%AELeanCloud)
+## 添加文章阅读量统计与评论功能
+[为NexT主题添加文章阅读量统计功能](https://notes.wanghao.work/2015-10-21-%E4%B8%BANexT%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E6%96%87%E7%AB%A0%E9%98%85%E8%AF%BB%E9%87%8F%E7%BB%9F%E8%AE%A1%E5%8A%9F%E8%83%BD.html#%E9%85%8D%E7%BD%AELeanCloud)
 
+[hexo博客评论新神器——Valine](https://giserdaishaoqing.github.io/2017/11/24/hexo%E5%8D%9A%E5%AE%A2%E8%AF%84%E8%AE%BA%E6%96%B0%E7%A5%9E%E5%99%A8%E2%80%94%E2%80%94Valine/)

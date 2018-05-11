@@ -1,11 +1,11 @@
 ---
 title: Linux内核分析课程6_进程创建
 date: 2015-03-07 13:04:27
-categories: Linux内核分析课程
-tags: Linux
+categories: Linux
+tags: Linux kernel
 ---
 Linux内核课第六周作业。本文在云课堂中实验楼完成。  
-唐国泽 原创作品转载请注明出处 [《Linux内核分析》MOOC课程](http://mooc.study.163.com/course/USTC-1000029000)  
+原创作品转载请注明出处 [《Linux内核分析》MOOC课程](http://mooc.study.163.com/course/USTC-1000029000)  
 # fork()系统调用
 ## 预备知识
 这里先列出一些必要的预备知识，对linux下进程机制比较熟悉的朋友可以略过。  
@@ -15,6 +15,7 @@ Linux内核课第六周作业。本文在云课堂中实验楼完成。
 > [上述摘自:[从一道面试题谈linux下fork的运行机制\]
 ](http://www.cnblogs.com/leoo2sk/archive/2009/12/11/talk-about-fork-in-linux.html)	  
 
+<!-- more -->
 下面分析一个简单的例子:
 ```C
 	#include <stdio.h>

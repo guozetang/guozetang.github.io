@@ -1,8 +1,8 @@
 ---
 title: Linux内核分析课程5_System call中断处理过程
 date: 2015-03-01 13:04:27
-categories: Linux内核分析课程
-tags: Linux
+categories: Linux
+tags: Linux kernel
 ---
 ﻿
 　　Linux内核课第四周作业。本文在云课堂中实验楼完成。
@@ -12,7 +12,7 @@ tags: Linux
 　　1.调试sys_exit()
 　　2.系统调用源代码分析
 　　3.系统调用小结
-
+<!-- more -->
 #一.加入自定义的系统调用CallExit.
 　　修改menu/test.c文件，加入自己定义的系统调用函数。
 ```c#

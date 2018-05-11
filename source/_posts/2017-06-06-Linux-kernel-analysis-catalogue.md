@@ -1,8 +1,8 @@
 ---
 title: Linux内核分析课程_学习索引
 date: 2015-06-14 13:04:27
-categories: Linux内核分析课程
-tags: Linux
+categories: Linux
+tags: Linux kernel
 ---
 ﻿
 　　唐国泽 原创作品转载请注明出处 《Linux内核分析》MOOC课程http://mooc.study.163.com/course/USTC-1000029000
@@ -52,6 +52,7 @@ tags: Linux
 　　　　context_switch(rq, prev, next);//进程上下文切换 
 　　　　switch_to利用了prev和next两个参数：prev指向当前进程，next指向被调度的进程
  　　博客中对schedule函数进行了相关介绍，以及分析了schedule函数的内核实现的详细流程。
+<!-- more -->
 ****
 #二.学习心得
   1.对Linux系统的认识

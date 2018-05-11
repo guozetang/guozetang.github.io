@@ -1,8 +1,8 @@
 ---
 title: Linux内核分析课程9_UNIX United操作系统分析
 date: 2015-05-07 13:04:27
-categories: Linux内核分析课程
-tags: Linux
+categories: Linux
+tags: Linux kernel
 ---
 
 ﻿唐国泽 原创作品转载请注明出处 《Linux内核分析》MOOC课程http://mooc.study.163.com/course/USTC-1000029000
@@ -16,7 +16,7 @@ UNIX United系统是通过将一组的UNIX系统计算机，在上层叠加一�
 >参考文献：
 《The Newcastle Connection or UNIXes of the world Unite!》
 《The Architecture of UNIX United》
-
+<!-- more -->
 **疑问：对文件访问的控制是怎么处理的呢？**
 # 2.对文件访问的处理
 　　![这里写图片描述](http://img.blog.csdn.net/20150427221713582)

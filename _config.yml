@@ -3,7 +3,7 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Terry Tang
+title: Terry
 subtitle: Terry Blog & 唐国泽的博客
 #SEO
 description: 唐国泽 | 这里是 Terry.Tang 的个人博客，与你一起发现更大的世界。" 
@@ -27,7 +27,7 @@ archive_dir: archives
 category_dir: categories
 code_dir: downloads/code
 i18n_dir: :lang
-skip_render:
+skip_render: README.md
 
 # Writing
 new_post_name: :year-:month-:day-:title.md # File name of new posts
@@ -76,9 +76,7 @@ pagination_dir: page
 ## Themes: https://hexo.io/themes/
 theme: next
 # Extensions
-Plugins:
-- hexo-generator-feedh
-- hexo-generator-sitemap
+
 #Feed Atom
 feed:
   type: atom
@@ -95,3 +93,7 @@ deploy:
   type: git
   repository: git@github.com:guozetang/guozetang.github.io
   branch: master
+
+Plugins:
+- hexo-generator-feedh
+- hexo-generator-sitemap
