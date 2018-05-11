@@ -64,7 +64,53 @@ tags: hexo
 > 该篇文章详细讲解如何使用新浪微博图床来实现在Hexo文章中插入图片
 ********
 
+# Hexo的版本控制方式
+我们将Hexo生出来的静态网站放到了Github Pages上面去托管了。而我们一般也在在本地搭建Hexo的环境，编写新文章，然后利用hexo deploy来发布到Git，那么对于本地的Hexo的原始文件怎么管理呢？管理Hexo的原始文件的好处是：
+- 换电脑布置环境非常方便
+- 不用担心本地环境挂了导致源文件流失，毕竟一折腾就容易搞坏环境的
+
+我们可以把Hexo博客的源文件也Host在github上，这里我们可以选择把Hexo博客的源文件布置到和Blog同一个`username.github.io`仓库，也可以选择将Hexo的源文件推到新建的一个Github Repo.
+## 利用Github分支进行版本控制
+### 利用分支进行版本控制的流程
+通过新建一个hexo分支用于专门存放hexo代码。原先的master分支依然不变，作为hexo部署的分支。
+每次在部署后，再把代码提交到hexo分支:
+1. 到达Blog的本地文件根目录，本地创建git仓库  
+`git init`
+
+2. 添加远程库  
+`git remote add origin git@github.com:user.name/user.name.github.io`  
+注意，将其中的两个user.name置换成你自己的github名称
+
+3. 创建hexo分支  
+`git checkout -b hexo`  
+
+4. 添加文件并提交，push到远程仓库  
+`git add`  
+> 可能出现的问题：如果你使用了第三方主题，在进行代码提交的时候，是无法将第三方主题提交到你的github repository中，会出现 untracked content的提示。  
+> **原因：**第三方主题自身就是一个git项目，是没有办法将比人的git项目通过add和commit的方式添加到自己的git repository的。  
+> **解决方式：** 删除第三方主题根目录下面的.git文件夹，再尝试提交git add
+
+### 日常改动过程中的执行流程：
+- 依次执行git add .、git commit -m "..."、git push origin hexo指令将改动推送到GitHub（此时当前分支应为hexo）；
+
+- 执行hexo g -d发布网站到master分支上。
+
+### 本地资料丢失或者换电脑，在其他电脑上面修改博客的步骤流程
+- 使用 `git clone git@github.com:user.name/user.name.github.io.git`(默认的分支为hexo)
+- 在本地clone下来的user.name.github.io文件夹下面通过git bash依次执行以下指令：
+```sh
+npm install hexo
+npm install
+ipm install hexo-deployer-git
+```
+> 参考博客  
+> [GitHub Pages + Hexo搭建博客](http://crazymilk.github.io/2015/12/28/GitHub-Pages-Hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/#more)  
+> [Hexo博客代码版本控制](http://chenhuichao.com/2016/02/22/hexo/hexo-guide-3/)  
+
+
+
+
 # 其他功能参考网页
-### 添加阅读量统计功能
-[为NexT主题添加文章阅读量统计功能](https://notes.wanghao.work/2015-10-21-%E4%B8%BANexT%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E6%96%87%E7%AB%A0%E9%98%85%E8%AF%BB%E9%87%8F%E7%BB%9F%E8%AE%A1%E5%8A%9F%E8%83%BD.html#%E9%85%8D%E7%BD%AELeanCloud)
+
+#### [为NexT主题添加文章阅读量统计功能](https://notes.wanghao.work/2015-10-21-%E4%B8%BANexT%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E6%96%87%E7%AB%A0%E9%98%85%E8%AF%BB%E9%87%8F%E7%BB%9F%E8%AE%A1%E5%8A%9F%E8%83%BD.html#%E9%85%8D%E7%BD%AELeanCloud)
 
