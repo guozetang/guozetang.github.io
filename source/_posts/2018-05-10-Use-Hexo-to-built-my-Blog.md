@@ -119,14 +119,11 @@ hexo d == hexo deploy
 ```sh
 npm install hexo
 npm install
-ipm install hexo-deployer-git
+npm install hexo-deployer-git
 ```
 > 参考博客  
 > [GitHub Pages + Hexo搭建博客](http://crazymilk.github.io/2015/12/28/GitHub-Pages-Hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/#more)  
 > [Hexo博客代码版本控制](http://chenhuichao.com/2016/02/22/hexo/hexo-guide-3/)  
-
-
-
 
 # 其他功能参考网页
 ## 博客首页的显示问题

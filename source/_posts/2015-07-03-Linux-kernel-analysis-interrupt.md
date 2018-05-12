@@ -5,17 +5,17 @@ categories: Linux
 tags: Linux kernel
 ---
 ﻿
-　　Linux内核课第四周作业。本文在云课堂中实验楼完成。
-　　唐国泽 原创作品转载请注明出处 《Linux内核分析》MOOC课程http://mooc.study.163.com/course/USTC-1000029000
+Linux内核课第四周作业。本文在云课堂中实验楼完成。  
+原创作品转载请注明出处 [《Linux内核分析》MOOC课程](http://mooc.study.163.com/course/USTC-1000029000)
 ****
-　　主要内容：
-　　1.调试sys_exit()
-　　2.系统调用源代码分析
-　　3.系统调用小结
+中断处理的主要内容：  
+1.调试sys_exit()  
+2.系统调用源代码分析  
+3.系统调用小结
 <!-- more -->
-#一.加入自定义的系统调用CallExit.
-　　修改menu/test.c文件，加入自己定义的系统调用函数。
-```c#
+# 一.加入自定义的系统调用CallExit.
+　　修改menu/test.c文件，加入自己定义的系统调用函数。  
+```c
 	#include <stdio.h>
 	#include <stdlib.h>
 	#include <time.h>
@@ -80,19 +80,22 @@ tags: Linux kernel
 	    ExecuteMenu();
 	}
 ```
-　　即在main函数中，加入相应的系统调用定义，讲CallExit和CallExit_asm加入到其中去，在QEMU中启动系统之后可以输入help看到，我们的命令中多了两条命令。
 
-　　![系统启动时，命令中有了多的系统调用函数](http://img.blog.csdn.net/20150405172545647)　
-　可惜在进行系统调用测试的时候出现了问题，导致系统崩溃了，暂时还没有测试出来代码中是什么地方出现了问题，会继续调试找出问题的地方。
+即在main函数中，加入相应的系统调用定义，讲CallExit和CallExit_asm加入到其中去，在QEMU中启动系统之后可以输入help看到，我们的命令中多了两条命令。
+　　![系统启动时，命令中有了多的系统调用函数](http://img.blog.csdn.net/20150405172545647)  　
+
+可惜在进行系统调用测试的时候出现了问题，导致系统崩溃了，暂时还没有测试出来代码中是什么地方出现了问题，会继续调试找出问题的地方。
 　　![调试的时候出现问题的图片](http://img.blog.csdn.net/20150405181638295)
 
-　　关于老师视频中提到的不能调试sys_time的一些分析：
-　　[Linux Kernel代码艺术——系统调用宏定义](http://www.cnblogs.com/hazir/p/syscall_marco_define.html)
-　　可以参考这一篇文章中的内容，在2.6.28之前的内核代码中，系统调用的时候是直接调用处理函数的，但出现了漏洞CVE-2009-0029漏洞之后，就是通过宏定义的方式来处理系统调用函数了。
+
+关于老师视频中提到的不能调试sys_time的一些分析：  
+　　[Linux Kernel代码艺术——系统调用宏定义](http://www.cnblogs.com/hazir/p/syscall_marco_define.html)  
+
+可以参考这一篇文章中的内容，在2.6.28之前的内核代码中，系统调用的时候是直接调用处理函数的，但出现了漏洞CVE-2009-0029漏洞之后，就是通过宏定义的方式来处理系统调用函数了。
 　　
 #二.系统调用源代码分析
 　　
-```asm
+```c
 	# system call handler stub
 	ENTRY(system_call)				//所有系统调用函数的入口处
 		RING0_INT_FRAME			# can't unwind into user space anyway
@@ -302,20 +305,21 @@ tags: Linux kernel
 	.macro UNWIND_ESPFIX_STACK
 ```
 
-   SAVE_ALL保存现场函数的宏定义如下图所示：
+SAVE_ALL保存现场函数的宏定义如下图所示：  
 ![这里写图片描述](http://img.blog.csdn.net/20150405185021135)
 	  
 
-#三.系统调用小结
-　　系统调用流程小结：
+# 三.系统调用小结
+系统调用流程小结：
+1. 执行用户程序(如:fork,exit)   
+2. 根据glibc中的函数实现，取得系统调用号并执行int $0x80产生中断。 
+3. 进行地址空间的转换和堆栈的切换，执行SAVE_ALL。（进行内核模式）
+4. 进行中断处理，根据系统调用表调用内核函数。
+5. 执行内核函数。
+6. 执行RESTORE_ALL并返回用户模式
 
-　　1.执行用户程序(如:fork,exit) 
-　　2.根据glibc中的函数实现，取得系统调用号并执行int $0x80产生中断。
-　　3.进行地址空间的转换和堆栈的切换，执行SAVE_ALL。（进行内核模式）
-　　4.进行中断处理，根据系统调用表调用内核函数。
-　　5.执行内核函数。
-　　6.执行RESTORE_ALL并返回用户模式
-　　类似中断处理过程，可以知道，在中断当中这个整体的框架是不变化的的，只是相应的系统调用号和处理函数之间的转化变化成了中断号和中断处理函数之间的转化。
+类似中断处理过程，可以知道，在中断当中这个整体的框架是不变化的的，只是相应的系统调用号和处理函数之间的转化变化成了中断号和中断处理函数之间的转化。
+
 ```flow
 st=>start: int0x80->ENTRY(system_call)
 e=>end: Ende|future:>http://www.google.com

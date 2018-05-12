@@ -4,7 +4,6 @@ date: 2018-05-08 14:12:25
 categories: Linux File System
 tags: Linux
 ---
-# Linux透明加密文件系统代码分析
 主要分为三个部分：
 > 第一部分是交互脚本与自动化脚本(Ubuntu)  
 > 第二部分是界面设计  
