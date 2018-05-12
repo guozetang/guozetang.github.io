@@ -117,8 +117,8 @@ hexo d == hexo deploy
 - 使用 `git clone git@github.com:user.name/user.name.github.io.git`(默认的分支为hexo)
 - 在本地clone下来的user.name.github.io文件夹下面通过git bash依次执行以下指令：
 ```sh
-npm install hexo
-npm install
+npm install -g hexo-cli
+npm install hexo --save
 npm install hexo-deployer-git
 ```
 > 参考博客  
