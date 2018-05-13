@@ -126,6 +126,8 @@ npm install hexo-deployer-git
 > [Hexo博客代码版本控制](http://chenhuichao.com/2016/02/22/hexo/hexo-guide-3/)  
 
 # 其他功能参考网页
+
+****
 ## 博客首页的显示问题
 ### 内容全部显示，不收缩
 解决方式：配置Next主题中的`_config.yml`里面的
@@ -137,3 +139,74 @@ npm install hexo-deployer-git
 [为NexT主题添加文章阅读量统计功能](https://notes.wanghao.work/2015-10-21-%E4%B8%BANexT%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E6%96%87%E7%AB%A0%E9%98%85%E8%AF%BB%E9%87%8F%E7%BB%9F%E8%AE%A1%E5%8A%9F%E8%83%BD.html#%E9%85%8D%E7%BD%AELeanCloud)
 
 [hexo博客评论新神器——Valine](https://giserdaishaoqing.github.io/2017/11/24/hexo%E5%8D%9A%E5%AE%A2%E8%AF%84%E8%AE%BA%E6%96%B0%E7%A5%9E%E5%99%A8%E2%80%94%E2%80%94Valine/)
+
+****
+## 添加搜索功能 
+### 场景  
+博文多了之后，就需要一个搜索功能能够快速的找到自己以前的博客。所以在我们的博客上加入搜索功能是很有必要的一件事情。
+### 安装插件  
+- 直接在自己的博客文件夹下，点击鼠标右键选择Git Bash Here  
+`npm install hexo-generator-searchdb --save`
+
+- 修改站点配置文件:博客根目录下的_config.yml文件，可以在任意位置加入：
+
+```c
+search：
+	path: search.xml
+	field: post
+	format: html
+	limit: 10000
+```
+PS:每个冒号后面都有空格。
+修改主题配置文件
+我的路径：/blog/themes/next下的_config.yml文件，进行编辑。
+```c
+local_search:
+	enable: true
+```
+PS:冒号后面都有空格。
+此时，部署到github，打开网页就可以看到搜索功能了，容易添加，使用起来很方便，推荐添加，增加网站友好度。
+
+****
+## 添加站内聊天对话功能
+[Hexo博客添加在线联系功能](https://www.ezlippi.com/blog/2018/01/next-chat.html)
+****
+
+## 添加RSS功能
+### 基本步骤
+#### 安装 RSS 插件
+在blog根目录下执行命令安装 RSS 插件: hexo-generator-feed  
+`npm install hexo-generator-feed --save`  
+
+#### 配置 RSS 插件
+编辑 Hexo 的配置文件 _config.yml，添加以下代码
+```c
+# RSS 订阅插件
+plugin:
+- hexo-generator-feed
+#RSS 插件配置
+feed:
+  type: rss2
+  path: rss.xml
+  limit: 20
+  hub:
+  content: true
+```
+#### 主题开启 RSS 支持
+NexT 主题，默认开启 RSS。其它主题请参考主题文档。
+
+#### 生成 RSS
+执行 `hexo clean && hexo g && hexo d` 重新生成博客文件并完成部署即可。
+
+### 问题
+打开RSS的时候：出现错误提示
+> This page contains the following errors:  
+> error on line 317 at column 18: PCDATA invalid Char value 11  
+> Below is a rendering of the page up to the first error.
+
+根据错误提示，用编辑器打开 public 目录下 的rss.xml 或 atom.xml。找到第317行18列，是一个未知字符小方块（原因应该是我从我的CSDN博客里面导出来的文章，出现了一些未知的问题）。根据小方块前后内容判断出来是哪个文章出现的问题。
+
+打开对应的打开对应文章的.md文档，找到相应的的位置，替换出问题的字符。
+
+重新生成 rss.xml 并部署: `hexo clean && hexo g && hexo d`  
+问题解决

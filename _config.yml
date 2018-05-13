@@ -77,16 +77,9 @@ pagination_dir: page
 theme: next
 # Extensions
 
-#Feed Atom
-feed:
-  type: atom
-  path: atom.xml
-  limit: 20
-#sitemap
-sitemap:
-  path: sitemap.xml
   
-rss:
+rss: 
+
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
@@ -97,3 +90,19 @@ deploy:
 Plugins:
 - hexo-generator-feedh
 - hexo-generator-sitemap
+
+
+#Feed Atom
+feed:
+  type: atom
+  path: atom.xml
+  limit: 20
+#sitemap
+sitemap:
+  path: sitemap.xml
+# search in site  
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000
