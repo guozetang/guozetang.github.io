@@ -10,7 +10,7 @@ script:
   - hexo generate
 
 after_script:
-  - cd ./public
+  - cd ./publicx
   - git init
   - git config user.name "guozetang"
   - git config user.email "guozetang@gmail.com"
@@ -21,8 +21,8 @@ after_script:
 
 branches:
   only:
-    - hexo
+    - hexo  #只对Hexo分支进行构建
 
 env:
  global:
-   - GH_REF: github.com/guozetang/guozetang.github.io
+   - GH_REF: github.com/${GH_NAME}/${GH_NAME}.github.io
