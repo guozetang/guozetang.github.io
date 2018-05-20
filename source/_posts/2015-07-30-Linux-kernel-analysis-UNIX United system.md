@@ -5,7 +5,7 @@ categories: Linux
 tags: Linux kernel
 ---
 
-﻿唐国泽 原创作品转载请注明出处 《Linux内核分析》MOOC课程http://mooc.study.163.com/course/USTC-1000029000
+﻿原创作品转载请注明出处 《Linux内核分析》MOOC课程http://mooc.study.163.com/course/USTC-1000029000
 
 UNIX操作系统，是一个强大的多用户、多任务操作系统，支持多种处理器架构，按照操作系统的分类，属于分时操作系统
 >UNIX  United  is  an  architecture  for  a  distributed  system  based  on UNIX.    
