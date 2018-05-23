@@ -4,7 +4,7 @@ date: 2017-08-18 13:04:27
 categories:
 tags: English
 ---
-## ELS Writing class
+# ELS Writing class
 ### 2.How to find a Perfect rental home for students.
 &emsp;&emsp;  Renting a home is the most important thing before a student enters university. It requires some progress before going the rent.You need to think about the kind of propery you are looking for. Where you want to live, and the budget you have available. Do you think it's a painful thing? Believe it or not, renting a good home is not as diffiuclt ad you think, especially if you work through the process following these steps which will make your search smarter and more efficent.  
  <!-- more -->
