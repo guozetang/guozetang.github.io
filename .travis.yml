@@ -25,4 +25,4 @@ branches:
 
 env:
  global:
-   - GH_REF: github.com/guozetang/$guozetang.github.io
+   - GH_REF: github.com/guozetang/guozetang.github.io
