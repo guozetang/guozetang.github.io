@@ -8,12 +8,13 @@ install:
 script:
   - hexo clean
   - hexo generate
+  - hexo deploy
 
 after_script:
   - cd ./publicx
   - git init
-  - git config user.name "guozetang"
-  - git config user.email "guozetang@gmail.com"
+  - git config --global user.name "guozetang"
+  - git config --global user.email "guozetang@gmail.com"
   - git add .
   - git commit -m "Update Blog"
   - git push --force --quiet "https://${REPO_TAKEN}@${GH_REF}" master:master
