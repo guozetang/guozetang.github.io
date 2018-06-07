@@ -5,11 +5,6 @@ node_js: stable
 cache:
   directories:
     -node_modules
-
-branches:
-  only:
-    - hexo  #只对Hexo分支进行构建
-
 # S: Build Lifecycle
 before_install:
   - npm install -g hexo-cli
@@ -27,9 +22,15 @@ after_script:
   - git init
   - git config --global user.name "guozetang"
   - git config --global user.email "guozetang@gmail.com"
-  - sed -i "s/REPO_TAKEN/${REPO_TAKEN}/g" ./_config.yml
-  - hexo deploy
+  - git add .
+  - git commit -m "Update Blog"
+  - git push --force --quiet "https://${REPO_TAKEN}@${GH_REF}" master:master
 # E: Build LifeCycle
 
+branches:
+  only:
+    - hexo  #只对Hexo分支进行构建
 
-
+env:
+ global:
+   - GH_REF: github.com/guozetang/guozetang.github.io
