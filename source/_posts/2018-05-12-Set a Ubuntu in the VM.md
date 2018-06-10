@@ -21,21 +21,21 @@ VMnet8和NAT
 
 在默认情况下，VMWare Workstation已经启用VMnet8虚拟网卡，Windows 7下，通过进入 控制面板>网络和Internet>网络和共享中心>更改适配器设置 可以查看该虚拟网卡的状态。如图1-1所示。
 
-![2018-05-20 NAT network information](\images\in-post\2018-05-20NATNetworkInformation.png) 
+![2018-05-20 NAT network information](/images/in-post/2018-05-20NATNetworkInformation.png) 
 
 得到可用IP范围、网关和子网掩码
 
 在VMWare主界面，点击Edit>Virtual Network Editor菜单进入虚拟网卡参数设置界面（图1-2）。选择VMnet8条目，点击NAT Settings按钮后可以看到我们的VMWare Workstation为NAT连接的虚拟机设定的默认网关，此处为192.168.91.2，以及子网掩码，此处为255.255.255.0, 如图1-3所示。
 
 
-![Get some ipaddress which you can use](\images\in-post\getSomeIpaddressWhichYouCanUse.png) 
+![Get some ipaddress which you can use](/images/in-post/getSomeIpaddressWhichYouCanUse.png) 
 
 
-![2018-05-20 ](\images\in-post\2018-05-20.png) 
+![2018-05-20 ](/images/in-post/2018-05-20.png) 
 点击DHCP Settings按钮，可以看到VMnet8为虚拟机分配的可用的子网IP范围，如图1-4所示。
 
 
-![2018-05-20可用的IP地址范围](\images\in-post\2018-05-20可用的IP地址范围.png) 
+![2018-05-20可用的IP地址范围](/images/in-post/2018-05-20可用的IP地址范围.png) 
 
 
 在这里，我们可以得到

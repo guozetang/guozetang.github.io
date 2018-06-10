@@ -1,8 +1,8 @@
 ---
 title: Bro源代码分析---IP数据包处理流程
 date: 2018-06-09 01:02:39
-categories:
-tags:
+categories: Network
+tags: Network
 ---
 # 前言
 Bro是一款非常优秀的网络协议分析器。Bro里面的Binpac解析器可以很方便的让我们使用Binpac语言书写协议解析器，并通过Binpac转换成C++语言，这在使用中能够很大程度的减少开发时间，也可以避免手写容易考虑不全的问题。但是在使用Binpac之前，我们需要去了解Bro在处理网络数据包的时候的处理流程，能够方便我们在Binpac使用中去掉和Bro耦合的部分，生成我们需要的协议解析器的C++文件。
@@ -14,7 +14,7 @@ Bro是一款非常优秀的网络协议分析器。Bro里面的Binpac解析器�
 ## Bro的网络数据包处理流程
 > int main(int argc, char** argv) (main.cc)
 
-![2018-06-09Bro-Main](images/in-post/2018-06-09Bro-Main.png) 
+![2018-06-09Bro-Main](/images/in-post/2018-06-09Bro-Main.png) 
 
 在Bro的`main.cc`文件里面的Main函数是Bro启动过程中的首先执行的函数，而在这个`main`函数里面，和我们的数据包处理部分相关密切的函数是`net_run()`函数，这个函数是一个一直循环的函数，一旦出来这个函数之后，后面差不多就结束了。接下来阅读该函数代码。
 
@@ -82,24 +82,24 @@ void net_run()
 
 这个函数并不是很长，仔细阅读，我们可以发现我们只需要关注函数`src->Process`, 其中`src`是`iosource::IOSource* src = iosource_mgr->FindSoonest(&ts);`相当于就是打开文件或者网卡数据的句柄（文件句柄或者网卡的句柄）。所以它的处理函数也就是我们想要的数据处理过程了。
 
-![2018-06-09-Bro_net_run](images\in-post\2018-06-09-Bro_net_run.png) 
+![2018-06-09-Bro_net_run](/images/in-post/2018-06-09-Bro_net_run.png) 
 
 接下来看`Process`函数,在这个函数中我们可以看到它处理了Packet，处理完之后，调用了一个`DoneWithPacket()`函数，但我们重点是关注的处理过程，所以我们需要关注函数`net_packet_dispatch(net_packet_dispatch(current_pseudo, &current_packet, this);)`,在这个函数中传入了当前数据包的指针。
 
 > void Pktsrc::Process() (Pktsrc.cc)
 
-![2018-06-09-src_process](images\in-post\2018-06-09-src_process.png) 
+![2018-06-09-src_process](/images/in-post/2018-06-09-src_process.png) 
 
 接下来阅读`net_packet_dispatch(current_pseudo, &current_packet, this);`的处理过程。这个函数是在`net.cc`文件中，和`net_run()`函数是在同一个文件中。
 > void net_packet_dispatch(double t, const Packet* pkt, iosource::PktSrc* src_ps) (net.cc)
 
-![2018-06-09-net_packet_dispatch](images\in-post\2018-06-09-net_packet_dispatch.png)
+![2018-06-09-net_packet_dispatch](/images/in-post/2018-06-09-net_packet_dispatch.png)
 
 在`net_packet_dispatch()`函数中，有一个特别重要的数据结构`sessions`,这是在`sessions.cc`文件中定义的一个全局变量。  
 `NetSessions* sessions;`   
 在这里我们需要阅读一下结构体`NetSessions`,这个结构体是在`sessions.h`文件中定义的。在这个结构体中有一个特别重要的函数`NextPacket`,这个函数也是在`net_packet_dispatch`中被调用的最重要的函数。
 
-![2018-06-09-NetSessions_class](images\in-post\2018-06-09-NetSessions_class.png) 
+![2018-06-09-NetSessions_class](/images/in-post/2018-06-09-NetSessions_class.png) 
 
 接下来阅读关键函数：`NextPacket`
 
@@ -156,11 +156,11 @@ void NetSessions::NextPacket(double t, const Packet* pkt) //t可能是时间戳
 > void NetSessions::DoNextPacket(double t, const Packet* pkt, const IP_Hdr* ip_hdr,
 			       const EncapsulationStack* encapsulation) (Sessions.cc)
 
-![2018-06-09-DoNextPacket_Main](images\in-post\2018-06-09-DoNextPacket_Main.png) 
+![2018-06-09-DoNextPacket_Main](/images/in-post/2018-06-09-DoNextPacket_Main.png) 
 这个函数已经开始处理IP数据包了,在这个函数里面，最主要的部分是处理片段的部分工作：
 
 
-![2018-06-09-DoNextPacket_fuction](images\in-post\2018-06-09-DoNextPacket_fuction.png) 
+![2018-06-09-DoNextPacket_fuction](/images/in-post/2018-06-09-DoNextPacket_fuction.png) 
 
 再初始化`f`之前，执行了：
 ```cpp
@@ -318,20 +318,20 @@ int Discarder::NextPacket(const IP_Hdr* ip, int len, int caplen)
 > class FragReassembler (Frag.h)
 
 需要看一下`FragReassembler`这个类里面的成员变量以及相应的函数。在这个类当中，最重要的函数是`ReassembledPkt`  
-![2018-06-09-class-FragReassembler](images\in-post\2018-06-09-class-FragReassembler.png) 
+![2018-06-09-class-FragReassembler](/images/in-post/2018-06-09-class-FragReassembler.png) 
 
 > FragReassembler* NetSessions::NextFragment(double t, const IP_Hdr* ip,
 					const u_char* pkt) (sessions.cc)
 
 
-![2018-06-09-FragReassembler-NextFragment](images\in-post\2018-06-09-FragReassembler-NextFragment.png) 
+![2018-06-09-FragReassembler-NextFragment](/images/in-post/2018-06-09-FragReassembler-NextFragment.png) 
 
 
 在`DoNextPacket`这个函数的最后，会去新建或者找到一个`Conn`处理处理数据包。执行代码:
 > DoNextPacket()  (Sessions.cc)
 
 
-![2018-06-09-DoNextPacket-new-conn](images\in-post\2018-06-09-DoNextPacket-new-conn.png) 
+![2018-06-09-DoNextPacket-new-conn](/images/in-post/2018-06-09-DoNextPacket-new-conn.png) 
 
 在处理Conn这个部分的时候，检查是否有对应的`connection`,根据hash值去查询`HashKey* h = BuildConnIDHashKey(id);`,如果没有对应的`Conn`，那么就去新建一个，新建完之后，插入到connect的链表中。如果已经有了对应的`Conn`那就需要判断当前的`conn`是不是不正确的数据以及有没有被复用。如果有的话，删除对应的`conn`的Hash值。
 

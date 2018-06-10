@@ -246,14 +246,14 @@ post_wordcount:
   #description: ex. subscribe to my blog by scanning my public wechat account
 
 # Reward
-reward_comment: Donate comment here
-wechatpay: /images/wechatpay.jpg
-alipay: /images/alipay.jpg
+# reward_comment: Donate comment here
+# wechatpay: /images/wechatpay.jpg
+# alipay: /images/alipay.jpg
 #bitcoin: /images/bitcoin.png
 
 # Declare license on posts
 post_copyright:
-  enable: true
+  enable: false
   license: CC BY-NC-SA 3.0
   license_url: https://creativecommons.org/licenses/by-nc-sa/3.0/
 
@@ -817,6 +817,8 @@ images: images
 # Online contact 
 daovoice: true
 daovoice_app_id: 865e29fe
+
+display_updated: true
 
 
 passage_end_tag:

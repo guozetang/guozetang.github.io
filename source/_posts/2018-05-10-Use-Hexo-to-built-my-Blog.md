@@ -212,7 +212,7 @@ NexT 主题，默认开启 RSS。其它主题请参考主题文档。
 {% endif %}
 ```
 最后在文件中的效果为：
-![2018-06-10-Add-post-update](\images\in-post\2018-06-10-Add-post-update.png) 
+![2018-06-10-Add-post-update](/images/in-post/2018-06-10-Add-post-update.png) 
 
 修改主题配置文件（博客主目录）``themes/next/_config.yml`，增加一行 
 
