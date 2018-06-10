@@ -1,5 +1,6 @@
 ---
 title: 使用Hero+Next主题+Github搭建博客
+updated: 2018-06-13 20:18:54
 date: 2018-05-10 15:13:51
 categories: Lift
 tags: Hexo
@@ -198,8 +199,34 @@ NexT 主题，默认开启 RSS。其它主题请参考主题文档。
 #### 生成 RSS
 执行 `hexo clean && hexo g && hexo d` 重新生成博客文件并完成部署即可。
 
+## 添加显示文章最新更新时间
+修改（博客主目录）`/themes/next/layout/_macro/post.swig 文件，在<span class="post-time">...</span>`标签后添加:
+```python
+{%if post.updated and post.updated > post.date%}
+  <span class="post-updated">
+    &nbsp; | &nbsp; {{ __('post.updated') }}
+    <time itemprop="dateUpdated" datetime="{{ moment(post.updated).format() }}" content="{{ date(post.updated, config.date_format) }}">
+      {{ date(post.updated, config.date_format) }}
+    </time>
+  </span>
+{% endif %}
+```
+最后在文件中的效果为：
+![2018-06-10-Add-post-update](\images\in-post\2018-06-10-Add-post-update.png) 
+
+修改主题配置文件（博客主目录）``themes/next/_config.yml`，增加一行 
+
+`display_updated: true`
+
+如果需要中文支持，那么就需要在中文的文件里面添加updated的翻译：
+博客配置文件中的 language 参数修改对应的语言配置文件（博客主目录）`/themes/next/languages/zh_Hans.yml`
+
+到这里就设置完成了，如果你在写文章的时候加入了Update的参数，那么就会显示为你加入的参数时间。
+比如：`updated: 2018-01-01 12:00:00`
+如果你没有加入参数，那么就会显示为这个文件的最后修改时间。
+
 ### 问题
-打开RSS的时候：出现错误提示
+#### 打开RSS的时候：出现错误提示
 > This page contains the following errors:  
 > error on line 317 at column 18: PCDATA invalid Char value 11  
 > Below is a rendering of the page up to the first error.
@@ -210,3 +237,14 @@ NexT 主题，默认开启 RSS。其它主题请参考主题文档。
 
 重新生成 rss.xml 并部署: `hexo clean && hexo g && hexo d`  
 问题解决
+
+#### 关闭打赏功能
+暂时不需要开通打赏功能，在`theme->next->_config.yml`文件中注释掉打赏模块。
+```
+# Reward
+# reward_comment: Donate comment here
+# wechatpay: /images/wechatpay.jpg
+# alipay: /images/alipay.jpg
+#bitcoin: /images/bitcoin.png
+
+```

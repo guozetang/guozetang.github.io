@@ -182,3 +182,7 @@ sudo edit-chroot -d xenial
 sudo sh ~/Downloads/crouton -t unity,extension,xorg,xiwi //我是在 xfce 桌面下使用的 unity 也可行 但要求下载 extension,xorg,xiwi
 sudo startxunity -X xiwi // 使用 xiwi 来实现 窗口化
 ```
+## 使用中遇到的问题
+### Wifi开关无法开启的问题
+问题描述：在Chrome OS系统中，当休眠状态恢复之后，出现过Wifi无法连接，系统的Wifi状态是关闭的，即使点击的开启的按钮，但是在三到五秒之后就会自动关闭。
+解决方案：经过自己检查，发现是Wifi模块有一些松动，所以拆机之后，重新固定了Wifi模块。
