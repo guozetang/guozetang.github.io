@@ -3,7 +3,7 @@ title: Leetcode 7. Reverse Integer
 date: 2018-06-10 08:30:32
 categories: Leetcode
 tags: Leetcode
----﻿﻿
+---
 
 Given a 32-bit signed integer, reverse digits of an integer.
 

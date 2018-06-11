@@ -3,7 +3,7 @@ title: Leetcode 8. String to Integer (atoi)
 date: 2018-06-10 10:30:32
 categories: Leetcode
 tags: Leetcode
----﻿
+---
 
 Implement  `atoi`  which converts a string to an integer.
 
