@@ -1,9 +1,8 @@
 ---
-title: Leetcode 5 Longest Palindromic Substring
+title: Leetcode 5. Longest Palindromic Substring
 date: 2018-06-10 02:44:02
 categories: Leetcode
 tags: Leetcode
-copyright: true
 ---
 ## Leetcode 5.Longest Palindromic Substring  
 Given a string  **s**, find the longest palindromic substring in  **s**. You may assume that the maximum length of  **s**  is 1000.
@@ -24,7 +23,8 @@ Given a string  **s**, find the longest palindromic substring in  **s**. You may
 那么这道题，我们要求解最长的回文串的话，可以使用对称验证的方式进行判断，对称验证有两种情况，回文串长度为奇数或者为偶数。如果回文串长度为奇数，那么是以一个字符作为中心的，如果回文串的长度为偶数，那么是以两个相同的字符来作为中心的。分为这两种情况分别进行遍历查找。
 
 ## Solution 1
-> C++实现
+> C++实现  
+
 ```cpp
 class Solution {
 public:

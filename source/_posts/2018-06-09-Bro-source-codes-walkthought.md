@@ -11,16 +11,18 @@ Bro是一款非常优秀的网络协议分析器。Bro里面的Binpac解析器�
 # 源代码阅读
 > 重点：关注于网络数据包的处理部分代码
 
-## Bro的网络数据包处理流程
+## Bro的网络数据包处理流程  
+### Bro启动初始化函数main.cc
+
 > int main(int argc, char** argv) (main.cc)
 
 ![2018-06-09Bro-Main](/images/in-post/2018-06-09Bro-Main.png) 
 
 在Bro的`main.cc`文件里面的Main函数是Bro启动过程中的首先执行的函数，而在这个`main`函数里面，和我们的数据包处理部分相关密切的函数是`net_run()`函数，这个函数是一个一直循环的函数，一旦出来这个函数之后，后面差不多就结束了。接下来阅读该函数代码。
 
+### 数据包处理的主要函数： net_run()
 > net_run() (Net.cc)
 ```cpp
-
 void net_run()
 	{
 	set_processing_status("RUNNING", "net_run");
@@ -315,18 +317,35 @@ int Discarder::NextPacket(const IP_Hdr* ip, int len, int caplen)
 - const IP_Hdr* ih = f->ReassembledPkt();
 - FragReassemblerTracker frt(this, f);
 
+### 详细分析DoNextPacket函数的处理过程
+#### FragReassembler类结构解析
 > class FragReassembler (Frag.h)
 
 需要看一下`FragReassembler`这个类里面的成员变量以及相应的函数。在这个类当中，最重要的函数是`ReassembledPkt`  
 ![2018-06-09-class-FragReassembler](/images/in-post/2018-06-09-class-FragReassembler.png) 
 
+#### NextFragment函数处理过程
 > FragReassembler* NetSessions::NextFragment(double t, const IP_Hdr* ip,
 					const u_char* pkt) (sessions.cc)
 
 
 ![2018-06-09-FragReassembler-NextFragment](/images/in-post/2018-06-09-FragReassembler-NextFragment.png) 
 
+在这个函数中，主要查找了fragment，如果没有下一个，就新建一个新的Fragment并添加到`fragments`的结构体里面去。
 
+#### ReassembledPkt函数处理过程
+这个函数的处理过程只有一条。
+> ReassembledPkt() (Frag.h)   
+
+`	const IP_Hdr* ReassembledPkt()	{ return reassembled_pkt; }`  
+
+对应的`IP_Hdr* reassembled_pkt;`,所以只是返回去了一个指针头
+
+
+#### FragReassemblerTracker frt(this, f)处理过程
+
+
+#### 处理Conn的过程
 在`DoNextPacket`这个函数的最后，会去新建或者找到一个`Conn`处理处理数据包。执行代码:
 > DoNextPacket()  (Sessions.cc)
 
