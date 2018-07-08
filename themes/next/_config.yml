@@ -150,11 +150,10 @@ social_icons:
 # Blog rolls
 links_icon: link
 links_title: Links
-links_layout: block
+#links_layout: block
 #links_layout: inline
-#links:
-  #Title: http://example.com/
-
+links:
+  Rui: https://auspicious1123.github.io/
 # Sidebar Avatar
 # in theme directory(source/images): /images/avatar.gif
 # in site  directory(source/uploads): /uploads/avatar.gif
