@@ -22,8 +22,8 @@ install:
   # - npm install hexo-deployer-git --save
 
 script:
-  - git clone https://github.com/changkun/hexo-theme-next themes/hexo-theme-next
-  - cp ./themes_config.yml themes/hexo-theme-next/_config.yml
+  # - git clone https://github.com/changkun/hexo-theme-next themes/hexo-theme-next
+  # - cp ./themes_config.yml themes/hexo-theme-next/_config.yml
   - chmod +x ./build.sh
   - ./build.sh
   # - hexo clean
