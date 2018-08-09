@@ -27,8 +27,8 @@ after_script:
   - git init
   - git config --global user.name "guozetang"
   - git config --global user.email "guozetang@gmail.com"
-  - sed -i "s/REPO_TAKEN/${REPO_TAKEN}/g" ./_config.yml
-  - hexo deploy
+  - git commit -m "Travis CI Auto Builder."
+  - git push --quiet --force https://$REPO_TOKEN@github.com/guozetang/guozetang.github.io.git master
 # E: Build LifeCycle
 
 
