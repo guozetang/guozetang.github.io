@@ -2,7 +2,7 @@
 title: Hexo+Github+Travis CI完成博客的自动部署
 date: 2018-08-09 14:14:14
 categories: Blog
-tags: Hexo Github Travis
+tags: Hexo, Github,Travis
 ---
 > 很多时候我们是需要在不同的电脑上面书写我们的博客，但是每次都要配置Hexo的环境的话，这就是一件非常崩溃的事情，所以我们需要利用我们的知识完成自动化部署。
 

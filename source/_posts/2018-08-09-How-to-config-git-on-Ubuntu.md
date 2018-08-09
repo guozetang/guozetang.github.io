@@ -1,7 +1,7 @@
 ---
 title: How to config git on Ubuntu
 date: 2018-08-09 13:42:10
-categories: Git Linux
+categories: Git, Linux
 tags: Linux
 ---
 ## Git command
@@ -15,7 +15,7 @@ $git pull                   //从远端拉取最新版本
 $git checkout -b NewBranch  //Switched to a new branch 'NewBranch'
 $git push origin NewBranch  //新建分支NewBranch到远端
 ```
-
+<!--more-->
 ## Issues
 ### git pull error
 
