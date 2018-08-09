@@ -22,6 +22,7 @@ install:
 script:
   - hexo clean
   - hexo generate
+  - hexo deploy
 
 after_script:
   - cd ./publicx
@@ -29,7 +30,7 @@ after_script:
   - git config --global user.name "guozetang"
   - git config --global user.email "guozetang@gmail.com"
   - git commit -m "Travis CI Auto Builder."
-  - sed -i "s/$REPO_TAKEN/${$REPO_TAKEN}/" _config.yml
+  - sed -i "s/$REPO_TAKEN/${$REPO_TAKEN}/" ./_config.yml
 # E: Build LifeCycle
 
 
