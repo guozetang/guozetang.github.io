@@ -28,7 +28,7 @@ after_script:
   - git config --global user.name "guozetang"
   - git config --global user.email "guozetang@gmail.com"
   - git commit -m "Travis CI Auto Builder."
-  - git push --quiet --force https://$REPO_TOKEN@github.com/guozetang/guozetang.github.io.git master
+  - git push --quiet --force https://$REPO_TAKEN@github.com/guozetang/guozetang.github.io.git master
 # E: Build LifeCycle
 
 
