@@ -23,7 +23,7 @@ install:
 
 script:
   - chmod +x ./build.sh
-  - ./build.sh > /dev/null
+  - ./build.sh
   # - hexo clean
   # - hexo generate
   # - hexo deploy
