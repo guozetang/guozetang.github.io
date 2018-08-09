@@ -1,6 +1,7 @@
 language: node_js
 sudo: required
-node_js: stable
+node_js: 
+- 6.0.0
 
 cache:
   directories:
