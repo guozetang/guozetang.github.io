@@ -9,7 +9,7 @@ Software Engineer & Embedded Software Engineer
 
 School of Computing  
 Clemson University  
-Clemson, SC 26634 
+Clemson, SC 26634
 Phone: (475)655-8641  
 Email: guoze.work@gmail.com  
 
