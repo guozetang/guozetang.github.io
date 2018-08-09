@@ -1,0 +1,8 @@
+{
+    "pasteImage.insertPattern": "<img>${imageFileName}</img>",
+    "pasteImage.namePrefix": "${currentFileNameWithoutExt}_",
+    "pasteImage.path": "${projectRoot}/source/images/in-post",
+    "pasteImage.basePath": "${projectRoot}/source",
+    "pasteImage.forceUnixStyleSeparator": true,
+    "pasteImage.prefix": "/"
+}

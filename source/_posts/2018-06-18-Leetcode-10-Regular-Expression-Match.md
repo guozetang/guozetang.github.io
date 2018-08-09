@@ -16,7 +16,7 @@ The matching should cover the  **entire**  input string (not partial).
 
 -   `s` could be empty and contains only lowercase letters  `a-z`.
 -   `p`  could be empty and contains only lowercase letters  `a-z`, and characters like `.` or `*`.
-
+<!-- more -->
 **Example 1:**
 
 > **Input:**
