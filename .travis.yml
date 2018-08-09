@@ -1,7 +1,7 @@
 language: node_js
 sudo: required
 node_js: 
-- 6.0.0
+  - 6.0.0
 
 cache:
   directories:
@@ -29,8 +29,7 @@ after_script:
   - git config --global user.name "guozetang"
   - git config --global user.email "guozetang@gmail.com"
   - git commit -m "Travis CI Auto Builder."
-  - git push --quiet --force https://$REPO_TAKEN@github.com/guozetang/guozetang.github.io.git 
-    master
+  - sed -i "s/$REPO_TAKEN/${$REPO_TAKEN}/" _config.yml
 # E: Build LifeCycle
 
 
