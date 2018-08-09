@@ -1,7 +1,6 @@
 language: node_js
 sudo: required
-node_js: 
-  - 6.0.0
+node_js: stable
 
 cache:
   directories:
@@ -16,21 +15,26 @@ before_install:
   - npm install -g hexo-cli
 
 install:
+  - npm install hexo-cli -g
+  - npm install hexo --save
   - npm install
-  - npm install hexo-deployer-git --save
+  # - npm install
+  # - npm install hexo-deployer-git --save
 
 script:
-  - hexo clean
-  - hexo generate
-  - hexo deploy
+  - chmod +x ./build.sh
+  - ./build.sh > /dev/null
+  # - hexo clean
+  # - hexo generate
+  # - hexo deploy
 
-after_script:
-  - cd ./publicx
-  - git init
-  - git config --global user.name "guozetang"
-  - git config --global user.email "guozetang@gmail.com"
-  - git commit -m "Travis CI Auto Builder."
-  - sed -i "s/$REPO_TAKEN/${$REPO_TAKEN}/" ./_config.yml
+# after_script:
+#   - cd ./publicx
+#   - git init
+#   - git config --global user.name "guozetang"
+#   - git config --global user.email "guozetang@gmail.com"
+#   - git commit -m "Travis CI Auto Builder."
+#   - sed -i "s/$REPO_TAKEN/${$REPO_TAKEN}/" ./_config.yml
 # E: Build LifeCycle
 
 
