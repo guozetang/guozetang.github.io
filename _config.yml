@@ -6,8 +6,8 @@
 title: Terry Tang
 subtitle: Terry Blog & 唐国泽的博客
 #SEO
-description: Guoze Tang | 这里是 Terry.Tang 的个人博客，与你一起发现更大的世界。" 
-keywords: "唐国泽,  Terry Blog, Terry, Guoze, Clemson, Blog, Post, 网络安全，Security, 博客, 个人网站, 互联网, 无人机"
+description: 唐国泽 | 这里是 Terry.Tang 的个人博客，与你一起发现更大的世界。" 
+keywords: "唐国泽,  Terry Blog, 博客, 个人网站, 互联网, 无人机"
 author: Terry Tang
 language: en
 timezone: America/New_York
@@ -16,8 +16,9 @@ timezone: America/New_York
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
 url: http://guozetang.github.io
 root: /
-permalink: /post/:title
+permalink: /post/:title.html
 permalink_defaults:
+  urlname: index
 
 # Directory
 source_dir: source
