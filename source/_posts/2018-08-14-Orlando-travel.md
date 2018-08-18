@@ -5,8 +5,9 @@ categories: Travel
 tags: Travel
 ---
 
+这次很早就计划了八月份到奥兰多的旅行，正好这段时间我在暑期课程和秋季课程的中间空闲时间，她也使用两天病假，这样我们可以在奥兰多有完整的三天可以游玩了。
 # 行程安排
-我们在奥兰多的游玩时间只有三天，第一天游玩迪斯尼`Magic Kingdom Pack` ，后面两天游玩`Universal Studios & Islands of Adventure `。三天的行程安排都比较的充实。  
+我们在奥兰多的游玩时间只有三天，第一天游玩迪斯尼`Magic Kingdom Pack` ，后面两天游玩`Universal Studios & Islands of Adventure `。
 
 | 时间            | 行程                                                           |
 | :-------------- | :------------------------------------------------------------- |
@@ -30,27 +31,23 @@ tags: Travel
 [Magic Kingdom Maps](http://www.wdwinfo.com/maps/MK.htm)  
 [Disney Theme Park Maps](http://www.wdwinfo.com/maps/index.htm) 
 
-# 迪斯尼一天行程
+# 迪斯尼魔术王国(Disney Magic Kindom)一天行程
 ## 项目游玩安排
+
 在这里记录我们亲自去尝试过的项目
+| 项目                                             | 介绍                                                                                         | 推荐指数 |
+| :----------------------------------------------- | :------------------------------------------------------------------------------------------- | :------- |
+| Tomorrowland Speedway(Tomorrowland)              | 固定的几个赛车道，可以在里面开赛车，速度并不是很快，但是可以后面的车撞前面的车，这是比较爽的 | 3+       |
+| Space Mountain(Tomorrowland)                     | 室内过山车，比较火爆，我们使用了Fast Pass                                                    | 4+       |
+| Buzz Lightyear's Space Ranger Spin(Tomorrowland) | 巴斯光年射击游戏, 感觉不是很好玩                                                             | 3        |
+| Prince Charming Regal Carrousel(Tomorrowland)    | 旋转木马                                                                                     | 2        |
+| Space Mountain(Tomorrowland)                     | 室内过山车，比较火爆，我们使用了Fast Pass                                                    | 4+       |
+| Buzz Lightyear's Space Ranger Spin(Tomorrowland) | 巴斯光年射击游戏, 感觉不是很好玩                                                             | 3        |
 
-## Tomorrowland
-| 项目                               | 介绍                                                                                         | 推荐指数 |
-| :--------------------------------- | :------------------------------------------------------------------------------------------- | :------- |
-| Tomorrowland Speedway              | 固定的几个赛车道，可以在里面开赛车，速度并不是很快，但是可以后面的车撞前面的车，这是比较爽的 | 3+       |
-| Space Mountain                     | 室内过山车，比较火爆，我们使用了Fast Pass                                                    | 4+       |
-| Buzz Lightyear's Space Ranger Spin | 巴斯光年射击游戏, 感觉不是很好玩                                                             | 3        |
+推荐`Buzz Lightyear's Space Ranger spin`,这是一个射击类游戏，但是两个人玩是比较有意思的;另外`Space Mountain`非常刺激，虽然是室内过山车，但是感觉很棒。
 
-## Adventureland
-
-## Frontierland & Liberty Square
-
-## Fantasyland
-| 项目                               | 介绍                                      | 推荐指数 |
-| :--------------------------------- | :---------------------------------------- | :------- |
-| Prince Charming Regal Carrousel    | 旋转木马                                  | 2        |
-| Space Mountain                     | 室内过山车，比较火爆，我们使用了Fast Pass | 4+       |
-| Buzz Lightyear's Space Ranger Spin | 巴斯光年射击游戏, 感觉不是很好玩          | 3        |
+## 迪斯尼推荐餐厅
+根据这两天在外吃饭的体会，迪斯尼里面餐厅的整体价格还算比较正常，快餐的话人均花费大致在15-25刀一餐，由于我们没有提前预订餐厅，所以我们只能在里面吃快餐了。餐厅推荐：
 
 
 # 环球影城(Day 1)

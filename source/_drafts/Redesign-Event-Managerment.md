@@ -9,6 +9,7 @@ tags: Network, C++
 
 <!--more-->
 ### ID for network Connection information
+We often use the `src_ip, dst_ip, src_port, src_port, dst_port` as the ID for the network connection in the IDS.
 ```c++
 /** @brief 5-tuples connect info
  */

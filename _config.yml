@@ -16,7 +16,7 @@ timezone: America/New_York
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
 url: http://guozetang.github.io
 root: /
-permalink: /blog/:year/:month/:day/:title.html
+permalink: /post /:title.html
 permalink_defaults:
 
 # Directory
