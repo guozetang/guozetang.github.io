@@ -18,6 +18,7 @@ url: http://guozetang.github.io
 root: /
 permalink: /post/:title.html
 permalink_defaults:
+  urlname: index
 
 # Directory
 source_dir: source
