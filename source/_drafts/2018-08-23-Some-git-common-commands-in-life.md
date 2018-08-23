@@ -5,6 +5,41 @@ categories:
 tags:
 ---
 
+## Git子模块:仓库中包含另外一个仓库
+
+### 场景
+在工作的项目中需要包含另外的项目，这个时候我们就需要引出其他的项目，但是我们希望在引入的项目变化的时候，我们也可以很快的合并到我们现有的分支中。
+
+### 操作指令
+#### 现有repo加入子repo
+在你想要添加的目录位置输入添加子repo的命令即可
+```bash
+git submodule add https://github.com/guozetang/paper_code_tracker
+```
+查看状态参数：
+`git status`
+
+在repo(不是子repo)的根目录查看当前加入的子模块(子repo)。
+```bash
+$ cat .gitmodules
+[submodule "python/paper_code_tracker"]
+	path = python/paper_code_tracker
+	url = https://github.com/guozetang/paper_code_tracker
+
+```
+#### 提交添加的子模块
+
+```bash
+$ git commit -am "added subproject module"
+[master (root-commit) 9168027] added subproject module
+ 2 files changed, 7 insertions(+)
+ create mode 100644 .gitmodules
+ create mode 160000 python/paper_code_tracker
+
+```
+
+其他更多操作请参考: [【Git】子模块：一个仓库包含另一个仓库](https://www.jianshu.com/p/491609b1c426)
+
 ## 分支操作
 1. 场景： 开发过程中经常用到从master分支copy一个开发分支,进行开发  
 2. 操作指令介绍：
