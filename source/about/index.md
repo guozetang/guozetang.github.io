@@ -48,12 +48,14 @@ I had worked in SZ DJI Technology company for one year, an innovation company wh
 ---
 
 #### Experience
-##### SZ DJI Technology Co., Ltd. (Embedded Software Development Intern)
+##### 2018.05-Now Assistant Research at Clemson University
+
+##### 2016.04-2016.11 SZ DJI Technology Co., Ltd. (Embedded Software Development Intern)
 - Developed Sensor-driven of FJ project in DJI and analyzed the data of Sensor.
 - Realized Serial port, IIC, SPI development, ucos operating system and data analysis using Matlab.
 - Developed and validated barometer drivers for MAVIC.   
 
-##### BJ YUNXI Technology co., Ltd. (Embedded Software Development Intern)  
+##### 2015.07-2016.04 BJ YUNXI Technology co., Ltd. (Embedded Software Development Intern)  
 - Developed ARM part of the master control module and developed VoIP based on Asterisk.  
 - Realized online upgrade in the master module and the SLP Protocol Analysis module.  
 - Applied technology and tools: Keil developertools，Mysql database, VxWork driver development, built VoIP server based on Asterisk, built SVN server；Understand and parsed the VDL2 civil aviation agreements (European standard), developed a protocol development plan.   
