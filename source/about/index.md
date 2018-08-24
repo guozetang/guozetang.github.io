@@ -12,7 +12,8 @@ School of Computing
 Clemson University  
 Clemson, SC 26634
 Phone: (475)655-8641  
-Email: guozet@clemson.edu  
+Email: guozet@clemson.edu
+
 ---
 
 ### Bio
