@@ -4,31 +4,24 @@ date: 2018-05-09 23:54:34
 ---
 **Guoze tang**
 =======
-Graduate Student  
-Software Engineer & Embedded Software Engineer
+
+Software & Embedded Engineer  
+Graduate Student, Assistant Research at Clemson University  
 
 School of Computing  
 Clemson University  
 Clemson, SC 26634
 Phone: (475)655-8641  
-Email: guoze.work@gmail.com  
+Email: guozet@clemson.edu  
+---
+
+### Bio
+I am *@Terry* (Guoze, Tang), a graduate Student in the [School of Computing](http://www.clemson.edu/ces/computing/) at [Clemson University](http://www.clemson.edu/). I graduated from [Yunnan University](https://en.wikipedia.org/wiki/Yunnan_University) Electronic and Information Engineering by 2014. After that, I studied Software Engineering and graduated from [University of Science and Technology of China](https://en.wikipedia.org/wiki/University_of_Science_and_Technology_of_China) in 2017.03. After two years of study. I acquired a comprehensive knowledge of computer hardware and software. I was interested in embedded systems design. And I gained a lot, not only on specialized knowledge but also a scientific way of thinking.   
+
+I had worked in SZ DJI Technology company for one year, an innovation company which based on Fight control. At DJI, I developed Sensor-driven of FJ01 project in DJI and analyzed the data of Sensor. Working on this project helped me hone my programming skills on a real-life problem.  
 
 ---
-Hi, I am *@Terry* (Guoze, Tang), a graduate Student in Clemson University.
 
-I graduated from [Yunnan University](https://en.wikipedia.org/wiki/Yunnan_University) Electronic and Information Engineering by 2014.During my undergraduate study at the Electronics & Information department of Yunnan University, subjects like C-Programming, Signals and Systems, Principles of microcomputer
-interested me the most. I was awestruck by the potential of Intel 8086 microprocessor, more so by the manner in which it is faster and more powerful cousins in a decade.  
-
-After that, I studied Software Engineering and graduated from [University of Science and Technology of China](https://en.wikipedia.org/wiki/University_of_Science_and_Technology_of_China) in 2017.03. After two years of study. I acquired a comprehensive knowledge of computer hardware and software. Some of the subjects I studied were Embedded system design, Embedded operating system, Programming and computer systems, Microprocessor architecture, Algorithmic design & analysis as well as programming using different tools. Most of my interests were in the fields related to information systems and sharing of computing power
-and resources. I was interested in embedded systems design. And I gained a lot, not only on specialized knowledge but also a scientific way of thinking. I was trying my best to be a diligent person with sincerity and fortitude as my school required.   
-
-My work experiences started from 07, 2015 to 09, 2016. I was employed at the
-Communication Research and Development (R&D) group in Guangzhou Haige company. Haige is one of the top research & development company in military communication areas in China. I was assigned to the Civil Aviation Communication Developing team and developed control module and VoIP module which is based on Asterisk. I developed online upgrade programming
-and the SLP protocol analysis module in six months. Although I liked the job, embedded software development at HAIGE was a support function. I, therefore, switched to SZ DJI Technology company, an innovation company which based on Fight control. At DJI, I developed Sensor-driven of FJ01 project in DJI and analyzed the data of Sensor. Working on this project helped me hone my programming skills on a real-life problem.
-
-And now, I will study Computer Science in [Clemson University](https://en.wikipedia.org/wiki/Clemson_University).  
-
----
 #### Award
 - The Excellent graduate in Anhui province 2017  
 - National master scholarship (TOP 2%) 2015  
@@ -37,9 +30,13 @@ And now, I will study Computer Science in [Clemson University](https://en.wikipe
 - National Contest of Mathematical Models: First prize (Yunnan province) 2013  
 
 ---
-#### Education
 
-##### 2014.9-2017.4 University of Science and Technology of China (USTC)   
+#### Education
+##### 2018.05-Now Clemson University(CU)
+- **Major:** Master of Computer Science
+- **Relative Courses:** [Software Design](https://people.cs.clemson.edu/~malloy/courses/8700-2018/index.html),[Translation of Programming Languages](https://people.cs.clemson.edu/~malloy/courses/8270-2017/index.html), [2-D Game Engine Construction](https://people.cs.clemson.edu/~malloy/courses/4160-2018fall/index.html),  [Security in Emerging Computing and Networking Systems](https://people.cs.clemson.edu/~hongxih/teaching/2018fall/cpcs8580/2018fall.htm), Cloud Computing Architecture, Statistical Methods I
+
+##### 2014.9-2017.4 University of Science and Technology of China (USTC)
 - **Major:** Master of Software Engineering (Embedded System Development)
 - **Relative Courses:** Embedded system design、Embedded operating system、Programming and computer systems、Microprocessor architecture、Algorithmic design & analysis、Wireless sensor networks、Linux driver development, etc.  
 
@@ -48,6 +45,7 @@ And now, I will study Computer Science in [Clemson University](https://en.wikipe
 - **Relative Courses:** Principle of automatic control, Principles of microcomputer, Integrated circuit design, Signals and systems, Digital signal processing, Information theory & Coding, etc
 
 ---
+
 #### Experience
 ##### SZ DJI Technology Co., Ltd. (Embedded Software Development Intern)
 - Developed Sensor-driven of FJ project in DJI and analyzed the data of Sensor.
@@ -70,8 +68,21 @@ on QT, dealed with Root permissions file access vulnerability.
 - Applied technology: QT Development, Linux file system, GCC, Makefile and gdb.
 - Finished perfectly and got second prize of USTC. 
 
+---
+
+
+### Interests
+- Networking Security  
+
+    [Project: Protocol Parser in Network](https://github.com/guozetang/Protocol_Parser)
+- Embedded System
+
+- Application  
+  [Paper & Code TODO task Tracker](https://github.com/guozetang/paper_code_tracker)
 
 ---
+
+
 #### Skills
 - Language: C, Assembly, Shell, Matlab, Python
 - Stack: Linux, ucos，VxWork，ARM, Office, GCC，Makefile，git，gdb  
