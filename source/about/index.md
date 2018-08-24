@@ -2,9 +2,7 @@
 title: about
 date: 2018-05-09 23:54:34
 ---
-**Guoze tang**
-=======
-
+# **Guoze Tang**   
 Software & Embedded Engineer  
 Graduate Student, Assistant Research at Clemson University  
 
