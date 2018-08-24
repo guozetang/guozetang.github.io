@@ -21,7 +21,7 @@ I had worked in SZ DJI Technology company for one year, an innovation company wh
 
 ---
 
-#### Award
+### Award
 - The Excellent graduate in Anhui province 2017  
 - National master scholarship (TOP 2%) 2015  
 - Robomasters robot competition: First prize (East China), Second prize (China) 2015  
@@ -30,7 +30,7 @@ I had worked in SZ DJI Technology company for one year, an innovation company wh
 
 ---
 
-#### Education
+### Education
 ##### 2018.05-Now Clemson University(CU)
 - **Major:** Master of Computer Science
 - **Relative Courses:** [Software Design](https://people.cs.clemson.edu/~malloy/courses/8700-2018/index.html),[Translation of Programming Languages](https://people.cs.clemson.edu/~malloy/courses/8270-2017/index.html), [2-D Game Engine Construction](https://people.cs.clemson.edu/~malloy/courses/4160-2018fall/index.html),  [Security in Emerging Computing and Networking Systems](https://people.cs.clemson.edu/~hongxih/teaching/2018fall/cpcs8580/2018fall.htm), Cloud Computing Architecture, Statistical Methods I
@@ -45,7 +45,7 @@ I had worked in SZ DJI Technology company for one year, an innovation company wh
 
 ---
 
-#### Experience
+### Experience
 ##### 2018.05-Now Assistant Research at Clemson University
 
 ##### 2016.04-2016.11 SZ DJI Technology Co., Ltd. (Embedded Software Development Intern)
@@ -84,7 +84,7 @@ on QT, dealed with Root permissions file access vulnerability.
 ---
 
 
-#### Skills
+### Skills
 - Language: C, Assembly, Shell, Matlab, Python
 - Stack: Linux, ucos，VxWork，ARM, Office, GCC，Makefile，git，gdb  
 
