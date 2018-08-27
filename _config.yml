@@ -40,6 +40,7 @@ render_drafts: false
 post_asset_folder: false
 relative_link: false
 future: true
+# 代码高亮设置
 highlight:
   enable: true
   line_number: true
@@ -93,14 +94,16 @@ Plugins:
 - hexo-generator-sitemap
 
 
-#Feed Atom
+# Feed Atom
 feed:
   type: atom
   path: atom.xml
   limit: 20
-#sitemap
+
+# sitemap
 sitemap:
   path: sitemap.xml
+
 # search in site  
 search:
   path: search.xml
