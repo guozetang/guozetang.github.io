@@ -1,8 +1,8 @@
 ---
-title: 使用Hero+Next主题+Github搭建博客
+title: 使用Hexo+Next主题+Github搭建博客
 updated: 2018-06-13 20:18:54
 date: 2018-05-10 15:13:51
-categories: Lift
+categories: Life
 tags: Hexo
 ---
 使用Jekyll搭建在github上博客已经快一年了，但一年的时间并没有写很多的文章。一部分原因是由于自己懈怠，另一部分也由于Jekyll写博客有很多不便之处。不能自动生成目录，以及每次新建文章都需要自己的手动设置目录结构以及添加Jekyll解析的格式内容在每一篇文章中，这是一件非常繁琐而无趣的工作。遵循自己动手丰衣足食的原则，查询目前比较流行的搭建博客的方式之后，决定使用Hero+Next主题在github上搭建博客。本篇博客记录搭建过程中的配置与优化。

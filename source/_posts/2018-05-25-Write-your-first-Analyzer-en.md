@@ -1,8 +1,8 @@
 ---
 title:  Complete your first analyzer - RIP in bro 
 date: 2018-05-24 20:30:32
-categories: Computer Network
-tags: NVF Project
+categories: Project
+tags: Network
 ---
 
 ## Introduce 

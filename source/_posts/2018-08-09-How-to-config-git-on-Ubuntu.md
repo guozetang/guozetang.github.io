@@ -1,8 +1,8 @@
 ---
 title: How to config git on Ubuntu
 date: 2018-08-09 13:42:10
-categories: Git, Linux
-tags: Linux
+categories: Git
+tags: Git
 ---
 ## Git command
 

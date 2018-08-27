@@ -1,8 +1,8 @@
 ---
 title: Ubuntu 16.04安装bro和Binpacb
-date: 2018-05-23 13:30:32
-categories: Computer Network
-tags: NVF Project
+date: 2018-05-24 13:30:32
+categories: Network
+tags: Network
 ---
 # 前言
 ﻿Bro is a powerful network analysis framework that is much different from the typical IDS you may know. 

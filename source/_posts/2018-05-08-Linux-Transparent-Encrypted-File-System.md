@@ -1,7 +1,7 @@
 ---
 title: Linux透明加密文件系统1_代码分析
 date: 2018-05-08 14:12:25
-categories: Linux File System
+categories: Linux
 tags: Linux
 ---
 主要分为三个部分：

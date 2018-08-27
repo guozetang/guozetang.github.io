@@ -1,8 +1,8 @@
 ---
 title: 在Bro中完成第一个协议分析器—RIP协议
 date: 2018-05-23 20:30:32
-categories: Computer Network
-tags: NVF Project
+categories: Project
+tags: Network
 ---
 ﻿
 # 前言
