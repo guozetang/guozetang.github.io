@@ -27,6 +27,7 @@ for file in $POSTS; do
     if [ -f $file ]; then
         # file_name=$(echo $file | sed 's/\.[^.]*$//' | sed)
         # leetcode
+        codetime=$(echo $file | cut -d'-' -f 1-3)
         num=$(echo $file | grep -Eo 'Leetcode-[0-9]+' | grep -Eo '[0-9]+')
         linkname=$(echo $file | grep -Eo 'Leetcode-[0-9]+.+[^.md$]')
         name=$(echo $linkname | cut -d'-' -f3-)
@@ -41,7 +42,7 @@ for file in $POSTS; do
         fi
 
         if [ $num ] ; then
-            echo "| $num | [$name](../$linkname/) | $difficulty | $category"
+            echo "| $num | [$name](../$linkname/) | $difficulty | $category | $codetime"
         fi
     fi
 done
