@@ -1,10 +1,11 @@
 ---
-title: Leetcode 3 Longgest Substring Without Repeating Characters.
+title: Leetcode 3. Longgest Substring Without Repeating Characters.
 date: 2018-05-11 15:53:37
 categories: Leetcode
 tags: Leetcode
 ---
-## Leetcode 3.Longgest Substring Without Repeating Characters.
+# Question
+
 > Given a string, find the length of the longest substring without repeating characters.  
 > Examples:  
 > Given "abcabcbb", the answer is "abc", which the length is 3.  
@@ -12,8 +13,12 @@ tags: Leetcode
 > Given "pwwkew", the answer is "wke", with the length of 3.   
 > Note that the answer must be a substring, "pwke" is a subsequence and not a substring.  
 
+# Analyze
+
 思路：其实只需要前面出现过的重复字符的下标即可算出此段不重复子段的长度，核心操作其实是向前检索重复字符。需要注意的是最后循环完成后，需要再算一下没有计算的那段的长度，在这些子段中取最长的。O(n)
 <!-- more -->
+
+# Solution
 ```java
 class Solution {
     public int lengthOfLongestSubstring(String s) {
@@ -38,11 +43,9 @@ class Solution {
     }
 }
 ```
-I: 
 
+# Follow up
 
-
-补充知识：
 ```java
 Java String toCharArray()
 The java string toCharArray() method converts this string into character array. It returns a newly created character array, its length is similar to this string and its contents are initialized with the characters of this string.
