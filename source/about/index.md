@@ -10,7 +10,7 @@ Graduate Student, Assistant Research at Clemson University
 School of Computing  
 Clemson University  
 Clemson, SC 26634
-Phone: (475)655-8641  
+Phone: (475) 655-8641  
 Email: guozet@clemson.edu
 
 ---
@@ -75,7 +75,6 @@ on QT, dealed with Root permissions file access vulnerability.
 
 ### Interests
 - Networking Security  
-
     [Project: Protocol Parser in Network](https://github.com/guozetang/Protocol_Parser)
 - Embedded System
 
