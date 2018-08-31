@@ -1,5 +1,5 @@
 ---
-title: Cloud Computing Intoduce
+title: Cloud Computing Introduce
 date: 2018-08-27 10:14:31
 categories: Courses
 tags: Cloud Computing
@@ -110,4 +110,10 @@ Enterprise application integration is an integration framework composed of a col
 Pay-as-you-go cloud computing (PAYG cloud computing) is a payment method for cloud computing that charges based on usage. The practice is similar to that of utility bills, using only resources that are needed.
 
 ## Some websites links
-- AWS lab: awsacademy.qwiklabs.com
+- [AWS Training](https://www.aws.training/)  
+There are some courses on this website. 
+
+ 
+- AWS lab: [awsacademy.qwiklabs.com](https://awsacademy.qwiklab.com/home)
+
+Use lab on this website
