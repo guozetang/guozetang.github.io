@@ -1,5 +1,5 @@
 ---
-title: Ubuntu 16.04安装bro和Binpacb
+title: Ubuntu 16.04安装bro和Binpac
 date: 2018-05-24 13:30:32
 categories: Network
 tags: Network
@@ -79,6 +79,8 @@ BinPAC relies on the following libraries and tools, which need to be installed b
 ###  Installing from Source
 To build and install into  `/usr/local`:
 ```
+git clone --recursive git@github.com:bro/binpac.git
+cd binpac
 ./configure
 cd build
 make
