@@ -2,7 +2,7 @@
 
 ![](/images/in-post/README/2018-09-06-16-53-48.png)
 This blog was built at 02/25/2018. I use this blog to record some courses which I learn and some experiences which I meet in the work.
-- [**Terry's Blog**](guozet.me)
+- [**Terry's Blog**](http://guozet.me)
 
 # Introduce
 This project can be used as a base blog to post some article which you want to post on the Internet.
