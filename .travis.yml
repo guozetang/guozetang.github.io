@@ -24,8 +24,8 @@ install:
 script:
   # - git clone https://github.com/changkun/hexo-theme-next themes/hexo-theme-next
   # - cp ./themes_config.yml themes/hexo-theme-next/_config.yml
-  - chmod +x ./build.sh
-  - ./build.sh
+  - chmod +x ./05_scripts/build.sh
+  - ./05_scripts/build.sh
   # - hexo clean
   # - hexo generate
   # - hexo deploy
