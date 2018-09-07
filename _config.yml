@@ -54,15 +54,26 @@ highlight:
 # order_by: Posts order. (Order by date descending by default)
 index_generator:
   path: ''
-  per_page: 15
-  order_by: -date
-  
+  per_page: 20
+
+
+archive_generator:
+  per_page: 100
+  yearly: false
+  monthly: false
+  daily: false
+
+tag_generator:
+  per_page: 0
+
+category_generator:
+  per_page: 0
+
+
 # Category & Tag
 default_category: uncategorized
 category_map:
 tag_map:
-
-
 
 # Date / Time format
 ## Hexo uses Moment.js to parse and display date
@@ -78,19 +89,7 @@ pagination_dir: page
 
 
 
-## 修改归档页面、某一分类页面、某一标签页面的显示篇数
-## 参考：http://theme-next.iissnan.com/faqs.html#setting-page-size
-archive_generator:
-  per_page: 0
-  yearly: false
-  monthly: false
-  daily: false
 
-category_generator:
-  per_page: 0
-
-tag_generator:
-  per_page: 0
 
 # Extensions
 ## Plugins: https://hexo.io/plugins/
