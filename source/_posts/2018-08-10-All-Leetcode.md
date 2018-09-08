@@ -13,7 +13,7 @@ table th:nth-of-type(1) {
 }
 
 table th:nth-of-type(2) {
-    width: 60%;
+    width: 50%;
 }
 </style>
 

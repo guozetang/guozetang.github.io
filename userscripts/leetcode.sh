@@ -53,11 +53,15 @@ for file in $POSTS; do
     fi
 done
 
+post_num=0
 IFS=$'\n'
 cat $CURRENT_DIR/.temp | sort -n >> $CURRENT_DIR/.temp2
 for line in $(cat $CURRENT_DIR/.temp2)
 do
     echo "| ${line}" >> $LEETCODE_POST
+    post_num=$(($post_num+1))
 done
+echo "Good Job! You have finished $post_num problems." >> $LEETCODE_POST
+
 rm $CURRENT_DIR/.temp 
 rm $CURRENT_DIR/.temp2
