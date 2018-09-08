@@ -4,13 +4,14 @@ date: 2018-07-15 11:38:13
 updated: 2018-09-08 13:12:23
 categories: Network
 tags: Network
+top: 1
 ---
 
 # Introduce
 
-![](/images/in-post/2018-07-15-How-to-install-RAMcloud-on-Ubuntu16-04/2018-09-08-16-47-41.png)
-
 [RAMCloud](https://github.com/PlatformLab/RAMCloud) is a new class of super-high-speed storage for large-scale datacenter applications. It is designed for applications in which a large number of servers in a datacenter need low-latency access to a large durable datastore. RAMCloud offers the following properties:
+
+![](/images/in-post/2018-07-15-How-to-install-RAMcloud-on-Ubuntu16-04/2018-09-08-16-47-41.png)
 
 Project Link: [RAMCloud](https://ramcloud.atlassian.net/wiki/spaces/RAM/overview)
 
