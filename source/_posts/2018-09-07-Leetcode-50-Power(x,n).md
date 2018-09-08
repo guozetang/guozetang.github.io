@@ -30,6 +30,7 @@ Implement  [pow(_x_,  _n_)](http://www.cplusplus.com/reference/valarray/pow/), w
 **Difficulty**:Medium
 **Category**:String
 <!--more-->
+****
 
 # Solution
 
