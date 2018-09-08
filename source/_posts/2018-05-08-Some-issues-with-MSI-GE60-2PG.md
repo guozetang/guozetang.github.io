@@ -1,6 +1,7 @@
 ---
-title:     Some issues when I used my MSI GE60 2PG
-date:       2018-05-08 12:00:00
+title: Some issues when I used my MSI GE60 2PG
+date: 2018-05-08 12:00:00
+udpated: 2018-05-08 12:00:00
 categories: Life
 tags: Laptop
 ---

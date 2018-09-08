@@ -1,6 +1,7 @@
 ---
 title: Hexo+Github+Travis CI完成博客的自动部署
 date: 2018-08-09 14:14:14
+updated: 2018-08-09 14:14:14
 categories: Blog
 tags: Hexo, Github,Travis
 ---

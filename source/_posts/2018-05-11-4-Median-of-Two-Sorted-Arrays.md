@@ -1,6 +1,7 @@
 ---
 title: 4. Median of Two Sorted Arrays
 date: 2018-05-11 16:26:46
+updated: 2018-05-11 16:26:46
 categories: Leetcode
 tags: Leetcode
 ---

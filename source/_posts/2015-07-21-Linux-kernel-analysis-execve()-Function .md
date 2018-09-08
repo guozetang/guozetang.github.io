@@ -1,6 +1,7 @@
 ---
 title: Linux内核分析课程7_execve()函数对应的系统调用处理过程
 date: 2015-03-14 13:04:27
+updated: 2015-03-14 13:04:27
 categories: Linux
 tags: Linux kernel
 ---

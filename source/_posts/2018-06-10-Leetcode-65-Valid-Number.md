@@ -1,6 +1,7 @@
 ---
 title: Leetcode 65. Valid Number
 date: 2018-06-10 23:30:32
+updated: 2018-06-10 23:30:32
 categories: Leetcode
 tags: Leetcode
 ---

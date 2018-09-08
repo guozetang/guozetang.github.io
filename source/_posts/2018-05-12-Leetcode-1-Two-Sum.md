@@ -1,6 +1,7 @@
 ---
 title: Leetcode 1.Two Sum
 date: 2018-05-12 00:38:02
+updated: 2018-05-12 00:38:02
 categories: Leetcode
 tags: Leetcode
 ---

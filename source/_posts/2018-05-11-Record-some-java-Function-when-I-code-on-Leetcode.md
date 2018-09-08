@@ -1,6 +1,7 @@
 ---
 title: Record some java Function when I code on Leetcode
 date: 2018-05-11 14:28:25
+updated: 2018-05-11 14:28:25
 categories:
 tags:
 ---

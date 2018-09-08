@@ -1,6 +1,7 @@
 ---
 title: Ubuntu 16.04安装bro和Binpac
 date: 2018-05-24 13:30:32
+updated: 2018-05-24 13:30:32
 categories: Network
 tags: Network
 ---

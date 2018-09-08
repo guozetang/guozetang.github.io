@@ -1,6 +1,7 @@
 ---
 title: Leetcode 3. Longgest Substring Without Repeating Characters.
 date: 2018-05-11 15:53:37
+updated: 2018-05-11 15:53:37
 categories: Leetcode
 tags: Leetcode
 ---

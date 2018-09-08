@@ -1,6 +1,7 @@
 ---
 title: Leetcode 7. Reverse Integer
 date: 2018-06-10 08:30:32
+updated: 2018-06-10 08:30:32
 categories: Leetcode
 tags: Leetcode
 ---

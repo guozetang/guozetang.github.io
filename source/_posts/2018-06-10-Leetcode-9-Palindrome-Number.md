@@ -1,6 +1,7 @@
 ---
 title: Leetcode 9. Palindrome Number
 date: 2018-06-10 14:30:32
+updated: 2018-06-10 14:30:32
 categories: Leetcode
 tags: Leetcode
 ---

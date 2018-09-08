@@ -1,6 +1,7 @@
 ---
 title: How to config git on Ubuntu
 date: 2018-08-09 13:42:10
+updated: 2018-08-09 13:42:10
 categories: Git
 tags: Git
 ---

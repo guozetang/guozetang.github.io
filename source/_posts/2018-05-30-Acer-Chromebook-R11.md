@@ -1,6 +1,7 @@
 ---
 title:  Acer Chromebook R11 ChromeOS 使用手册(坑)
 date: 2018-05-30 20:30:32
+updated: 2018-05-30 20:30:32
 categories: Laptop
 tags: Chromebook
 ---

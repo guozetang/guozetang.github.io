@@ -1,6 +1,7 @@
 ---
 title: 在VMware内构建一个外网可以访问的Ubuntu服务器
 date: 2018-05-12 01:30:32
+updated: 2018-05-12 01:30:32
 categories: Network
 tags: Linux
 ---

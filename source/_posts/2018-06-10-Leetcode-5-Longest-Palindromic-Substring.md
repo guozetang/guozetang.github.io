@@ -1,6 +1,7 @@
 ---
 title: Leetcode 5. Longest Palindromic Substring
 date: 2018-06-10 02:44:02
+updated: 2018-06-10 02:44:02
 categories: Leetcode
 tags: Leetcode
 ---

@@ -1,4 +1,12 @@
-﻿Given an input string (`s`) and a pattern (`p`), implement wildcard pattern matching with support for  `'?'`  and  `'*'`.
+﻿---
+title: Leetcode 44. Wildcard-Matching
+date: 2018-06-18 11:50:32
+updated: 2018-06-18 11:50:32
+categories: Leetcode
+tags: Leetcode
+---
+
+Given an input string (`s`) and a pattern (`p`), implement wildcard pattern matching with support for  `'?'`  and  `'*'`.
 
 '?' Matches any single character.
 '*' Matches any sequence of characters (including the empty sequence).

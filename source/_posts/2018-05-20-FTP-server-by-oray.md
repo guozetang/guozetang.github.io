@@ -1,6 +1,7 @@
 ---
 title: 花生壳作为域名解析来搭建FTP服务器
 date: 2018-05-20 01:30:32
+updated: 2018-05-20 01:30:32
 categories: Computer Network
 tags:
 ---
