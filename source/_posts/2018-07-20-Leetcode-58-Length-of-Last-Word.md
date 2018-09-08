@@ -16,10 +16,9 @@ If the last word does not exist, return 0.
 > **Example:**
 > **Input:** "Hello World"
 > **Output:** 5
- 
 
 **Difficulty**:Easy
-**Category**:
+**Category**:  
 <!--more-->
 *****
 
