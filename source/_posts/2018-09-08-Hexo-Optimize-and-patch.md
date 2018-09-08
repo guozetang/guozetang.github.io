@@ -1,5 +1,5 @@
 ---
-title: Hexo Optimize and patch
+title: Hexo使用中的优化已经问题解决记录
 date: 2018-09-08 02:09:31
 updated: 2018-09-08 02:09:31
 categories: Hexo
