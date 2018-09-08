@@ -55,6 +55,7 @@ highlight:
 index_generator:
   path: ''
   per_page: 20
+  order_by: -updated
 
 
 archive_generator:
