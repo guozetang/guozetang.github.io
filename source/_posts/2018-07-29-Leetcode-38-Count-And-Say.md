@@ -31,8 +31,6 @@ Note: Each term of the sequence of integers will be represented as a string.
 > **Input:** 4
 > **Output:** "1211"
 
-**Difficulty**:Easy
-**Category**:String
 <!--more-->
 ****
 
