@@ -55,7 +55,7 @@ done
 
 IFS=$'\n'
 cat $CURRENT_DIR/.temp | sort -n >> $CURRENT_DIR/.temp2
-for line in $(cat $CURRENT_DIR/.temp)
+for line in $(cat $CURRENT_DIR/.temp2)
 do
     echo "| ${line}" >> $LEETCODE_POST
 done
