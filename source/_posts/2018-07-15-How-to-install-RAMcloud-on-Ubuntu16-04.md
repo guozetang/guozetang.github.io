@@ -17,6 +17,13 @@ Project Link: [RAMCloud](https://ramcloud.atlassian.net/wiki/spaces/RAM/overview
 
 Office Installing introduce: [General Information for Developers](https://ramcloud.atlassian.net/wiki/spaces/RAM/pages/6848614/General+Information+for+Developers)
 
+I have written the shell script to install the RAMCloud on Ubuntu 16.04 or Ubuntu18.04. If you want to build the RAMCloud as soon as possible, please fell free to use my repo on the github. Please read the README.md file in the repo and know how to use the scripts to help you.
+
+- Github repo Link: [RAMCloud For Ubuntu16.04](https://github.com/guozetang/RAMCloud_Ubuntu16.04)
+- Bitbucket repo Link: [RAMCloud For Ubuntu16.04](https://bitbucket.org/guozetang/ramcloud/src/master/)
+
+If you have some issue with this script, please send [email](guoze.work@gmail.com) to me. I will reply it as soon as possible. In addtion, please read the next introduce about how to install Ramcloud by command if you want to understand each step to install RAMCloud.
+
 <!--more-->
 ******
 
@@ -47,6 +54,8 @@ apt-get install build-essential git-core doxygen=1.7.1 libpcre3-dev protobuf-com
 ## Analyze
 I can't use this command to work on the Ubuntu 16.04. In addtion, I hope I can use the RAMCloud on any Ubuntu system. It means that it should be worked on Ubuntu 16.04 or 18.04. So I need to compile these packet by g++ or gcc or Cmake.
 
+******
+
 ## Install Dependency
 
 ### Install build-essential, libssl-dev and git
@@ -58,6 +67,8 @@ sudo apt-get -y build-essential libssl-dev git
 ```
 
 ### Install gcc/g++ 4.9
+
+The RAMCloud source code used some features in the C++11 Standard. As a result, we need to make sure the `gcc/g++` version have support the `C++11` Standard. Then we choose the `gcc/g++ 4.9` to install. Please follow the commands.
 
 ```bash
 sudo apt-get install -y software-properties-common
