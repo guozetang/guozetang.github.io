@@ -19,7 +19,7 @@ If the last word does not exist, return 0.
  
 
 **Difficulty**:Easy
-**Category**:  
+**Category**:
 <!--more-->
 *****
 

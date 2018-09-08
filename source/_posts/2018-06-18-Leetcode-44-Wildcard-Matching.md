@@ -58,7 +58,7 @@ p = "a*c?b"
 **Output:** false
 
 **Difficulty**:Hard
-**Category**:  
+**Category**:
 <!--more-->
 *****
 

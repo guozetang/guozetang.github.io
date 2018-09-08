@@ -34,7 +34,7 @@ Note: Each term of the sequence of integers will be represented as a string.
 **Difficulty**:Easy
 **Category**:String
 <!--more-->
-
+****
 
 ## Solution
 
