@@ -21,6 +21,7 @@ echo "[INFO]Post dir name: $POST_DIR"
 
 cd $POST_DIR
 POSTS=$(ls $POST_DIR | grep .md | grep Leetcode)
+post_num=0
 for file in $POSTS; do
     if [ -d $file ]; then
         continue
@@ -48,16 +49,27 @@ for file in $POSTS; do
         fi
 
         if [ $num ] ; then
-            echo "$num | [$name](../$linkname/) | $difficulty | $category | $codetime |" >> $CURRENT_DIR/.temp
+            arr[$post_num]="$num | [$name](../$linkname/) | $difficulty | $category | $codetime |"
+            post_num=$(($post_num+1))
+            echo $post_num
         fi
     fi
 done
 
-IFS=$'\n'
-cat $CURRENT_DIR/.temp | sort -n >> $CURRENT_DIR/.temp2
-for line in $(cat $CURRENT_DIR/.temp)
-do
-    echo "| ${line}" >> $LEETCODE_POST
+# echo "${arr[@]}"
+sorted_posts=($(for post in "${arr[@]}"; do echo $post; done | sort -n))
+for i in "${sorted_posts[@]}"; do
+    echo $i  
 done
-rm $CURRENT_DIR/.temp 
-rm $CURRENT_DIR/.temp2
+# echo "${sorted_posts[@]}"
+
+# sorted_posts=($(sort <<<${arr[*]}))
+# echo "${sorted_posts[@]}"
+
+# do
+#     echo "$val"
+# done | sort -n) 
+# }
+ 
+# sort "${arr[@]}
+# # cat $CURRENT_DIR/test.txt | sort -n >> $CURRENT_DIR/test2.txt

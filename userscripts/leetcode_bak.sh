@@ -48,16 +48,7 @@ for file in $POSTS; do
         fi
 
         if [ $num ] ; then
-            echo "$num | [$name](../$linkname/) | $difficulty | $category | $codetime |" >> $CURRENT_DIR/.temp
+            echo "| $num | [$name](../$linkname/) | $difficulty | $category | $codetime |" >> $LEETCODE_POST
         fi
     fi
 done
-
-IFS=$'\n'
-cat $CURRENT_DIR/.temp | sort -n >> $CURRENT_DIR/.temp2
-for line in $(cat $CURRENT_DIR/.temp)
-do
-    echo "| ${line}" >> $LEETCODE_POST
-done
-rm $CURRENT_DIR/.temp 
-rm $CURRENT_DIR/.temp2
