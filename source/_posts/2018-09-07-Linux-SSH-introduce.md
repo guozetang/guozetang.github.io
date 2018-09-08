@@ -1,8 +1,8 @@
 ---
 title: SSH协议解析
 date: 2018-05-12 16:14:31
-categories:
-tags:
+categories: Linux
+tags: Linux
 ---
 # 前言
 最近使用SSH来登陆DigitalOcean VPS的时候，第一次导入SSH的时候出现了一些问题，由此对SSH协议详细的学习了一番。在这里对自己SSH的学习做一个小结。
@@ -85,11 +85,6 @@ RSA key fingerprint is 98:2e:d7:e0:de:9f:ac:67:28:c2:42:2d:37:16:58:4d.
 Are you sure you want to continue connecting (yes/no)?
 ```
 如果客户端拒绝接受这个主机密钥，那么连接就中止了。让我们假设客户端接受该密钥，现在继续介绍。
-
-
-
-
-
 
 
 1. 客户端向服务器端发送认证请求，认证请求中包含用户名、认证方法、与该认证方法相关的内容（如：password认证时，内容为密码）。
