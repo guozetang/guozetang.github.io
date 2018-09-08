@@ -1,8 +1,8 @@
 ---
-title:  Acer Chromebook R11使用手册(坑)
+title:  Acer Chromebook R11 ChromeOS 使用手册(坑)
 date: 2018-05-30 20:30:32
-categories: Chromebook
-tags: laptop
+categories: Laptop
+tags: Chromebook
 ---
 ## 前言
 之前使用了两年的MSI GE60 2PG 笔记本散热问题越来越严重，导致风扇永远转到最高转速，否则CPU温度一直无法降下来。但是，风扇转到最高转速，这台电脑产生的噪音会非常大，如果咋图书馆或者实验室使用，很容易就影响到周围学习的其他同学了，于是考虑到都买另外一个轻便的，待机时间比较长的笔记本到学校，能够支持自己的常规使用。
@@ -185,4 +185,4 @@ sudo startxunity -X xiwi // 使用 xiwi 来实现 窗口化
 ## 使用中遇到的问题
 ### Wifi开关无法开启的问题
 问题描述：在Chrome OS系统中，当休眠状态恢复之后，出现过Wifi无法连接，系统的Wifi状态是关闭的，即使点击的开启的按钮，但是在三到五秒之后就会自动关闭。
-解决方案：经过自己检查，发现是Wifi模块有一些松动，所以拆机之后，重新固定了Wifi模块。
+解决方案：经过自己检查，发现是Wifi模块有一些松动，所以拆机之后，重新固定了Wifi模块就可以使用了。

@@ -17,11 +17,17 @@ comments: false
 ## 1.2 九阴真经(计算机进阶)
 - 深入理解计算机系统 [[PDF]](https://drive.google.com/open?id=10iB3dEa432q4hqB_wvrPjQN0hhR-1X17)
 - 算法设计与分析
-- 编译原理 [[PDF]](https://drive.google.com/open?id=1R8tzEdDlqdwCEQj1Wm-HZasDzUM7sxWR)
+- 编译原理 [[PDF]](https://drive.google.com/open?id=1R8tzEdDlqdwCEQj1Wm-HZasDzUM7sxWR)  
 
 ## 1.3 内功修炼
-- 程序员的自我修养-链接，装载与库  [[PDF]](https://drive.google.com/open?id=1JoMAObN235dCqZ2msm_SDBpumJFyH5Wx)
+- 程序员的自我修养-链接，装载与库  [[PDF]](https://drive.google.com/open?id=1JoMAObN235dCqZ2msm_SDBpumJFyH5Wx) [文章](https://guozet.me/) 
 *****
+
 # 2. Linux操作系统
 ## 2.1 奠基与兴趣
 - 鸟哥的Linux私房菜_基础学习篇(第三版)   [[PDF]](https://drive.google.com/open?id=10CicR_jrFe2_dv4CvC63y8fiIpP3XE_U)
+
+
+# 3. 编程语言
+## 3.1 C++
+- 
