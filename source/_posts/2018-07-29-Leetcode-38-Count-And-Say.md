@@ -22,15 +22,19 @@ Given an integer  _n_, generate the  _n_th  term of the count-and-say sequence.
 
 Note: Each term of the sequence of integers will be represented as a string.
 
-**Example 1:**
+> **Example 1:**
+>
+> **Input:** 1
+> **Output:** "1"
+> 
+> **Example 2:**
+> **Input:** 4
+> **Output:** "1211"
 
-**Input:** 1
-**Output:** "1"
+**Difficulty**:Easy
+**Category**:String
+<!--more-->
 
-**Example 2:**
-
-**Input:** 4
-**Output:** "1211"
 
 ## Solution
 
