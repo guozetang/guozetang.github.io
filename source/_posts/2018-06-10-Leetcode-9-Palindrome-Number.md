@@ -5,7 +5,7 @@ categories: Leetcode
 tags: Leetcode
 ---
 
-﻿Determine whether an integer is a palindrome. An integer is a palindrome when it reads the same backward as forward.
+Determine whether an integer is a palindrome. An integer is a palindrome when it reads the same backward as forward.
 
 **Example 1:**
 > **Input:** 121
@@ -23,7 +23,13 @@ tags: Leetcode
 
 **Follow up:**
 Coud you solve it without converting the integer to a string?
+
+**Difficulty**:Easy
+**Category**:  
 <!--more-->
+*****
+
+
 ## Analyze
 验证回文数字, 直接对整数进行操作，我们可以利用取整和取余来获得我们想要的数字, 每计算一次, 去掉收尾各一个数字, 循环计算.
 ## Solution

@@ -15,7 +15,13 @@ Given a string  **s**, find the longest palindromic substring in  **s**. You may
 **Example 2:**
 > **Input:** "cbbd"  
 > **Output:** "bb"
+
+
+**Difficulty**:Medium
+**Category**:  
 <!--more-->
+*****
+
 ## Analyze
 这道题让我们求的是最长回文串，那么什么是回文串呢？
 > “回文串”是一个正读和反读都一样的字符串，比如“level”或者“noon”等等就是回文串。  

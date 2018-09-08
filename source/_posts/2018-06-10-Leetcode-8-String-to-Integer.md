@@ -27,8 +27,7 @@ If no valid conversion could be performed, a zero value is returned.
 **Example 2:**
 > **Input:** "   -42"
 > **Output:** -42
-> **Explanation:** The first non-whitespace character is '-', which is the minus sign.
-             Then take as many numerical digits as possible, which gets 42.
+> **Explanation:** The first non-whitespace character is '-', which is the minus sign.Then take as many numerical digits as possible, which gets 42.
 
 **Example 3:**
 > **Input:** "4193 with words"
@@ -38,15 +37,18 @@ If no valid conversion could be performed, a zero value is returned.
 **Example 4:**
 > **Input:** "words and 987"
 > **Output:** 0
-> **Explanation:** The first non-whitespace character is 'w', which is not a numerical 
-             digit or a +/- sign. Therefore no valid conversion could be performed.
+> **Explanation:** The first non-whitespace character is 'w', which is not a numerical digit or a +/- sign. Therefore no valid conversion could be performed.
 
 **Example 5:**
 > **Input:** "-91283472332"
 > **Output:** -2147483648
-> **Explanation:** The number "-91283472332" is out of the range of a 32-bit signed integer.
-             Thefore INT_MIN (−231) is returned.
- <!--more-->
+> **Explanation:** The number "-91283472332" is out of the range of a 32-bit signed integer. hefore INT_MIN (−231) is returned.
+
+**Difficulty**:Medium
+**Category**:  
+<!--more-->
+*****
+
 ## Analyze
 由于输入的是字符串，所以需要题目中给出的情况:
 1. 若字符串开头是空格，则跳过所有空格，到第一个非空格字符，如果没有，则返回0.

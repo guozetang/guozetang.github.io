@@ -53,6 +53,12 @@ Given an integer, convert it to a roman numeral. Input is guaranteed to be withi
 **Output:** "MCMXCIV"
 **Explanation:** M = 1000, CM = 900, XC = 90 and IV = 4.
 
+
+**Difficulty**:Easy
+**Category**:  
+<!--more-->
+*****
+
 ## Analyze
   
 我们需要用到map数据结构，来将罗马数字的字母转化为对应的整数值，因为输入的一定是罗马数字，那么我们只要考虑两种情况即可：

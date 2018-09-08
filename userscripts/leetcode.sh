@@ -12,7 +12,9 @@ export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 clear
 CURRENT_DIR=$(pwd)
 WORK_DIR=$(dirname $(pwd))
-POST_DIR=$WORK_DIR/source/_posts
+# WORK_DIR=$CURRENT_DIR/source/_posts
+POST_DIR=$CURRENT_DIR/source/_posts
+LEETCODE_POST=$POST_DIR/2018-08-10-All-Leetcode.md
 re_num="~ ^[[:digit:]]+$ ]]"
 echo "[INFO]Post dir name: $POST_DIR"
 
@@ -25,14 +27,18 @@ for file in $POSTS; do
     fi
     
     if [ -f $file ]; then
+        # echo $file
         # file_name=$(echo $file | sed 's/\.[^.]*$//' | sed)
         # leetcode
         codetime=$(echo $file | cut -d'-' -f 1-3)
         num=$(echo $file | grep -Eo 'Leetcode-[0-9]+' | grep -Eo '[0-9]+')
-        linkname=$(echo $file | grep -Eo 'Leetcode-[0-9]+.+[^.md$]')
+        # linkname=$(echo $file | grep -Eo 'Leetcode-[0-9]+.*[^.md$]')
+        linkname=$(echo $file | grep -Po 'Leetcode-.*(?=\.)')
         name=$(echo $linkname | cut -d'-' -f3-)
         difficulty=$(grep -Eo '**Difficulty.+' $file | cut -d':' -f2-)
         category=$(grep -Eo '**Category.+' $file | cut -d':' -f2-)
+        # test=$(echo $file | grep -Eo 'Leetcode-[0-9]+-(.*)\..*') 
+        # echo $test
         if [ ! $difficulty ]; then
             difficulty="Null"
         fi
@@ -42,7 +48,7 @@ for file in $POSTS; do
         fi
 
         if [ $num ] ; then
-            echo "| $num | [$name](../$linkname/) | $difficulty | $category | $codetime"
+            echo "| $num | [$name](../$linkname/) | $difficulty | $category | $codetime |" >> $LEETCODE_POST
         fi
     fi
 done

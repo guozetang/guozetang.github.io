@@ -21,7 +21,11 @@ Given a 32-bit signed integer, reverse digits of an integer.
 
 **Note:**  
 Assume we are dealing with an environment which could only store integers within the 32-bit signed integer range: [−231, 231 − 1]. For the purpose of this problem, assume that your function returns 0 when the reversed integer overflows
-<!--more--->
+
+**Difficulty**:Easy
+**Category**:  
+<!--more-->
+*****
 
 ## Analyze
 数据翻转的问题, 只需要将`int`数据类型除以10的余数作为第一个数, 然后商继续除以10得到第二个数据. 处理过程为:

@@ -17,7 +17,13 @@ Some examples:
 
 **Update (2015-02-10):**  
 The signature of the  `C++`  function had been updated. If you still see your function signature accepts a  `const char *`  argument, please click the reload button to reset your code definition.
+
+**Difficulty**:Medium
+**Category**:  
 <!--more-->
+*****
+
+
 ## Analyze
 在字符串中, 所有的字符可以分为六类: 空格，符号，数字，小数点，自然底数e和其他字符;只要出现了其他字符就可以`return false`, 出现其他几个字符是可以的, 在这里我们设置`num, dot, exp, sign`分别表示数字，小数点，自然底数和符号是否出现，另外设置numberAfterE表示自然底数后面是否有数字出现, 这几种情况下详细分析:
 - 空格： 我们需要排除的情况是，当前位置是空格而后面一位不为空格，但是之前有数字，小数点，自然底数或者符号出现时返回false。

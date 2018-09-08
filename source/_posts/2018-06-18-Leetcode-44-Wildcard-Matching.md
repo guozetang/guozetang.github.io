@@ -49,6 +49,11 @@ s = "acdcb"
 p = "a*c?b"
 **Output:** false
 
+**Difficulty**:Hard
+**Category**:  
+<!--more-->
+*****
+
 ## Analyze
 这道题通配符匹配问题还是小有难度的，这道里用了贪婪算法Greedy Alogrithm来解，由于有特殊字符*和？，其中？能代替任何字符，*能代替任何字符串，那么我们需要定义几个额外的指针，其中scur和pcur分别指向当前遍历到的字符，再定义pstar指向p中最后一个*的位置，sstar指向此时对应的s的位置，具体算法如下：
 

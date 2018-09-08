@@ -22,7 +22,11 @@ Example:
 >  []  
 > ] 
 
+
+**Difficulty**:Medium
+**Category**:  
 <!--more-->
+*****
 
 # Analyze
 这道题目在`78 Subsets`的基础上添加了处理重复元素的部分，所以在这个位置需要对重复元素进程处理，需要保证不能有重复的子集出现在回答中。    

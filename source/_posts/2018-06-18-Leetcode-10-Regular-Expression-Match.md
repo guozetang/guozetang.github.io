@@ -55,6 +55,12 @@ s = "mississippi"
 p = "mis*is*p*."  
 **Output:** false  
 
+
+**Difficulty**:Hard
+**Category**:  
+<!--more-->
+*****
+
 ## Analyze
 这道求正则表达式匹配的题和那道 [Wildcard Matching 通配符匹配](http://www.cnblogs.com/grandyang/p/4401196.html)的题很类似，不同点在于*的意义不同，在之前那道题中，*表示可以代替任意个数的字符，而这道题中的*表示之前那个字符可以有0个，1个或是多个，就是说，字符串a*b，可以表示b或是aaab，即a的个数任意，这道题的难度要相对之前那一道大一些，分的情况的要复杂一些，需要用递归Recursion来解，大概思路如下：
 

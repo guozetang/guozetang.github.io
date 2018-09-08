@@ -49,6 +49,11 @@ Given an integer, convert it to a roman numeral. Input is guaranteed to be withi
 **Output:** "MCMXCIV"
 **Explanation:** M = 1000, CM = 900, XC = 90 and IV = 4.
 
+**Difficulty**:Medium
+**Category**:  
+<!--more-->
+*****
+
 ## Analyze
 之前那篇文章写的是罗马数字转化成整数([http://www.cnblogs.com/grandyang/p/4120857.html](http://www.cnblogs.com/grandyang/p/4120857.html))， 这次变成了整数转化成罗马数字，基本算法还是一样。由于题目中限定了输入数字的范围(1 - 3999), 使得题目变得简单了不少。
 
