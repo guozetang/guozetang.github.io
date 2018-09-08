@@ -14,7 +14,7 @@ timezone: America/New_York
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://guozetang.github.io
+url: http://guozet.me
 root: /
 permalink: /post/:title/
 permalink_defaults:
@@ -126,5 +126,5 @@ sitemap:
 search:
   path: search.xml
   field: post
-  # format: html
-  # limit: 10000
+  format: html
+  limit: 10000
