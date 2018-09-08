@@ -20,7 +20,7 @@ comments: false
 - 编译原理 [[PDF]](https://drive.google.com/open?id=1R8tzEdDlqdwCEQj1Wm-HZasDzUM7sxWR)  
 
 ## 1.3 内功修炼
-- 程序员的自我修养-链接，装载与库  [[PDF]](https://drive.google.com/open?id=1JoMAObN235dCqZ2msm_SDBpumJFyH5Wx) [文章](https://guozet.me/) 
+- 程序员的自我修养-链接，装载与库 [[PDF]](https://drive.google.com/open?id=1JoMAObN235dCqZ2msm_SDBpumJFyH5Wx)  [[文章](https://guozet.me/) 
 *****
 
 # 2. Linux操作系统

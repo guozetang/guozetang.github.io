@@ -74,8 +74,10 @@ on QT, dealed with Root permissions file access vulnerability.
 
 
 ### Interests
-- Networking Security  
-    [Project: Protocol Parser in Network](https://github.com/guozetang/Protocol_Parser)
+
+- Networking Security
+  [Project: Protocol Parser in Network](https://github.com/guozetang/Protocol_Parser)
+
 - Embedded System
 
 - Application  
@@ -88,4 +90,6 @@ on QT, dealed with Root permissions file access vulnerability.
 - Language: C, Assembly, Shell, Matlab, Python
 - Stack: Linux, ucos，VxWork，ARM, Office, GCC，Makefile，git，gdb  
 
-[1] [Design of Semi Physical Simulation Platform for Control of the Natural Circulation Boiler](https://drive.google.com/open?id=1hWslNK0es94TkyLHxB-3ZWm2VPupseUn)
+### Publications
+
+1. [Design of Semi Physical Simulation Platform for Control of the Natural Circulation Boiler](https://drive.google.com/open?id=1hWslNK0es94TkyLHxB-3ZWm2VPupseUn)
