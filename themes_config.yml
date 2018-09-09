@@ -45,7 +45,7 @@ rss: /atom.xml
 footer:
   # Specify the date when the site was setup.
   # If not defined, current year will be used.
-  since: 2017
+  since: 2016
 
   # Icon between year and copyright info.
   icon: user
@@ -101,7 +101,7 @@ index_with_subtitle: false
 menu:
   home: / || h-square
   books: /books || book
-  tags: /tags/ || tags
+  # tags: /tags/ || tags
   categories: /categories/ || th
   archives: /archives/ || archive
   about: /about/ || user
@@ -291,7 +291,7 @@ custom_logo:
 # Available value:
 #    normal | night | night eighties | night blue | night bright
 # https://github.com/chriskempson/tomorrow-theme
-highlight_theme: night eighties
+highlight_theme: night blue
 
 
 # ---------------------------------------------------------------
