@@ -101,8 +101,8 @@ index_with_subtitle: false
 menu:
   home: / || h-square
   books: /books || book
-  # tags: /tags/ || tags
-  categories: /categories/ || th
+  tags: /tags/ || tags
+  # categories: /categories/ || th
   archives: /archives/ || archive
   about: /about/ || user
   #schedule: /schedule/ || calendar
