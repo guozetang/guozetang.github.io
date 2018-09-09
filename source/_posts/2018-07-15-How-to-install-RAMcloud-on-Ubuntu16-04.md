@@ -119,9 +119,23 @@ sudo apt-get install -y cmake
 cmake --version
 ```
 
-Use `cmake --version` to check the version of cmake. If the `cmake --version` command can output the information like the followed graph. Then it means that you have installed the `cmake` correctly.
+Use `cmake --version` to check the version of cmake. If the `cmake --version` command can output the informaton like the followed graph. Then it means that you have installed the `cmake` correctly.
 
 ![](/images/in-post/2018-07-15-How-to-install-RAMcloud-on-Ubuntu16-04/2018-09-08-16-49-08.png)
+
+******
+
+### Download the packages which will be need in the next few steps.
+
+```bash
+git clone git@bitbucket.org:guozetang/ramcloud.git
+cd ./ramcloud/packages/
+```
+
+When you get in to this director, you can find these packages in this director.
+![](/images/in-post/2018-07-15-How-to-install-RAMcloud-on-Ubuntu16-04/2018-09-08-20-16-41.png)
+
+We will use these packages in the next steps.
 
 ### Install Pcre
 
@@ -130,15 +144,11 @@ tar -xzvf pcre-8.42.tar.gz
 cd pcre-8.42
 ./configure --prefix=/usr/local/pcre
 make
-echo "[OK] Pcre build passed!"
 sudo make install
-add_include_path /usr/local/pcre/include/
-add_lib_path /usr/local/pcre/lib/
-add_bin_path /usr/local/pcre/bin/
-config_ld_lib /usr/local/pcre/lib/ pcre.conf
+sudo echo "/usr/local/pcre/lib/" /etc/ld.so.conf.d/pcre.conf
 ```
 
-### Install Python
+### Install Python2.6
 
 ```bash
 tar zxvf Python-2.6.6.tgz
@@ -146,11 +156,8 @@ cd Python-2.6.6
 ./configure --prefix=/usr/local/python2.6  
 make
 sudo make install
-lnif /usr/local/python2.6/bin/python2.6 /usr/bin/python2.6
-add_lib_path /usr/local/python2.6/lib/
-add_include_path /usr/local/python2.6/include/
-add_bin_path /usr/local/python2.6/bin/
-config_ld_lib /usr/local/python2.6/lib/ python2.6.conf
+sudo ln -s /usr/local/python2.6/bin/python2.6 /usr/bin/python2.6 -f
+config_ld_lib /usr/local/python2.6/lib/ /etc/ld.so.conf.d/python2.6.conf
 python2.6 --version
 ```
 
@@ -161,13 +168,66 @@ python2.6 --version
 ```bash
 tar -xvf boost_1_52_0.tar
 cd boost_1_52_0  
-sudo ./bootstrap.sh 
-echo "[OK] BOOST build passed!" 
+sudo ./bootstrap.sh
 sudo ./b2 -j
-[ $? -eq 0 ] && echo "[OK] Boost build passed!" || (echo "[EROR] Boost build failed." && exit 1)
 sudo ./b2 install --prefix=/usr/local/boost_1_52_0
-[ $? -eq 0 ] && echo "[OK] Boost complete!" || (echo "[EROR] Boost failed." && exit 1)
-add_lib_path /usr/local/boost_1_52_0/lib/
-add_include_path /usr/local/boost_1_52_0/include/
-config_ld_lib /usr/local/boost_1_52_0/lib/ boost_1_52_0.conf
+sudo echo "/usr/local/boost_1_52_0/lib/" /etc/ld.so.conf.d/boost_1_52_0.conf
+```
+
+### Install Doxygen1.7.2
+
+```bash
+tar -xzvf doxygen.tar.gz
+cd doxygen
+cd build
+cmake -G "Unix Makefiles" ..
+make
+sudo make Install
+```
+
+### Install Protocol Buffers
+
+```bash
+tar -xzvf protobuf-2.6.1.tar.gz
+cd $CURRENT_DIR/packages/protobuf-2.6.1  
+./configure --prefix=/usr/local/protobuf  
+make
+make check
+sudo make install
+sudo echo "/usr/local/protobuf/lib/" /etc/ld.so.conf.d/protobuf.conf
+sudo ln -s /usr/local/protobuf/bin/protoc /usr/bin/protoc -f
+```
+
+### Install Zookeeper
+
+```bash
+tar -xzvf zookeeper-3.3.6.tar.gz
+cd zookeeper-3.3.6/src/c  
+./configure --prefix=/usr/local/zookeeper  
+make
+sudo make install
+sudo echo "/usr/local/zookeeper/lib/" /etc/ld.so.conf.d/zookeeper.conf
+```
+
+This last command `sudo echo "/usr/local/zookeeper/lib/" /etc/ld.so.conf.d/zookeeper.conf` can make the other application can find the `zookeeper lib` in the system.
+
+## Config the Path
+
+Add the `include path`,`library path` in the `/etc/profile`.
+
+```bash
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/pcre/lib/:/usr/local/python2.6/lib/:/usr/local/boost_1_52_0/lib/:/usr/local/protobuf/lib/:/usr/local/zookeeper/lib/
+export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/pcre/lib/:/usr/local/python2.6/lib/:/usr/local/boost_1_52_0/lib/:/usr/local/protobuf/lib/:/usr/local/zookeeper/lib/
+export C_INCLUDE_PATH=$C_INCLUDE_PATH:/usr/local/pcre/include/:/usr/local/python2.6/include/:/usr/local/boost_1_52_0/include/:/usr/local/protobuf/include/:/usr/local/zookeeper/include/c-client-src/
+export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/usr/local/pcre/include/:/usr/local/python2.6/include/:/usr/local/boost_1_52_0/include/:/usr/local/protobuf/include/:/usr/local/zookeeper/include/c-client-src/
+export PATH=$PATH:/usr/local/pcre/bin/:/usr/local/python2.6/bin/:/usr/local/protobuf/bin/:/usr/local/zookeeper/bin/
+export PKG_CONFIG_PATH=:/usr/local/protobuf/lib/pkgconfig/
+```
+
+## Install RAMCloud
+
+```bash
+git clone https://github.com/PlatformLab/RAMCloud.git
+cd RAMCloud
+make -j12 DEBUG=no
 ```
