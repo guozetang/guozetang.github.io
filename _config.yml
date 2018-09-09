@@ -60,9 +60,10 @@ index_generator:
 
 archive_generator:
   per_page: 100
-  yearly: false
-  monthly: false
+  yearly: true
+  monthly: true
   daily: false
+  order_by: -updated
 
 tag_generator:
   per_page: 0
