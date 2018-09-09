@@ -101,7 +101,7 @@ index_with_subtitle: false
 menu:
   home: / || h-square
   books: /books || book
-  tags: /tags/ || tags
+  # tags: /tags/ || tags
   # categories: /categories/ || th
   archives: /archives/ || archive
   about: /about/ || user
@@ -198,7 +198,7 @@ sidebar:
   #  - remove  Totally remove sidebar including sidebar toggle.
   #display: post
   #display: always
-  display: hide
+  display: post
   #display: remove
 
   # Sidebar offset from top menubar in pixels (only for Pisces | Gemini).
