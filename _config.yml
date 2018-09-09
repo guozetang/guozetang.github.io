@@ -72,7 +72,7 @@ category_generator:
 
 
 # Category & Tag
-default_category: uncategorized
+default_category: news
 category_map:
 tag_map:
 

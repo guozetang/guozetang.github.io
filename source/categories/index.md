@@ -5,4 +5,3 @@ type: categories
 comments: false
 ---
 
-[All Categories](http://guozet.me/categories/)
