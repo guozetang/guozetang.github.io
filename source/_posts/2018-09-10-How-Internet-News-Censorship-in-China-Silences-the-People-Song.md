@@ -25,6 +25,7 @@ More surprisingly, Google chose to enter the Chinese market in 2005, but Google 
 
 In the section below, I begin to introduce four types of Internet news censorship. I then point out the reasons why the governments need to build the Internet news censorship system in China and why the citizens don’t fight for their freedom on the Internet with the government. I then give the positive and negative about the Chinese censorship policy. Finally, I offer my opinion and conclude.
 
+******
 
 # Types of Internet News Censorship
 
@@ -60,6 +61,8 @@ In China, Internet news censorship is complicated and methodical. This censorshi
 ![](/images/in-post/2018-09-10-How-Internet-News-Censorship-in-China-Silences-the-People-Song/2018-09-10-18-34-04.png)
 
 
+******
+
 # Strict Internet News Censorship
 
 There is more than one billion Internet population in China (Xu, 2011). Even though a small part of netizens intentionally spread a rumor, it also has a significant influence on society safety and economy. For example, according to the news (December 2003), although there was no one person killed by atypical pneumonia (SARS) in the United States in 2003, panic with the rumor about SARS spread each side in the United States. In fact that no one to listened to the truth and the experts and they didn’t believe everyone. They didn’t go to the Chinese restaurant and close some Chinese markets because of these rumors. (LEE et al., 2003)If something like this happens in China, this will set off riots nationally even though only twenty percent of the people believe these tales. So, each country needs to build an Internet censorship system stop the rumor spread if they want to quell public panic.
@@ -73,6 +76,8 @@ There is more than one billion Internet population in China (Xu, 2011). Even tho
 **National security.** Taking Huawei company as an example, Huawei has recently prepared how they can enter the United States market. However, the American government believes that their products will pose a threat to the United States because they suspect that this is a Chinese company which may be controlled by the Chinese government. As one of the largest company in the world, Google owns a sizeable amount of personal information data. When they occupy Chinese market, they may damage the Chinese information safety because this firm belongs to another country. From the government points of view, they can’t believe these companies can be independent of their government.
 
 
+******
+
 # Conclusions and Future Study
 
 When ostrich encounters their enemy in the desert, they would bury their head in the sand and think that the enemy can not see them.The Chinese government built an Internet wall like an ostrich shielding of the best-known websites, such as Google. Ironically, the Internet wall is useless to block libertarian news. Most Chinese people know that even the government blocks “thing,” someone also can read it in the foreign countries. Nowadays, the international information exchange is frequent. For example, there were 2.59 million Chinese people who traveled to the US during last year. They can easily read every new they liked. Also, some Chinese people often over the Internet wall to read foreign news. As they say, that  “Good news never goes beyond the gate, while bad news spread far and wide.”  The more blocking, the more attention.
@@ -80,6 +85,9 @@ When ostrich encounters their enemy in the desert, they would bury their head in
 The Chinese government is blocking some famous websites in the world just because they want to protect small, influential group and individual.  Some expect who supports the Internet control policies in China, has often been cited a word, "I have no way to change you, but I have the right to choose our friends." said by LuHui, the director of the state Internet information office. He is the manager of the Chinese Internet as most foreign media. He said, “we are welcome any Internet company to enter the Chinese market, but you must observe two regulations: don’t harmful on China’s national security and don’t harmful on Chinese consumers’ rights.” According to his opinion, the Chinese government shielding Google Google, Facebook, Twitter, YouTube, and thousands of websites such as Wikipedia Wikipedia, is to protect " the consumers’ rights" and "national security"  But the analysis of the above in this essay, we already know that it is not entirely correct. This censorship system only works for small group and individual interests to block world-famous sites to maintain a popular figure.
 
 If this country always hides in the back of the internet walls by governments, it may be relatively safe. But they can’t catch up with other advanced power in the world in the future. Besides, it also unable to obtain the respect of other nations or countries.  "I have no way to change you, but I have the right to choose friends, " said by LuHui is good, but this sentence also applies to the Chinese people. They will have the right to choose which news they want to read.
+
+
+******
 
 # References
 A new approach to China. (2010, January 12). Retrieved from https://googleblog.blogspot.com/2010/01/new-approach-to-china.html
