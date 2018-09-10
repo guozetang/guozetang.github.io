@@ -10,15 +10,15 @@ top:
 
 This is a thesis when I studied in the ELS.
 
-
-![](/images/in-post/2018-09-10-How-Internet-News-Censorship-in-China-Silences-the-People-Song/2018-09-10-18-39-39.png)
+![](/images/in-post/2018-09-10-How-Internet-News-Censorship-in-China-Silences-the-People-Song/2018-09-10-18-34-52.png)
 
 # Introduce
 
 Last month, my friend Carrier went back to China from the United States after she had been living the United States for more than three years. She complained to me about the Internet in her house but not because of the speed of the Internet. She found that the Google Mail and Facebook were inaccessible when she wanted to access to Google Mail to receive some email from her boss and to contact friends through Facebook. As a computer engineer in China, I have never been puzzled by this since I can use a lot of ways to access to Google or Facebook. Is it challenging to access to Google and Facebook in China? Curiosity pushed me to investigate further. When I asked my parents and some high school classmates about whether they knew how to avert the government blocking access to Google, most of them said that they didn’t  know how to access to Google in China even though they knew the Google search engine is most famous in the world. After doing some research, I found that blocking Google is only one of many blocking events involving Internet news censorship in China.
 <!--more-->
-![](/images/in-post/2018-09-10-How-Internet-News-Censorship-in-China-Silences-the-People-Song/2018-09-10-18-34-52.png)
 
+
+![](/images/in-post/2018-09-10-How-Internet-News-Censorship-in-China-Silences-the-People-Song/2018-09-10-18-39-39.png)
 
 More surprisingly, Google chose to enter the Chinese market in 2005, but Google suddenly announced that they decided to close the office in China in 2010. According to a new approach to China from the Google Official Blog, the officer said, “We will be discussing with the Chinese government the basis on which we could operate an unfiltered search engine within the law, if at all. We recognize that this may well mean having to shut down Google.cn, and potentially our offices in China.” (2010). Through the history of the world, it is hard to find a company to break up with significant power in public. However, Google did it and closed their offices in China until 2018. The original reason for this matter is that Google received a lot of notifications from Chinese Government to block some websites and block some keywords involving Chinese politics. However, these blocking announcements didn’t have any Chinese law to support them. Sometimes, the office just got a phone call to Google to require them to block some information. Are these demands from the Chinese government unreasonable in western culture? Is it difficult to understand why Google couldn’t compromise with the Chinese government later?  Most western experts believe that Chinese has a severe Internet news censorship to prevent the free spreading through their experience and history (Sorenson, 2013). Nevertheless, using Western values fails to explain why China has a rigorous Internet news censorship without a basic knowledge of Chinese culture and values. 
 
