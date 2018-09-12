@@ -39,3 +39,4 @@ comments: false
 # 3. 编程语言
 
 ## 3.1 C++
+- Effective C++ [[中文版PDF](https://drive.google.com/file/d/1fjLTF1kxxgR1HBLApj8fLdu1Yu3ZZECA/view?usp=sharing)]  [[英文版PDF](https://drive.google.com/file/d/1keiNn8D16ve3dIoDLCbC6DmtgUMLMi4i/view?usp=sharing)] [[Posts](http://guozet.me/tags/EffectiveC++/)]

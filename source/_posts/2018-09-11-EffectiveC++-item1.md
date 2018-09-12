@@ -2,8 +2,8 @@
 title: Book. Effective C++ item1-View C++ as a federatime of languages
 date: 2018-09-11 02:09:31
 updated: 2018-09-11 02:09:31
-categories: C++
-tags: C++
+categories: EffectiveC++
+tags: EffectiveC++
 top:
 ---
 
