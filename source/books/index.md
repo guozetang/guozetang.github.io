@@ -43,6 +43,6 @@ comments: false
 
 - Effective C++ [[中文版PDF](https://drive.google.com/file/d/1fjLTF1kxxgR1HBLApj8fLdu1Yu3ZZECA/view?usp=sharing)]  [[英文版PDF](https://drive.google.com/file/d/1keiNn8D16ve3dIoDLCbC6DmtgUMLMi4i/view?usp=sharing)] [[Posts](http://guozet.me/tags/EffectiveC/)]
 
-## C语言
+## 3.2 C语言
 
 - C语言的科学与艺术 [[中文版PDF](https://drive.google.com/file/d/12V4v7EPWePhdMqHTISHPsikLttfGacqb/view?usp=sharing)]
