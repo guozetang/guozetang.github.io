@@ -11,7 +11,7 @@ comments: false
 ## 1.1 易筋经(计算机基础)
 
 - 计算机组成原理
-- C语音程序设计&数据结构
+- C语音程序设计&数据结构 [[C语言PDF](https://drive.google.com/file/d/1n3XfcdIkIw9M9Q1qbVVOsQt_-XC5KO2w/view?usp=sharing)]
 - 数据库系统概论
 - 现代操作系统 [[PDF]](https://drive.google.com/open?id=1Qc3wPK8CYkOOClEX6vnAVOEFZpWgdto9)
 - 计算机网络
@@ -33,10 +33,16 @@ comments: false
 ## 2.1 奠基与兴趣
 
 - 鸟哥的Linux私房菜_基础学习篇(第三版)   [[PDF]](https://drive.google.com/open?id=10CicR_jrFe2_dv4CvC63y8fiIpP3XE_U)
+- uCOS-II-源码公开的实时操作系统 [[PDF](https://drive.google.com/file/d/1l5kLZ4akQ9UPZlitGTE1_Oh3KKOmxGDg/view?usp=sharing)]
 
 *****
 
 # 3. 编程语言
 
 ## 3.1 C++
-- Effective C++ [[中文版PDF](https://drive.google.com/file/d/1fjLTF1kxxgR1HBLApj8fLdu1Yu3ZZECA/view?usp=sharing)]  [[英文版PDF](https://drive.google.com/file/d/1keiNn8D16ve3dIoDLCbC6DmtgUMLMi4i/view?usp=sharing)] [[Posts](http://guozet.me/tags/EffectiveC++/)]
+
+- Effective C++ [[中文版PDF](https://drive.google.com/file/d/1fjLTF1kxxgR1HBLApj8fLdu1Yu3ZZECA/view?usp=sharing)]  [[英文版PDF](https://drive.google.com/file/d/1keiNn8D16ve3dIoDLCbC6DmtgUMLMi4i/view?usp=sharing)] [[Posts](http://guozet.me/tags/EffectiveC/)]
+
+## C语言
+
+- C语言的科学与艺术 [[中文版PDF](https://drive.google.com/file/d/12V4v7EPWePhdMqHTISHPsikLttfGacqb/view?usp=sharing)]
