@@ -99,8 +99,16 @@ I had worked in SZ DJI Technology company for one year, an innovation company wh
 
 ### Skills
 
-- Language: C, Assembly, Shell, Matlab, Python
-- Stack: Linux, ucos，VxWork，ARM, Office, GCC，Makefile，git，gdb  
+**Skilled:**
+
+- Language: C, C++, Python, Shell Scripting, Flex, Matlab
+- Linux, Embedded Linux, Embedded Systems, ucos，VxWork，ARM, Office, GCC，Makefile，git，gdb
+
+**Understand:**
+
+- Language: Java, Assembly, Javascript
+- QT, Python Tkinter
+
 
 ### Publications
 
