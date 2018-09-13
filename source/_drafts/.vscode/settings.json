@@ -1,0 +1,16 @@
+{
+    // Setting for image paste
+    // "pasteImage.insertPattern": "[${imageFileName}",
+    // // "pasteImage.namePrefix": "${currentFileNameWithoutExt}_",
+    // "pasteImage.path": "${projectRoot}/source/images/in-post/${currentFileNameWithoutExt}/",
+    // "pasteImage.basePath": "${projectRoot}",
+    // "pasteImage.forceUnixStyleSeparator": true,
+    // "pasteImage.prefix": "/",
+
+
+    // "pasteImage.namePrefix": "${currentFileNameWithoutExt}_",
+    "pasteImage.path": "${projectRoot}/images/in-post/${currentFileNameWithoutExt}",
+    "pasteImage.basePath": "${projectRoot}",
+    "pasteImage.forceUnixStyleSeparator": true,
+    "pasteImage.prefix": "/"
+}

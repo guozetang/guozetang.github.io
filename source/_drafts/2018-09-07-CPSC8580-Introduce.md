@@ -3,6 +3,8 @@ title: Security in Emerging Computing and Networking Systems Introduce
 date: 2018-09-07 13:42:10
 categories: CPSC8580
 tags: Security Networking Systems
+notebook: 01_Workbench
+
 ---
 Course Links: [CPSC8580 Clemson University](https://people.cs.clemson.edu/~hongxih/teaching/2018fall/cpcs8580/2018fall.htm)
 

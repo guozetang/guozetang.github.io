@@ -41,6 +41,7 @@ comments: false
 
 ## 3.1 C++
 
+- C++基础视频-北京大学 [[视频地址](https://www.coursera.org/learn/cpp-chengxu-sheji/home/welcome)]
 - Effective C++ [[中文版PDF](https://drive.google.com/file/d/1fjLTF1kxxgR1HBLApj8fLdu1Yu3ZZECA/view?usp=sharing)]  [[英文版PDF](https://drive.google.com/file/d/1keiNn8D16ve3dIoDLCbC6DmtgUMLMi4i/view?usp=sharing)] [[Posts](http://guozet.me/tags/EffectiveC/)]
 
 ## 3.2 C语言
