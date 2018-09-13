@@ -9,8 +9,7 @@ comments: false
 Software & Embedded Engineer  
 Graduate Student, Assistant Research at Clemson University  
 
-School of Computing  
-Clemson University  
+School of Computing, Clemson University  
 Clemson, SC 26634
 Phone: (475) 655-8641  
 Email: guozet@clemson.edu
