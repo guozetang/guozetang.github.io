@@ -109,6 +109,7 @@ I had worked in SZ DJI Technology company for one year, an innovation company wh
 - Language: Java, Assembly, Javascript
 - QT, Python Tkinter
 
+---
 
 ### Publications
 
