@@ -243,11 +243,11 @@ post_meta:
 # Post wordcount display settings
 # Dependencies: https://github.com/willin/hexo-wordcount
 post_wordcount:
-  item_text: true
-  wordcount: true
-  min2read: true
+  item_text: false
+  wordcount: false
+  min2read: false
   totalcount: false
-  separated_meta: true
+  separated_meta: false
 
 # Wechat Subscriber
 #wechat_subscriber:
@@ -291,7 +291,7 @@ custom_logo:
 # Available value:
 #    normal | night | night eighties | night blue | night bright
 # https://github.com/chriskempson/tomorrow-theme
-highlight_theme: night eighties
+highlight_theme: normal
 
 
 # ---------------------------------------------------------------
