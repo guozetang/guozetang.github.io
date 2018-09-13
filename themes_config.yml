@@ -198,7 +198,7 @@ sidebar:
   #  - remove  Totally remove sidebar including sidebar toggle.
   #display: post
   #display: always
-  display: post
+  display: hide
   #display: remove
 
   # Sidebar offset from top menubar in pixels (only for Pisces | Gemini).
