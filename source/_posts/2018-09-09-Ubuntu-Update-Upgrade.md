@@ -24,7 +24,7 @@ sudo apt-get dist-upgrade
 
 ## update & upgrade & dist-upgrade
 
-`sudo apt-get update`和`sudo apt-get upgrade`分别是更新的是什么：
+`sudo apt-get update`和`sudo apt-get upgrade`分别更新的是什么：
 
 - update是下载源里面的metadata的. 包括这个源有什么包, 每个包什么版本之类的，最新版本是什么.  
 - upgrade是根据update命令下载的metadata决定要更新什么包(同时获取每个包的位置)，对已经安装的软件包本身进行更新的过程。由于确定要更新的软件包需要对本地安装的版本和列表的版本进行比较，所以要在update以后运行这一条.  
