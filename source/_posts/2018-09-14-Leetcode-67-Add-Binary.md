@@ -23,6 +23,8 @@ The input strings are both  **non-empty**  and contains only characters  `1`  or
 **Difficulty**:Easy
 **Category**:  
 <!--more-->
+******
+
 
 # Analyze
 
