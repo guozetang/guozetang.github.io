@@ -127,9 +127,6 @@ sudo /etc/init.d/ssh start
 然后使用以下方式登陆SSH：
 ssh username@192.168.1.112 username为192.168.1.112 机器上的用户，需要输入密码。
 
-
-
-
 在刚安装完ubuntu后，屏幕不能全屏显示，此时：
 
  1、安装VMware Tools
