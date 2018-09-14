@@ -34,6 +34,7 @@ You may assume the integer does not contain any leading zero, except the number 
 # Analyze
 
 这道题目是给一个`数字的容器`，每个位置放了一个数字，然后让你将这个容器的`最小位 + 1`之后，处理进位操作之后，输出出来，我们只需要判断`最低位是否为9`，如果为9，那么就处理进位操作，如果不为9，那么就加1之后直接输出出来即可。
+******
 
 # Solution
 

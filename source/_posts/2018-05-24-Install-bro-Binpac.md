@@ -51,6 +51,7 @@ Alternatively, the latest Bro development version can be obtained through git re
 ```sh
 git clone --recursive git://git.bro.org/bro
 cd bro
+sudo su
 ./configure
 make
 make install
@@ -65,9 +66,8 @@ make install
 
 BinPAC relies on the following libraries and tools, which need to be installed before you begin:
 
-> -   Flex (Fast Lexical Analyzer)
->     
->     Flex is already installed on most systems, so with luck you can skip having to install it yourself.
+> - Flex (Fast Lexical Analyzer)
+> Flex is already installed on most systems, so with luck you can skip having to install it yourself.
 >     
 > -   Bison (GNU Parser Generator)
 >     
@@ -85,7 +85,7 @@ cd binpac
 ./configure
 cd build
 make
-make install
+sudo make install
 ```
 This will perform an out-of-source build into the build directory using the default build options and then install the binpac binary into  `/usr/local/bin`.
 
