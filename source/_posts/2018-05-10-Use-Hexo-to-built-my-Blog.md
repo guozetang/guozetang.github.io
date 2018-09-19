@@ -16,9 +16,13 @@ tags: Hexo
    [使用 Hexo 基于 GitHub Pages 搭建个人博客（二）](https://ehlxr.me/2016/07/23/%E4%BD%BF%E7%94%A8Hexo%E5%9F%BA%E4%BA%8EGitHub-Pages%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%BA%8C%EF%BC%89/)
 <!-- more -->
 完成Hexo搭建博客之后，可以参考一些配置说明,做一些优化：
+
 [使用 Hexo 基于 GitHub Pages 搭建个人博客](https://ehlxr.me/2016/08/30/%E4%BD%BF%E7%94%A8Hexo%E5%9F%BA%E4%BA%8EGitHub-Pages%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%89%EF%BC%89/)
+
 # Hexo基本操作
+
 ### 基本命令
+
 ```sh
 hexo new "postName" #新建文章
 hexo new page "pageName" #新建页面
@@ -35,20 +39,29 @@ hexo g == hexo generate
 hexo s == hexo server
 hexo d == hexo deploy
 ```
-*****
-# Hexo 文章图片管理
-数无形时少直觉，很多时候一个配图能清晰的表达我们的观点。所以，我们需要研究Hexo写文章时插入图片的方法。主要有两种方式：
-- 本地引用  
-**适用场景：**少量图片 + Blog搭载平台空间充足  
-**优势：** 简洁方便
 
-- 远程图床引用  
-**适用场景：**深度使用用户 + 文章插入图片的需求较高 + Blog搭载平台空间不足  
-**优势：** 能够满足自己插入图片的需求，不用考虑空间问题  
-**缺点：** 所有文章中的图片受制于远程图床服务器的限制，如果服务器出现问题，所有图片都不能加载了
+*****
+
+# Hexo 文章图片管理
+
+数无形时少直觉，很多时候一个配图能清晰的表达我们的观点。所以，我们需要研究Hexo写文章时插入图片的方法。主要有两种方式：
+
+**本地引用**
+
+- 适用场景： 少量图片 + Blog搭载平台空间充足
+
+- 优势： 简洁方便
+
+**远程图床引用** 
+ 
+- 适用场景：深度使用用户 + 文章插入图片的需求较高 + Blog搭载平台空间不足  
+- 优势： 能够满足自己插入图片的需求，不用考虑空间问题  
+- 缺点： 所有文章中的图片受制于远程图床服务器的限制，如果服务器出现问题，所有图片都不能加载了
 
 ## 本地引用
+
 ### 绝对路径引用(我选择的方式，需要能够在首页上显示图片)
+
 当Hexo项目中只用到少量图片时，可以将图片统一放在source/images文件夹中，通过markdown语法访问它们。  
  > source/images/image.jpg  
 `![](/images/image.jpg)`  
@@ -56,7 +69,9 @@ hexo d == hexo deploy
 优势：图片既可以在**首页内容中访问到，也可以在文章正文中访问到**。
 
 ### 相对路径引用
+
 #### 配置站点_config.yml文件
+
 另外也可以将图片放在文章自己的目录中。文章的目录可以通过配置站点_config.yml来生成。  
 > _config.yml  
 'post_asset_folder: true'  
@@ -68,31 +83,42 @@ hexo d == hexo deploy
 > 参考博文：[在 hexo 中无痛使用本地图片](http://www.cnblogs.com/lmf-techniques/articles/6911051.html)
 
 #### Markdown直接引用图片
+
 `![](image.jpg)`  
 
 上述是markdown的引用方式，图片放在文章所在的目录下，或者子目录下，图片只能在文章中显示，但无法在首页中正常显示。
 
-如果希望图片在文章和首页中同时显示，可以使用标签插件语法。  
+如果希望图片在文章和首页中同时显示，可以使用标签插件语法。 
+
 > _posts/post_name/image.jpg
 ```
 {% asset_img image.jpg This is an image %}
 ```
+
 ## 远程图床引用
+
 除了在本地存储图片，还可以将图片上传到一些免费的CDN服务中。比如Cloudinary提供的图片CDN服务，在Cloudinary中上传图片后，会生成对应的url地址，将地址直接拿来引用即可。
 > 参考博文：[使Hexo文章图文并茂](https://mapan.tech/posts/c9c3.html)  
 > 该篇文章详细讲解如何使用新浪微博图床来实现在Hexo文章中插入图片
-********
+
+******
 
 # Hexo的版本控制方式
+
 我们将Hexo生出来的静态网站放到了Github Pages上面去托管了。而我们一般也在在本地搭建Hexo的环境，编写新文章，然后利用hexo deploy来发布到Git，那么对于本地的Hexo的原始文件怎么管理呢？管理Hexo的原始文件的好处是：
+
 - 换电脑布置环境非常方便
 - 不用担心本地环境挂了导致源文件流失，毕竟一折腾就容易搞坏环境的
 
 我们可以把Hexo博客的源文件也Host在github上，这里我们可以选择把Hexo博客的源文件布置到和Blog同一个`username.github.io`仓库，也可以选择将Hexo的源文件推到新建的一个Github Repo.
+
 ## 利用Github分支进行版本控制
+
 ### 利用分支进行版本控制的流程
+
 通过新建一个hexo分支用于专门存放hexo代码。原先的master分支依然不变，作为hexo部署的分支。
 每次在部署后，再把代码提交到hexo分支:
+
 1. 到达Blog的本地文件根目录，本地创建git仓库  
 `git init`
 
@@ -122,6 +148,7 @@ npm install -g hexo-cli
 npm install hexo --save
 npm install hexo-deployer-git
 ```
+
 > 参考博客  
 > [GitHub Pages + Hexo搭建博客](http://crazymilk.github.io/2015/12/28/GitHub-Pages-Hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/#more)  
 > [Hexo博客代码版本控制](http://chenhuichao.com/2016/02/22/hexo/hexo-guide-3/)  
@@ -130,57 +157,78 @@ npm install hexo-deployer-git
 
 ****
 ## 博客首页的显示问题
+
 ### 内容全部显示，不收缩
+
 解决方式：配置Next主题中的`_config.yml`里面的
 `auto_excerpt = true`
+
 ### 内容显示一部分，但是显示格式不是Markdown的格式
+
 使用 <!-- more --> 替代 auto_excerpt
 
 ## 添加文章阅读量统计与评论功能
+
 [为NexT主题添加文章阅读量统计功能](https://notes.wanghao.work/2015-10-21-%E4%B8%BANexT%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E6%96%87%E7%AB%A0%E9%98%85%E8%AF%BB%E9%87%8F%E7%BB%9F%E8%AE%A1%E5%8A%9F%E8%83%BD.html#%E9%85%8D%E7%BD%AELeanCloud)
 
 [hexo博客评论新神器——Valine](https://giserdaishaoqing.github.io/2017/11/24/hexo%E5%8D%9A%E5%AE%A2%E8%AF%84%E8%AE%BA%E6%96%B0%E7%A5%9E%E5%99%A8%E2%80%94%E2%80%94Valine/)
 
 ****
+
 ## 添加搜索功能 
+
 ### 场景  
+
 博文多了之后，就需要一个搜索功能能够快速的找到自己以前的博客。所以在我们的博客上加入搜索功能是很有必要的一件事情。
+
 ### 安装插件  
+
 - 直接在自己的博客文件夹下，点击鼠标右键选择Git Bash Here  
 `npm install hexo-generator-searchdb --save`
 
 - 修改站点配置文件:博客根目录下的_config.yml文件，可以在任意位置加入：
 
-```c
-search：
+```c++
+search:
 	path: search.xml
 	field: post
 	format: html
 	limit: 10000
 ```
+
 PS:每个冒号后面都有空格。
 修改主题配置文件
 我的路径：/blog/themes/next下的_config.yml文件，进行编辑。
+
 ```c
 local_search:
 	enable: true
 ```
+
 PS:冒号后面都有空格。
 此时，部署到github，打开网页就可以看到搜索功能了，容易添加，使用起来很方便，推荐添加，增加网站友好度。
 
-****
+******
+
 ## 添加站内聊天对话功能
 [Hexo博客添加在线联系功能](https://www.ezlippi.com/blog/2018/01/next-chat.html)
-****
+
+*******
 
 ## 添加RSS功能
+
 ### 基本步骤
+
 #### 安装 RSS 插件
-在blog根目录下执行命令安装 RSS 插件: hexo-generator-feed  
+
+在blog根目录下执行命令安装 RSS 插件: hexo-generator-feed
+
 `npm install hexo-generator-feed --save`  
 
 #### 配置 RSS 插件
+
 编辑 Hexo 的配置文件 _config.yml，添加以下代码
+
 ```c
 # RSS 订阅插件
 plugin:
@@ -193,14 +241,19 @@ feed:
   hub:
   content: true
 ```
+
 #### 主题开启 RSS 支持
+
 NexT 主题，默认开启 RSS。其它主题请参考主题文档。
 
 #### 生成 RSS
+
 执行 `hexo clean && hexo g && hexo d` 重新生成博客文件并完成部署即可。
 
 ## 添加显示文章最新更新时间
+
 修改（博客主目录）`/themes/next/layout/_macro/post.swig 文件，在<span class="post-time">...</span>`标签后添加:
+
 ```python
 {%if post.updated and post.updated > post.date%}
   <span class="post-updated">
@@ -211,6 +264,7 @@ NexT 主题，默认开启 RSS。其它主题请参考主题文档。
   </span>
 {% endif %}
 ```
+
 最后在文件中的效果为：
 ![2018-06-10-Add-post-update](/images/in-post/2018-06-10-Add-post-update.png) 
 
@@ -219,14 +273,18 @@ NexT 主题，默认开启 RSS。其它主题请参考主题文档。
 `display_updated: true`
 
 如果需要中文支持，那么就需要在中文的文件里面添加updated的翻译：
-博客配置文件中的 language 参数修改对应的语言配置文件（博客主目录）`/themes/next/languages/zh_Hans.yml`
+博客配置文件中的 language 参数修改对应的语言配置文件（博客主目录）
+
+`/themes/next/languages/zh_Hans.yml`
 
 到这里就设置完成了，如果你在写文章的时候加入了Update的参数，那么就会显示为你加入的参数时间。
 比如：`updated: 2018-01-01 12:00:00`
 如果你没有加入参数，那么就会显示为这个文件的最后修改时间。
 
 ### 问题
+
 #### 打开RSS的时候：出现错误提示
+
 > This page contains the following errors:  
 > error on line 317 at column 18: PCDATA invalid Char value 11  
 > Below is a rendering of the page up to the first error.
@@ -239,8 +297,10 @@ NexT 主题，默认开启 RSS。其它主题请参考主题文档。
 问题解决
 
 #### 关闭打赏功能
+
 暂时不需要开通打赏功能，在`theme->next->_config.yml`文件中注释掉打赏模块。
-```
+
+```c
 # Reward
 # reward_comment: Donate comment here
 # wechatpay: /images/wechatpay.jpg
