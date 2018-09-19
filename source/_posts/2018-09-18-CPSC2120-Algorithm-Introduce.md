@@ -114,6 +114,47 @@ Analyze:
 - Then insert or delete element: O(1) time.
 - Insert or delete from ends: O(1) time.
 
+#### Circular Arrays, Queues
+
+![](/images/in-post/2018-09-18-CPSC2120-Algorithm-Introduce/2018-09-19-10-05-38.png)
+
+```cpp
+void enqueue(int x)
+{
+  A[front] = x;
+  front = (front+1) % N;
+}
+int dequeue(void)
+{
+  int result = A[back];
+  back = (back+1) % N;
+  return result;
+}
+```
+
+#### Stacks
+
+![](/images/in-post/2018-09-18-CPSC2120-Algorithm-Introduce/2018-09-19-10-07-33.png)
+
+```cpp
+void push(int x)
+{
+  A[top++] = x;
+}
+int pop(void)
+{
+  return A[--top];
+}
+
+void what_does_this_do(int n)
+{
+  if (n==0) return;
+  printf (“%d\n”, n);
+  what_does_this_do(n-1);
+  printf (“%d\n”, n);
+}
+```
+
 ### Arrays Vs Lists Example
 
 We can use a example(From Brian. Dean) to introduce the running time abou the Arrays and Lists.
