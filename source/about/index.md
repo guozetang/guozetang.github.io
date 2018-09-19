@@ -25,6 +25,7 @@ I had worked in SZ DJI Technology company for one year, an innovation company wh
 ---
 
 ### Award
+
 - The Excellent graduate in Anhui province 2017  
 - National master scholarship (TOP 2%) 2015  
 - Robomasters robot competition: First prize (East China), Second prize (China) 2015  
@@ -43,6 +44,7 @@ I had worked in SZ DJI Technology company for one year, an innovation company wh
 #### 2014.9-2017.4 University of Science and Technology of China (USTC)
 
 - **Major:** Master of Software Engineering (Embedded System Development)
+
 - **Relative Courses:** Embedded system design、Embedded operating system、Programming and computer systems、Microprocessor architecture、Algorithmic design & analysis、Wireless sensor networks、Linux driver development, [Linux operating system](https://mooc.study.163.com/course/1000029000?tid=1000037000), etc.  
 
 #### 2010.9-2014.7 Yunnan University
@@ -71,12 +73,12 @@ I had worked in SZ DJI Technology company for one year, an innovation company wh
 - Realized online upgrade in the master module and the SLP Protocol Analysis module.  
 - Applied technology and tools: Keil developertools，Mysql database, VxWork driver development, built VoIP server based on Asterisk, built SVN server；Understand and parsed the VDL2 civil aviation agreements (European standard), developed a protocol development plan.
 
-#### 2015 RoboMaster Robot Competition (STM32F4 Software Development)
+#### 2015.11-2016.06 RoboMaster Robot Competition (STM32F4 Software Development)
 
 - Finished STM32F4 communication with a remote pan and adjustment of PID parameters.
 - Worked out main Control Board receives remote control data error after adding the door dog.
 
-#### Design and analysis of the Encrypted File system based on Linux (Team Leader)
+#### 2015.09-2016.04 Design and analysis of the Encrypted File system based on Linux (Team Leader)
 
 - Designed team work plan and the overall framework of the project.
 - Realized eCryptfs cryptographic file system implementation mechanism, designed UI Interface based on QT, dealt with Root permissions file access vulnerability.
@@ -96,11 +98,12 @@ I had worked in SZ DJI Technology company for one year, an innovation company wh
 **Translation of Programming Languages**
   
 - Project: [Convert Leet1337 & English](https://github.com/guozetang/convertleet1337_english)
+  Use Language: Flex, C++, Makefile
 
 **Application**
 
 - [Paper & Code TODO task Tracker](https://github.com/guozetang/paper_code_tracker)
-
+  Use Language: Python, Python Tkinter
 
 ---
 
@@ -108,7 +111,7 @@ I had worked in SZ DJI Technology company for one year, an innovation company wh
 
 **Skilled:**
 
-- Language: C, C++, Python, Shell Scripting, Flex, Matlab
+- Language: C, C++, Python, Shell Scripting, Flex, [Binpac](https://www.bro.org/sphinx/components/binpac/README.html), Matlab
 - Linux, Embedded Linux, Embedded Systems, ucos，VxWork，ARM, Office, GCC，Makefile，git，gdb
 
 **Understand:**
