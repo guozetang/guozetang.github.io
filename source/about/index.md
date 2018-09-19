@@ -41,13 +41,13 @@ I had worked in SZ DJI Technology company for one year, an innovation company wh
 - **Major:** Master of Computer Science
 - **Relative Courses:** [Software Design](https://people.cs.clemson.edu/~malloy/courses/8700-2018/index.html),[Translation of Programming Languages](https://people.cs.clemson.edu/~malloy/courses/8270-2017/index.html), [2-D Game Engine Construction](https://people.cs.clemson.edu/~malloy/courses/4160-2018fall/index.html),  [Security in Emerging Computing and Networking Systems](https://people.cs.clemson.edu/~hongxih/teaching/2018fall/cpcs8580/2018fall.htm), Cloud Computing Architecture, Statistical Methods I
 
-#### 2014.9-2017.4 University of Science and Technology of China (USTC)
+#### 2014.09-2017.04 University of Science and Technology of China (USTC)
 
 - **Major:** Master of Software Engineering (Embedded System Development)
 
 - **Relative Courses:** Embedded system design、Embedded operating system、Programming and computer systems、Microprocessor architecture、Algorithmic design & analysis、Wireless sensor networks、Linux driver development, [Linux operating system](https://mooc.study.163.com/course/1000029000?tid=1000037000), etc.  
 
-#### 2010.9-2014.7 Yunnan University
+#### 2010.09-2014.07 Yunnan University
 
 - **Major:** Bachelor of Electronic and Information Engineering  
 - **Relative Courses:** Principle of automatic control, Principles of microcomputer, Integrated circuit design, Signals and systems, Digital signal processing, Information theory & Coding, etc
