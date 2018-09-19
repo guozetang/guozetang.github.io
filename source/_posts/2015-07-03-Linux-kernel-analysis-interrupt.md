@@ -8,78 +8,84 @@ tags: Linux kernel
 
 Linux内核课第四周作业。本文在云课堂中实验楼完成。  
 原创作品转载请注明出处 [《Linux内核分析》MOOC课程](http://mooc.study.163.com/course/USTC-1000029000)
+
 ****
-中断处理的主要内容：  
-1.调试sys_exit()  
-2.系统调用源代码分析  
-3.系统调用小结
+
+中断处理的主要内容：
+
+1. 调试sys_exit()  
+2. 系统调用源代码分析  
+3. 系统调用小结
+
 <!-- more -->
+
 # 一.加入自定义的系统调用CallExit.
+
 　　修改menu/test.c文件，加入自己定义的系统调用函数。  
 ```c
-	#include <stdio.h>
-	#include <stdlib.h>
-	#include <time.h>
-	#include "menu.h"
-	#include<sys/types.h>
-	#include<unistd.h>
-	#define FONTSIZE 10
-	......
-	......
-	int CallExit(int argc,char *argvs)
-	{
-	    pid_t pc,pr;
-	    int t;
-	    pc =fork();
-	    if(pc < 0)
-	        printf("Fork error!\n");
-	    else if(pc == 0){
-	        printf("This is child process with pid of %d\n",getpid());
-	        sleep(5);
-	    }
-	    else{
-	        pr=wait(NULL);
-	        printf("I catched a child process with pid of %d\n",pr);
-	    }
-	    exit(0);
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include "menu.h"
+#include<sys/types.h>
+#include<unistd.h>
+#define FONTSIZE 10
+......
+......
+int CallExit(int argc,char *argvs)
+{
+	pid_t pc,pr;
+	int t;
+	pc =fork();
+	if(pc < 0)
+		printf("Fork error!\n");
+	else if(pc == 0){
+		printf("This is child process with pid of %d\n",getpid());
+		sleep(5);
 	}
-	int CallExit_asm(int argc,char *argvs)
-	{
-	    pid_t pc,pr;
-	    int t;
-	    pc =fork();
-	    if(pc < 0)
-	        printf("Fork error!\n");
-	    else if(pc == 0){
-	        printf("This is child process with pid of %d\n",getpid());
-	        sleep(5);
-	    }
-	    else{
-	        pr=wait(NULL);
-	        printf("I catched a child process with pid of %d\n",pr);
-	    }
-	
-	    asm volatile(
-	            "mov $0x1,%%eax\n\t"
-	            "mov $0x0,%%ebx\n\t"
-	            "int $0x80\n\t"
-	            "mov %%eax,%0\n\t"
-	            :"=m" (t)
-	            );
+	else{
+		pr=wait(NULL);
+		printf("I catched a child process with pid of %d\n",pr);
+	}
+	exit(0);
+}
+int CallExit_asm(int argc,char *argvs)
+{
+	pid_t pc,pr;
+	int t;
+	pc =fork();
+	if(pc < 0)
+		printf("Fork error!\n");
+	else if(pc == 0){
+		printf("This is child process with pid of %d\n",getpid());
+		sleep(5);
+	}
+	else{
+		pr=wait(NULL);
+		printf("I catched a child process with pid of %d\n",pr);
 	}
 
-	int main()
-	{
-	    PrintMenuOS();
-	    SetPrompt("MenuOS>>");
-	    MenuConfig("version","MenuOS V1.0(Based on Linux 3.18.6)",NULL);
-	    MenuConfig("quit","Quit from MenuOS",Quit);
-	    MenuConfig("time","Show System Time",Time);
-	    MenuConfig("time-asm","Show System Time(asm)",TimeAsm);
-	    **MenuConfig("CallExit","Exit Systemcall",CallExit);**
-	    **MenuConfig("CallExit_asm","Exit_asm Systemcall",CallExit_asm);**
-	    ExecuteMenu();
-	}
+	asm volatile(
+			"mov $0x1,%%eax\n\t"
+			"mov $0x0,%%ebx\n\t"
+			"int $0x80\n\t"
+			"mov %%eax,%0\n\t"
+			:"=m" (t)
+			);
+}
+
+int main()
+{
+	PrintMenuOS();
+	SetPrompt("MenuOS>>");
+	MenuConfig("version","MenuOS V1.0(Based on Linux 3.18.6)",NULL);
+	MenuConfig("quit","Quit from MenuOS",Quit);
+	MenuConfig("time","Show System Time",Time);
+	MenuConfig("time-asm","Show System Time(asm)",TimeAsm);
+	**MenuConfig("CallExit","Exit Systemcall",CallExit);**
+	**MenuConfig("CallExit_asm","Exit_asm Systemcall",CallExit_asm);**
+	ExecuteMenu();
+}
 ```
 
 即在main函数中，加入相应的系统调用定义，讲CallExit和CallExit_asm加入到其中去，在QEMU中启动系统之后可以输入help看到，我们的命令中多了两条命令。

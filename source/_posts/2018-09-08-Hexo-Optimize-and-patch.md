@@ -32,6 +32,7 @@ search:
 我本地的配置与上面的配置是一致的，但是路径位置就是不对，经过搜索，在这个[链接](https://github.com/iissnan/hexo-theme-next/issues/1852)解决了我的问题。
 
 ### 解决思路
+
 在搜索页面，使用`F12`打开确定自己的搜索路径链接是否有问题。
 ![](/images/in-post/2018-09-08-Hexo-Optimize-and-patch/2018-09-08-02-18-22.png)
 发现在路径位置：

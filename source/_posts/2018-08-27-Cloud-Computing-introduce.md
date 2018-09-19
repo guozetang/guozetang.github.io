@@ -132,3 +132,22 @@ There are some courses on this website. - [AWS Training](https://www.aws.trainin
 
 - AWS lab: [awsacademy.qwiklabs.com](https://awsacademy.qwiklab.com/home)
 Use lab on this website
+
+******
+
+# Aws Core services
+
+Elastic Load Balancing, Amazon CloudWatch, and Auto Scaling.
+
+## Elastic Load Balancing(ELB)-- Traffic cop(交通警察)
+
+ELB can automatically distributes incoming application traffic across multiple targets(Like Amazon EC2 Instances, Containers, and IP address).
+
+
+### How to distribute traffic across ELB
+
+### Auto Scaling to launch and release servers
+
+
+### How CloudWatch enables you to monitor AWS resources and applications in real time.
+
