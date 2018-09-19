@@ -44,7 +44,6 @@ I had worked in SZ DJI Technology company for one year, an innovation company wh
 #### 2014.09-2017.04 University of Science and Technology of China (USTC)
 
 - **Major:** Master of Software Engineering (Embedded System Development)
-
 - **Relative Courses:** Embedded system design、Embedded operating system、Programming and computer systems、Microprocessor architecture、Algorithmic design & analysis、Wireless sensor networks、Linux driver development, [Linux operating system](https://mooc.study.163.com/course/1000029000?tid=1000037000), etc.  
 
 #### 2010.09-2014.07 Yunnan University
