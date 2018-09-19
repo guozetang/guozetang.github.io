@@ -27,8 +27,7 @@ for (int i = 0; i<N; i++) {
 }
 ```
 
-
-Binary search: 
+Binary search:
 
 ```cpp
 low = 0; high = N-1;

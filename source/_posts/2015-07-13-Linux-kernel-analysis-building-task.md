@@ -5,76 +5,93 @@ updated: 2015-03-07 13:04:27
 categories: Linux
 tags: Linux kernel
 ---
+
 Linux内核课第六周作业。本文在云课堂中实验楼完成。  
-原创作品转载请注明出处 [《Linux内核分析》MOOC课程](http://mooc.study.163.com/course/USTC-1000029000)  
+[唐国泽](http://guozet.me/about/) 原创作品转载请注明出处.  
+[《Linux内核分析》MOOC课程](http://mooc.study.163.com/course/USTC-1000029000)
+
+<!--more-->
+
 # fork()系统调用
+
 ## 预备知识
+
 这里先列出一些必要的预备知识，对linux下进程机制比较熟悉的朋友可以略过。  
+
 1. 进程可以看做程序的一次执行过程。在linux下，每个进程有唯一的PID标识进程。PID是一个从1到32768的正整数，其中1一般是特殊进程init，其它进程从2开始依次编号。当用完32768后，从2重新开始。  
 2. linux中有一个叫进程表的结构用来存储当前正在运行的进程。可以使用“ps aux”命令查看所有正在运行的进程。  
-3. 进程在linux中呈树状结构，init为根节点，其它进程均有父进程，某进程的父进程就是启动这个进程的进程，这个进程叫做父进程的子进程。  
-> [上述摘自:[从一道面试题谈linux下fork的运行机制\]
-](http://www.cnblogs.com/leoo2sk/archive/2009/12/11/talk-about-fork-in-linux.html)	  
+3. 进程在linux中呈树状结构，init为根节点，其它进程均有父进程，某进程的父进程就是启动这个进程的进程，这个进程叫做父进程的子进程。
+
+> [上述摘自:[从一道面试题谈linux下fork的运行机制\]](http://www.cnblogs.com/leoo2sk/archive/2009/12/11/talk-about-fork-in-linux.html)
 
 <!-- more -->
 下面分析一个简单的例子:
+
 ```C
-	#include <stdio.h>
-	#include <stdlib.h>
-	#include <unistd.h>
-	int main(int argc, char * argv[])
-	{
-	    int pid;
-	    /* fork another process */
-	    pid = fork();
-	    if (pid < 0) 
-	    { 
-	        /* error occurred */
-	        fprintf(stderr,"Fork Failed!");
-	        exit(-1);
-	    } 
-	    else if (pid == 0) 
-	    {
-	        /* child process */
-	        printf("This is Child Process!\n");
-	    } 
-	    else 
-	    {  
-	        /* parent process  */
-	        printf("This is Parent Process!\n");
-	        /* parent will wait for the child to complete*/
-	        wait(NULL);
-	        printf("Child Complete!\n");
-	    }
-	}
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+int main(int argc, char * argv[])
+{
+        int pid;
+        /* fork another process */
+        pid = fork();
+        if (pid < 0) 
+        { 
+                /* error occurred */
+                fprintf(stderr,"Fork Failed!");
+                exit(-1);
+        } 
+        else if (pid == 0) 
+        {
+                /* child process */
+                printf("This is Child Process!\n");
+        } 
+        else 
+        {  
+                /* parent process  */
+                printf("This is Parent Process!\n");
+                /* parent will wait for the child to complete*/
+                wait(NULL);
+                printf("Child Complete!\n");
+        }
+}
 ```
 比较简单,运行结果为:
-``` 
+
+```bash
 This is Child Process!
 This is Parent Process!
 Child Complete!
 ```
 
 **在pid = fork()前,只有一个进程执行这段代码**,但在这条语句滞后,就有两个进程在执行后面的代码了,接下来的代码是:
+
 `if(pid.....)`  
+
 补充: fork语句的返回值,fork系统调用调用一次, 返回两次, 在这里有可能有三种返回值
-- 在父进程中，**fork返回新创建子进程的进程ID；**
-- 在子进程中，fork返回0；
-- 如果出现错误，fork返回一个负值；  
+
+- 在父进程中，**fork返回新创建子进程的进程ID**
+- 在子进程中，fork返回0
+- 如果出现错误，fork返回一个负值
+
 所有在这段代码中, 如果pid = fork()执行成功, 那就有两个进程了, 一个父进程和一个子进程, 在子进程中，fork函数返回0，在父进程中，fork返回新创建子进程的进程ID。我们可以通过fork返回的值来判断当前进程是子进程还是父进程。  
 
-fork出错可能有两种原因： 
+fork出错可能有两种原因：
+
 - 当前的进程数已经达到了系统规定的上限，这时errno的值被设置为EAGAIN。系统内存不足，这时errno的值被设置为ENOMEM。
 - 创建新进程成功后，系统中出现两个基本完全相同的进程，**这两个进程执行没有固定的先后顺序，哪个进程先执行要看系统的进程调度策略**。
-> 参考博文: [linux中fork（）函数详解（原创！！实例讲解）](http://blog.csdn.net/jason314/article/details/5640969)
-  
-	 
+
+参考博文: [linux中fork（）函数详解（原创！！实例讲解）](http://blog.csdn.net/jason314/article/details/5640969)
+
 # fork对应的系统调用过程
+
 在 Linux 内核中,供用户创建进程的系统调用fork()函数的响应函数是 sys_fork()、sys_clone()、sys_vfork()。  
 这三个函数**都是通过调用内核函数 do_fork() 来实现的**。根据调用时所使用的 clone_flags 参数不同，do_fork() 函数完成的工作也各异。下面分析do_fork(), 该函数主要作用是复制原来的进程成为另一个新的进程，它完成了整个进程的创建过程。
-## do_fork()函数的几个参数:
-- clone_flags：该标志位的4个字节分为两部分。最低的一个字节为子进程结束时发送给父进程的信号代码，通常为SIGCHLD；剩余的三个字节则是各种clone标志的组合。通过clone标志可以有选择的对父进程的资源进行复制。例如CLONE_VM表示共享内存描述符合所有的页表； CLONE_FS共享根目录和当前工作目录所在的表以及权限掩码。
 
+## do_fork()函数的几个参数:
+
+- clone_flags：该标志位的4个字节分为两部分。最低的一个字节为子进程结束时发送给父进程的信号代码，通常为SIGCHLD；剩余的三个字节则是各种clone标志的组合。通过clone标志可以有选择的对父进程的资源进行复制。例如CLONE_VM表示共享内存描述符合所有的页表； CLONE_FS共享根目录和当前工作目录所在的表以及权限掩码。
 - statck_start：子进程用户态堆栈的地址；  
 - regs：指向pt_regs结构体的指针。当系统发生系统调用，即用户进程从用户态切换到内核态时，该结构体保存通用寄存器中的值，并被存放于内核态的堆栈中；  
   
@@ -84,7 +101,9 @@ fork出错可能有两种原因：
 - child_tidptr：子进程在用户态下pid的地址，该参数在CLONE_CHILD_SETTID标志被设定时有意义。
 
 ## do_fork() 函数生成一个新的进程
-- 建立进程控制结构并赋初值，使其成为进程映像。这个过程完成以下内容。   
+
+- 建立进程控制结构并赋初值，使其成为进程映像。这个过程完成以下内容。
+
 > 1. 在内存中分配一个 task_struct 数据结构，以代表即将产生的新进程。
 > 2. 把父进程 PCB 的内容复制到新进程的 PCB 中。
 > 3. **为新进程分配一个唯一的进程标识号 PID 和 user_struct 结构。**然后检查用户具有执行一个新进程所必须具有的资源。
@@ -285,16 +304,19 @@ fork出错可能有两种原因：
 	}
 ```
 
-# 三.实验
+# 实验
 实验是在实验楼完成的:
-   ![这里写图片描述](http://img.blog.csdn.net/20150412211133964)
 
+![](/images/in-post/2015-07-13-Linux-kernel-analysis-building-task/2018-09-19-01-45-16.png)
 
-  总结:
-  1.新进程的执行起点为: ret_form_fork
-  当他从ret_from_fork退出时，会从堆栈中弹出原来保存的eip，而ip指向kernel_thread_helper, 
+总结:
+**新进程的执行起点为: ret_form_fork**
 
-  至此kernel_thread_helper被调用，他就能够运行我们的指定的函数了do_exit(). 
-  do_fork的执行流程可如下图表示:
-![这里写图片描述](http://img.blog.csdn.net/20150412205951386)
+当他从ret_from_fork退出时，会从堆栈中弹出原来保存的eip，而ip指向kernel_thread_helper, 
+
+至此kernel_thread_helper被调用，他就能够运行我们的指定的函数了do_exit(). 
+do_fork的执行流程可如下图表示:
+
+![](/images/in-post/2015-07-13-Linux-kernel-analysis-building-task/2018-09-19-01-45-40.png)
+
 图摘自:[Linux进程切换](http://www.ahlinux.com/start/base/6893.html)
