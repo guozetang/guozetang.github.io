@@ -115,7 +115,7 @@ I had worked in SZ DJI Technology company for one year, an innovation company wh
 
 **Understand:**
 
-- Language: Java, Assembly, Javascript
+- Language: Java, Assembly, Javascript, Bison
 - QT, Python Tkinter
 
 ---

@@ -1,8 +1,8 @@
 ## CPSC Project 1: Packet Sniffing and Spoofing
 
-> CPSC 8580 Project1
-> Guoze Tang
-> 09/19/2018
+> CPSC 8580 Project1  
+> Guoze Tang  
+> 09/19/2018  
 
 ### Task 1: Writing Packet Sniffing Program
 
