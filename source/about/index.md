@@ -18,7 +18,7 @@ Email: guozet@clemson.edu
 
 ### Bio
 
-I am *@Terry* (Guoze, Tang), a Graduate Student in the [School of Computing](http://www.clemson.edu/ces/computing/) at [Clemson University](http://www.clemson.edu/). I graduated from [Yunnan University](https://en.wikipedia.org/wiki/Yunnan_University) Electronic and Information Engineering in 2014. After that, I studied Software Engineering and graduated from [University of Science and Technology of China](https://en.wikipedia.org/wiki/University_of_Science_and_Technology_of_China) in 2017.03. After two years of study, I acquired a comprehensive knowledge of computer hardware and software. I was interested in embedded systems design. And I gained a lot, not only on specialized knowledge but also a scientific way of thinking.   
+I am *@Terry* (Guoze, Tang), a Graduate Student in the [School of Computing](http://www.clemson.edu/ces/computing/) at [Clemson University](http://www.clemson.edu/). I graduated from [Yunnan University](https://en.wikipedia.org/wiki/Yunnan_University) Electronic and Information Engineering in 2014. After that, I studied Software Engineering and graduated from [University of Science and Technology of China](https://en.wikipedia.org/wiki/University_of_Science_and_Technology_of_China) in 2017.03. After two years of study, I acquired a comprehensive knowledge of computer hardware and software. I was interested in embedded systems design. And I gained a lot, not only on specialized knowledge but also a scientific way of thinking.
 
 I had worked in SZ DJI Technology company for one year, an innovation company which based on Fight control. At DJI, I developed Sensor-driven of FJ01 project in DJI and analyzed the data of Sensor. Working on this project helped me hone my programming skills on a real-life problem.  
 
@@ -64,7 +64,7 @@ I had worked in SZ DJI Technology company for one year, an innovation company wh
 
 - Developed Sensor-driven of FJ project in DJI and analyzed the data of Sensor.
 - Realized Serial port, IIC, SPI development, ucos operating system and data analysis using Matlab.
-- Developed and validated barometer drivers for MAVIC.   
+- Developed and validated barometer drivers for MAVIC.
 
 #### 2015.07-2016.04 BJ YUNXI Technology co., Ltd. (Embedded Software Development Intern)  
 
@@ -88,18 +88,18 @@ I had worked in SZ DJI Technology company for one year, an innovation company wh
 
 ### Interests
 
-**Networking Security**
+#### Networking Security
 
 - Project: [Protocol Parser in Network](https://github.com/guozetang/Protocol_Parser)
 
-**Embedded System**
+#### Embedded System
 
-**Translation of Programming Languages**
+#### Translation of Programming Languages
   
 - Project: [Convert Leet1337 & English](https://github.com/guozetang/convertleet1337_english)
   Use Language: Flex, C++, Makefile
 
-**Application**
+#### Application
 
 - [Paper & Code TODO task Tracker](https://github.com/guozetang/paper_code_tracker)
   Use Language: Python, Python Tkinter

@@ -45,7 +45,7 @@ class MyClass //类的声明，无内存占有
 
 ```cpp
 #include<iostream>
- 
+
 //全局作用域
 string myString;//定义，myString是实例化的string！
 
@@ -80,7 +80,7 @@ int  fun(int a,int b)
 {  
     int  c;
     c=a+b;
-    return c;   
+    return c;
 }
 
 //这里的Fun是声明，因为这里只有函数头

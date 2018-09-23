@@ -5,7 +5,9 @@ updated: 2018-09-08 09:50:32
 categories: Leetcode
 tags: Leetcode
 ---
-## Count AndSay
+
+# Question
+
 The count-and-say sequence is the sequence of integers with the first five terms as following:
 
 1. 1
@@ -22,12 +24,11 @@ Given an integer  _n_, generate the  _n_th  term of the count-and-say sequence.
 
 Note: Each term of the sequence of integers will be represented as a string.
 
-> **Example 1:**
->
+ **Example 1:**
 > **Input:** 1
 > **Output:** "1"
-> 
-> **Example 2:**
+
+**Example 2:**
 > **Input:** 4
 > **Output:** "1211"
 
@@ -55,7 +56,6 @@ public:
             res = cur;
         }
         return res;
-        
     }
 };
 ```

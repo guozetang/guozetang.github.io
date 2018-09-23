@@ -49,7 +49,7 @@ public:
         }
         return true;
     }
-    
+
     bool isAlphaNum(char &ch) {
         if (ch >= 'a' && ch <= 'z') return true;
         if (ch >= 'A' && ch <= 'Z') return true;

@@ -71,9 +71,8 @@ public:
         }
         return s;
     }
-    
     bool isVowel(char c) {
-        return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' 
+        return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u'
                || c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U';
     }
 };
@@ -83,10 +82,9 @@ public:
 
 我们尝试使用C++中String类提供的函数来更简洁的完成这个查找的过程。
 
-- [find_first_of](http://www.cplusplus.com/reference/string/string/find_first_of/)
-Find character in string  (public member function )
-- [find_last_of](http://www.cplusplus.com/reference/string/string/find_last_of/)
-Find character in string from the end  (public member function )
+- [find_first_of](http://www.cplusplus.com/reference/string/string/find_first_of/) Find character in string  (public member function )
+
+- [find_last_of](http://www.cplusplus.com/reference/string/string/find_last_of/) Find character in string from the end  (public member function )
 
 ```cpp
 class Solution {

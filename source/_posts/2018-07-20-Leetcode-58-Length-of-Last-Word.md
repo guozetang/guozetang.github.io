@@ -6,7 +6,7 @@ categories: Leetcode
 tags: Leetcode
 ---
 
-## Length of Last Word
+# Question
 
 Given a string  _s_  consists of upper/lower-case alphabets and empty space characters  `' '`, return the length of last word in the string.
 
@@ -20,7 +20,7 @@ If the last word does not exist, return 0.
 <!--more-->
 *****
 
-## Solution
+# Solution
 
 ```cpp
 class Solution {
@@ -31,7 +31,7 @@ public:
         for (int i = s.size() -1; i >= 0; --i) {
             if (flag_right == 1 && s[i] == ' ') {
                 return right - i;
-            } 
+            }
             else {
                 if (s[i] != ' ' && flag_right == 0) {
                     flag_right = 1;
@@ -39,9 +39,9 @@ public:
                 }
             }
         }
-        if (flag_right == 0) 
+        if (flag_right == 0)
             return 0;
-        else 
+        else
             return right+1;
     }
 };

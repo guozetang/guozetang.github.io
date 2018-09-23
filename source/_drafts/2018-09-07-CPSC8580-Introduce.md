@@ -8,8 +8,8 @@ notebook: 01_Workbench
 ---
 Course Links: [CPSC8580 Clemson University](https://people.cs.clemson.edu/~hongxih/teaching/2018fall/cpcs8580/2018fall.htm)
 
+# Basic Security Principles
 
-# Basic Security Principles 
 ## Authentication
 
 ## Access Control
@@ -20,24 +20,18 @@ Course Links: [CPSC8580 Clemson University](https://people.cs.clemson.edu/~hongx
 
 ## Cryptography
 
-
 # Emerging System Security
 
 ## Deep learning system security
-- 
 
 ## Internet of Things (IoT) security
 
 ## Software-Defined Networking (SDN) security
 
-
 ## Blockchain-based system security
-
-
 
 ## Ransomware detection and defense
 
-
-
 ## Mobile platform security
+
 <!--more-->
