@@ -1,12 +1,13 @@
 ---
 title: Leetcode 541. Reverse String II
 date: 2018-07-20 11:50:32
-updated: 2018-06-18 11:50:32
+updated: 2018-08-18 11:50:32
 categories: Leetcode
 tags: Leetcode
 ---
 
 ## Reverse String II
+
 Given a string and an integer k, you need to reverse the first k characters for every 2k characters counting from the start of the string. If there are less than k characters left, reverse all of them. If there are less than 2k but greater than or equal to k characters, then reverse the first k characters and left the other as original.
 
 > **Example:**  
