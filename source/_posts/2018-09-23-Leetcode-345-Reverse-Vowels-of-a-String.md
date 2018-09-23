@@ -101,3 +101,25 @@ public:
     }
 };
 ```
+
+## Solution
+
+第三种方式是使用String类型里面的`Find`函数， 来自于博客：[Reverse Vowels of a String 翻转字符串中的元音字母](http://www.cnblogs.com/grandyang/p/5426682.html)
+
+把元音字母都存在一个字符串里，然后每遇到一个字符，就到元音字符串里去找，如果存在就说明当前字符是元音字符，参见代码如下：
+
+```cpp
+class Solution {
+public:
+    string reverseVowels(string s) {
+        int left = 0, right = s.size() - 1;
+        string t = "aeiouAEIOU";
+        while (left < right) {
+            if (t.find(s[left]) == string::npos) ++left;
+            else if (t.find(s[right]) == string::npos) --right;
+            else swap(s[left++], s[right--]);
+        }
+        return s;
+    }
+};
+```
