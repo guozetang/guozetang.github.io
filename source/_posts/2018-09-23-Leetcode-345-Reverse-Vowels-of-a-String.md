@@ -44,7 +44,10 @@ public:
             }
         }
 ```
+
 主要需要实现的就是里面寻找到左右都是元音字母的过程。
+
+******
 
 # Solution
 
@@ -102,7 +105,7 @@ public:
 };
 ```
 
-## Solution
+## Solution3
 
 第三种方式是使用String类型里面的`Find`函数， 来自于博客：[Reverse Vowels of a String 翻转字符串中的元音字母](http://www.cnblogs.com/grandyang/p/5426682.html)
 
