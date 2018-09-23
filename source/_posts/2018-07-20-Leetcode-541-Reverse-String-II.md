@@ -18,7 +18,6 @@ Given a string and an integer k, you need to reverse the first k characters for 
 > 2. Length of the given string and k will in the range [1, 10000]
 
 **Difficulty**:Easy
-**Category**:String
 
 <!--more-->
 *****
