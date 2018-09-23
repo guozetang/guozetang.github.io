@@ -1,26 +1,27 @@
 ---
-title: [Courses Cloud Computing] Introduce 1
+title: Courses Cloud Computing Introduce 1
 date: 2018-08-27 10:14:31
-updated: 2018-08-27 10:14:31
+updated: 2018-08-27 12:14:31
 categories: Courses
 tags: Cloud Computing
 ---
 
 8/23/2018
--   Welcome, course overview, account setup, course logistics (20 minutes)
--   1.01 What is Cloud Computing (30 minutes)
--   AWS Management Console demo
--   _Access the student materials at  [https://awsacademy.qwiklab.com (Links to an external site.)Links to an external site.](https://www.google.com/url?q=https%3A%2F%2Fawsacademy.qwiklab.com%2F&sa=D&sntz=1&usg=AFQjCNGTi6DJo_tzl6XTUSgCHuJfeCKqdg)_
--   Registration link -- will be provided in email to class participants
--   [AWS Getting Started (Links to an external site.)Links to an external site.](https://www.google.com/url?q=https%3A%2F%2Fwww.dropbox.com%2Fs%2F2juvuht9g3o1ali%2F20160823%2520AWS%2520Academy%2520getting%2520started%2520for%2520students.pdf%3Fdl%3D0&sa=D&sntz=1&usg=AFQjCNFxciRZikyEAl9sJswYihv5mjs_hA)
+
+- Welcome, course overview, account setup, course logistics (20 minutes)
+- 1.01 What is Cloud Computing (30 minutes)
+- AWS Management Console demo
+- _Access the student materials at  [https://awsacademy.qwiklab.com (Links to an external site.)Links to an external site.](https://www.google.com/url?q=https%3A%2F%2Fawsacademy.qwiklab.com%2F&sa=D&sntz=1&usg=AFQjCNGTi6DJo_tzl6XTUSgCHuJfeCKqdg)_
+- Registration link -- will be provided in email to class participants
+- [AWS Getting Started (Links to an external site.)Links to an external site.](https://www.google.com/url?q=https%3A%2F%2Fwww.dropbox.com%2Fs%2F2juvuht9g3o1ali%2F20160823%2520AWS%2520Academy%2520getting%2520started%2520for%2520students.pdf%3Fdl%3D0&sa=D&sntz=1&usg=AFQjCNFxciRZikyEAl9sJswYihv5mjs_hA)
 
 **Homework:**
 
--   **AFTER EVERY LECTURE: Do the assessment(s) associated with the lecture slides just covered even if not listed in the Homework. Become familiar with the terms and concepts listed for each class period.**
--   For today's lecture, do the Assessment for Lecture 1.
--   Read  [Cloud computing basics (Links to an external site.)Links to an external site.](https://www.google.com/url?q=https%3A%2F%2Fwww.ibm.com%2Fblogs%2Fcloud-computing%2F2014%2F02%2Fcloud-computing-basics%2F&sa=D&sntz=1&usg=AFQjCNGCcrgBpw3vKMKLB7EZ7Gv8GFmQRQ)
--   Read:  [Taxonomy and Survey of Cloud Computing Systems (Links to an external site.)Links to an external site.](http://www.google.com/url?q=http%3A%2F%2Fieeexplore.ieee.org%2Fdocument%2F5331755%2F&sa=D&sntz=1&usg=AFQjCNGj8YdvO-L3HtZv0kBGQ4zUg-8wDQ)  and be prepared to answer questions about it on the Exam.
--   Some terms everyone should know: on-demand self service, resource pooling, elasticity, measured service, SAAS, PAAS, IAAS, HAAS public/private/hybrid types of clouds, virtualization, hypervisor, stateful versus stateless services, cloud business model, on-premises/on-prem, enterprise application,  **pay as you go**
+- **AFTER EVERY LECTURE: Do the assessment(s) associated with the lecture slides just covered even if not listed in the Homework. Become familiar with the terms and concepts listed for each class period.**
+- For today's lecture, do the Assessment for Lecture 1.
+- Read  [Cloud computing basics (Links to an external site.)Links to an external site.](https://www.google.com/url?q=https%3A%2F%2Fwww.ibm.com%2Fblogs%2Fcloud-computing%2F2014%2F02%2Fcloud-computing-basics%2F&sa=D&sntz=1&usg=AFQjCNGCcrgBpw3vKMKLB7EZ7Gv8GFmQRQ)
+- Read:  [Taxonomy and Survey of Cloud Computing Systems (Links to an external site.)Links to an external site.](http://www.google.com/url?q=http%3A%2F%2Fieeexplore.ieee.org%2Fdocument%2F5331755%2F&sa=D&sntz=1&usg=AFQjCNGj8YdvO-L3HtZv0kBGQ4zUg-8wDQ)  and be prepared to answer questions about it on the Exam.
+- Some terms everyone should know: on-demand self service, resource pooling, elasticity, measured service, SAAS, PAAS, IAAS, HAAS public/private/hybrid types of clouds, virtualization, hypervisor, stateful versus stateless services, cloud business model, on-premises/on-prem, enterprise application,  **pay as you go**
 
 # Introduce
 ## What is the Cloud Computing?
