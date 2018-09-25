@@ -9,35 +9,38 @@ top:
 
 Exam 1 Review Questions. Exam 1 will be derived from these questions.
 
+注明：加粗的问题是考试的重点考试题目
+
 **Acronyms**
 Expand each of the following acronyms of the following in the context of this class:
-1.  AWS: Amazon Web Services	
-2.  AZ:  Availablity Zone
-3.  EC2: Elastic Compute Cloud
-4.  S3: Sample Storage Service
-5.  EBS: Elastic Block Store
-6.  RDS: Relation Database Service
-7.  NoSQL: No-relation SQL
-8.  ELB: Elastic Load Balancing
-9.  PAAS: Platform as a service
-10.  HAAS: Hardware as a service
-11.  IAAS: Infrastructure as a service
-12.  SAAS: Software as a service 
-13.  CIDR: Classless inter-domain routing
-14.  REST: Representational State Transfer
-15.  SOAP: Simple Object Access Protocol 
-16.  VPC: Virtual Private Cloud
-17.  CTO: Chief Technology Officer 
-18.  CIO: Chief Information Officer
-19.  AMI: Amazon Machine Image
-20.  IAM: Identity and Access Management 
-21.  MFA: Multi-factor Authentication
-22.  IOPS:  I/O Operations per second
-23.  ACL: Access Control List
-24.  CLI: Command Line Interface
-25.  SDK: Software Development Kit
-26.  API: Application Interface
-27.  JSON: JavaScript Object Notation
+
+1. AWS: Amazon Web Services
+1. AZ:  Availablity Zone
+2. **EC2: Elastic Compute Cloud**
+3. **S3: Sample Storage Service**
+4. EBS: Elastic Block Store
+5. RDS: Relation Database Service
+6. **NoSQL: No-relation SQL**
+7. ELB: Elastic Load Balancing
+8. PAAS: Platform as a service
+9. HAAS: Hardware as a service
+10. IAAS: Infrastructure as a service
+11. SAAS: Software as a service
+12. **CIDR: Classless inter-domain routing**
+13. REST: Representational State Transfer
+14. SOAP: Simple Object Access Protocol 
+15. **VPC: Virtual Private Cloud**
+16. CTO: Chief Technology Officer 
+17. CIO: Chief Information Officer
+18. AMI: Amazon Machine Image
+19. **IAM: Identity and Access Management**
+20. **MFA: Multi-factor Authentication**
+21. IOPS:  I/O Operations per second
+22. ACL: Access Control List
+23. CLI: Command Line Interface
+24. SDK: Software Development Kit
+25. API: Application Interface
+26. JSON: JavaScript Object Notation
 
 <!--more-->
 ******
@@ -45,10 +48,11 @@ Expand each of the following acronyms of the following in the context of this cl
 **General Questions**
 
 1.  Define cloud computing.
+
 Cloud computing is the on-demand delivery of compute power, database storage, applications, and other IT resources through a cloud services platform via the internet, with pay-as-you-go pricing. 
 ~~Cloud computing is a model for enabling convenient, on-demand network access to a shared pool of configurable computing resources (e.g. networks, servers, applications, and services) that can be rapidly provisioned and released with minimal management effort or service provider interaction.~~
  
-2.  Name and briefly describe six advantages and benefits of using commercial cloud computing. 
+1.  Name and briefly describe six advantages and benefits of using commercial cloud computing. 
 	- No upfront investment, users just click to order resources and can be immediate access and pay for the resources you need, which are available almost immediately. 
 	- Low on-going costs, AWS is continually lower prices and can optimize cost with prices option 
 	- Focus on innovation, users just need to focus on application development and do not care of other operations
@@ -89,63 +93,64 @@ Google Engine, Mircosoft Azure, Sun Cloud.
 
 **AWS Computing**
 
-1.  What is the AWS Marketplace?
+1. What is the AWS Marketplace?
 AWS Marketplace is an online store where you can buy or sell software that runs on Amazon Web Services.
 
-2.  What is a hypervisor and what is its main function? Do you have access to the hypervisor layer in AWS? Explain your answer.
+2. What is a hypervisor and what is its main function? Do you have access to the hypervisor layer in AWS? Explain your answer.
 	- A hypervisor is a function which abstracts and isolates operating systems and applications from the underlying computer hardware. This abstraction allows the underlying host machine hardware to independently operate one or more virtual machines as guests, allowing multiple guest VMs to effectively share the system's physical compute resources, such as processor cycles, memory space, network bandwidth and so on. 
 	- The main function of hypervisor is to manage the virtual machines. 
 	- No, you don’t need to access the hypervisor layer, you just need to use EC2 instance to develop your own application, and AWS will help you to manage the resource that your virtual machines needed.
 
-3.  What is an Instance?
+3. **What is an Instance?**
+
 Amazon instances are virtualized servers or virtual computing environments in amazon’s data centers.
 
-4.  Draw the EC2 instance life cycle diagram. See  [here (Links to an external site.)Links to an external site.](https://www.google.com/search?q=ec2+instance+lifecycle&rlz=1C1GCEA_enUS785US785&source=lnms&tbm=isch&sa=X&ved=0ahUKEwiNg87g9LfdAhVSzlMKHQAdDYwQ_AUICigB&biw=1361&bih=926#imgrc=CXUrONSjwds2NM:)
+1. Draw the EC2 instance life cycle diagram. See  [here (Links to an external site.)Links to an external site.](https://www.google.com/search?q=ec2+instance+lifecycle&rlz=1C1GCEA_enUS785US785&source=lnms&tbm=isch&sa=X&ved=0ahUKEwiNg87g9LfdAhVSzlMKHQAdDYwQ_AUICigB&biw=1361&bih=926#imgrc=CXUrONSjwds2NM:)
 
 ![Image result for ec2 instance lifecycle](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/images/instance_lifecycle.png)
 
-6.  Explain what “Pay as you Go” means.
+6. Explain what “Pay as you Go” means.
 “Pay as you Go” means you just pay for the resources that you truly used, and if you do not use those resources, you do not need to pay. Like electric power or water, when you use it, then you pay for it.
 
-7.  List four AWS EC2 Purchasing Options.
+7. List four AWS EC2 Purchasing Options.
 On-demand instance, Reserved instance, Spot instance,  Dedicated Hosts.
 ~~Scheduled instance,  Dedicated instance,~~ 
 
-8.  Describe at least three differences between On-Demand purchasing and Reserved Instance purchasing. (Between On-Demand purchasing and Spot Instance purchasing, between Reserved purchasing and Scheduled purchasing.)
+8. **Describe at least three differences between On-Demand purchasing and Reserved Instance purchasing. (Between On-Demand purchasing and Spot Instance purchasing, between Reserved purchasing and Scheduled purchasing.)**
 	- On-Demand Instances: 1. Computer capacity by the hours & second. 2.  It has short-term, spiky o unprecdictable workload. Low cost and flexibility.
 	-  Reserved Instance: 1. Purchasing need upfront payment, steady-state workload, can get 50%-75% lower than on-demand rate. 2. Overall cost is lower. 3. Predictability ensures compute capacity is available when needed.
 	- Spot Instances: 1.Bid for unused Amazon EC2 capacity. 2.The price based on supply and demand. 3.Instances can be lost if you’re outbid, 4. Instances can be interrupted if the Spot price exceeds the maximum.  5.Large scale, dynamic workload.
 	- Dedicated Hosts: 1.Save money on licensing costs. 2.Help meet compliance and regulatory requirements.
 
-
-
-9.  For what kind of workload would you prefer on-Demand pricing? Spot pricing? Reserved Instance pricing? Scheduled Instance pricing?
+9. For what kind of workload would you prefer on-Demand pricing? Spot pricing? Reserved Instance pricing? Scheduled Instance pricing?
 	- On-demand: short term, spiky or unpredicted workload;
 	- Reserved: consistent, heavy workload. Steady state or preictable usage workloads.
 	- Spot: Applications with flexible start and end times.
 	- Scheduled: Usage and licensing tracking.
 
+10. True or False: If you launch an instance using Spot pricing and it is terminated by AWS in 30 minutes then you are charged for the full hour.
 
-10.  True or False: If you launch an instance using Spot pricing and it is terminated by AWS in 30 minutes then you are charged for the full hour.
 False. The minimum is 60 seconds. But it are billed on one-second increments.
 
-11.  True or False: If you launch an instance using Spot pricing and you terminate it in 30 seconds then you are charged for the full minute.
+1.   True or False: If you launch an instance using Spot pricing and you terminate it in 30 seconds then you are charged for the full minute.
 `True`. The minimum of 60 second.
 
-12.  True or False: An AMI includes a template for the root volume, launch permission that control which AWS accounts can use the AMI, and a block device mapping that specifies the volumes to attach to the instance when it is launched.
+1.   True or False: An AMI includes a template for the root volume, launch permission that control which AWS accounts can use the AMI, and a block device mapping that specifies the volumes to attach to the instance when it is launched.
 `True`
 
-13.  Name four families of EC2 instances.
+1.   Name four families of EC2 instances.
 		- General purpouse: t2, m3, m4
 		- Compute-Optimized: c4,c3
 		- Mermory-Optimized: r3
 		- GPU instance: g2
 
 
-15.  What is Instance Metadata? Give an example.
+2. **What is Instance Metadata? Give an example.**
+
 Instance Metadata is data about the instance, can be used to configure and manage a running instance. For example, aim-id, ami-launch-index, private or public IP address etc.
 
-16.  What is Instance User Data? Give an example.
+5. **What is Instance User Data? Give an example.**
+
 Instance User data is a data can be passed to the instance at launch and can be used to perform common automated configuration scripts. For example: 
 ```bash
 #!/bin/bash
@@ -155,23 +160,24 @@ service httpd start
 chkconfig httpd on
 ```
 
-17. Explain the concept of bootstrapping an instance.
+6. **Explain the concept of bootstrapping an instance.**
+
 It creates an application context that provides the runtime context for an application. 
 
-18.  True or False: You are able to reboot any type of instance.
+7.   True or False: You are able to reboot any type of instance.
 `True`
 *******
 
 **AWS Storage**
 
-1.  Describe three differences between Amazon EBS and Amazon EC2 Instance Store
+1.  **Describe three differences between Amazon EBS and Amazon EC2 Instance Store**
 	- EBS: Data stored in EBS can persist independently of the life of instance. Storage is `persistent`. Used to store higher level durable data.which can be mounted as a device to an Amazon EC2 instance. `Mountable storage`, Amazon EBS can only be mounted to an Amazon EC2 instance within the `same Availability Zone`. 
 	- EC2 Instance Store: Data stored in EC2 Instance Store can persist only as long as the instance alive. Storage is ephemeral. Used to store temporary data.
 
-2.  True or False: Every type of instance can use EC2 Instance Store. Explain your answer. (This is a trick question).
+2.  **True or False: Every type of instance can use EC2 Instance Store. Explain your answer. (This is a trick question).**
 `False: `Use the local instance store only for temporary data.
 
-3.  What is the difference between ephemeral and persistent storage? Which type is EBS? Which type is S2? Which type is Instance Store?
+3.  **What is the difference between ephemeral and persistent storage? Which type is EBS? Which type is S2? Which type is Instance Store?**
 	- Persistent storage is just like a data is stored in hard disk, and will persist in this disk.
 	- The Ephemeral storage means the stored data always a temporary data, like cache, buffers etc. When the instance is unlived, this data will be deleted. 
 	- EBS: persistent storage, S3: persistent storage , Instance Store: ephemeral storag
@@ -207,12 +213,11 @@ Q: The data need to be accessed by internet.
 12.  What is an EBS Snapshot?
 An EBS snapshot is a point-in-time backup of your EBS volume. It is a “copy” of the data on your EBS volume. Snapshots are incremental backups, which means that only the blocks on the device that have changed after your most recent snapshot are saved
 
-
-13.  Describe the EBS volume lifecycle.
+13. **Describe the EBS volume lifecycle.**
 
 ![](/images/in-post/2018-09-24-CPSC6440-CloudComputing-basic-concepts/2018-09-24-22-06-36.png)
 
-14.  What are provisioned IOPS?
+14.  **What are provisioned IOPS?**
 Provisioned IOPS are a new EBS volume type designed to deliver predictable, high performance for I/O intensive workloads, such as database applications, that rely on consistent and fast response times
 
 
@@ -257,7 +262,7 @@ High availability refers to systems that are durable and likely to operate conti
 1.  True or False: VPCs are logically isolated from other virtual networks. 
 `True`
 
-2.  A VPC resides in a single:
+2.  **A VPC resides in a single:**
     1.  Availability Zone
     2.  Edge Location
     3.  **Region**
@@ -335,7 +340,7 @@ services are cheaper as you are responsible for everything.
 2.  __________ are the basic building blocks of Amazon RDS.
 DB instances
 
-3.  True or False: A DB Instance is an isolated database environment in the cloud.
+3.  **True or False: A DB Instance is an isolated database environment in the cloud.**
 True: A DB instance is an isolated database environment running in the cloud. It is the basic building block of Amazon RDS.
 
 4.  Name four databases supported by AWS RDS.
@@ -356,7 +361,7 @@ In Scaling Up (also known as Vertical Scaling) the limitation is hardware relate
 Vertical scaling is limited to the capacity of a single machine.
 
 
-9.  What is the main limitation to horizontal scaling? That is, when can you no longer scale horizontally?
+9.  **What is the main limitation to horizontal scaling? That is, when can you no longer scale horizontally?**
 In theory, horizontal scalability is only limited by how many entities can be connected successfully.
 
 10.  Give three examples of SQL-like statements.
@@ -396,7 +401,7 @@ New web-scale applications and larger number of small read and write
 	    4.  RDS
 	    5.  `DynamoDB`
 
-2.   Describe eventually consistent reads and strongly consistent reads. Which AWS service(s) provide eventually consistent reads, and under what conditions? (Move to exam 2)
+2.   **Describe eventually consistent reads and strongly consistent reads. Which AWS service(s) provide eventually consistent reads, and under what conditions? (Move to exam 2)**
 service(s) provide eventually consistent reads, and under what conditions?
 		- Eventually Consistent Reads: When you read data from a DynamoDB table, the response   might not reflect the results of a recently completed write operation. The response might include some stale data. If you repeat your read request after a short time, the response should return the latest data. 
 		- Strongly Consistent Reads: When you request a strongly consistent read, DynamoDB returns a response with the most up-to-date data, reflecting the updates from all prior write operations that were successful. A strongly consistent read might not be available if there is a network delay or outage.
@@ -442,11 +447,11 @@ It creates an application context that provides the runtime context for an appli
 
 **AWS Security**
 
-1.  What does “Security of the Cloud” mean? Describe three aspects of security of the cloud.
+1.  **What does “Security of the Cloud” mean? Describe three aspects of security of the cloud.**
 The policies and mechanisms AWS use to protect the cloud itself. Compute, storage, database, networking.
 
 
-2.  What does “Security in the Cloud” mean? Describe three aspects of security in the cloud.
+2.  **What does “Security in the Cloud” mean? Describe three aspects of security in the cloud.**
 The AWS service you utilize to run your workloads. Operating system, customer application and content, IAM
 
 
@@ -466,7 +471,7 @@ Roles-based authorization is used to group users into groups (roles) and then se
 7.  True/False: All IAM permissions in AWS are implicitly allowed by default. `False`
 
 
-8.  Draw the IAM permissions flow chart.
+8.  **Draw the IAM permissions flow chart.**
 
 ![](/images/in-post/2018-09-24-CPSC6440-CloudComputing-basic-concepts/2018-09-24-22-07-58.png)
 
