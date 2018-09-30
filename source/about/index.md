@@ -6,7 +6,7 @@ comments: false
 
 # **Guoze Tang**
 
-Software & Embedded Engineer  
+Software & Embedded Engineer [[Resume](http://guozet.me/about/resume.pdf)] 
 Graduate Student, Assistant Research at Clemson University  
 
 School of Computing, Clemson University  
