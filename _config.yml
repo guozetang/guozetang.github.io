@@ -14,7 +14,7 @@ timezone: America/New_York
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://guozet.mes
+url: http://guozet.me
 root: /
 permalink: /post/:title/
 permalink_defaults:
@@ -54,7 +54,7 @@ highlight:
 # order_by: Posts order. (Order by date descending by default)
 index_generator:
   # path: ''
-  path: /blog/
+  path: '/blog/'
   per_page: 20
   # order_by: -updated
   order_by: -date
