@@ -3,7 +3,7 @@ chmod +x ./userscripts/leetcode.sh
 #################################
 hexo generate #生成静态整站
 cd ./public #生成的静态页面会存储在public目录下
-mv ./index.html ./page/
+mv ./index.html ./post/
 mv ./about/index.html .
 git init
 git config --global push.default matching
