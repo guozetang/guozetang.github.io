@@ -101,7 +101,7 @@ index_with_subtitle: false
 menu:
   home: / || h-square
   books: /books || book
-  blog: /post/ || tags
+  blog: /post/ || blogger
   # categories: /categories/ || th
   archives: /archives/ || archive
   about: /about/ || user
