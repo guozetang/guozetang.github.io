@@ -104,7 +104,7 @@ menu:
   books: /books || book
   # categories: /categories/ || th
   archives: /archives/ || archive
-  about: /about/ || user
+  # about: /about/ || user
   #schedule: /schedule/ || calendar
   #sitemap: /sitemap.xml || sitemap
   #commonweal: /404/ || heartbeat
