@@ -1,5 +1,5 @@
 ---
-permalink: index
+permalink: /blog/index
 title: About
 date: 2018-05-09 23:54:34
 comments: false

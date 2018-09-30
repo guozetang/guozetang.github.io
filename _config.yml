@@ -17,8 +17,8 @@ timezone: America/New_York
 url: http://guozet.me/blog
 root: /blog/
 permalink: /post/:title/
-# permalink_defaults:
-#   urlname: index
+permalink_defaults:
+  urlname: index
 
 # Directory
 source_dir: source
