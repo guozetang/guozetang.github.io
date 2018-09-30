@@ -6,13 +6,14 @@ comments: false
 
 # **Guoze Tang**
 
-Software & Embedded Engineer [[Resume](http://guozet.me/about/Resume.pdf)] 
+Software & Embedded Engineer 
 Graduate Student, Assistant Research at Clemson University  
 
 School of Computing, Clemson University  
 Clemson, SC 26634
 Phone: (475) 655-8641  
 Email: guozet@clemson.edu
+Resume: [[resume.pdf](http://guozet.me/about/resume.pdf)]
 
 ---
 
