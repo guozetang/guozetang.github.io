@@ -1,5 +1,4 @@
 ---
-permalink: /index
 title: About
 date: 2018-05-09 23:54:34
 comments: false
@@ -7,7 +6,7 @@ comments: false
 
 # **Guoze Tang**
 
-Software & Embedded Engineer [[Resume](http://guozet.me/about/resume.pdf)]
+Software & Embedded Engineer [[Resume](http://guozet.me/about/Resume.pdf)] 
 Graduate Student, Assistant Research at Clemson University  
 
 School of Computing, Clemson University  
