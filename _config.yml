@@ -54,7 +54,7 @@ highlight:
 # order_by: Posts order. (Order by date descending by default)
 index_generator:
   # path: ''
-  path: '/blog/'
+  path: '/blog'
   per_page: 20
   # order_by: -updated
   order_by: -date
