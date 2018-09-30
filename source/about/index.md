@@ -1,6 +1,7 @@
 ---
 title: About
 date: 2018-05-09 23:54:34
+permalink: about/index.html
 comments: false
 ---
 
