@@ -48,32 +48,60 @@ As we know, in IT field, technologies update very quickly. It is difficult and u
 
 #### Assistant Research at Clemson University (05/2018-Now)
 
-- Developed the Network Protocol parsers for DNS, HTTP
+- **Research Assistant - Network Security:** Research on Virtualization of Network Intrusion Detection Systems for network protocol parser. Implemented the Network Protocol parses for DNS, HTTP protocols by Binpac language, Bro system, and Click ystem.
 - Use the [Binpac](https://www.bro.org/sphinx/components/binpac/README.html) tools to parser the Network Protocol
 
 #### SZ DJI Technology (04/2016-11/2016)
 
-- Postion: Embedded Software Development Intern
-- Developed Sensor-driven of FJ project in DJI and analyzed the data of Sensor.
-- Realized Serial port, IIC, SPI development, ucos operating system and data analysis using Matlab.
-- Developed and validated barometer drivers for MAVIC.
+- **Postion:** Embedded Software Development Intern  
+- **Sensor Driven Development:** Developed Sensor-driven of FJ project in DJI and analyzed the data of Sensor. Realized Serial port, IIC, SPI development, ucos operating system. In addition, Developed and validated barometer drivers for MAVIC.
+- **Data Analysis:** Used Statistical method to analyze the Sensor data by Matlab to make a decision about choosing which is the better sensor for the produce.
+- **Dev Environment:** Analytics environment based on Matlab and Shell Scripting on Ubuntu Linux. Wrote the c code to collect the sensor data for more than ten sensors.
 
 #### BJ YUNXI Technology (07/2015-04/2016)
 
-- Postion: Embedded Software Development Intern  
-- Developed ARM part of the master control module and developed VoIP based on Asterisk.  
-- Realized online upgrade in the master module and the SLP Protocol Analysis module.
-- Applied technology and tools: Keil developertools，Mysql database, VxWork driver development, built VoIP server based on Asterisk, built SVN server；Understand and parsed the VDL2 civil aviation agreements (European standard), developed a protocol development plan.
+- **Postion:** Embedded Software Development Intern  
+
+- **Embedded System:** Developed ARM part of the master control module and developed VoIP based on Asterisk. Realized online upgrade in the master module and the SLP Protocol Analysis module.
+- **Software Development:** Applied technology and tools: Keil developertools, Mysql database, VxWork driver development, built VoIP server based on Asterisk, built SVN server
+
+---
+
+### Projects
+
+#### Network Protocol Parser (05/2018-08/2018)
+
+- **Applied technology:** C++, Binpac language, Click System, Bro System
+- **Postion:** STM32F4 Software Development
+- Design the RIP, DNS, HTTP, FTP, SSH network protocol parser by C++ and Binpac language.
+- Implemented these network protocol parser based on the Binpac and Open Pcre lib. As a result, it is easily integrated into the other project. For instance, I had integrated it into Bro and Click system in this project.
+
+#### Paper Track System (05/2018-08/2018)
+
+- **Applied technology:** Tkinter, Python3.5, MVC Design Pattern.
+- Designed the GUI of Paper tracking system by Tkinter. Realized the paper manager code.
+
+
+#### VolP Audio Remote Control System Based on SIP Protocol (09/2015-11/2016)
+
+- **Applied technology:** C, SIP, RTP, VoIP, ARC
+- Designed and implemented a VoIP audio remote control voice terminal software based on OMAP-L138 ARM9 chip.
+- Implements VoIP audio control application, Main control module with logic control, hardware initialization, reset examination and SIP user agency initialization.
+- Implemented SIP user agency module which includes three things: SIP communication module, RTP transmission module and WEB configuration module.
+- Implemented SIP protocol stack by oSIP open lib, RTP protocol stack by JRTPLib, and WEB server by GoAhead.
+- Test result: VoIP communication system delay time is less than 120ms, and system language communication quality MOS is 4.8
 
 #### RoboMaster Robot Competition (11/2015-06/2016)
 
-- Postion: STM32F4 Software Development
+- **Applied technology:** C, ARM, UART, I2C, SPI
+- **Postion:** STM32F4 Software Development
 - Finished STM32F4 communication with a remote pan and adjustment of PID parameters.
 - Worked out main Control Board receives remote control data error after adding the door dog.
 
 #### Design and analysis of the Encrypted File system based on Linux (09/2015-04/2016)
 
-- Postion: Team Leader
+- **Applied technology:** C++, QT, Shell Scripting, eCryptfs
+- **Postion:** Team Leader
 - Designed team work plan and the overall framework of the project.
 - Realized eCryptfs cryptographic file system implementation mechanism, designed UI Interface based on QT, dealt with Root permissions file access vulnerability.
 - Applied technology: QT Development, Linux file system, GCC, Makefile and gdb.
@@ -81,7 +109,7 @@ As we know, in IT field, technologies update very quickly. It is difficult and u
 
 ---
 
-### Projects
+### Application
 
 - Networking Security Project: [Protocol Parser in Network](https://github.com/guozetang/Protocol_Parser)
 - Translation of Programming Languages Project: [Convert Leet1337 & English](https://github.com/guozetang/convertleet1337_english)
