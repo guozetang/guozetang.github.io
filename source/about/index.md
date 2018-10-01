@@ -44,6 +44,13 @@ As we know, in IT field, technologies update very quickly. It is difficult and u
 
 ---
 
+### Programming Skills
+
+- **Programming Language:** C, C++, Java, Python, Shell Scripting, Flex, Bison, Binpac, Assembly, MySQL, JSON, Matlab [Binpac](https://www.bro.org/sphinx/components/binpac/README.html)
+- **Working Environment/Tools:** Linux, Embedded Linux, ucos, VxWork, ARM STM32, ARM9, GCC, Makefile, Git, gdb, MVC Design Pattern, Tkinter, ARM, Click, Bro, Office, VS Code, Keil, Vim
+
+---
+
 ### Experience
 
 #### Assistant Research at Clemson University (05/2018-Now)
@@ -114,13 +121,6 @@ As we know, in IT field, technologies update very quickly. It is difficult and u
 - Networking Security Project: [Protocol Parser in Network](https://github.com/guozetang/Protocol_Parser)
 - Translation of Programming Languages Project: [Convert Leet1337 & English](https://github.com/guozetang/convertleet1337_english)
 - Application: [Paper & Code TODO task Tracker](https://github.com/guozetang/paper_code_tracker)
-
----
-
-### Programming Skills
-
-- **Programming Language:** C, C++, Java, Python, Shell Scripting, Flex, Bison, Binpac, Assembly, MySQL, JSON, Matlab [Binpac](https://www.bro.org/sphinx/components/binpac/README.html)
-- **Working Environment/Tools:** Linux, Embedded Linux, ucos, VxWork, ARM STM32, ARM9, GCC, Makefile, Git, gdb, MVC Design Pattern, Tkinter, ARM, Click, Bro, Office, VS Code, Keil, Vim
 
 ---
 
