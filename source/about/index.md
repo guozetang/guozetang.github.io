@@ -3,7 +3,7 @@ date: 2018-05-09 23:54:34
 comments: false
 ---
 
-# **Guoze Tang**
+# **Guoze(Terry) Tang**
 
 Software & Embedded Engineer 
 Graduate Student, Assistant Research at Clemson University  
