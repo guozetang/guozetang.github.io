@@ -68,7 +68,6 @@ As we know, in IT field, technologies update very quickly. It is difficult and u
 #### BJ YUNXI Technology (07/2015-04/2016)
 
 - **Postion:** Embedded Software Development Intern  
-
 - **Embedded System:** Developed ARM part of the master control module and developed VoIP based on Asterisk. Realized online upgrade in the master module and the SLP Protocol Analysis module.
 - **Software Development:** Applied technology and tools: Keil developertools, Mysql database, VxWork driver development, built VoIP server based on Asterisk, built SVN server
 
@@ -79,7 +78,6 @@ As we know, in IT field, technologies update very quickly. It is difficult and u
 #### Network Protocol Parser (05/2018-08/2018)
 
 - **Applied technology:** C++, Binpac language, Click System, Bro System
-- **Postion:** STM32F4 Software Development
 - Design the RIP, DNS, HTTP, FTP, SSH network protocol parser by C++ and Binpac language.
 - Implemented these network protocol parser based on the Binpac and Open Pcre lib. As a result, it is easily integrated into the other project. For instance, I had integrated it into Bro and Click system in this project.
 
