@@ -51,4 +51,155 @@ code {
     }
 }
 
+//确定要的设置
+// 文章标题字体
+.posts-expand .post-title {
+    font-size: 26px;
+    font-weight: 700;
+}
+
+// 文章元数据（meta）留白更改
+.posts-expand .post-meta {
+    margin: 10px 0px 20px 0px;
+}
+
+
+// 去掉图片边框
+.posts-expand .post-body img {
+    border: none;
+    padding: 0px;
+}
+.post-gallery .post-gallery-img img {
+    padding: 3px;
+}
+
+
+// 超链接样式
+a {
+    color: rgb(80, 115, 184);
+    border-bottom-color: rgb(80, 115, 184);
+}
+a:hover {
+    color: rgb(161, 102, 171);
+    border-bottom-color: rgb(161, 102, 171);
+}
+
+// 分割线样式,上，左，下，右
+hr {
+    margin: 5px 0px 5px 0px;
+}
+
+// 侧栏站点作者名
+.site-author-name {
+    display: none;
+}
+// 侧栏站点描述
+.site-description {
+    letter-spacing: 5px;
+    font-size: 15px;
+    font-weight: bold;
+    margin-top: 15px;
+    margin-left: 13px;
+    color: rgb(243, 112, 85);
+}
+// 侧栏站点文章、分类、标签
+.site-state {
+    line-height: 1.3;
+    margin-left: 12px;
+}
+.site-state-item {
+    padding: 0px 15px;
+    border-left: 1.5px solid rgb(161, 102, 171);
+}
+// 侧栏RSS按钮样式
+.feed-link {
+    margin-top: 18px;
+    margin-left: 7px;
+}
+.feed-link a {
+    color: rgb(255, 255, 255);
+    border: 1px solid rgb(158, 158, 158) !important;
+    border-radius: 15px;
+}
+.feed-link a:hover {
+    background-color: rgb(161, 102, 171);
+}
+.feed-link a i {
+    color: rgb(255, 255, 255);
+}
+// 侧栏社交链接
+.links-of-author {
+    margin-top: 15px;
+}
+// 侧栏友链标题
+.links-of-blogroll-title {
+    margin-bottom: 10px;
+    margin-top: 15px;
+    color: rgba(7, 179, 155, 0.75);
+    margin-left: 6px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+/* 设置滚动条的样式 */
+/* 参考https://segmentfault.com/a/1190000003708894 */
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+/* 滚动槽 */
+::-webkit-scrollbar-track {
+    background: #eee;
+}
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: #ccc;
+}
+::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(247, 149, 51);
+}
+
+// 文章底部留白更改
+.post-widgets {
+    padding-top: 0px;
+}
+.post-nav {
+    margin-top: 30px;
+}
+
+// 文章底部的tags
+.posts-expand .post-tags a {
+    border-bottom: none;
+    margin-right: 0px;
+    font-size: 13px;
+    padding: 0px 5px;
+    border-radius: 3px;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in-out;
+    transition-delay: 0s;
+}
+.posts-expand .post-tags a:hover {
+    background: #eee;
+}
+
+// 文章底部页面跳转
+.post-nav-item a {
+    color: rgb(80, 115, 184);
+    font-weight: bold;
+}
+.post-nav-item a:hover {
+    color: rgb(161, 102, 171);
+    font-weight: bold;
+}
+
+
+// 侧栏目录链接样式
+.post-toc ol a {
+    color: rgb(7, 179, 155);
+    border-bottom: 1px solid rgb(96, 125, 139);
+}
+//-----------------
+
+
 @import button;
