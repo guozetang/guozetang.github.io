@@ -8,32 +8,20 @@ comments: false
 
 Software & Embedded Engineer 
 Graduate Student, Assistant Research at Clemson University  
-
-School of Computing, Clemson University  
 Clemson, SC 26634
-Phone: (475) 655-8641  
-Email: guozet@clemson.edu
-Resume: [[resume.pdf](http://guozet.me/about/resume.pdf)]
 
 ---
-
-### Bio
 
 I am *@Terry* (Guoze, Tang), a Graduate Student in the [School of Computing](http://www.clemson.edu/ces/computing/) at [Clemson University](http://www.clemson.edu/). I graduated from [Yunnan University](https://en.wikipedia.org/wiki/Yunnan_University) Electronic and Information Engineering in 2014. After that, I studied Software Engineering and graduated from [University of Science and Technology of China](https://en.wikipedia.org/wiki/University_of_Science_and_Technology_of_China) in 2017.03. After two years of study, I acquired a comprehensive knowledge of computer hardware and software. I was interested in embedded systems design. And I gained a lot, not only on specialized knowledge but also a scientific way of thinking.
 
 I had worked in SZ DJI Technology company for one year, an innovation company which based on Fight control. At DJI, I developed Sensor-driven of FJ01 project in DJI and analyzed the data of Sensor. Working on this project helped me hone my programming skills on a real-life problem.  
 
----
-
-### Award
-
-- The Excellent graduate in Anhui province 2017  
-- National master scholarship (TOP 2%) 2015  
-- Robomasters robot competition: First prize (East China), Second prize (China) 2015  
-- Software Design competition: Second prize (USTC) 2015  
-- National Contest of Mathematical Models: First prize (Yunnan province) 2013  
+> Phone: (475) 655-8641
+> Email: guozet@clemson.edu
+> Links: [Blog](./post/index.html) | [Resume](http://guozet.me/about/resume.pdf) | [Linkedin](https://www.linkedin.com/in/guoze/) | [Github](https://github.com/guozetang/)
 
 ---
+
 
 ### Education
 
@@ -118,6 +106,16 @@ I had worked in SZ DJI Technology company for one year, an innovation company wh
 
 - Language: Java, Assembly, Javascript, Bison
 - QT, Python Tkinter
+
+---
+
+### Award
+
+- The Excellent graduate in Anhui province 2017  
+- National master scholarship (TOP 2%) 2015  
+- Robomasters robot competition: First prize (East China), Second prize (China) 2015  
+- Software Design competition: Second prize (USTC) 2015  
+- National Contest of Mathematical Models: First prize (Yunnan province) 2013  
 
 ---
 
