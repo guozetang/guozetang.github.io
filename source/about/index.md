@@ -21,7 +21,7 @@ In additon, I had worked in SZ DJI Technology company for one year, an innovatio
 
 > Phone: (475) 655-8641
 > Email: guozet@clemson.edu
-> Links: [Blog](./post/index.html) | [Resume](http://guozet.me/about/resume.pdf) | [Linkedin](https://www.linkedin.com/in/guoze/) | [Github](https://github.com/guozetang/)
+> Links: [Blog](./post/index.html) | [My Resume](http://guozet.me/about/resume.pdf) | [Linkedin](https://www.linkedin.com/in/guoze/) | [Github](https://github.com/guozetang/)
 
 ---
 
