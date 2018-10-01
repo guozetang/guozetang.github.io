@@ -24,7 +24,7 @@ comments: false
 
 ## 1.3 内功修炼
 
-- 程序员的自我修养-链接，装载与库 [[Posts](https://guozet.me/)] 
+- 程序员的自我修养-链接，装载与库 [[Posts](https://guozet.me/)]
 
 *****
 
@@ -53,3 +53,4 @@ comments: false
 # 4. 源代码分析
 
 - [Linux内核源代码分析](../post/Linux-kernel-analysis-catalogue/)
+- [Bro Packet传递过程源码分析](../post/Bro-source-codes-walkthought/)
