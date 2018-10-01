@@ -14,9 +14,9 @@ Clemson, SC 26634
 
 I am *@Terry* (Guoze, Tang), a graduate student in the [School of Computing](http://www.clemson.edu/ces/computing/) at [Clemson University](http://www.clemson.edu/). I graduated from [Yunnan University](https://en.wikipedia.org/wiki/Yunnan_University) Electronic and Information Engineering in 2014. After that, I studied Software Engineering and graduated from [University of Science and Technology of China](https://en.wikipedia.org/wiki/University_of_Science_and_Technology_of_China) in 2017.03. After two years of study, I acquired a comprehensive knowledge of computer hardware and software. I was interested in embedded systems design. And I gained a lot, not only on specialized knowledge but also a scientific way of thinking.
 
-My work experiences started from 07/2015. I was employed at the Communication Research and Development (R&D) group in Guangzhou Haige company. Haige is one of the top research & development company in military communication areas in China. I was assigned to the Civil Aviation Communication Developing team and developed control module and VoIP module which is based on Asterisk. I developed online upgrade programming and the SLP protocol analysis module in six months.
+My work experiences started from 07/2015. I was employed at the Communication Research and Development (R&D) group in Guangzhou [Haige company](http://www.haige.com/en/About81.html?tid=81). Haige is one of the top research & development company in military communication areas in China. I was assigned to the Civil Aviation Communication Developing team and developed control module and [VoIP](https://en.wikipedia.org/wiki/Voice_over_IP) module which is based on Asterisk. I developed online upgrade programming and the SLP protocol analysis module in six months.
 
-In additon, I had worked in SZ DJI Technology company for one year, an innovation company which based on Fight control. At DJI, I developed Sensor-driven of FJ01 project in DJI and analyzed the data of Sensor. Working on this project helped me hone my programming skills on a real-life problem. Working in the DJI company, it helped me hone my programming skills on a real-life problem.
+In additon, I had worked in SZ [DJI Technology company](https://www.dji.com/) for one year, an innovation company which based on Fight control. At DJI, I developed Sensor-driven of FJ01 project in DJI and analyzed the data of Sensor. Working on this project helped me hone my programming skills on a real-life problem. Working in the DJI company, it helped me hone my programming skills on a real-life problem.
 
 As we know, in IT field, technologies update very quickly. It is difficult and unnecessary for us to master all of them. So the ability to study rapidly is very important. As a result, I return to Clemson University for my second master degree.
 
@@ -26,50 +26,50 @@ As we know, in IT field, technologies update very quickly. It is difficult and u
 
 ---
 
-### Education
+## Education
 
-#### 2018.05-Now Clemson University(CU)
+### 2018.05-Now Clemson University(CU)
 
 - **Major:** Master of Computer Science
 - **Relative Courses:** [Software Design](https://people.cs.clemson.edu/~malloy/courses/8700-2018/index.html),[Translation of Programming Languages](https://people.cs.clemson.edu/~malloy/courses/8270-2017/index.html), [2-D Game Engine Construction](https://people.cs.clemson.edu/~malloy/courses/4160-2018fall/index.html),  [Security in Emerging Computing and Networking Systems](https://people.cs.clemson.edu/~hongxih/teaching/2018fall/cpcs8580/2018fall.htm), Cloud Computing Architecture, Statistical Methods I
 
-#### 2014.09-2017.04 University of Science and Technology of China (USTC)
+### 2014.09-2017.04 University of Science and Technology of China (USTC)
 
 - **Major:** Master of Software Engineering (Embedded System Development)
 - **Relative Courses:** Embedded system design、Embedded operating system、Programming and computer systems、Microprocessor architecture、Algorithmic design & analysis、Wireless sensor networks、Linux driver development, [Linux operating system](https://mooc.study.163.com/course/1000029000?tid=1000037000), etc.  
 
-#### 2010.09-2014.07 Yunnan University
+### 2010.09-2014.07 Yunnan University
 
 - **Major:** Bachelor of Electronic and Information Engineering  
 - **Relative Courses:** Principle of automatic control, Principles of microcomputer, Integrated circuit design, Signals and systems, Digital signal processing, Information theory & Coding, etc
 
 ---
 
-### Experience
+## Experience
 
-#### 2018.05-Now Assistant Research at Clemson University
+### 2018.05-Now Assistant Research at Clemson University
 
 - Developed the Network Protocol parsers for DNS, HTTP
 - Use the [Binpac](https://www.bro.org/sphinx/components/binpac/README.html) tools to parser the Network Protocol
 
-#### 2016.04-2016.11 SZ DJI Technology Co., Ltd. (Embedded Software Development Intern)
+### 2016.04-2016.11 SZ DJI Technology Co., Ltd. (Embedded Software Development Intern)
 
 - Developed Sensor-driven of FJ project in DJI and analyzed the data of Sensor.
 - Realized Serial port, IIC, SPI development, ucos operating system and data analysis using Matlab.
 - Developed and validated barometer drivers for MAVIC.
 
-#### 2015.07-2016.04 BJ YUNXI Technology co., Ltd. (Embedded Software Development Intern)  
+### 2015.07-2016.04 BJ YUNXI Technology co., Ltd. (Embedded Software Development Intern)  
 
 - Developed ARM part of the master control module and developed VoIP based on Asterisk.  
 - Realized online upgrade in the master module and the SLP Protocol Analysis module.  
 - Applied technology and tools: Keil developertools，Mysql database, VxWork driver development, built VoIP server based on Asterisk, built SVN server；Understand and parsed the VDL2 civil aviation agreements (European standard), developed a protocol development plan.
 
-#### 2015.11-2016.06 RoboMaster Robot Competition (STM32F4 Software Development)
+### 2015.11-2016.06 RoboMaster Robot Competition (STM32F4 Software Development)
 
 - Finished STM32F4 communication with a remote pan and adjustment of PID parameters.
 - Worked out main Control Board receives remote control data error after adding the door dog.
 
-#### 2015.09-2016.04 Design and analysis of the Encrypted File system based on Linux (Team Leader)
+### 2015.09-2016.04 Design and analysis of the Encrypted File system based on Linux (Team Leader)
 
 - Designed team work plan and the overall framework of the project.
 - Realized eCryptfs cryptographic file system implementation mechanism, designed UI Interface based on QT, dealt with Root permissions file access vulnerability.
@@ -78,37 +78,18 @@ As we know, in IT field, technologies update very quickly. It is difficult and u
 
 ---
 
-### Interests
+## Projects
 
-#### Networking Security
-
-- Project: [Protocol Parser in Network](https://github.com/guozetang/Protocol_Parser)
-
-#### Embedded System
-
-#### Translation of Programming Languages
-  
-- Project: [Convert Leet1337 & English](https://github.com/guozetang/convertleet1337_english)
-  Use Language: Flex, C++, Makefile
-
-#### Application
-
-- [Paper & Code TODO task Tracker](https://github.com/guozetang/paper_code_tracker)
-  Use Language: Python, Python Tkinter
+- Networking Security Project: [Protocol Parser in Network](https://github.com/guozetang/Protocol_Parser)
+- Translation of Programming Languages Project: [Convert Leet1337 & English](https://github.com/guozetang/convertleet1337_english)
+- Application: [Paper & Code TODO task Tracker](https://github.com/guozetang/paper_code_tracker)
 
 ---
 
-### Skills
+## Programming Skills
 
-**Skilled:**
-
-- Language: C, C++, Python, Shell Scripting, Flex, [Binpac](https://www.bro.org/sphinx/components/binpac/README.html), Matlab
-- Linux, Embedded Linux, Embedded Systems, ucos，VxWork，ARM, Office, GCC，Makefile，git，gdb
-
-**Understand:**
-
-- Language: Java, Assembly, Javascript, Bison
-- QT, Python Tkinter
+- **Programming Language:** C, C++, Java, Python, Shell Scripting, Flex, Bison, Binpac, Assembly, MySQL, JSON, Matlab [Binpac](https://www.bro.org/sphinx/components/binpac/README.html)
+- **Working Environment/Tools:** Linux, Embedded Linux, ucos, VxWork, ARM STM32, ARM9, GCC, Makefile, Git, gdb, MVC Design Pattern, Tkinter, ARM, Click, Bro, Office, VS Code, Keil, Vim
 
 ---
 
