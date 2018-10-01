@@ -12,9 +12,12 @@ Clemson, SC 26634
 
 ---
 
-I am *@Terry* (Guoze, Tang), a Graduate Student in the [School of Computing](http://www.clemson.edu/ces/computing/) at [Clemson University](http://www.clemson.edu/). I graduated from [Yunnan University](https://en.wikipedia.org/wiki/Yunnan_University) Electronic and Information Engineering in 2014. After that, I studied Software Engineering and graduated from [University of Science and Technology of China](https://en.wikipedia.org/wiki/University_of_Science_and_Technology_of_China) in 2017.03. After two years of study, I acquired a comprehensive knowledge of computer hardware and software. I was interested in embedded systems design. And I gained a lot, not only on specialized knowledge but also a scientific way of thinking.
+I am *@Terry* (Guoze, Tang), a graduate student in the [School of Computing](http://www.clemson.edu/ces/computing/) at [Clemson University](http://www.clemson.edu/). I graduated from [Yunnan University](https://en.wikipedia.org/wiki/Yunnan_University) Electronic and Information Engineering in 2014. After that, I studied Software Engineering and graduated from [University of Science and Technology of China](https://en.wikipedia.org/wiki/University_of_Science_and_Technology_of_China) in 2017.03. After two years of study, I acquired a comprehensive knowledge of computer hardware and software. I was interested in embedded systems design. And I gained a lot, not only on specialized knowledge but also a scientific way of thinking.
 
-I had worked in SZ DJI Technology company for one year, an innovation company which based on Fight control. At DJI, I developed Sensor-driven of FJ01 project in DJI and analyzed the data of Sensor. Working on this project helped me hone my programming skills on a real-life problem.  
+My work experiences started from 07, 2015 to 09, 2016. I was employed at the Communication Research and Development (R&D) group in Guangzhou Haige company. Haige
+is one of the top research & development company in military communication areas in China. I was assigned to the Civil Aviation Communication Developing team and developed control module and VoIP module which is based on Asterisk. I developed online upgrade programming and the SLP protocol analysis module in six months.
+
+In additon, I had worked in SZ DJI Technology company for one year, an innovation company which based on Fight control. At DJI, I developed Sensor-driven of FJ01 project in DJI and analyzed the data of Sensor. Working on this project helped me hone my programming skills on a real-life problem. Working in the DJI company, it helped me hone my programming skills on a real-life problem.
 
 > Phone: (475) 655-8641
 > Email: guozet@clemson.edu
