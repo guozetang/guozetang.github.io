@@ -26,51 +26,55 @@ As we know, in IT field, technologies update very quickly. It is difficult and u
 
 ---
 
-## Education
+### Education
 
-### 2018.05-Now Clemson University(CU)
+#### Clemson University(CU) (05/2018-Now)
 
 - **Major:** Master of Computer Science
 - **Relative Courses:** [Software Design](https://people.cs.clemson.edu/~malloy/courses/8700-2018/index.html),[Translation of Programming Languages](https://people.cs.clemson.edu/~malloy/courses/8270-2017/index.html), [2-D Game Engine Construction](https://people.cs.clemson.edu/~malloy/courses/4160-2018fall/index.html),  [Security in Emerging Computing and Networking Systems](https://people.cs.clemson.edu/~hongxih/teaching/2018fall/cpcs8580/2018fall.htm), Cloud Computing Architecture, Statistical Methods I
 
-### 2014.09-2017.04 University of Science and Technology of China (USTC)
+#### University of Science and Technology of China(USTC) (09/2014-04/2017)
 
 - **Major:** Master of Software Engineering (Embedded System Development)
 - **Relative Courses:** Embedded system design、Embedded operating system、Programming and computer systems、Microprocessor architecture、Algorithmic design & analysis、Wireless sensor networks、Linux driver development, [Linux operating system](https://mooc.study.163.com/course/1000029000?tid=1000037000), etc.  
 
-### 2010.09-2014.07 Yunnan University
+#### Yunnan University (09/2010-07/2014)
 
 - **Major:** Bachelor of Electronic and Information Engineering  
 - **Relative Courses:** Principle of automatic control, Principles of microcomputer, Integrated circuit design, Signals and systems, Digital signal processing, Information theory & Coding, etc
 
 ---
 
-## Experience
+### Experience
 
-### 2018.05-Now Assistant Research at Clemson University
+#### Assistant Research at Clemson University (05/2018-Now)
 
 - Developed the Network Protocol parsers for DNS, HTTP
 - Use the [Binpac](https://www.bro.org/sphinx/components/binpac/README.html) tools to parser the Network Protocol
 
-### 2016.04-2016.11 SZ DJI Technology Co., Ltd. (Embedded Software Development Intern)
+#### SZ DJI Technology (04/2016-11/2016)
 
+- Postion: Embedded Software Development Intern
 - Developed Sensor-driven of FJ project in DJI and analyzed the data of Sensor.
 - Realized Serial port, IIC, SPI development, ucos operating system and data analysis using Matlab.
 - Developed and validated barometer drivers for MAVIC.
 
-### 2015.07-2016.04 BJ YUNXI Technology co., Ltd. (Embedded Software Development Intern)  
+#### BJ YUNXI Technology (07/2015-04/2016)
 
+- Postion: Embedded Software Development Intern  
 - Developed ARM part of the master control module and developed VoIP based on Asterisk.  
-- Realized online upgrade in the master module and the SLP Protocol Analysis module.  
+- Realized online upgrade in the master module and the SLP Protocol Analysis module.
 - Applied technology and tools: Keil developertools，Mysql database, VxWork driver development, built VoIP server based on Asterisk, built SVN server；Understand and parsed the VDL2 civil aviation agreements (European standard), developed a protocol development plan.
 
-### 2015.11-2016.06 RoboMaster Robot Competition (STM32F4 Software Development)
+#### RoboMaster Robot Competition (11/2015-06/2016)
 
+- Postion: STM32F4 Software Development
 - Finished STM32F4 communication with a remote pan and adjustment of PID parameters.
 - Worked out main Control Board receives remote control data error after adding the door dog.
 
-### 2015.09-2016.04 Design and analysis of the Encrypted File system based on Linux (Team Leader)
+#### Design and analysis of the Encrypted File system based on Linux (09/2015-04/2016)
 
+- Postion: Team Leader
 - Designed team work plan and the overall framework of the project.
 - Realized eCryptfs cryptographic file system implementation mechanism, designed UI Interface based on QT, dealt with Root permissions file access vulnerability.
 - Applied technology: QT Development, Linux file system, GCC, Makefile and gdb.
@@ -78,7 +82,7 @@ As we know, in IT field, technologies update very quickly. It is difficult and u
 
 ---
 
-## Projects
+### Projects
 
 - Networking Security Project: [Protocol Parser in Network](https://github.com/guozetang/Protocol_Parser)
 - Translation of Programming Languages Project: [Convert Leet1337 & English](https://github.com/guozetang/convertleet1337_english)
@@ -86,7 +90,7 @@ As we know, in IT field, technologies update very quickly. It is difficult and u
 
 ---
 
-## Programming Skills
+### Programming Skills
 
 - **Programming Language:** C, C++, Java, Python, Shell Scripting, Flex, Bison, Binpac, Assembly, MySQL, JSON, Matlab [Binpac](https://www.bro.org/sphinx/components/binpac/README.html)
 - **Working Environment/Tools:** Linux, Embedded Linux, ucos, VxWork, ARM STM32, ARM9, GCC, Makefile, Git, gdb, MVC Design Pattern, Tkinter, ARM, Click, Bro, Office, VS Code, Keil, Vim
