@@ -24,7 +24,7 @@ comments: false
 
 ## 1.3 内功修炼
 
-- 程序员的自我修养-链接，装载与库 [[Posts](https://guozet.me/)]
+- 程序员的自我修养-链接，装载与库 [[推荐阅读博客](https://liam0205.me/series/)]
 
 *****
 
