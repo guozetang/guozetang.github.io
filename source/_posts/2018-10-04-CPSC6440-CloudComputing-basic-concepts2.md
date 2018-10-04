@@ -1,5 +1,5 @@
 ---
-title: Cloud computing Basic concepts
+title: Cloud computing Basic concepts 2
 date: 2018-10-04 15:09:31
 updated: 2018-09-23 15:09:31
 categories: Cloud computing
