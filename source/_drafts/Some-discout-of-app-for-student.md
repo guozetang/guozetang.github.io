@@ -1,5 +1,5 @@
 ---
-title: '学生邮箱福利汇总'
+title: 学生邮箱福利汇总
 date: 2018-05-12 15:19:12
 categories: Life
 tags: Student
