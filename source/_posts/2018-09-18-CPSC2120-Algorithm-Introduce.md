@@ -1,5 +1,5 @@
 ---
-title: Algorithm Introduce
+title: Algorithm Introduce1-Basic Data Structure
 date: 2018-09-18 02:09:31
 updated: 2018-09-18 02:09:31
 categories: Algorithm
@@ -220,8 +220,6 @@ int main (void)
 }
 
 ```
-
-
 
 **List Solution**
 
