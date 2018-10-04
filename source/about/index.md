@@ -46,7 +46,7 @@ As we know, in IT field, technologies update very quickly. It is difficult and u
 
 ### Programming Skills
 
-- **Programming Language:** C, C++, Java, Python, Shell Scripting, Flex, Bison, Binpac, Assembly, MySQL, JSON, Matlab [Binpac](https://www.bro.org/sphinx/components/binpac/README.html)
+- **Programming Language:** C(4yrs), C++(2yrs), Java, Python, Shell Scripting, Flex, Bison, Binpac, Assembly, MySQL, JSON, MATLAB, [Binpac](https://www.bro.org/sphinx/components/binpac/README.html)
 - **Working Environment/Tools:** Linux, Embedded Linux, ucos, VxWork, ARM STM32, ARM9, GCC, Makefile, Git, gdb, MVC Design Pattern, Tkinter, ARM, Click, Bro, Office, VS Code, Keil, Vim
 
 ---
