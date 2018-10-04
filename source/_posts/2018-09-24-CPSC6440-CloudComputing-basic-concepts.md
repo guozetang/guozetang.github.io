@@ -47,12 +47,12 @@ Expand each of the following acronyms of the following in the context of this cl
 
 **General Questions**
 
-1.  Define cloud computing.
+1. Define cloud computing.
 
 Cloud computing is the on-demand delivery of compute power, database storage, applications, and other IT resources through a cloud services platform via the internet, with pay-as-you-go pricing. 
 ~~Cloud computing is a model for enabling convenient, on-demand network access to a shared pool of configurable computing resources (e.g. networks, servers, applications, and services) that can be rapidly provisioned and released with minimal management effort or service provider interaction.~~
  
-1.  Name and briefly describe six advantages and benefits of using commercial cloud computing. 
+2. Name and briefly describe six advantages and benefits of using commercial cloud computing. 
 	- No upfront investment, users just click to order resources and can be immediate access and pay for the resources you need, which are available almost immediately. 
 	- Low on-going costs, AWS is continually lower prices and can optimize cost with prices option 
 	- Focus on innovation, users just need to focus on application development and do not care of other operations
