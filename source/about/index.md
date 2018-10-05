@@ -4,7 +4,7 @@ layout: about
 comments: false
 ---
 
-<img src='http://guozet.me/images/uploads/about.jpg' align='right' style=' width:150px;height:150px'/>
+<!-- <img src='http://guozet.me/images/uploads/about.jpg' align='right' style=' width:150px;height:150px'/> -->
 
 # **Guoze(Terry) Tang**
 
