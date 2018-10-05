@@ -4,7 +4,7 @@ layout: about
 comments: false
 ---
 
-<img src='http://guozet.me/images/uploads/about-bg.jpg' align='right' style=' width:300px;height:100 px'/>
+<img src='http://guozet.me/images/uploads/about.jpg' align='right' style=' width:100px;height:100 px'/>
 
 # **Guoze(Terry) Tang**
 
@@ -12,7 +12,7 @@ Software & Embedded Engineer
 Graduate Student, Assistant Research at Clemson University  
 Clemson, SC 26634
 
-![](/images/uploads/about-bg.jpg)
+---
 
 I am *@Terry* (Guoze, Tang), a graduate student in the [School of Computing](http://www.clemson.edu/ces/computing/) at [Clemson University](http://www.clemson.edu/). I graduated from [Yunnan University](https://en.wikipedia.org/wiki/Yunnan_University) Electronic and Information Engineering in 2014. After that, I studied Software Engineering and graduated from [University of Science and Technology of China](https://en.wikipedia.org/wiki/University_of_Science_and_Technology_of_China) in 03/2017. After two years of study, I acquired a comprehensive knowledge of computer hardware and software. I was interested in embedded systems design. And I gained a lot, not only on specialized knowledge but also a scientific way of thinking.
 
