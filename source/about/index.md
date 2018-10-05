@@ -10,7 +10,7 @@ Software & Embedded Engineer
 Graduate Student, Assistant Research at Clemson University  
 Clemson, SC 26634
 
----
+![](/images/uploads/about-bg.jpg)
 
 I am *@Terry* (Guoze, Tang), a graduate student in the [School of Computing](http://www.clemson.edu/ces/computing/) at [Clemson University](http://www.clemson.edu/). I graduated from [Yunnan University](https://en.wikipedia.org/wiki/Yunnan_University) Electronic and Information Engineering in 2014. After that, I studied Software Engineering and graduated from [University of Science and Technology of China](https://en.wikipedia.org/wiki/University_of_Science_and_Technology_of_China) in 03/2017. After two years of study, I acquired a comprehensive knowledge of computer hardware and software. I was interested in embedded systems design. And I gained a lot, not only on specialized knowledge but also a scientific way of thinking.
 
@@ -78,7 +78,7 @@ As we know, in IT field, technologies update very quickly. It is difficult and u
 
 #### Network Protocol Parser (05/2018-08/2018)
 
-- **Applied technology:** C++, Binpac language, Click System, Bro System
+- **Applied technology:** C++, Binpac language, [Click System](https://github.com/kohler/click), [Bro System](https://www.bro.org/), RAMCloud
 - Design the RIP, DNS, HTTP, FTP, SSH network protocol parser by C++ and Binpac language.
 - Implemented these network protocol parser based on the Binpac and Open Pcre lib. As a result, it is easily integrated into the other project. For instance, I had integrated it into Bro and Click system in this project.
 
