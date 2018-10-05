@@ -4,6 +4,8 @@ layout: about
 comments: false
 ---
 
+<img src='http://guozet.me/images/uploads/about-bg.jpg' align='right' style=' width:300px;height:100 px'/>
+
 # **Guoze(Terry) Tang**
 
 Software & Embedded Engineer 
