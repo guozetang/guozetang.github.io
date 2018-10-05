@@ -4,13 +4,14 @@ layout: about
 comments: false
 ---
 
-<img src='http://guozet.me/images/uploads/about.jpg' align='right' style=' width:100px;height:100 px'/>
+<img src='http://guozet.me/images/uploads/about.jpg' align='right' style=' width:200px;height:200 px'/>
 
 # **Guoze(Terry) Tang**
 
 Software & Embedded Engineer 
 Graduate Student, Assistant Research at Clemson University  
 Clemson, SC 26634
+Email: guozet@clemson.edu
 
 ---
 
@@ -23,7 +24,6 @@ In additon, I had worked in SZ [DJI Technology company](https://www.dji.com/) fo
 As we know, in IT field, technologies update very quickly. It is difficult and unnecessary for us to master all of them. So the ability to study rapidly is very important. As a result, I return to Clemson University for my second master degree.
 
 > Phone: (475) 655-8641
-> Email: guozet@clemson.edu
 > Links: [Blog](./post/index.html) | [My Resume](http://guozet.me/about/resume.pdf) | [Linkedin](https://www.linkedin.com/in/guoze/) | [Github](https://github.com/guozetang/)
 
 ---
