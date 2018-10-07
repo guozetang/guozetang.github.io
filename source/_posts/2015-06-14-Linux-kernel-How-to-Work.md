@@ -34,19 +34,10 @@ Linux内核课第一周作业。本文在云课堂中实验楼完成。
 ### 代码
 
 ```cpp
-int g(int x)
-{
-    return x + 10;
-}
+int g(int x) { return x + 10; }
 
-int f(int x)
-{
-    return g(x);
-}
-int main(void)
-{
-    return f(20) + 8;
-}
+int f(int x) { return g(x); }
+int main(void) { return f(20) + 8; }
 ```
 
 ### 相应汇编为(去掉相应的辅助信息)  

@@ -7,7 +7,8 @@ tags: Laptop
 ---
 There are some issues when I used my MSI GE60 2PG.  
 
-## 1. Sound Blaster Cinema 1 Potential fix on Windows 10  
+## 1. Sound Blaster Cinema 1 Potential fix on Windows 10
+
 A way to get Sound Blaster Cinema 1 fully functional on windows 10 x64 bit. This is a fix for those that attempt to open the program and immediately get a crash or no windows popping up and the system tray icon freezes.
 <!-- more -->
 > 1. Uninstalled both my realtek HD audio drivers via control panel, and uninstalled SBC. 

@@ -1,3 +1,4 @@
+mv ./source/_updates/* ./source/_posts/
 chmod +x ./userscripts/leetcode.sh
 ./userscripts/leetcode.sh
 #################################

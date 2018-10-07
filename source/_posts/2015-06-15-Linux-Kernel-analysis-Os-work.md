@@ -30,20 +30,20 @@ Linux内核课第二周作业。本文在云课堂中实验楼完成。
 ### 简要分析mymain.c与myinterrupt.c
 
 ```c
-void __init my_start_kernel(void) //mymain.c中主要内容
+void __init my_start_kernel(void)  // mymain.c中主要内容
 {
-    int i = 0;
-    while(1)
-    {
-        i++;
-        if(i%100000 == 0) //每循环十万次打印一次my_start_kernel here
-        printk(KERN_NOTICE "my_start_kernel here %d \n",i);
-    }
+  int i = 0;
+  while (1) {
+    i++;
+    if (i % 100000 == 0)  //每循环十万次打印一次my_start_kernel here
+      printk(KERN_NOTICE "my_start_kernel here %d \n", i);
+  }
 }
 
-void my_timer_handler(void) //每次时钟中断调用一次 myinterrupt.c中主要内容
+void my_timer_handler(void)  //每次时钟中断调用一次 myinterrupt.c中主要内容
 {
-    printk(KERN_NOTICE "\n>>>>>>>>>>>>>>>>>my_timer_handler here<<<<<<<<<<<<<<<<<<\n\n");
+  printk(KERN_NOTICE
+         "\n>>>>>>>>>>>>>>>>>my_timer_handler here<<<<<<<<<<<<<<<<<<\n\n");
 }
 ```
 
