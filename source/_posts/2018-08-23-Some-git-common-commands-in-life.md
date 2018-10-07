@@ -81,6 +81,7 @@ git branch --set-upstream-to=origin/<branch> NewBranch
 
 `$git pull`
 
+---
 
 # 关联远程repo
 ## 场景
@@ -202,3 +203,35 @@ fatal: Could not read from remote repository.
 Please make sure you have the correct access rights
 and the repository exists.
 ```
+
+---
+
+# 关联两个Rep:一个开发repo，一个release的repo
+
+## 使用场景
+
+团队在一个`private`的仓库(repo1)中进行项目的开发, 但是在开发的某一个进度的时候，想将这一个版本发布出去，这就需要建立另外一个`repo2`来管理发布的项目。我们想实现能够在开发的`repo1`里面添加直接将`code` push 到 `repo2`里面去。、
+
+## 操作命令介绍
+
+先检查自己当前的远程分支
+
+```bash
+git remote -v
+github  https://github.com/zxbetter/test.git (fetch)
+github  https://github.com/zxbetter/test.git (push)
+```
+
+然后添加另外一个管理项目发布的`repo2`
+
+```bash
+git remote add oschina https://git.oschina.net/zxbetter/test.git
+```
+
+注意，这里的名字有点区别，`repo1`对应的名字是`github test`, 而`repo2`对应的名字是`oschina test`
+
+```bash
+git push oschina test
+```
+
+关于关联两个repo的其他用法参考博客： [一个项目push到多个远程Git仓库](https://segmentfault.com/a/1190000011294144)
