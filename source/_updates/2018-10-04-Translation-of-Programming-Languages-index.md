@@ -25,7 +25,7 @@ tags: C++, Translation, Flex, Bision
 
 本周的重点内容是`C++的基本语法以及Classes的使用` 和 `C++ Rule of 3`的规则应用。在这里分别整理了两个部分的博客文章：
 
-- [C++ Rule of 3](../post/C++-Rule-Of-Three/)
+- [C++ Rule of 3](/post/C++-Rule-Of-Three/)
 
 <!-- TODO:完成关于Basics and Classes的内容 -->
 
@@ -69,12 +69,12 @@ TODO:Regular expressions -->
   - states
   - line numbers: lineno
   - debug mode
-- static vars
+- static varsux
 - Singleton Pattern (单例设计模式)
 
 理解为什么要使用 Singleton设计模式，已详细分析了为什么要使用singleton模式，以及Singleton设计模式的好处和如何来书写Singleton. 请参考博客:
 
-- [C++软件设计模式之Singleton](../post/C++Singleton-pattern/)
+- [C++软件设计模式之Singleton](/post/C++Singleton-pattern/)
 
 ## Week4
 
