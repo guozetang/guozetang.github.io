@@ -2,7 +2,11 @@
 title: 2D游戏设计课程学习目录(CU CPSC6160)
 date: 2018-10-05 13:04:27
 updated: 2018-10-05 13:04:27
-categories: Game, 2D, Engine, Construction
+categories: 
+- Game
+- 2D
+- Engine
+- Construction
 tags: Game
 ---
 
@@ -26,6 +30,10 @@ tags: Game
   - namespaces
   - if (0)
 - Do the Rule of 3
+
+本周的重点内容是`C++的基本语法以及Classes的使用` 和 `C++ Rule of 3`的规则应用。在这里分别整理了两个部分的博客文章：
+
+- [C++ Rule of 3](/post/C++-Rule-Of-Three/)
 
 **Aug 30, Thu:**
 - refs vs ptrs
@@ -68,7 +76,7 @@ tags: Game
   - move assignment vs copy assignment
   - copy constructor vs move constructor
 - Questions about move semantics
-- ranged for loops: 
+- ranged for loops:
   - ints: size vs cap
   - C++ strings
   - why no push_front for vector?

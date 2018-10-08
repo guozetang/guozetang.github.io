@@ -3,7 +3,11 @@ title: 编译原理课程学习目录(CU CPSC8270)
 date: 2018-10-05 13:04:27
 updated: 2018-10-05 13:04:27
 categories: Translation of Programming Languages
-tags: C++, Translation, Flex, Bision
+tags: 
+- C++
+- Translation
+- Flex
+- Bision
 ---
 
 ![](/images/in-post/2018-10-04-Translation-of-Programming-Languages-index/2018-10-07-18-16-06.png)
@@ -11,6 +15,7 @@ tags: C++, Translation, Flex, Bision
 编译原理这门课程是我在CU的2018 Fall选修的一门专业核心课程，老师是Clemson CS系比较受欢迎的[Brian Malloy教授](https://people.cs.clemson.edu/~malloy/)。在他的个人主页上面也有Python, C++， 2D游戏的教程，非常适合对CS感兴趣的同学学习。
 
 <!--more-->
+
 ---
 
 # 课程内容
