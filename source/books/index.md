@@ -20,7 +20,7 @@ comments: false
 
 - 深入理解计算机系统
 - 算法设计与分析
-- 编译原理[Posts]()
+- 编译原理 [[Posts](/post/Translation-of-Programming-Languages-index/)]
 
 ## 1.3 内功修炼
 
@@ -43,6 +43,7 @@ comments: false
 
 - C++基础视频-北京大学 [[推荐视频地址](https://www.coursera.org/learn/cpp-chengxu-sheji/home/welcome)]
 - Effective C++ [[Posts](http://guozet.me/tags/EffectiveC/)]
+- 2D游戏引擎开发[[课程整理](/post/2D-Game-Engine-Construction/)]
 
 ## 3.2 C语言
 
