@@ -10,6 +10,8 @@ tags: Game
 
 2D游戏引擎设计这门课程是我在CU的2018 Fall选修的一门专业核心课程，老师是Clemson CS系比较受欢迎的[Brian Malloy教授](https://people.cs.clemson.edu/~malloy/)。
 
+<!--more-->
+
 ---
 
 # 课程内容
@@ -39,6 +41,19 @@ tags: Game
 
 ### Week2
 
+**Sep 4, Tue**
+- Review what get's called:
+  - why prefer init vs assign
+- Introduce vectors:
+  - size vs capacity
+  - value semantics
+  - emplace_back
+- Marcus Painting
+- Project #2
+- Quiz #1 review
+
+## Week3
+
 **Sep 11, Tue:**
 - Review the quiz
 - Why no vector.push_front() ???
@@ -61,7 +76,62 @@ tags: Game
   - Makefile
 - Drawing a Surface: CPU
 
-### Week3
+### Week4
+
+**Sep 18, Tue:**
+- static variables
+- Design Patterns
+- The Singleton Design Pattern
+- Animations with SDL:
+  - cpu clock vs game clock
+  - Why clear the screen
+- Inheritance:
+
+**Sep 20, Thu:**
+- Sammy's dilemma
+- Project #2 -- let's look at my solution.
+- The Meyer's Singleton
+- Polymorphism:
+  - see poly example
+  - shapes example
+- Use g++ not clang++ for effc++ warnings
+- Project #3 and the tracker framework
+  - default vs delete for constructors/destructors
+  - ranged for vs while
+  - when to use auto
+  - function overload
+  - transparency vs alpha channel
+  - Parallax Scrolling
+  - Getting images vs "rolling your own"
+  - Making videos
+  - why use g++ vs clang++
+  - XML
+
+## Week 5
+
+**Sep 25, Tue:**
+- Last time: Many spinning stars -- tweak velocity using XML velocity as base!
+- Parallax Scrolling is easy -- it's already in the code
+- string streams
+- making a video
+
+**Sep 27, Thu:**
+- Quiz #2
+
+## Week 6
+
+**Oct 2, Tue:**
+- maps
+- sorting:
+  - vectors
+  - lists
+- emplace_back: how to use?
+- Why Singleton:
+  - Gamedata?
+  - Clock?
+- Two-way sprites?
+- SpriteSheet
+- Project #2 -- CANDY
 
 **Oct 4, Thu:**
 - Jacob Wood
@@ -81,72 +151,3 @@ tags: Game
 - sorting:
   - vectors
   - lists
-
-
-Oct 2, Tue:
-  -- maps
-  -- sorting:
-    -- vectors
-    -- lists
-  -- emplace_back: how to use?
-  -- Why Singleton:
-    -- Gamedata?
-    -- Clock?
-  -- Two-way sprites?
-  -- SpriteSheet
-  -- Project #2 -- CANDY
-
-Sep 27, Thu:
-  -- Quiz #2
-
-Sep 25, Tue:
-  -- Last time: Many spinning stars -- tweak velocity
-     using XML velocity as base!
-  -- Parallax Scrolling is easy -- it's already in the code
-  -- string streams
-  -- making a video
-
-Sep 20, Thu:
-  -- Sammy's dilemma
-  -- Project #2 -- let's look at my solution.
-  -- The Meyer's Singleton
-  -- Polymorphism: 
-    -- see poly example
-    -- shapes example
-  -- Use g++ not clang++ for effc++ warnings
-
-  -- Project #3 and the tracker framework
-    -- default vs delete for constructors/destructors
-    -- ranged for vs while
-    -- when to use auto
-    -- function overload
-    -- transparency vs alpha channel
-    -- Parallax Scrolling
-    -- Getting images vs "rolling your own"
-    -- Making videos
-    -- why use g++ vs clang++
-    -- XML
-
-Sep 18, Tue:
-  -- static variables
-  -- Design Patterns
-  -- The Singleton Design Pattern
-  -- Animations with SDL:
-    -- cpu clock vs game clock
-    -- Why clear the screen
-  -- Inheritance:
-
-
-
-
-
-Sep 4, Tue:
-  -- Review what get's called:
-    -- why prefer init vs assign
-  -- Introduce vectors:
-    -- size vs capacity
-    -- value semantics
-    -- emplace_back
-  -- Marcus Painting
-  -- Project #2
-  -- Quiz #1 review

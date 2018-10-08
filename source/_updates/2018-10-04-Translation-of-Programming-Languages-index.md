@@ -10,6 +10,7 @@ tags: C++, Translation, Flex, Bision
 
 编译原理这门课程是我在CU的2018 Fall选修的一门专业核心课程，老师是Clemson CS系比较受欢迎的[Brian Malloy教授](https://people.cs.clemson.edu/~malloy/)。在他的个人主页上面也有Python, C++， 2D游戏的教程，非常适合对CS感兴趣的同学学习。
 
+<!--more-->
 ---
 
 # 课程内容
@@ -17,7 +18,6 @@ tags: C++, Translation, Flex, Bision
 ### Week1
 
 **Aug 28, Tue**
-
 - Read Section 1, the Introduction, to grammarware paper
 - Discuss slides about Grammars
 - Answer questions about Basics and Classes
@@ -30,7 +30,6 @@ tags: C++, Translation, Flex, Bision
 <!-- TODO:完成关于Basics and Classes的内容 -->
 
 **Aug 30, Thu**
-
 - Regular grammars and regular expressions
 - Review Rule of 3
 - What gets called
@@ -45,7 +44,6 @@ TODO:Regular expressions -->
 ## Week2
 
 **Sep 4, Tue**
-
 - What gets called
   - Why prefer init over assign?!
 - Introduce vectors
@@ -58,7 +56,6 @@ TODO:Regular expressions -->
 ## Week3
 
 **Sep 13, Thu**
-
 - Questions about move semantics?
   - Well I have one?
 - flex:
@@ -79,7 +76,6 @@ TODO:Regular expressions -->
 ## Week4
 
 **Sep 20, Thu**
-
 - The Bison Parser Generator: shift/reduce parsing LALR(1)
 - Balanced Parens -- adding sets of them
 - sum -- adding numbers
@@ -87,7 +83,6 @@ TODO:Regular expressions -->
 ## Week 5
 
 **Sep 25, Tue**
-
 - conflicts -- the pointer model
   - Inserting semantic actions:
   - simple -- no actions but prec set
@@ -98,13 +93,11 @@ TODO:Regular expressions -->
 - Exam #1 -- everything up to and incl today
 
 **Sep 27. Thu**
-
 - Exam #1 -- everything up to and incl today
 
-# Week 6
+## Week 6
 
 **Oct 2. Tue**
-
 - Containers
   - vectors
   - List
@@ -116,7 +109,6 @@ TODO:Regular expressions -->
 - Inheritance
 
 **Oct 4. Thu**
-
 - emplace_back -- When it help?
 
 # 项目内容
