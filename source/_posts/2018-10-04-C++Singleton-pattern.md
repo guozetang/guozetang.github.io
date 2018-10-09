@@ -7,8 +7,6 @@ tags: C++
 top:
 ---
 
-# Singleton(单例模式)
-
 ![](/images/in-post/2018-10-04-C++Singleton-pattern/2018-10-09-07-43-58.png)
 
 什么是`Singleton`? 单例模式（Singleton），保证一个类仅有一个实例，并提供一个访问它的全局访问点。
