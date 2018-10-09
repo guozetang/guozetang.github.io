@@ -99,8 +99,9 @@ index_with_subtitle: false
 # Value before `||` delimeter is the target link.
 # Value after `||` delimeter is the name of FontAwesome icon. If icon (with or without delimeter) is not specified, question icon will be loaded.
 menu:
-  home: / || h-square
+  home: / || h-square 
   blog: /post/ || rss
+  # projects: /project/ || project-diagram
   books: /books || book
   # categories: /categories/ || th
   archives: /archives/ || archive
