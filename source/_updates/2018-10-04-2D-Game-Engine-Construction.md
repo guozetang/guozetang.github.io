@@ -175,3 +175,13 @@ tags: Game
 - Two-way sprites?
 - SpriteSheet
 - A Player Class
+
+---
+
+# 自己动手写游戏引擎
+
+<!--TODO:完成下面每一个被部分的博客文章 -->
+
+- 概述
+- 设计使用C++画出来图形
+- 做一个Object移动的模式
