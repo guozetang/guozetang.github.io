@@ -115,6 +115,10 @@ tags: Game
   - why use g++ vs clang++
   - XML
 
+理解为什么要使用 Singleton设计模式，已详细分析了为什么要使用singleton模式，以及Singleton设计模式的好处和如何来书写Singleton. 请参考博客:
+
+- [C++软件设计模式之Singleton](/post/C++Singleton-pattern/) 包含了两种Singleton的书写方式
+
 ## Week 5
 
 **Sep 25, Tue:**
@@ -159,3 +163,15 @@ tags: Game
 - sorting:
   - vectors
   - lists
+
+## Week 7
+
+**Oct 9, Thu**
+- Why Singleton:
+  - Gamedata -- yes
+  - Clock -- no!
+- Clock and fps
+- string streams
+- Two-way sprites?
+- SpriteSheet
+- A Player Class
