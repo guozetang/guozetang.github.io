@@ -9,6 +9,7 @@ top:
 ---
 
 # Question
+
 Given two non-negative integers  `num1`  and  `num2`  represented as strings, return the product of  `num1`  and  `num2`, also represented as a string.
 
 **Example 1:**
@@ -40,8 +41,8 @@ Given two non-negative integers  `num1`  and  `num2`  represented as strings, re
 
 287*785来作为例子，首先我们需要一个中间的值来保存我们得到的中间值`14 66 119 109 72`, 使用双重循环，当外循环为`2`的时候，分别生成`14 10 16`，当外循环为`8`的时候，我们同时要变化存放没一项相乘的数值。
 
-
 参考博文：
+
 - [LeetCode Multiply Strings 字符串相乘](https://www.cnblogs.com/grandyang/p/4395356.html)
 - [LeetCode:Multiply Strings](http://www.cnblogs.com/TenosDoIt/p/3735309.html)  博文中有非常形象的图像可以说明怎么计算的
 
@@ -57,32 +58,29 @@ public:
         int len_num1 = num1.size(), len_num2 = num2.size(), carry = 0;
         int res_len = (len_num1-1) + (len_num2-1);
         std::vector<int> temp(len_num1+len_num2,0);
-        
+
         for(int i = 0; i < len_num1; i++) {
             for(int j = 0; j < len_num2; j++) {
                 temp[res_len-i-j] += (num1[i]-'0') * (num2[j] - '0');
                 std::cout << temp[res_len-i-j] << std::endl;
-            } 
+            }
         }
 
         for(int i = 0; i < len_num1+len_num2; i++) {
             temp[i] += carry;
             carry = temp[i] / 10;
-            temp[i] = temp[i] % 10; 
+            temp[i] = temp[i] % 10;
         }
-        
+
         int i = res_len+1;
         while(temp[i]==0) i--;
         if(i < 0) return "0";
-        
-        
+
         while(i >= 0) {
             std::cout<< temp[i] << std::endl;
             res.push_back(temp[i--]+'0');
         }
         return res;
-        
-        
     }
 };
 ```
@@ -102,32 +100,29 @@ LeetCode:Multiply Stringses;
         int len_num1 = num1.size(), len_num2 = num2.size(), carry = 0;
         int res_len = (len_num1-1) + (len_num2-1);
         std::vector<int> temp(len_num1+len_num2,0);
-        
+
         for(int i = 0; i < len_num1; i++) {
             for(int j = 0; j < len_num2; j++) {
                 temp[res_len-i-j] += (num1[i]-'0') * (num2[i] - '0');
                 std::cout << temp[res_len-i-j] << std::endl;
-            } 
+            }
         }
-        
+
         for(int i = 0; i < len_num1+len_num2; i++) {
             temp[i] += carry;
             carry = temp[i] / 10;
-            temp[i] = temp[i] % 10; 
+            temp[i] = temp[i] % 10;
         }
-        
+
         int i = res_len+1;
         while(temp[i]==0) i--;
         if(i < 0) return "0";
-        
-        
+
         while(i >= 0) {
             std::cout<< temp[i] << std::endl;
             res.push_back(temp[i--]+"0");
         }
         return res;
-        
-        
     }
 };
 ```

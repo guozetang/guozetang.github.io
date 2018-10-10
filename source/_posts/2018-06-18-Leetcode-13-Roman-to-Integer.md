@@ -22,9 +22,9 @@ For example, two is written as  `II` in Roman numeral, just two one's added toge
 
 Roman numerals are usually written largest to smallest from left to right. However, the numeral for four is not  `IIII`. Instead, the number four is written as  `IV`. Because the one is before the five we subtract it making four. The same principle applies to the number nine, which is written as  `IX`. There are six instances where subtraction is used:
 
--   `I`  can be placed before  `V`  (5) and  `X`  (10) to make 4 and 9.
--   `X`  can be placed before  `L`  (50) and  `C`  (100) to make 40 and 90.
--   `C`  can be placed before  `D`  (500) and  `M`  (1000) to make 400 and 900.
+- `I`  can be placed before  `V`  (5) and  `X`  (10) to make 4 and 9.
+- `X`  can be placed before  `L`  (50) and  `C`  (100) to make 40 and 90.
+- `C`  can be placed before  `D`  (500) and  `M`  (1000) to make 400 and 900.
 
 Given an integer, convert it to a roman numeral. Input is guaranteed to be within the range from 1 to 3999.
 
@@ -55,18 +55,21 @@ Given an integer, convert it to a roman numeral. Input is guaranteed to be withi
 **Output:** "MCMXCIV"
 **Explanation:** M = 1000, CM = 900, XC = 90 and IV = 4.
 
-
 **Difficulty**:Easy
 **Category**:  
 <!--more-->
 *****
 
-## Analyze
+# Analyze
   
 我们需要用到map数据结构，来将罗马数字的字母转化为对应的整数值，因为输入的一定是罗马数字，那么我们只要考虑两种情况即可：
 第一，如果当前数字是最后一个数字，或者之后的数字比它小的话，则加上当前数字
 第二，其他情况则减去这个数字
-## Solution
+
+*****
+
+# Solution
+
 ```cpp
 class Solution {
 public:
@@ -84,6 +87,7 @@ public:
 ```
 
 我们也可以每次跟前面的数字比较，如果小于等于前面的数字，我们先加上当前的数字，如果大于的前面的数字，我们加上当前的数字减去二倍前面的数字，这样可以把在上一个循环多加数减掉，参见代码如下:
+
 ```cpp
 class Solution {
 public:

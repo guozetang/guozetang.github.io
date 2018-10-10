@@ -26,7 +26,7 @@ Please note that the string does not contain any  **non-printable**  characters.
 
 在给定的一段字符串中，判断出来里面的单词个数，我们只需要设置一个`word`开始的标志位`word_flag`，刚刚单词开始的时候将其设置为1，当出现空格的时候，将其变成0，这样我们就可以记录单词的格式，如果到最后一个字母的话，那就将其作为单词的结尾，给单词数量加1.
 
----
+----
 
 # Solution
 
