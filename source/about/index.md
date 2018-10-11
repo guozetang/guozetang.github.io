@@ -38,12 +38,12 @@ As we know, in IT field, technologies update very quickly. It is difficult and u
 #### University of Science and Technology of China(USTC) (09/2014-04/2017)
 
 - **Major:** Master of Software Engineering (Embedded System Development)
-- **Relative Courses:** Embedded system design, Embedded operating system, Programming and computer systems, Microprocessor architecture, Algorithmic design & analysis, Wireless sensor networks, Linux driver development, [Linux operating system](https://mooc.study.163.com/course/1000029000?tid=1000037000), etc.  
+- **Relative Courses:** Embedded System Design, Embedded Operating System, Programming and Computer Systems, Microprocessor Achitecture, Algorithmic Design & Analysis, Wireless Sensor Networks, Linux Driver Development, [Linux operating system](https://mooc.study.163.com/course/1000029000?tid=1000037000), etc.  
 
 #### Yunnan University (09/2010-07/2014)
 
 - **Major:** Bachelor of Electronic and Information Engineering  
-- **Relative Courses:** Principle of automatic control, Principles of microcomputer, Integrated circuit design, Signals and systems, Digital signal processing, Information theory & Coding, etc
+- **Relative Courses:** Principle of Automatic Control, Principles of Microcomputer, Integrated Circuit Design, Signals and Systems, Digital Signal Processing, Information Theory & Coding, etc
 
 ---
 
