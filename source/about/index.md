@@ -38,7 +38,7 @@ As we know, in IT field, technologies update very quickly. It is difficult and u
 #### University of Science and Technology of China(USTC) (09/2014-04/2017)
 
 - **Major:** Master of Software Engineering (Embedded System Development)
-- **Relative Courses:** Embedded System Design, Embedded Operating System, Programming and Computer Systems, Microprocessor Achitecture, Algorithmic Design & Analysis, Wireless Sensor Networks, Linux Driver Development, [Linux operating system](https://mooc.study.163.com/course/1000029000?tid=1000037000), etc.  
+- **Relative Courses:** Embedded System Design, Embedded Operating System, Programming and Computer Systems, Microprocessor Achitecture, Algorithmic Design & Analysis, Wireless Sensor Networks, Linux Driver Development, [Linux Operating System](https://mooc.study.163.com/course/1000029000?tid=1000037000), etc.  
 
 #### Yunnan University (09/2010-07/2014)
 
@@ -117,7 +117,7 @@ As we know, in IT field, technologies update very quickly. It is difficult and u
 
 ---
 
-### Soem Application about My Project
+### Some Application about My Project
 
 - Networking Security Project: [Protocol Parser in Network](https://github.com/guozetang/Protocol_Parser)
 - Translation of Programming Languages Project: [Convert Leet1337 & English](https://github.com/guozetang/convertleet1337_english)
