@@ -7,7 +7,6 @@ tags: C++
 ---
 
 ### Rule of five
-
 Because the presence of a user-defined destructor, copy-constructor, or copy-assignment operator prevents implicit definition of the  [move constructor](https://en.cppreference.com/w/cpp/language/move_constructor "cpp/language/move constructor")  and the  [move assignment operator](https://en.cppreference.com/w/cpp/language/move_operator "cpp/language/move operator"), any class for which move semantics are desirable, has to declare all five special member functions:
 
 ```cpp
