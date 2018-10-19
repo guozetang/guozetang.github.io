@@ -3,8 +3,7 @@ title: 2D游戏设计课程学习目录(CU CPSC6160)
 date: 2018-10-05 13:04:27
 updated: 2018-10-05 13:04:27
 categories: 
-- Game
-- 2D
+- 2D Game
 - Engine
 - Construction
 tags: Game
