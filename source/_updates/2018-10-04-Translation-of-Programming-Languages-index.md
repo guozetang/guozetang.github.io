@@ -1,5 +1,5 @@
 ---
-title: 编译原理课程学习目录(CU CPSC8270)
+title: Translation of Programming Languages(CU CPSC8270)
 date: 2018-10-05 13:04:27
 updated: 2018-10-05 13:04:27
 categories: Translation of Programming Languages
