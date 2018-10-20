@@ -7,7 +7,8 @@ tags: Leetcode
 comments: false
 top: 99
 ---
-Record the questions when I did on the Leetcode. (Include Qestions Number, Questions Name, Question Difficulty, Question Type, And when I did it.)
+Record the questions whhic I did on the Leetcode. 
+> Include: Question Number, Questions Name, Question Difficulty, Question Type, And when I did it.
 
 <style>
 table th:nth-of-type(1) {
