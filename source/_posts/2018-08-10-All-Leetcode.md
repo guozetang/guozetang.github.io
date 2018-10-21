@@ -7,7 +7,7 @@ tags: Leetcode
 comments: false
 top: 99
 ---
-Record the questions whhic I did on the Leetcode. 
+Record the questions which I did on the Leetcode. 
 > Include: Question Number, Questions Name, Question Difficulty, Question Type, And when I did it.
 
 <style>
