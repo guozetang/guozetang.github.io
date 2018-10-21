@@ -8,6 +8,7 @@ notshow: true
 top:
 ---
 
+# Question
 
 Given a group of two strings, you need to find the longest uncommon subsequence of this group of two strings. The longest uncommon subsequence is defined as the longest subsequence of one of these strings and this subsequence should not be  **any**  subsequence of the other strings.
 
@@ -17,15 +18,32 @@ The input will be two strings, and the output needs to be the length of the long
 
 **Example 1:**  
 
-**Input:** "aba", "cdc"
-**Output:** 3
-**Explanation:** The longest uncommon subsequence is "aba" (or "cdc"),   
-because "aba" is a subsequence of "aba",   
-but not a subsequence of any other strings in the group of two strings. 
+> **Input:** "aba", "cdc"
+> **Output:** 3
+> **Explanation:** The longest uncommon subsequence is "aba" (or "cdc"), because "aba" is a subsequence of "aba", but not a subsequence of any other strings in the group of two strings.
 
 **Note:**
 
-1.  Both strings' lengths will not exceed 100.
-2.  Only letters from a ~ z will appear in input strings.
+1. Both strings' lengths will not exceed 100.
+2. Only letters from a ~ z will appear in input strings.
+
+<!--more-->
 
 ----------
+
+# Analyze
+
+There question is so easy. We just choose the longgest one as longest uncommon subsequence of  other strings in the group of two strings.
+
+----------
+
+# Solution
+
+```cpp
+class Solution {
+public:
+    int findLUSlength(string a, string b) {
+      return a == b ? -1 : max(a.size(), b.size());
+    }
+};
+```
