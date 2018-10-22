@@ -32,6 +32,8 @@ The input will be a list of strings, and the output needs to be the length of th
 
 # Analyze
 
+<!-- TODO:Write some information about how to analyze this quesiton. -->
+
 ------------
 
 # Solution
