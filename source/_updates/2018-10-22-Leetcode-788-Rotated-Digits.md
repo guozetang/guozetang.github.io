@@ -17,10 +17,11 @@ A number is valid if each digit remains a digit after rotation. 0, 1, and 8 rota
 Now given a positive number  `N`, how many numbers X from  `1`  to  `N`  are good?
 
 **Example:**
-**Input:** 10
-**Output:** 4
-**Explanation:** 
-There are four good numbers in the range [1, 10] : 2, 5, 6, 9.
+
+> **Input:** 10
+> **Output:** 4
+> **Explanation:** 
+> There are four good numbers in the range [1, 10] : 2, 5, 6, 9.
 Note that 1 and 10 are not good numbers, since they remain unchanged after rotating.
 
 **Note:**
