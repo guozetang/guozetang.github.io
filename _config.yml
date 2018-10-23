@@ -45,7 +45,7 @@ future: true
 highlight:
   enable: true
   line_number: true
-  auto_detect: false
+  auto_detect: true
   tab_replace:
   
 # Home page setting
@@ -60,7 +60,7 @@ index_generator:
 
 archive_generator:
   per_page: 100
-  yearly: false
+  yearly: true
   monthly: false
   daily: false
   order_by: -date
