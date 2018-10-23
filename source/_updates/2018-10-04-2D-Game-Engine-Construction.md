@@ -175,6 +175,36 @@ tags: Game
 - SpriteSheet
 - A Player Class
 
+**Oct 11, Thu:**
+- Does anyone get a black screen on startup?
+- Good rule to follow: pre-load assets! e.g.: collision strategies.
+- Reminder: Exam #1 in one week!
+- Modifications to ImageFactory and/or SpriteSheet???
+- Review:
+    - How to make video for #3
+    - Adding a Player for #4
+        - slide or no slide?
+        - how to fit player into tracker framework
+        - to cast or not to cast, that is the question.
+        - Where to put stuff in Engine.cpp
+
+- Nested Classes: the Clock class
+- Collisions
+- AI:
+    - observer pattern
+
+## Week 8
+
+**Oct 16, Tue:**
+- Erasing from a list. Vector. map
+- Project #4
+- Exam #1
+
+**Oct 18, Thu:**
+- Review Observer
+- Quiz #2
+- Sorting vectors and lists
+
 ---
 
 # 自己动手写游戏引擎
