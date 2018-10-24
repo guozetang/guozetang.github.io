@@ -38,3 +38,32 @@ since a and b map to the same letter.
 ----------
 
 # Solution
+
+```cpp
+class Solution {
+ public:
+  vector<string> findAndReplacePattern(vector<string>& words, string pattern) {
+    vector<string> res;
+
+    for (auto w : words) {
+      string s = w;
+      vector<int> vec(127), vec_p(127);
+      for (char c : pattern) vec_p[c] = 1;
+      for (int i = 0; i < s.size(); ++i) {
+        if (vec[s[i]] == 0 && vec_p[pattern[i]] == 1) {
+          vec[s[i]] = pattern[i];
+          vec_p[pattern[i]] = 0;
+        }
+      }
+
+      for (int i = 0; i < s.size(); ++i) {
+        if (vec[s[i]]) s[i] = vec[s[i]];
+      }
+
+      if (s == pattern) res.push_back(w);
+    }
+
+    return res;
+  }
+};
+```
