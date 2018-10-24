@@ -48,7 +48,6 @@ class Solution {
         ++it;
       }
     }
-
     istringstream stream(paragraph);
     while (stream >> word) {
       if (bannedset.find(word) == bannedset.end()) {
