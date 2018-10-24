@@ -10,6 +10,7 @@ git init
 git config --global push.default matching
 git config --global user.email "guozetang@gmail.com" #填入GitHub的邮箱地址
 git config --global user.name "guozetang" #填入GitHub的用户名
+git branch -mv origin master
 git add --all .
 git commit -m "Travis CI Auto Builder" #自动构建后的内容将全部以此信息提交
 git push --quiet --force https://${BLOG_REPO_TOKEN}@github.com/guozetang/guozetang.github.io.git master  #自动构建后的内容将全部以此信息提交
