@@ -18,6 +18,10 @@ Appends the given element value to the end of the container.
 
 If the new `size()` is greater than `capacity()` then all iterators and references (including the past-the-end iterator) are invalidated. Otherwise only the past-the-end iterator is invalidated. (Cite from: [cppreference.com](https://en.cppreference.com/w/cpp/container/vector/push_back))
 
+<!--more-->
+
+-------
+
 ### Example
 
 Firstly, if we have a class `String`, then we can use this class to test the `push_back()` functions.
