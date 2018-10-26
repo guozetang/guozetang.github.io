@@ -52,6 +52,8 @@ The  **output**  is a list of group of duplicate file paths. For each group, it 
 
 # Solution
 
+## Solution 1
+
 ```cpp
 class Solution {
  public:
@@ -107,5 +109,74 @@ class Solution {
     }
     return res;
   }
+};
+```
+
+## Solution 2
+
+```cpp
+class Solution {
+public:
+    vector<vector<string>> findDuplicate(vector<string>& paths) {
+      vector<vector<string>> res;
+      unordered_set<std::string> contents;
+      std::multimap<string,string> mymm;
+      int cnt = 0;
+      for(string s : paths) {
+        string dir_path, content, file;
+        istringstream stream(s);
+        stream >> dir_path;
+        while(stream >> file){
+          string path;
+          std::size_t content_begin = file.find_first_of("(");
+          std::size_t content_end = file.find_first_of(")", content_begin+1);
+          path = dir_path +"/"+ file.substr(0, content_begin);
+          content = file.substr(content_begin+1, content_end-content_begin-1);
+          contents.emplace(content);
+          mymm.insert(std::make_pair(content, path));
+        }
+
+      for (const std::string& x: contents) {
+        int dup_nums = mymm.count(x);
+        if( dup_nums > 1){
+          vector<string> dupfiles;
+          dupfiles.reserve(dup_nums);
+          for (auto it=mymm.equal_range(x).first; it!=mymm.equal_range(x).second; ++it) {
+            dupfiles.emplace_back((*it).second);
+          }
+          res.emplace_back(dupfiles);
+        }
+      }
+      return res;
+    }
+};
+```
+
+## Solution 3
+
+Copy from [Find Duplicate File in System 在系统中寻找重复文件](http://www.cnblogs.com/grandyang/p/7007974.html)
+
+```cpp
+class Solution {
+public:
+    vector<vector<string>> findDuplicate(vector<string>& paths) {
+        vector<vector<string>> res;
+        unordered_map<string, vector<string>> m;
+        for (string path : paths) {
+            istringstream is(path);
+            string pre = "", t = "";
+            is >> pre;
+            while (is >> t) {
+                int idx = t.find_last_of('(');
+                string dir = pre + "/" + t.substr(0, idx);
+                string content = t.substr(idx + 1, t.size() - idx - 2);
+                m[content].push_back(dir);
+            }
+        }
+        for (auto a : m) {
+            if (a.second.size() > 1)res.push_back(a.second);
+        }
+        return res;
+    }
 };
 ```
