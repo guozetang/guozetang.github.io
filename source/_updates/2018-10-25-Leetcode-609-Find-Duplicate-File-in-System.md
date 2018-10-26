@@ -52,3 +52,60 @@ The  **output**  is a list of group of duplicate file paths. For each group, it 
 
 # Solution
 
+```cpp
+class Solution {
+ public:
+  vector<vector<string>> findDuplicate(vector<string>& paths) {
+    vector<vector<string>> res;
+    unordered_set<std::string> contents;
+    std::multimap<string, string> mymm;
+    int cnt = 0;
+    for (string s : paths) {
+      std::cout << s << std::endl;
+      string dir_path, content;
+      std::size_t file_begin = s.find_first_of(" ");
+      if (file_begin != std::string::npos) dir_path = s.substr(0, file_begin);
+
+      bool final_file = false;
+      std::size_t file_end = s.find_first_of(" ", file_begin + 1);
+      if (file_end == std::string::npos) {
+        final_file = true;
+        file_end = s.size();
+      }
+
+      while (file_end != std::string::npos) {
+        string path, file;
+        file = s.substr(file_begin + 1, file_end - file_begin - 1);
+
+        std::size_t content_begin = file.find_first_of("(");
+        std::size_t content_end = file.find_first_of(")", content_begin + 1);
+        path = dir_path + "/" + file.substr(0, content_begin);
+        content =
+            file.substr(content_begin + 1, content_end - content_begin - 1);
+        file_begin = file_end;
+        file_end = s.find_first_of(" ", file_begin + 1);
+        if (final_file == false && file_end == std::string::npos) {
+          final_file = true;
+          file_end = s.size();
+        }
+        contents.emplace(content);
+        mymm.insert(std::make_pair(content, path));
+      }
+    }
+
+    for (const std::string& x : contents) {
+      int dup_nums = mymm.count(x);
+      if (dup_nums > 1) {
+        vector<string> dupfiles;
+        dupfiles.reserve(dup_nums);
+        for (auto it = mymm.equal_range(x).first;
+             it != mymm.equal_range(x).second; ++it) {
+          dupfiles.emplace_back((*it).second);
+        }
+        res.emplace_back(dupfiles);
+      }
+    }
+    return res;
+  }
+};
+```
