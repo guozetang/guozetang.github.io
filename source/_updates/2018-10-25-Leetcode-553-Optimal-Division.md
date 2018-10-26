@@ -4,6 +4,7 @@ date: 2018-10-25 02:09:31
 updated: 2018-10-25 02:09:31
 categories: Leetcode
 tags: Leetcode
+notshow: true
 top:
 ---
 
@@ -14,10 +15,9 @@ Given a list of  **positive integers**, the adjacent integers will perform the f
 However, you can add any number of parenthesis at any position to change the priority of operations. You should find out how to add parenthesis to get the  **maximum**  result, and return the corresponding expression in string format.  **Your expression should NOT contain redundant parenthesis.**
 
 **Example:**  
-
-**Input:** [1000,100,10,2]
-**Output:** "1000/(100/10/2)"
-**Explanation:**
+> **Input:** [1000,100,10,2]
+> **Output:** "1000/(100/10/2)"
+> **Explanation:**
 1000/(100/10/2) = 1000/((100/10)/2) = 200
 However, the bold parenthesis in "1000/(**(**100/10**)**/2)" are redundant,
 since they don't influence the operation priority. So you should return "1000/(100/10/2)". 
