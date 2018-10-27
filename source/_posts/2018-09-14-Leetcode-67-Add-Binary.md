@@ -50,8 +50,6 @@ public:
 
             res = std::to_string(sum % 2) + res;
             carry = sum / 2;
-
-            std::cout << res << std::endl;
         }
         return carry == 1 ? ('1' + res) : res;
 

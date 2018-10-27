@@ -64,7 +64,6 @@ class Solution {
     std::multimap<string, string> mymm;
     int cnt = 0;
     for (string s : paths) {
-      std::cout << s << std::endl;
       string dir_path, content;
       std::size_t file_begin = s.find_first_of(" ");
       if (file_begin != std::string::npos) dir_path = s.substr(0, file_begin);

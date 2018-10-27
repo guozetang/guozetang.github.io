@@ -1,37 +1,24 @@
-
-class string {
+class Solution {
  public:
-  string() : buf(new char[1]) {
-    std::cout << "default" << std::endl;
-    buf[0] = '\0';
-  }
-  string(const char* s) : buf(new char[strlen(s) + 1]) {
-    std::cout << "convert" << std::endl;
-    strcpy(buf, s);
-  }
-  explicit string(const string& s) : buf(new char[strlen(s.buf) + 1]) {
-    std::cout << "copy" << std::endl;
-    strcpy(buf, s.buf);
-  }
-  ~string() {
-    std::cout << "destructor" << std::endl;
-    delete[] buf;
-  }
+  int scoreOfParentheses(string S) {
+    int res = 0;
+    std::stack<char> par_stack;
+    bool flag = false;
+    for (int i = 0; i < S.size(); ++i) {
+      if (S[i] == '(') {
+        par_stack.push(S[i]);
+        flag = true;
+      } else if (flag == true) {
+        flag = false;
+        if (par_stack.size() == 1)
+          res++;
+        else
+          res += 1 * pow(2, par_stack.size() - 1);
+        par_stack.pop();
+      } else
+        par_stack.pop();
+    }
 
-  string& operator=(const string& rhs) {
-    std::cout << "copy assign" << std::endl;
-    if (this == &rhs) return *this;
-    delete[] buf;
-    buf = new char[strlen(rhs.buf) + 1];
-    strcpy(buf, rhs.buf);
-    return *this;
+    return res;
   }
-
-  const char* getBuf() const { return buf; }
-
- private:
-  char* buf;
 };
-std::ostream& operator<<(std::ostream& out, const string& s) {
-  return out << s.getBuf();
-}
