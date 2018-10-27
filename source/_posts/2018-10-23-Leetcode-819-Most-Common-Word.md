@@ -37,6 +37,15 @@ Note that words in the paragraph are not case sensitive, that punctuation is ign
 
 <!--more-->
 
+# Analzye
+
+这一道题目只需要排查被禁止的词汇就可以了，处理方式如下：
+
+- 在`string paragraph`里面找到特殊的符号，将这一些特殊的符号全部是使用`空格`代替，为之后更容易的分割输入做准备
+- 使用`istringstream stream(paragraph)`将输入全部转换成以空格分割的输入单词`word`.
+- 将每个不在禁止字符串数组里面的单词都插入到一个`unordered_map`，如果原来`unordered_map`里面没有的话，那么就存有1，如果原来里面就已经有数据了，那么就取出来对应的数据，将其加一
+- 最后遍历`unordered_map`，找到`currentMax = it->second; arg_max = it->first;`最大的位置，然后返回。
+
 ----------
 
 # Solution
