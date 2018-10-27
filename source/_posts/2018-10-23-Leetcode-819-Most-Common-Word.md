@@ -16,11 +16,11 @@ Words in the list of banned words are given in lowercase, and free of punctuatio
 
 **Example:**
 
-> **Input:** 
+> **Input:**
 > paragraph = "Bob hit a ball, the hit BALL flew far after it was hit."
 > banned = ["hit"]
 > **Output:** "ball"
-> **Explanation:** 
+> **Explanation:**s
 > "hit" occurs 3 times, but it is a banned word.
 > "ball" occurs twice (and no other word does), so it is the most frequent non-banned word in the paragraph. 
 Note that words in the paragraph are not case sensitive, that punctuation is ignored (even if adjacent to words, such as "ball,"), and that "hit" isn't the answer even though it occurs more because it is banned.
@@ -39,7 +39,7 @@ Note that words in the paragraph are not case sensitive, that punctuation is ign
 
 # Analzye
 
-这一道题目只需要排查被禁止的词汇就可以了，处理方式如下：
+这一道题目只需要排查被禁止的词汇,找到里面重复最高频率的词汇就可以了，处理方式如下：
 
 - 在`string paragraph`里面找到特殊的符号，将这一些特殊的符号全部是使用`空格`代替，为之后更容易的分割输入做准备
 - 使用`istringstream stream(paragraph)`将输入全部转换成以空格分割的输入单词`word`.
