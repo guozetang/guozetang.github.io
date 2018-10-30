@@ -24,7 +24,7 @@ rotate 2 steps to the right: `[6,7,1,2,3,4,5]` rotate 3 steps to the right: `[5,
 
 **Input:** `[-1,-100,3,99]` and _k_ = 2
 **Output:** [3,99,-1,-100]
-**Explanation:** 
+**Explanation:**
 rotate 1 steps to the right: [99,-1,-100,3]
 rotate 2 steps to the right: [3,99,-1,-100]
 
