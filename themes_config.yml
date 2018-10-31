@@ -376,7 +376,7 @@ han: true
 # Disqus
 disqus:
   enable: ture
-  shortname: Tang Guoze
+  shortname: guozet-me
   count: true
 
 # Hypercomments
