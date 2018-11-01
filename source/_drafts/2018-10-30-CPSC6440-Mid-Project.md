@@ -117,12 +117,14 @@ Value: `WebTier_configure`
 
 ## Instance Details
 
-| Tier   | Tags/Name  | OS    | Type | Size | Justification    | Number | User Data |
-| :----- | :--------- | :---- | :--- | :--- | :--------------- | :----- | :-------- |
-| Config | web-config | Linux | Null | 8GB  | Null             | Null   | Yes       |
-| Web    | web-tier   | Linux | Null | 8GB  | Group:Web Server | Null   | Yes       |
-| App    | app-tier   | Linux | Null | 8GB  | Group:App Server |
-| DB     | db-tier    | Linux | Null | 8GB  |
+| Tier   | Tags/Name  | OS    | Type     | Size | Security Group | Number | User Data |
+| :----- | :--------- | :---- | :------- | :--- | :------------- | :----- | :-------- |
+| Config | web-config | Linux | t2.micro | 8GB  | Config Server  | 1      | Yes       |
+| Web    | web-tier   | Linux | t2.micro | 8GB  | Web Server     | 2      | Yes       |
+| App    | app-tier   | Linux | t2.micro | 8GB  | App Server     | 2      | Yes       |
+| DB     | db-tier    | Linux | t2.micro | 8GB  | DB Server      | 2      | Yes       |
+| Dev    | dev-tier   | Linux | t2.micro | 16GB | Dev Server     | 2      | Yes       |
+| Test   | test-tier  | Linux | t2.micro | 16GB | Test Server    | 2      | Yes       |
 
 **DB Instance**
 
@@ -174,7 +176,7 @@ yum -y update
 yum -y install httpd
 chkconfig httpd on
 service httpd start
-echo "<html><h1>Hello From Your Web Server!</h1></html>" > /var/www/html/index.html
+echo "<html><h1>Hello From Your Test Server!</h1></html>" > /var/www/html/index.html
 ```
 
 **Create Image**
