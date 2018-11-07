@@ -24,6 +24,14 @@ Your algorithm should run in O(_n_) complexity.
 
 ------------
 
+# Analyze
+
+本题目要求的是O(n)的时间复杂度，因为序列中的元素是无序的，而且要求了O(n)的时间复杂度，所以这道题尝试使用哈希表去完成。
+
+使用哈希表`unordered_map<int, bool> used`记录每个元素是否已经使用，对每一个元素，使用该元素作为中心，向左右扩张到不能扩张位置，并将这些位置设置为`True`，然后记录下能够扩张的长度。
+
+------------
+
 # Solution
 
 ```cpp
