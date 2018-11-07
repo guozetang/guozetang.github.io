@@ -94,3 +94,14 @@ class Solution {
   }
 };
 ```
+
+**Solution 3**
+
+使用了STL里面的函数来快速的完成：
+
+```cpp
+class Solution {
+ public:
+  int removeDuplicates(vector<int>& nums) { return distance(nums.begin(), unique(nums.begin(), nums.end())); }
+};
+```
