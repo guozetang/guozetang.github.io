@@ -23,55 +23,58 @@ Determine whether an integer is a palindrome. An integer is a palindrome when it
 >**Explanation:** Reads 01 from right to left. Therefore it is not a palindrome.
 
 **Follow up:**
-Coud you solve it without converting the integer to a string?
+Could you solve it without converting the integer to a string?
 
 **Difficulty**:Easy
-**Category**:  
+**Category**:Math
 <!--more-->
 *****
 
+# Analyze
 
-## Analyze
 验证回文数字, 直接对整数进行操作，我们可以利用取整和取余来获得我们想要的数字, 每计算一次, 去掉收尾各一个数字, 循环计算.
+
 ## Solution
+
 ```cpp
 class Solution {
-public:
-    bool isPalindrome(int x) {
-        if(x < 0) return false;
-        
-        int div = 1;
-        while(x / div >= 10) div *= 10;
-        
-        while(x > 0) {
-            int left = x / div;
-            int right = x % 10;
-            
-            if(left != right) return false;
-            x = (x % div) / 10;
-            div /= 100; 
-        }
-        return true;
+ public:
+  bool isPalindrome(int x) {
+    if (x < 0) return false;
+
+    int div = 1;
+    while (x / div >= 10) div *= 10;
+
+    while (x > 0) {
+      int left = x / div;
+      int right = x % 10;
+
+      if (left != right) return false;
+      x = (x % div) / 10;
+      div /= 100;
     }
+    return true;
+  }
 };
 ```
+
 ## Solution 2
+
 ```cpp
 class Solution {
-public:
-    bool isPalindrome(int x) {
-        if(x < 0 || (x % 10 == 0 && x != 0)) return false;
-        
-        int revertNum = 0;
-        int cal_data = x;
-        
-        while (cal_data != 0) {
-            revertNum = revertNum * 10 + cal_data % 10;
-            cal_data /= 10;
-        }
-        
-        return (revertNum == x) ? true : false;
-        
+ public:
+  bool isPalindrome(int x) {
+    if (x < 0 || (x % 10 == 0 && x != 0)) return false;
+
+    int revertNum = 0;
+    int cal_data = x;
+
+    while (cal_data != 0) {
+      revertNum = revertNum * 10 + cal_data % 10;
+      cal_data /= 10;
     }
+
+    return (revertNum == x) ? true : false;
+  }
 };
 ```

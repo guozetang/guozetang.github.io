@@ -58,7 +58,8 @@ p = "mis*is*p*."
 
 
 **Difficulty**:Hard
-**Category**:  
+**Category**:String, DP
+
 <!--more-->
 *****
 
