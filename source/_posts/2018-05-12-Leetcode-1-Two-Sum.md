@@ -15,7 +15,7 @@ Example:
 > return [0, 1]. 
 
 **Difficulty**:Easy
-**Category**: 
+**Category**:Array
 ****
 
 ## 思路：

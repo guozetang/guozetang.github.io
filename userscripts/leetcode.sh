@@ -66,7 +66,7 @@ IFS=$'\n'
 cat $CURRENT_DIR/.temp | sort -n >> $CURRENT_DIR/.temp2
 for line in $(cat $CURRENT_DIR/.temp2)
 do
-    echo "| ${line}"
+    #echo "| ${line}"
     echo "| ${line}" >> $LEETCODE_POST
     post_num=$(($post_num+1))
 done
