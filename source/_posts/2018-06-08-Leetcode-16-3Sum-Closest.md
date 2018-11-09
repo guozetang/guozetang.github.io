@@ -15,7 +15,8 @@ Given an array _S_ of _n_ integers, find three integers in _S_ such that the sum
     The sum that is closest to the target is 2. (-1 + 2 + 1 = 2).
 
 **Difficulty**:Medium
-**Category**:  
+**Category**:Array
+
 *****
 
 

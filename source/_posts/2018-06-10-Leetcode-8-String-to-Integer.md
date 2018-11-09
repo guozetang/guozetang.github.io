@@ -46,11 +46,13 @@ If no valid conversion could be performed, a zero value is returned.
 > **Explanation:** The number "-91283472332" is out of the range of a 32-bit signed integer. hefore INT_MIN (−231) is returned.
 
 **Difficulty**:Medium
-**Category**:  
+**Category**:String
+
 <!--more-->
 *****
 
 ## Analyze
+
 由于输入的是字符串，所以需要题目中给出的情况:
 1. 若字符串开头是空格，则跳过所有空格，到第一个非空格字符，如果没有，则返回0.
  `while(i < len && str[i] == ' ') ++i;`

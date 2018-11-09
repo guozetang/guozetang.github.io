@@ -17,9 +17,9 @@ Given a string  **s**, find the longest palindromic substring in  **s**. You may
 > **Input:** "cbbd"  
 > **Output:** "bb"
 
-
 **Difficulty**:Medium
-**Category**:  
+**Category**:String
+
 <!--more-->
 *****
 
