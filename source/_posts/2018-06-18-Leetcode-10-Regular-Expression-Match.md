@@ -56,7 +56,6 @@ s = "mississippi"
 p = "mis*is*p*."  
 **Output:** false  
 
-
 **Difficulty**:Hard
 **Category**:String, DP
 
