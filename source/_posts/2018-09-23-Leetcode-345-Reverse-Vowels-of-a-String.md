@@ -37,13 +37,13 @@ The vowels does not include the letter "y".
 
 ```cpp
 public:
-    string reverseVowels(string s) {
-        int left = 0, right = s.size() - 1;
-        while(left < right) {
-            if(左右都是元音字母) {
-                swap(s[left++], s[right--]);
-            }
-        }
+string reverseVowels(string s) {
+  int left = 0, right = s.size() - 1;
+  while (left < right) {
+    if (左右都是元音字母) {
+      swap(s[left++], s[right--]);
+    }
+  }
 ```
 
 主要需要实现的就是里面寻找到左右都是元音字母的过程。
@@ -56,26 +56,24 @@ public:
 
 ```cpp
 class Solution {
-public:
-    string reverseVowels(string s) {
-        int left = 0, right = s.size() - 1;
-        while(left < right) {
-            if(isVowel(s[left]) && isVowel(s[right])) {
-                swap(s[left++], s[right--]);
-            }
-            else if(isVowel(s[left])) {
-                right--;
-            }
-            else {
-                left++;
-            }
-        }
-        return s;
+ public:
+  string reverseVowels(string s) {
+    int left = 0, right = s.size() - 1;
+    while (left < right) {
+      if (isVowel(s[left]) && isVowel(s[right])) {
+        swap(s[left++], s[right--]);
+      } else if (isVowel(s[left])) {
+        right--;
+      } else {
+        left++;
+      }
     }
-    bool isVowel(char c) {
-        return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u'
-               || c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U';
-    }
+    return s;
+  }
+  bool isVowel(char c) {
+    return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' || c == 'A' || c == 'E' || c == 'I' || c == 'O' ||
+           c == 'U';
+  }
 };
 ```
 
@@ -89,18 +87,18 @@ public:
 
 ```cpp
 class Solution {
-public:
-    string reverseVowels(string s) {
-        int left = 0, right = s.size() - 1;
-        while (left < right) {
-            left = s.find_first_of("aeiouAEIOU", left);
-            right = s.find_last_of("aeiouAEIOU", right);
-            if (left < right) {
-                swap(s[left++], s[right--]);
-            }
-        }
-        return s;
+ public:
+  string reverseVowels(string s) {
+    int left = 0, right = s.size() - 1;
+    while (left < right) {
+      left = s.find_first_of("aeiouAEIOU", left);
+      right = s.find_last_of("aeiouAEIOU", right);
+      if (left < right) {
+        swap(s[left++], s[right--]);
+      }
     }
+    return s;
+  }
 };
 ```
 
@@ -112,16 +110,19 @@ public:
 
 ```cpp
 class Solution {
-public:
-    string reverseVowels(string s) {
-        int left = 0, right = s.size() - 1;
-        string t = "aeiouAEIOU";
-        while (left < right) {
-            if (t.find(s[left]) == string::npos) ++left;
-            else if (t.find(s[right]) == string::npos) --right;
-            else swap(s[left++], s[right--]);
-        }
-        return s;
+ public:
+  string reverseVowels(string s) {
+    int left = 0, right = s.size() - 1;
+    string t = "aeiouAEIOU";
+    while (left < right) {
+      if (t.find(s[left]) == string::npos)
+        ++left;
+      else if (t.find(s[right]) == string::npos)
+        --right;
+      else
+        swap(s[left++], s[right--]);
     }
+    return s;
+  }
 };
 ```

@@ -11,25 +11,29 @@ Given  _n_  non-negative integers  _a1_,  _a2_, ...,  _an_, where each represent
 Note: You may not slant the container and  _n_  is at least 2.
 
 **Difficulty**:Medium
-**Category**:  
+**Category**:Math
+
 <!--more-->
 *****
 
 ## Analyze
-只需要定义`i`和`j`两个指针分别指向数组的左右两端，然后两个指针向中间搜索，每移动一次算一个值, 并和之前的结果比较取较大值. (ps.容器装水量: 是找出左右两个边缘中较小的那个乘以两边缘的距离)
+
+只需要定义`i`和`j`两个指针分别指向数组的左右两端，然后两个指针向中间搜索，每移动一次算一个值并和之前的结果比较取较大值. (ps.容器装水量: 是找出左右两个边缘中较小的那个乘以两边缘的距离)
+
+*****
 
 ## Solution
 
 ```cpp
 class Solution {
-public:
-    int maxArea(vector<int>& height) {
-        int res = 0, i = 0, j = height.size() - 1;
-        while(i < j) {
-            res = max( res, (min(height[i], height[j]) ) * (j - i));
-            height[i] > height[j] ? --j : ++i;
-        }
-        return res;
+ public:
+  int maxArea(vector<int>& height) {
+    int res = 0, i = 0, j = height.size() - 1;
+    while (i < j) {
+      res = max(res, (min(height[i], height[j])) * (j - i));
+      height[i] > height[j] ? --j : ++i;
     }
+    return res;
+  }
 };
 ```

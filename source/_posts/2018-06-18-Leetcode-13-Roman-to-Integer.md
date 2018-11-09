@@ -56,7 +56,7 @@ Given an integer, convert it to a roman numeral. Input is guaranteed to be withi
 **Explanation:** M = 1000, CM = 900, XC = 90 and IV = 4.
 
 **Difficulty**:Easy
-**Category**:  
+**Category**:Array
 <!--more-->
 *****
 
@@ -72,17 +72,19 @@ Given an integer, convert it to a roman numeral. Input is guaranteed to be withi
 
 ```cpp
 class Solution {
-public:
-    int romanToInt(string s) {
-        int res = 0;
-        unordered_map<char, int> value{{'I', 1}, {'V', 5}, {'X', 10}, {'L', 50}, {'C', 100}, {'D', 500}, {'M', 1000}};
-        for (int i = 0; i < s.size(); ++i) {
-            int val = value[s[i]];
-            if (i == s.size() - 1 || value[s[i+1]] <= value[s[i]]) res += val;
-            else res -= val;
-        }
-        return res;
+ public:
+  int romanToInt(string s) {
+    int res = 0;
+    unordered_map<char, int> value{{'I', 1}, {'V', 5}, {'X', 10}, {'L', 50}, {'C', 100}, {'D', 500}, {'M', 1000}};
+    for (int i = 0; i < s.size(); ++i) {
+      int val = value[s[i]];
+      if (i == s.size() - 1 || value[s[i + 1]] <= value[s[i]])
+        res += val;
+      else
+        res -= val;
     }
+    return res;
+  }
 };
 ```
 
@@ -90,15 +92,17 @@ public:
 
 ```cpp
 class Solution {
-public:
-    int romanToInt(string s) {
-        int res = 0;
-        unordered_map<char, int> m{{'I', 1}, {'V', 5}, {'X', 10}, {'L', 50}, {'C', 100}, {'D', 500}, {'M', 1000}};
-        for (int i = 0; i < s.size(); ++i) {
-            if (i == 0 || m[s[i]] <= m[s[i - 1]]) res += m[s[i]];
-            else res += m[s[i]] - 2 * m[s[i - 1]];
-        }
-        return res;
+ public:
+  int romanToInt(string s) {
+    int res = 0;
+    unordered_map<char, int> m{{'I', 1}, {'V', 5}, {'X', 10}, {'L', 50}, {'C', 100}, {'D', 500}, {'M', 1000}};
+    for (int i = 0; i < s.size(); ++i) {
+      if (i == 0 || m[s[i]] <= m[s[i - 1]])
+        res += m[s[i]];
+      else
+        res += m[s[i]] - 2 * m[s[i - 1]];
     }
+    return res;
+  }
 };
 ```
