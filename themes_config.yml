@@ -102,7 +102,7 @@ menu:
   home: / || h-square 
   blog: /post/ || rss
   # projects: /project/ || project-diagram
-  vita: /about/guoze_cv.pdf || file
+  vita: /about/guoze_cv.pdf || atom
   books: /books || book
   # categories: /categories/ || th
   archives: /archives/ || archive
