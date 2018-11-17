@@ -205,6 +205,40 @@ tags: Game
 - Quiz #2
 - Sorting vectors and lists
 
+## Week 9
+
+**Oct 25, Thu:**
+- github repo
+- player/composition ==> it's composition so need player.getVelocity()
+- drawable.h in tracker framework didn't have method getSurface
+- input/mouse2
+    - to get pixel color see getPixel
+
+## Week 10
+
+**Nov 1, Thu:**
+- Write a fn object
+- Review lamda functions
+- Show lamda in sort
+- Review Explosions
+- Health bar (in your repo)
+    - A model for your HUD!
+
+## Week 11
+
+**Nov 8, Tue:**
+- Review fn objects and lambda functions
+- Review the two classes needed for Chunk explosions
+- Review Object pool
+
+**Quiz 3**
+- Sort
+    - Funciton object
+    - lambda Funciton
+- Search in a list, vector, map
+- Erasing from a list. Vector, map
+- observer pattern
+- static_cast Vs dynamic_cast
 ---
 
 # 自己动手写游戏引擎

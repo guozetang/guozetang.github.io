@@ -24,7 +24,7 @@ As we know, in IT field, technologies update very quickly. It is difficult and u
 
 > Phone: (475) 655-8641
 > Email: guozet@clemson.edu
-> Links: [Blog](./post/index.html) | [My Resume](http://guozet.me/about/resume.pdf) | [Linkedin](https://www.linkedin.com/in/guoze/) | [Github](https://github.com/guozetang/)
+> Links: [Blog](./post/index.html) | [My Resume](http://guozet.me/about/guoze_cv.pdf) | [Linkedin](https://www.linkedin.com/in/guoze/) | [Github](https://github.com/guozetang/)
 
 ---
 
