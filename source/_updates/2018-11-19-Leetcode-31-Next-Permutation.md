@@ -73,7 +73,7 @@ class Solution {
 };
 ```
 
-**Solution 1**： 稍微更加简洁的代码，来自有 [[LeetCode] Next Permutation 下一个排列](http://www.cnblogs.com/grandyang/p/4428207.html)
+**Solution 2**： 稍微更加简洁的代码，来自有 [[LeetCode] Next Permutation 下一个排列](http://www.cnblogs.com/grandyang/p/4428207.html)
 
 ```cpp
 class Solution {
@@ -86,6 +86,38 @@ class Solution {
       swap(nums[i], nums[j]);
     }
     reverse(nums.begin() + i + 1, nums.end());
+  }
+};
+```
+
+**Solution 3**:使用函数模板的方式解决, 具有普遍通用性，来自有：[《Leetcode 题解》](https://github.com/soulmachine/leetcode) 第20页
+
+```cpp
+class Solution {
+ public:
+  void nextPermutation(vector<int> &nums) { next_permutation(nums.begin(), nums.end()); }
+  template <typename BidiIt>
+  bool next_permutation(BidiIt first, BidiIt last) {
+    // Get a reversed range to simplify reversed traversal.
+    const auto rfirst = reverse_iterator<BidiIt>(last);
+    const auto rlast = reverse_iterator<BidiIt>(first);
+    // Begin from the second last element to the first element.
+    auto pivot = next(rfirst);
+    // Find `pivot`, which is the first element that is no less than its
+    // successor. `Prev` is used since `pivort` is a `reversed_iterator`.
+    while (pivot != rlast && *pivot >= *prev(pivot)) ++pivot;
+    // No such elemenet found, current sequence is already the largest
+    // permutation, then rearrange to the first permutation and return false.
+    if (pivot == rlast) {
+      reverse(rfirst, rlast);
+      return false;
+    }
+    // Scan from right to left, find the first element that is greater than
+    // `pivot`.
+    auto change = find_if(rfirst, pivot, bind1st(less<int>(), *pivot));
+    swap(*change, *pivot);
+    reverse(rfirst, pivot);
+    return true;
   }
 };
 ```
