@@ -27,7 +27,7 @@ You may assume the integer does not contain any leading zero, except the number 
 **Explanation:** The array represents the integer 4321.
 
 **Difficulty**:Easy
-**Category**:
+**Category**:Array, Math
 
 <!--more-->
 ******
@@ -41,21 +41,21 @@ You may assume the integer does not contain any leading zero, except the number 
 
 ```cpp
 class Solution {
-public:
-    vector<int> plusOne(vector<int>& digits) {
-        int len = digits.size();
+ public:
+  vector<int> plusOne(vector<int>& digits) {
+    int len = digits.size();
 
-        for(int i = len - 1; i >= 0; i--) {
-            if (digits[i] == 9) digits[i] = 0;
-            else {
-                digits[i] += 1;
-                return digits;
-            }
-        }
-
-        if (digits.front() == 0 ) digits.insert(digits.begin(), 1);
+    for (int i = len - 1; i >= 0; i--) {
+      if (digits[i] == 9)
+        digits[i] = 0;
+      else {
+        digits[i] += 1;
         return digits;
-
+      }
     }
+
+    if (digits.front() == 0) digits.insert(digits.begin(), 1);
+    return digits;
+  }
 };
 ```
