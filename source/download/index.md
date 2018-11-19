@@ -7,7 +7,7 @@ comments: false
 
 # Books
 
-- C语言程序设计&数据结构 [[C语言PDF(https://drive.google.com/file/d/1n3XfcdIkIw9M9Q1qbVVOsQt_-XC5KO2w/view?usp=sharing)]
+- C语言程序设计&数据结构 [[C语言PDF](https://drive.google.com/file/d/1n3XfcdIkIw9M9Q1qbVVOsQt_-XC5KO2w/view?usp=sharing)]
 - 现代操作系统 [[PDF]](https://drive.google.com/open?id=1Qc3wPK8CYkOOClEX6vnAVOEFZpWgdto9)
 - 深入理解计算机系统 [[PDF]](https://drive.google.com/open?id=10iB3dEa432q4hqB_wvrPjQN0hhR-1X17)
 - 编译原理 [[PDF]](https://drive.google.com/open?id=1R8tzEdDlqdwCEQj1Wm-HZasDzUM7sxWR)
