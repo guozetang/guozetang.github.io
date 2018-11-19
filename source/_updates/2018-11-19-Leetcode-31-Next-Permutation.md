@@ -121,3 +121,31 @@ class Solution {
   }
 };
 ```
+
+> [std::bind1st function](http://www.cplusplus.com/reference/functional/bind1st/)
+> The function object returned by bind1st has its operator() defined such that it takes only one argument. This argument is used to call binary function object op with x as the fixed value for the first argument.
+
+```cpp
+template <class Operation, class T>
+binder1st<Operation> bind1st(const Operation& op, const T& x) {
+  return binder1st<Operation>(op, typename Operation::first_argument_type(x));
+}
+```
+
+**Example:**
+
+```cpp
+// bind1st example
+#include <algorithm>
+#include <functional>
+#include <iostream>
+using namespace std;
+
+int main() {
+  int numbers[] = {10, 20, 30, 40, 50, 10};
+  int cx;
+  cx = count_if(numbers, numbers + 6, bind1st(equal_to<int>(), 10));
+  cout << "There are " << cx << " elements that are equal to 10.\n";
+  return 0;
+}
+```
