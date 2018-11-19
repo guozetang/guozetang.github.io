@@ -15,3 +15,8 @@ This project can be used as a base blog to post some article which you want to p
 # Contact me
 Please feel free to send email if you have some quesitons about my blog.
 - Email: guoze.work@gmail.com
+
+<!-- 
+TODO: 
+1. deal with the leetcode.sh to deal with the one more tags in one file.
+ -->
