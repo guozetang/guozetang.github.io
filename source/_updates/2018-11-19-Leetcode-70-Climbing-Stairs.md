@@ -48,11 +48,17 @@ Each time you can either climb 1 or 2 steps. In how many distinct ways can you c
 - 从第`n-1`阶前进`2步`
 
 所以这就可以得到：f(n) = f(n-1) + f(n-2)
-这就是一个斐波那契数列，所以这一个题目相当于是求解前面n个数列的数值。
+这就是一个斐波那契数列，所以这一个题目相当于是求解第n个参数的数值。
+
+方案二： 斐波那契数列的第`n`项计算公式为：
+
+![](/images/in-post/2018-11-19-Leetcode-70-Climbing-Stairs/2018-11-19-18-19-42.png)
 
 ------------
 
 # Solution
+
+**Solution 1**
 
 ```cpp
 class Solution {
@@ -70,9 +76,14 @@ class Solution {
 };
 ```
 
-------------
+**Solution 2**:使用公式直接计算
 
-# Leetcode Question Summary
-
-
-------------
+```cpp
+class Solution {
+ public:
+  int climbStairs(int n) {
+    const double s = sqrt(5);
+    return floor((pow((1 + s) / 2, n + 1) + pow((1 - s) / 2, n + 1)) / s + 0.5);
+  }
+};
+```
