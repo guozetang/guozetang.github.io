@@ -1,5 +1,5 @@
 ---
-title: Leetcode Coding Record
+title: Leetcode Coding Record(Updating)
 date: 2018-08-17 01:02:39
 updated: 2018-09-09 20:18:54
 categories: Leetcode
