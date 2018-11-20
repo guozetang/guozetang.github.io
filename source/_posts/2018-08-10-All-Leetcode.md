@@ -12,7 +12,7 @@ Record the questions which I did on the Leetcode.
 
 <style>
 table th:nth-of-type(1) {
-    width: 60px
+    width: 60px;
 }
 
 table th:nth-of-type(2) {
