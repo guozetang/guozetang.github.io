@@ -33,12 +33,36 @@ You should preserve the original relative order of the nodes in each of the two 
 # Solution
 
 ```cpp
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+ public:
+  ListNode* partition(ListNode* head, int x) {
+    ListNode left_dummy(-1);
+    ListNode right_dummy(-1);
 
+    auto left_cur = &left_dummy;
+    auto right_cur = &right_dummy;
+
+    for (ListNode* cur = head; cur; cur = cur->next) {
+      if (cur->val < x) {
+        left_cur->next = cur;
+        left_cur = left_cur->next;
+      } else {
+        right_cur->next = cur;
+        right_cur = right_cur->next;
+      }
+    }
+
+    left_cur->next = right_dummy.next;
+    right_cur->next = NULL;
+    return left_dummy.next;
+  }
+};
 ```
-
-------------
-
-# Leetcode Question Summary
-
-
-------------
