@@ -26,7 +26,7 @@ Given  _n_  will always be valid.
 Could you do this in one pass?
 
 **Difficulty**:Medium
-**Category**:  
+**Category**:Two Points
 
 <!-- more -->
 
