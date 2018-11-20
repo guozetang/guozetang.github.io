@@ -47,17 +47,31 @@ For example, [0,2,3,1] is also a valid gray code sequence.
 
 # Analyze
 
+这到题目是关于格雷码的，难点也就是理解格雷码的转换过程。格雷码的转换过程可以如下图所示：
+
+![](/images/in-post/2018-11-19-Leetcode-89-Gray-Code/2018-11-19-20-34-15.png)
+
+图片来自于：[[LeetCode] Gray Code 格雷码](http://www.cnblogs.com/grandyang/p/4315649.html)
+
+这个图片清晰的说明了格雷码的生成规律，随着`n`的变化，前面`n-1`之前就存在的项目都是在前面加上0,这些项目的数值是不会变化的，而后面的是和前面的对称相反的，所以在这里进行处理就可以得到完整的格雷码转换之后的vector了。
+
 ------------
 
 # Solution
 
 ```cpp
-
+class Solution {
+ public:
+  vector<int> grayCode(int n) {
+    vector<int> res;
+    res.emplace_back(0);
+    for (int i = 0; i < n; ++i) {
+      int n = res.size();
+      for (int j = n - 1; j >= 0; --j) {
+        res.emplace_back(res[j] | 1 << i);
+      }
+    }
+    return res;
+  }
+};
 ```
-
-------------
-
-# Leetcode Question Summary
-
-
-------------
