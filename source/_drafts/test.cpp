@@ -1,22 +1,42 @@
-class Solution {
-public:
-    vector<int> twoSum(vector<int>& nums, int target) {
-      unordered_map<int, int> numsMap;
-      vector<int> result;
-      result.reserve(2);
-      
-      for(int i = 0; i < nums.size(); ++i) {
-        numsMap[nums[i]] = i; // Each input would have exactly one solution.
-      }
-      
-      for(int i = 0; i < nums.size(); ++i) {
-        const int diff = target - nums[i];
-        if(numsMap.find(diff) != numsMap.end() && numsMap[diff] > i) {
-          result.emplace_back(i);
-          result.emplace_back(numsMap[diff]);
-          return result;
-        }
-      }
-      return result; 
-    }
-};
+// Implementing queue using a single stack
+
+#include <stdio.h>
+#define SIZE 10
+int stack[10];
+int top = -1;
+
+int pop() {
+  if (top != -1) return stack[top--];
+}
+void push(int data) {
+  if (top < SIZE) stack[++top] = data;
+}
+void enqueue(int data) { push(data); }
+
+int dequeue() {
+  if (top == 0) return pop();
+  int data = pop();
+  int value = dequeue();
+  push(data);
+  return value;
+}
+
+int main(void) {
+  int i;
+
+  // Enqueue
+  enqueue(1);
+  enqueue(2);
+  enqueue(3);
+  enqueue(4);
+  for (i = 0; i <= top; i++) printf("%d ", stack[i]);
+  printf("\n");
+
+  // Dequeue
+  printf("Dequeue --> %d\n", dequeue());
+  printf("Dequeue --> %d\n", dequeue());
+  for (i = 0; i <= top; i++) printf("%d ", stack[i]);
+  printf("\n");
+
+  return 0;
+}
