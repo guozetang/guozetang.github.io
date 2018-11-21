@@ -34,39 +34,39 @@ Given a string  **s**, find the longest palindromic substring in  **s**. You may
 
 ```cpp
 class Solution {
-public:
-    string longestPalindrome(string s) {
-        int start = 0, left = 0, right = 0, len = 0;
-        
-        for (int i = 0; i < s.size() - 1; ++i) {
-            if (s[i] == s[i + 1]) {
-                left = i;
-                right = i + 1;
-                searchPalindromicSubstring(s, left, right, start, len); 
-            }
-            left = right = i;
-            searchPalindromicSubstring(s, left, right, start, len); 
-        }
-        
+ public:
+  string longestPalindrome(string s) {
+    if (s == "") return s;
+    int start = 0, left = 0, right = 0, len = 0;
 
-        if (len == 0) len = s.size();
-        return s.substr(start, len);
+    for (int i = 0; i < s.size() - 1; ++i) {
+      if (s[i] == s[i + 1]) {
+        left = i;
+        right = i + 1;
+        searchPalindromicSubstring(s, left, right, start, len);
+      }
+      left = right = i;
+      searchPalindromicSubstring(s, left, right, start, len);
     }
-    
-    void searchPalindromicSubstring(string s, int left, int right, int &start, int &len) {
-        int diff = 1;
-        
-        while((left - diff) >= 0 && (right + diff) < s.size()) {
-            if (s[left - diff] != s[right + diff]) break;
-            ++diff;
-        }
-        
-        int wide = right - left + 2*diff - 1;
-        if(len < wide) {
-            len = wide;
-            start = left - diff + 1;
-        }  
+
+    if (len == 0) len = s.size();
+    return s.substr(start, len);
+  }
+
+  void searchPalindromicSubstring(string s, int left, int right, int &start, int &len) {
+    int diff = 1;
+
+    while ((left - diff) >= 0 && (right + diff) < s.size()) {
+      if (s[left - diff] != s[right + diff]) break;
+      ++diff;
     }
+
+    int wide = right - left + 2 * diff - 1;
+    if (len < wide) {
+      len = wide;
+      start = left - diff + 1;
+    }
+  }
 };
 
 ```

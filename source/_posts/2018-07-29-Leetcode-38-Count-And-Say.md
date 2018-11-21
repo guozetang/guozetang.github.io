@@ -40,24 +40,24 @@ Note: Each term of the sequence of integers will be represented as a string.
 
 ```cpp
 class Solution {
-public:
-    string countAndSay(int n) {
-        if (n <= 0) return "";
-        string res = "1";
-        while(--n) {
-            string cur = "";
-            for (int i=0; i < res.size(); ++i){
-                int count = 1;
-                while (i+1 < res.size() && res[i+1] == res[i]) {
-                    count++;
-                    i++;
-                }
-                cur += to_string(count) + res[i];
-            }
-            res = cur;
+ public:
+  string countAndSay(int n) {
+    if (n <= 0) return "";
+    string res = "1";
+    while (--n) {
+      string cur = "";
+      for (int i = 0; i < res.size(); ++i) {
+        int count = 1;
+        while (i + 1 < res.size() && res[i + 1] == res[i]) {
+          count++;
+          i++;
         }
-        return res;
+        cur += to_string(count) + res[i];
+      }
+      res = cur;
     }
+    return res;
+  }
 };
 ```
 

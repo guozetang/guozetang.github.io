@@ -7,6 +7,8 @@ tags: Leetcode
 notshow: true
 ---
 
+<!-- TODO: Can't run in the leetcode. -->
+
 Given an input string (`s`) and a pattern (`p`), implement wildcard pattern matching with support for  `'?'`  and  `'*'`.
 
 '?' Matches any single character.
@@ -82,5 +84,35 @@ p = "a*c?b"
 - 如果pcur为'*'，则pcur自增1
 
 - 若*pcur存在，返回False，若不存在，返回True
+
+------------
+
 ## Solution
+
+```cpp
+class Solution {
+ public:
+  bool isMatch(char *s, char *p) {
+    char *scur = s, *pcur = p, *sstar = NULL, *pstar = NULL;
+    while (*scur) {
+      if (*scur == *pcur || *pcur == '?') {
+        ++scur;
+        ++pcur;
+      } else if (*pcur == '*') {
+        pstar = pcur++;
+        sstar = scur;
+      } else if (pstar) {
+        pcur = pstar + 1;
+        scur = ++sstar;
+      } else
+        return false;
+    }
+    while (*pcur == '*') ++pcur;
+    return !*pcur;
+  }
+};
+```
+
+---------------
+
 ## Issues

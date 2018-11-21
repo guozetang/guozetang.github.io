@@ -22,7 +22,7 @@ The input strings are both  **non-empty**  and contains only characters  `1`  or
 > **Output:** "10101"
 
 **Difficulty**:Easy
-**Category**:  
+**Category**:String
 <!--more-->
 ******
 
@@ -36,23 +36,22 @@ The input strings are both  **non-empty**  and contains only characters  `1`  or
 
 ```cpp
 class Solution {
-public:
-    string addBinary(string a, string b) {
-        std::string res = "";
-        int m = a.size() - 1, n = b.size() - 1;
+ public:
+  string addBinary(string a, string b) {
+    std::string res = "";
+    int m = a.size() - 1, n = b.size() - 1;
 
-        int carry = 0;
-        while(m >= 0 || n >= 0) {
-            int p = m >= 0 ? a[m--] - '0' : 0;
-            int q = n >= 0 ? b[n--] - '0' : 0;
+    int carry = 0;
+    while (m >= 0 || n >= 0) {
+      int p = m >= 0 ? a[m--] - '0' : 0;
+      int q = n >= 0 ? b[n--] - '0' : 0;
 
-            int sum = p + q + carry;
+      int sum = p + q + carry;
 
-            res = std::to_string(sum % 2) + res;
-            carry = sum / 2;
-        }
-        return carry == 1 ? ('1' + res) : res;
-
+      res = std::to_string(sum % 2) + res;
+      carry = sum / 2;
     }
+    return carry == 1 ? ('1' + res) : res;
+  }
 };
 ```
