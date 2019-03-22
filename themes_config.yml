@@ -102,7 +102,7 @@ menu:
   home: / || h-square 
   blog: /post/ || rss
   # projects: /project/ || project-diagram
-  vita: /about/guoze_cv.pdf || file
+  vita: /about/cv.pdf || file
   books: /books || book
   # categories: /categories/ || th
   archives: /archives/ || archive
@@ -142,7 +142,8 @@ social:
   GitHub: https://github.com/guozetang || github
   E-Mail: mailto:guozetang@gmail.com || envelope
   Facebook: https://www.facebook.com/guozetang || facebook
-  Linkedin: https://www.linkedin.com/in/guoze-tang-81b096162 || linkedin
+  Linkedin: https://www.linkedin.com/in/guoze/ || linkedin
+  Leetcode: https://leetcode.com/guozetang/ || laptop-code
   #Google: https://plus.google.com/yourname || google
   #Twitter: https://twitter.com/yourname || twitter
   #VK Group: https://vk.com/yourname || vk
@@ -358,8 +359,8 @@ font:
 
 # MathJax Support
 mathjax:
-  enable: false
-  per_page: false
+  enable: true
+  per_page: true
   cdn: //cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML
 
 # Han Support docs: https://hanzi.pro/

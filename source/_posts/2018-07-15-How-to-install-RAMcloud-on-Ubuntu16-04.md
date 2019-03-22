@@ -144,7 +144,7 @@ cd pcre-8.42
 ./configure --prefix=/usr/local/pcre
 make
 sudo make install
-sudo echo "/usr/local/pcre/lib/" /etc/ld.so.conf.d/pcre.conf
+sudo echo "/usr/local/pcre/lib/" > /etc/ld.so.conf.d/pcre.conf
 ```
 
 ### Install Python2.6
@@ -170,7 +170,7 @@ cd boost_1_52_0
 sudo ./bootstrap.sh
 sudo ./b2 -j
 sudo ./b2 install --prefix=/usr/local/boost_1_52_0
-sudo echo "/usr/local/boost_1_52_0/lib/" /etc/ld.so.conf.d/boost_1_52_0.conf
+sudo echo "/usr/local/boost_1_52_0/lib/" > /etc/ld.so.conf.d/boost_1_52_0.conf
 ```
 
 ### Install Doxygen1.7.2
@@ -193,7 +193,7 @@ cd $CURRENT_DIR/packages/protobuf-2.6.1
 make
 make check
 sudo make install
-sudo echo "/usr/local/protobuf/lib/" /etc/ld.so.conf.d/protobuf.conf
+sudo echo "/usr/local/protobuf/lib/" > /etc/ld.so.conf.d/protobuf.conf
 sudo ln -s /usr/local/protobuf/bin/protoc /usr/bin/protoc -f
 ```
 
@@ -205,10 +205,10 @@ cd zookeeper-3.3.6/src/c
 ./configure --prefix=/usr/local/zookeeper  
 make
 sudo make install
-sudo echo "/usr/local/zookeeper/lib/" /etc/ld.so.conf.d/zookeeper.conf
+sudo echo "/usr/local/zookeeper/lib/" > /etc/ld.so.conf.d/zookeeper.conf
 ```
 
-This last command `sudo echo "/usr/local/zookeeper/lib/" /etc/ld.so.conf.d/zookeeper.conf` can make the other application can find the `zookeeper lib` in the system.
+This last command `sudo echo "/usr/local/zookeeper/lib/" > /etc/ld.so.conf.d/zookeeper.conf` can make the other application can find the `zookeeper lib` in the system.
 
 ## Config the Path
 

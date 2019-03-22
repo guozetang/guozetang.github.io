@@ -2,8 +2,8 @@
 title: 面试题：使用一个stack实现Queue
 date: 2018-11-20 06:09:31
 updated: 2018-11-20 06:09:31
-categories: Leetcode
-tags: Leetcode
+categories: Interview
+tags: Interview
 notshow: 
 top:
 ---

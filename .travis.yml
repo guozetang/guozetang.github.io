@@ -8,36 +8,16 @@ cache:
 
 branches:
   only:
-    - hexo  #只对Hexo分支进行构建
+    - hexo
 
-# S: Build Lifecycle
 before_install:
   - npm install -g hexo-cli
 
 install:
-  - npm install hexo-cli -g
-  - npm install hexo --save
   - npm install
-  # - npm install
-  # - npm install hexo-deployer-git --save
+
 
 script:
-  # - git clone https://github.com/changkun/hexo-theme-next themes/hexo-theme-next
   - cp ./themes_config.yml themes/next/_config.yml
   - chmod +x ./userscripts/build.sh
   - ./userscripts/build.sh
-  # - hexo clean
-  # - hexo generate
-  # - hexo deploy
-
-# after_script:
-#   - cd ./publicx
-#   - git init
-#   - git config --global user.name "guozetang"
-#   - git config --global user.email "guozetang@gmail.com"
-#   - git commit -m "Travis CI Auto Builder."
-#   - sed -i "s/$REPO_TAKEN/${$REPO_TAKEN}/" ./_config.yml
-# E: Build LifeCycle
-
-
-

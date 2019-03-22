@@ -14,9 +14,9 @@ Clemson, SC 26634
 
 ---
 
-I am *@Terry* (Guoze, Tang), a graduate student in the [School of Computing](http://www.clemson.edu/ces/computing/) at [Clemson Universvity](http://www.clemson.edu/). I graduated from [Yunnan University](https://en.wikipedia.org/wiki/Yunnan_University) Electronic and Information Engineering in 2014. After that, I studied Software Engineering and graduated from [University of Science and Technology of China](https://en.wikipedia.org/wiki/University_of_Science_and_Technology_of_China) in 03/2017. After two years of study, I acquired a comprehensive knowledge of computer hardware and software. I was interested in embedded systems design. And I gained a lot, not only on specialized knowledge but also a scientific way of thinking.
+I am *@Terry* (Guoze, Tang), a graduate student in the [School of Computing](http://www.clemson.edu/ces/computing/) at [Clemson Universvity](http://www.clemson.edu/). I graduated from [Yunnan University](https://en.wikipedia.org/wiki/Yunnan_University) Electronic and Information Engineering in 2014. After that, I studied Software Engineering and graduated from [University of Science and Technology of China](https://en.wikipedia.org/wiki/University_of_Science_and_Technology_of_China) in 03 / 2017. After two years of study, I acquired a comprehensive knowledge of computer hardware and software. I was interested in embedded systems design. And I gained a lot, not only on specialized knowledge but also a scientific way of thinking.
 
-My work experiences started from 07/2015. I was employed at the Communication Research and Development (R&D) group in Guangzhou [Haige company](http://www.haige.com/en/About81.html?tid=81). Haige is one of the top research & development company in military communication areas in China. I was assigned to the Civil Aviation Communication Developing team and developed control module and [VoIP](https://en.wikipedia.org/wiki/Voice_over_IP) module which is based on Asterisk. I developed online upgrade programming and the SLP protocol analysis module in six months.
+My work experiences started from 07 / 2015. I was employed at the Communication Research and Development (R&D) group in Guangzhou [Haige company](http://www.haige.com/en/About81.html?tid=81). Haige is one of the top research & development company in military communication areas in China. I was assigned to the Civil Aviation Communication Developing team and developed control module and [VoIP](https://en.wikipedia.org/wiki/Voice_over_IP) module which is based on Asterisk. I developed online upgrade programming and the SLP protocol analysis module in six months.
 
 In additon, I had worked in SZ [DJI Technology company](https://www.dji.com/) for one year, an innovation company which based on Fight control. At DJI, I developed Sensor-driven of FJ01 project in DJI and analyzed the data of Sensor. Working on this project helped me hone my programming skills on a real-life problem. Working in the DJI company, it helped me hone my programming skills on a real-life problem.
 
@@ -24,16 +24,17 @@ As we know, in IT field, technologies update very quickly. It is difficult and u
 
 > Phone: (475) 655-8641
 > Email: guozet@clemson.edu
-> Links: [Blog](./post/index.html) | [My Resume](http://guozet.me/about/guoze_cv.pdf) | [Linkedin](https://www.linkedin.com/in/guoze/) | [Github](https://github.com/guozetang/)
+> Links: [Clemson Network Lab](https://people.cs.clemson.edu/~hongxih/team.htm) | [Blog](./post/index.html) | [Linkedin](https://www.linkedin.com/in/guoze/) | [Github](https://github.com/guozetang/) | [Leetcode](https://leetcode.com/guozetang/)
+> Download: [My Resume](http://guozet.me/about/resume.pdf) | [Download Resume](https://github.com/guozetang/Resume/raw/master/_build/resume.pdf)
 
 ---
 
-### Education
+## Education
 
 #### Clemson University(CU) (05/2018-Now)
 
 - **Major:** Master of Computer Science
-- **Relative Courses:** [Software Design](https://people.cs.clemson.edu/~malloy/courses/8700-2018/index.html), [Translation of Programming Languages](https://people.cs.clemson.edu/~malloy/courses/8270-2017/index.html), [2-D Game Engine Construction](https://people.cs.clemson.edu/~malloy/courses/4160-2018fall/index.html),  [Security in Emerging Computing and Networking Systems](https://people.cs.clemson.edu/~hongxih/teaching/2018fall/cpcs8580/2018fall.htm), Cloud Computing Architecture, Statistical Methods I
+- **Relative Courses:** [Design and Analysis of Algorithms](https://people.cs.clemson.edu/~bcdean/840-syllabus.pdf), [Software Design](https://people.cs.clemson.edu/~malloy/courses/8700-2018/index.html), [Translation of Programming Languages](https://people.cs.clemson.edu/~malloy/courses/8270-2017/index.html), [2-D Game Engine Construction](https://people.cs.clemson.edu/~malloy/courses/4160-2018fall/index.html),  [Security in Emerging Computing and Networking Systems](https://people.cs.clemson.edu/~hongxih/teaching/2018fall/cpcs8580/2018fall.htm), Cloud Computing Architecture, Statistical Methods I
 
 #### University of Science and Technology of China(USTC) (09/2014-04/2017)
 
@@ -47,19 +48,19 @@ As we know, in IT field, technologies update very quickly. It is difficult and u
 
 ---
 
-### Programming Skills
+## Programming Skills
 
 - **Programming Language:** C(4yrs), C++(2yrs), Java, Python, Shell Scripting, Flex, Bison, Binpac, Assembly, MySQL, JSON, MATLAB, [Binpac](https://www.bro.org/sphinx/components/binpac/README.html)
 - **Working Environment/Tools:** Linux, Embedded Linux, ucos, VxWork, ARM STM32, ARM9, GCC, Makefile, Git, gdb, MVC Design Pattern, Tkinter, ARM, Click, Bro, Office, VS Code, Keil, Vim
 
 ---
 
-### Experience
+## Experience
 
 #### Assistant Research at Clemson University (05/2018-Now)
 
-- **Research Assistant - Network Security:** Research on Virtualization of Network Intrusion Detection Systems for network protocol parser. Implemented the Network Protocol parses for DNS, HTTP protocols by Binpac language, Bro system, and Click ystem.
-- Use the [Binpac](https://www.bro.org/sphinx/components/binpac/README.html) tools to parser the Network Protocol
+- **Research Assistant - Network Security:** Research on the Virtualization of Network Intrusion Detection Systems(vNIDS). Implemented RIP, DNS, and HTTP protocol parsers byBinpac, C++ language and PCRE lib, then integrated them into Bro and Click system.
+- **System Security:** Research on intrusion and attack of Linux malware. Implemented the parser for bash and python scripts to do static analyze for script files.
 
 #### SZ DJI Technology (04/2016-11/2016)
 
@@ -73,10 +74,31 @@ As we know, in IT field, technologies update very quickly. It is difficult and u
 - **Postion:** Embedded Software Development Intern  
 - **Embedded System:** Developed ARM part of the master control module and developed VoIP based on Asterisk. Realized online upgrade in the master module and the SLP Protocol Analysis module.
 - **Software Development:** Applied technology and tools: Keil developertools, Mysql database, VxWork driver development, built VoIP server based on Asterisk, built SVN server
+- **Performance:** VoIP communication system delay time is less than 120ms(Requested:<160ms), and communication quality MOS is 4.8/5.0.
 
 ---
 
-### Projects
+## Projects
+
+#### 2-D Game Engine Construction & Shooting Game (Pirate Captain) (09/2018-12/2018)
+
+- **Applied technology:** C++, SDL, XML, Observe Pattern, Singleton Pattern
+- Built a 2-D game engine construction used to implement a 2-D game which has a player object, HUD, collision detection, and explosions features with no memory leak and crash.
+- Designed using Data-Driven, constants form an XML file for user easability. In addition, wrote the Object Pool to avoid expensive acquisition and release of game resources by recycling objects that are no longer in use.
+- Using C++ and SDL2.0 as the technology stack. Various design patterns were used, such as singleton, factory, object pool, observer, flyweight, strategy.
+
+#### Predictor for the Trend of Bitcoin Price based on LSTM Neural Network and AWS (09/2018-12/2018)
+
+- **Applied technology:** Python 2.7, AWS, MapReduce, IFTTT, Telegram
+- Utilized sentiment analysis and LSTM neural network to create a Bitcoin price predictor.
+- The predictor can forecast the trend of Bitcoin price, then send message to user’s smart device by IFTTT webhook service, and Telegram client.
+
+#### A Mini Python Interpreter (09/2018-12/2018)
+
+- **Applied technology:** C++, Python 2.7, Flex, Bison, Visitor Pattern, Singleton Pattern.
+- Implemented a mini interpreter for Python 2.7 with C++, which can interpret some basic sentences. The scanner and parser are implemented based on Flex and Bison.
+- Designed and developed the interpreter based on Object Orientated thinking, singleton, visitor pattern, which are used to implement the abstract syntax tree,symbol table and basic operations.
+- Performance has been demonstrated as good as Python 2.7 and can save 30% of time for short python source code.
 
 #### Network Protocol Parser (05/2018-08/2018)
 
@@ -88,6 +110,7 @@ As we know, in IT field, technologies update very quickly. It is difficult and u
 
 - **Applied technology:** Tkinter, Python3.5, MVC Design Pattern.
 - Designed the GUI of Paper tracking system by Tkinter. Realized the paper manager code.
+- Designed Paper Tracking Application which can manage the importance, urgency and tags of the papers. Developed GUI by Tkinter python library. Imple-mented the paper manager code(Python 3.5) using MVC Design Pattern.
 
 
 #### VolP Audio Remote Control System Based on SIP Protocol (09/2015-11/2016)
@@ -117,15 +140,17 @@ As we know, in IT field, technologies update very quickly. It is difficult and u
 
 ---
 
-### Some Application about My Project
+## Some Application about My Project
 
 - Networking Security Project: [Protocol Parser in Network](https://github.com/guozetang/Protocol_Parser)
 - Translation of Programming Languages Project: [Convert Leet1337 & English](https://github.com/guozetang/convertleet1337_english)
 - Application: [Paper & Code TODO task Tracker](https://github.com/guozetang/paper_code_tracker)
+- Script static Analysis Application: [Virus Analysis](https://github.com/nsslabcuus/virus_analysis)
+- 2D Game: [2D-Game-Lodmani](https://github.com/guozetang/2D-Game-Lodmani)
 
 ---
 
-### Award
+## Award
 
 - The Excellent graduate in Anhui province 2017  
 - National master scholarship (TOP 2%) 2015  
@@ -135,6 +160,6 @@ As we know, in IT field, technologies update very quickly. It is difficult and u
 
 ---
 
-### Publications
+## Publications
 
 1. [Design of Semi Physical Simulation Platform for Control of the Natural Circulation Boiler](https://drive.google.com/open?id=1hWslNK0es94TkyLHxB-3ZWm2VPupseUn)

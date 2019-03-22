@@ -1,4 +1,5 @@
 > A blog which is besed by Hexo. And use travis-ci to auto update this blog.
+> I have move this repo to the private repo.
 
 ![](https://github.com/guozetang/guozetang.github.io/blob/master/images/in-post/README/2018-09-06-16-53-48.png)
 x`x`

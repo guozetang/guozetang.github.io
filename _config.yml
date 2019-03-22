@@ -28,7 +28,10 @@ archive_dir: archives
 category_dir: categories
 code_dir: downloads/code
 i18n_dir: :lang
-skip_render: README.md
+skip_render: 
+  - README.md
+  - source/test_book/*
+  - source/leetcode/*
 
 # Writing
 new_post_name: :year-:month-:day-:title.md # File name of new posts
@@ -54,7 +57,7 @@ highlight:
 # order_by: Posts order. (Order by date descending by default)
 index_generator:
   path: ''
-  per_page: 50
+  per_page: 30
   order_by: -updated
 
 
@@ -89,8 +92,9 @@ time_format: HH:mm:ss
 per_page: 10
 pagination_dir: page
 
-
-
+# hexo-filter-plugin (https://github.com/Jamling/hexo-filter-highlight) config 
+## highlight in frontend, the plugin (backend) just do some prepare work.
+## you need to read the docs on https://github.com/Jamling/hexo-filter-highlight to getting start
 
 
 # Extensions
@@ -130,3 +134,23 @@ search:
   field: post
   format: html
   limit: 10000
+
+
+# math:
+#   engine: 'mathjax' # or 'katex'
+#   mathjax:
+#     # src: custom_mathjax_source
+#     config:
+#       # MathJax config
+
+
+math:
+  engine: 'mathjax' # or 'katex'
+  mathjax:
+    src: # "//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+    config:
+      # MathJax config
+  katex:
+    css: #custom_css_source
+    js: #custom_js_source # not used
+    config:
