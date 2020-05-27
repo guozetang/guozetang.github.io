@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Interview | Terry Tang</title><link>http://www.guozet.me/tag/Interview/</link><atom:link href="http://www.guozet.me/tag/Interview/index.xml" rel="self" type="application/rss+xml"/><description>Interview</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><copyright>guozet.me © 2020</copyright><lastBuildDate>Tue, 20 Nov 2018 06:09:31 +0000</lastBuildDate><image><url>http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url><title>Interview</title><link>http://www.guozet.me/tag/Interview/</link></image><item><title>面试题：使用一个stack实现Queue</title><link>http://www.guozet.me/post/Interview-Implement-Queue-By-Stack/</link><pubDate>Tue, 20 Nov 2018 06:09:31 +0000</pubDate><guid>http://www.guozet.me/post/Interview-Implement-Queue-By-Stack/</guid><description>&lt;h1 id="question">Question&lt;/h1>
+&lt;p>You are given a Stack data structure that supports standard push and pop operations.
+You need to implement Queue data structure using one Stack instances.&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-11-21-Interview-Implement-Queue-By-Stack/2018-11-21-12-43-44.png" alt="">&lt;/p>
+&lt;p>Picture From:
+&lt;a href="http://javabypatel.blogspot.com/2016/11/implement-queue-using-one-stack-in-java.html" target="_blank" rel="noopener">Implement Queue using One Stack in Java (Recursive Implementation)&lt;/a>&lt;/p>
+&lt;!-- more -->
+&lt;hr>
+&lt;h1 id="analyze">Analyze&lt;/h1>
+&lt;p>实现队列，有这样两个函数操作：&lt;/p>
+&lt;p>enQueue() 压栈操作:&lt;/p>
+&lt;ul>
+&lt;li>Push the element to the Stack.&lt;/li>
+&lt;/ul>
+&lt;p>deQueue() 出栈操作:&lt;/p>
+&lt;ul>
+&lt;li>Pop all the elements from Main Stack recursively until Stack item count is equal to 1.&lt;/li>
+&lt;li>If Stack item count = 1, Pop item from Stack, Print it &amp;amp; Return.&lt;/li>
+&lt;/ul>
+&lt;p>Push all popped element back to Stack as shown below.
+&lt;img src="http://www.guozet.me/images/in-post/2018-11-21-Interview-Implement-Queue-By-Stack/2018-11-21-13-02-51.png" alt="">&lt;/p>
+&lt;hr>
+&lt;h1 id="solution">Solution&lt;/h1>
+&lt;pre>&lt;code class="language-cpp">// Implementing queue using a single stack
+#include &amp;lt;stdio.h&amp;gt;
+#define SIZE 10
+int stack[10];
+int top = -1;
+int pop() {
+if (top != -1) return stack[top--];
+}
+void push(int data) {
+if (top &amp;lt; SIZE) stack[++top] = data;
+}
+void enqueue(int data) { push(data); }
+// 使用递归实现出栈操作
+int dequeue() {
+if (top == 0) return pop();
+int data = pop();
+int value = dequeue();
+push(data);
+return value;
+}
+int main(void) {
+int i;
+// Enqueue
+enqueue(1);
+enqueue(2);
+enqueue(3);
+enqueue(4);
+for (i = 0; i &amp;lt;= top; i++) printf(&amp;quot;%d &amp;quot;, stack[i]);
+printf(&amp;quot;\n&amp;quot;);
+// Dequeue
+printf(&amp;quot;Dequeue --&amp;gt; %d\n&amp;quot;, dequeue());
+printf(&amp;quot;Dequeue --&amp;gt; %d\n&amp;quot;, dequeue());
+for (i = 0; i &amp;lt;= top; i++) printf(&amp;quot;%d &amp;quot;, stack[i]);
+printf(&amp;quot;\n&amp;quot;);
+return 0;
+}
+&lt;/code>&lt;/pre></description></item></channel></rss>

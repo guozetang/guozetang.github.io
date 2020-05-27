@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>vpn | Terry Tang</title><link>http://www.guozet.me/tag/vpn/</link><atom:link href="http://www.guozet.me/tag/vpn/index.xml" rel="self" type="application/rss+xml"/><description>vpn</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><copyright>guozet.me © 2020</copyright><lastBuildDate>Thu, 23 Aug 2018 16:14:31 +0000</lastBuildDate><image><url>http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url><title>vpn</title><link>http://www.guozet.me/tag/vpn/</link></image><item><title>vpn-Shadowsocks使用教程</title><link>http://www.guozet.me/post/vpn-client/</link><pubDate>Thu, 23 Aug 2018 16:14:31 +0000</pubDate><guid>http://www.guozet.me/post/vpn-client/</guid><description>&lt;h1 id="shadowsocks使用教程">Shadowsocks使用教程&lt;/h1>
+&lt;h2 id="浏览器插件">浏览器插件&lt;/h2>
+&lt;p>依然记得自己使用「红杏」的畅快体验──哪个网站不能访问了，按下图标添加到规则列表中，就可以「科学」地访问了。这种无缝的体验，靠 Shadowsocks 加另一款 Chrome 扩展 SwitchyOmega 也能实现，这里是
+&lt;a href="https://github.com/FelisCatus/SwitchyOmega/wiki/GFWList" target="_blank" rel="noopener">使用教程&lt;/a>。&lt;/p>
+&lt;h3 id="windows桌面应用">Windows桌面应用&lt;/h3>
+&lt;p>部署 Shadowsocks 完成后，浏览器就能实现科学上网了，但是像 Dropbox 等桌面应用的流量，还不能由 Shadowsocks 来代理。要实现桌面应用的代理，需要再借助其他应用，比如
+&lt;a href="https://www.proxifier.com/" target="_blank" rel="noopener">Proxifier&lt;/a>、
+&lt;a href="https://nssurge.com/" target="_blank" rel="noopener">Surge for Mac&lt;/a>。&lt;/p>
+&lt;h3 id="手机端应用">手机端应用&lt;/h3>
+&lt;p>安卓手机只需要下载安装
+&lt;a href="https://github.com/shadowsocks/shadowsocks-android/releases" target="_blank" rel="noopener">Shadowsocks 安卓版&lt;/a>，并与桌面版一样，填入服务器 IP、端口、密码和加密方式，就可以设置全局或分应用代理。但是要实现「真正意义上」的 PAC 规则的话（也就是自定义哪些域名走代理、哪些不走），目前似乎还没有一个便捷可行的解决方案。&lt;/p>
+&lt;p>iOS 可以通过类
+&lt;a href="https://itunes.apple.com/us/app/surge-3-web-developer-tool/id1329879957?ls=1&amp;amp;mt=8" target="_blank" rel="noopener">Surge&lt;/a> 的 App 实现 PAC 规则下的自动翻墙。&lt;/p>
+&lt;p>Surge 目前定价 328 元，另有 Mac 版（另外收费）。作为一款兼具「科学上网」功能的网络开发调试利器，它完全值这个价。觉得太贵的话，可以使用相对便宜的
+&lt;a href="https://itunes.apple.com/us/app/wingy-smart-proxy-for-http/id1148026741?mt=8" target="_blank" rel="noopener">Wingy&lt;/a> 或者
+&lt;a href="https://itunes.apple.com/us/app/potatso-2/id1162704202?mt=8" target="_blank" rel="noopener">Potatso&lt;/a>，不过二者都没有前者来得稳定好用。&lt;/p></description></item></channel></rss>

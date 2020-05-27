@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Algorithm | Terry Tang</title><link>http://www.guozet.me/tag/Algorithm/</link><atom:link href="http://www.guozet.me/tag/Algorithm/index.xml" rel="self" type="application/rss+xml"/><description>Algorithm</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><copyright>guozet.me © 2020</copyright><lastBuildDate>Fri, 05 Oct 2018 02:09:31 +0000</lastBuildDate><image><url>http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url><title>Algorithm</title><link>http://www.guozet.me/tag/Algorithm/</link></image><item><title>Algorithm Introduce 2 - Abstract Data types and Hash Tables</title><link>http://www.guozet.me/post/CPSC2120-Algorithm-Abstract-Data-TypeHashtable/</link><pubDate>Fri, 05 Oct 2018 02:09:31 +0000</pubDate><guid>http://www.guozet.me/post/CPSC2120-Algorithm-Abstract-Data-TypeHashtable/</guid><description>&lt;h1 id="abstract-data-type">Abstract Data Type&lt;/h1>
+&lt;p>What is the abstract data type? &lt;strong>Specification&lt;/strong> of a data structure in terms of the operations it needs to support.&lt;/p>
+&lt;blockquote>
+&lt;p>Just a concrete(具体化) approach for &lt;strong>implementation&lt;/strong> of a data structure that fulfills these requiremnts.&lt;/p>
+&lt;/blockquote>
+&lt;h1 id="queues-fifo-behavior">Queues (FIFO behavior)&lt;/h1>
+&lt;p>Sometimes, we need a structure which can do these two things.&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Insert&lt;/strong> a new key k into the structure&lt;/li>
+&lt;li>&lt;strong>Remove&lt;/strong> the least-recently-inserted key from the structure.&lt;/li>
+&lt;/ul>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-10-05-CPSC2120-Algorithm-Abstract-Data-TypeHashtable/2018-10-04-09-55-05.png" alt="">&lt;/p>
+&lt;p>But, how can we use the bacis structure &lt;code>arrays, list, stacks&lt;/code> to implement the queues. Firstly, we can&amp;rsquo;t use the &lt;code>stacks&lt;/code> to implement it. So, we try to implement the queues by &lt;code>arrays&lt;/code> and &lt;code>list&lt;/code>.&lt;/p>
+&lt;ol>
+&lt;li>Circular array
+&lt;img src="http://www.guozet.me/images/in-post/2018-10-05-CPSC2120-Algorithm-Abstract-Data-TypeHashtable/2018-10-04-10-17-06.png" alt="">&lt;/li>
+&lt;/ol>
+&lt;pre>&lt;code class="language-cpp">class Queue{
+public:
+Queue();
+~Queue();
+void insert(int key);
+int remove(void);
+private:
+int *A;
+int front, back, N;
+}
+int Queue::remove(void) {
+int result = A[back];
+back = (back+1) % N;
+return result;
+}
+int Queue::insert(int x) {
+A[front] = x;
+front = (front+1) % N;
+}
+&lt;/code>&lt;/pre>
+&lt;ol start="2">
+&lt;li>Linked list
+&lt;img src="http://www.guozet.me/images/in-post/2018-10-05-CPSC2120-Algorithm-Abstract-Data-TypeHashtable/2018-10-04-10-41-41.png" alt="">&lt;/li>
+&lt;/ol>
+&lt;pre>&lt;code class="language-c">// A C program to demonstrate linked list based implementation of queue
+#include &amp;lt;stdlib.h&amp;gt;
+#include &amp;lt;stdio.h&amp;gt;
+// A linked list (LL) node to store a queue entry
+struct QNode {
+int key;
+struct QNode *next;
+};
+// The queue, front stores the front node of LL and rear stores ths
+// last node of LL
+struct Queue {
+struct QNode *front, *rear;
+};
+// A utility function to create a new linked list node.
+struct QNode *newNode(int k) {
+struct QNode *temp = (struct QNode *)malloc(sizeof(struct QNode));
+temp-&amp;gt;key = k;
+temp-&amp;gt;next = NULL;
+return temp;
+}
+// A utility function to create an empty queue
+struct Queue *createQueue() {
+struct Queue *q = (struct Queue *)malloc(sizeof(struct Queue));
+q-&amp;gt;front = q-&amp;gt;rear = NULL;
+return q;
+}
+// The function to add a key k to q
+void enQueue(struct Queue *q, int k) {
+// Create a new LL node
+struct QNode *temp = newNode(k);
+// If queue is empty, then new node is front and rear both
+if (q-&amp;gt;rear == NULL) {
+q-&amp;gt;front = q-&amp;gt;rear = temp;
+return;
+}
+// Add the new node at the end of queue and change rear
+q-&amp;gt;rear-&amp;gt;next = temp;
+q-&amp;gt;rear = temp;
+}
+// Function to remove a key from given queue q
+struct QNode *deQueue(struct Queue *q) {
+// If queue is empty, return NULL.
+if (q-&amp;gt;front == NULL) return NULL;
+// Store previous front and move front one node ahead
+struct QNode *temp = q-&amp;gt;front;
+q-&amp;gt;front = q-&amp;gt;front-&amp;gt;next;
+// If front becomes NULL, then change rear also as NULL
+if (q-&amp;gt;front == NULL) q-&amp;gt;rear = NULL;
+return temp;
+}
+// Driver Program to test anove functions
+int main() {
+struct Queue *q = createQueue();
+enQueue(q, 10);
+enQueue(q, 20);
+deQueue(q);
+deQueue(q);
+enQueue(q, 30);
+enQueue(q, 40);
+enQueue(q, 50);
+struct QNode *n = deQueue(q);
+if (n != NULL) printf(&amp;quot;Dequeued item is %d&amp;quot;, n-&amp;gt;key);
+return 0;
+}
+&lt;/code>&lt;/pre>
+&lt;hr>
+&lt;h2 id="queues-example">Queues Example&lt;/h2>
+&lt;h3 id="question-given-n-numbers-do-two-of-them-sum-to-42">Question: Given N numbers, do two of them sum to 42&lt;/h3>
+&lt;p>We can find the number which is equal to &lt;code>42-X&lt;/code> for each number X. There are two steps for this question.&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Sort&lt;/strong> the numbers. )&lt;/li>
+&lt;li>&lt;strong>For each number&lt;/strong> X in the array, use &lt;code>Binary search&lt;/code> to see if &lt;code>42-X&lt;/code> is also present in the array.&lt;/li>
+&lt;/ul>
+&lt;p>&amp;laquo;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;-TODO:&amp;ndash;Not Finshed&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;raquo;&lt;/p></description></item><item><title>Algorithm Introduce1-Basic Data Structure</title><link>http://www.guozet.me/post/CPSC2120-Algorithm-Introduce/</link><pubDate>Tue, 18 Sep 2018 02:09:31 +0000</pubDate><guid>http://www.guozet.me/post/CPSC2120-Algorithm-Introduce/</guid><description>&lt;h1 id="algorithm-introduce">Algorithm Introduce&lt;/h1>
+&lt;p>&lt;strong>What is a good Algorithm?&lt;/strong> (Cite from: Brian C. Dean )&lt;/p>
+&lt;ul>
+&lt;li>Always terminates and produces &lt;strong>correct&lt;/strong> output.&lt;/li>
+&lt;li>Make &lt;strong>efficient&lt;/strong> use of computational resources.
+Minimizes running time, memory usage, processors, bandwidth, power consumed, heat produced.&lt;/li>
+&lt;li>Is &lt;strong>simple&lt;/strong> to describe, understand, analyze, implement, and debug&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>For example:&lt;/strong>
+Linear search:&lt;/p>
+&lt;pre>&lt;code class="language-cpp">for (int i = 0; i&amp;lt;N; i++) {
+if (target == A[i]) {found it!}
+}
+&lt;/code>&lt;/pre>
+&lt;p>Binary search:&lt;/p>
+&lt;pre>&lt;code class="language-cpp">low = 0; high = N-1;
+while (low &amp;lt;= high) {
+mid = (low + high) / 2;
+if (target == A[mid]) { found it! }
+if (target &amp;gt; A[mid]) low = mid+1;
+else high = mid-1;
+}
+&lt;/code>&lt;/pre>
+&lt;blockquote>
+&lt;p>Linear search: O(N) time.
+Binary search: O(log N) time.&lt;/p>
+&lt;/blockquote>
+&lt;hr>
+&lt;h2 id="running-time">Running time&lt;/h2>
+&lt;p>What is the &lt;code>Linear search: O(N) time.&lt;/code> meaning in the above? We usually use &lt;code>asymptotic notation&lt;/code> to describe how running time scales with input size.&lt;/p>
+&lt;blockquote>
+&lt;p>O(f(N)) means “upper-bounded by a constant times f(N) as N grows large”. Just like, if the input of size is N, then the take about nN machine instructions, then we can say it runs in O(N) time.&lt;/p>
+&lt;/blockquote>
+&lt;p>There are other two symbol which are used for discribe the running time scales with input size.&lt;/p>
+&lt;ul>
+&lt;li>Ω() provides an asymptotic lower bound.&lt;/li>
+&lt;li>Θ() means both a lower and upper bound.&lt;/li>
+&lt;/ul>
+&lt;h3 id="arrays-listed-lists">Arrays, Listed lists&lt;/h3>
+&lt;h4 id="arrays">Arrays&lt;/h4>
+&lt;p>After you define the size of the arrays, you can change the size of the array at the running time. You just can allocate for a new arrays at the running time and copy the old one to the new one.&lt;/p>
+&lt;pre>&lt;code class="language-cpp">/* Statically defined (size known at compile time) */
+int A[100];
+int B[100] = {1, 2, 3};
+/* Dynamically allocated at run time */
+int *C = (int *)malloc(100 * sizeof(int));
+int *D = new int[100];
+/* A[], C[], and D[] filled with garbage until initialized */
+/* Remember pointers can be used as arrays -- e.g., C[7] */
+/* Don’t forget to free memory for C and D... */
+free (C);
+delete [] D;
+&lt;/code>&lt;/pre>
+&lt;p>Analyze:&lt;/p>
+&lt;ul>
+&lt;li>Retrieve or modify any element in O(1) time.&lt;/li>
+&lt;li>Insert or delete in middle of list: O(N) time.&lt;/li>
+&lt;li>Insert or delete from ends: O(1) time&lt;/li>
+&lt;/ul>
+&lt;h4 id="linked-lists">Linked Lists&lt;/h4>
+&lt;pre>&lt;code class="language-cpp">/* In C, typically
+use “typedef struct...” */
+struct Node {
+int payload;
+Node *next;
+}
+int list_length(Node *n)
+{
+int count = 0;
+while (n != NULL) {
+count++;
+n = n-&amp;gt;next;
+}
+return count;
+}
+&lt;/code>&lt;/pre>
+&lt;p>TODO:&lt;/p>
+&lt;ul>
+&lt;li>&lt;input disabled="" type="checkbox"> Task1:Write the doubly linked lists.&lt;/li>
+&lt;li>&lt;input disabled="" type="checkbox"> Write a list which maintain a pointer to the first and last element.&lt;/li>
+&lt;/ul>
+&lt;p>Analyze:&lt;/p>
+&lt;ul>
+&lt;li>Seek to any position in list: O(N) time.&lt;/li>
+&lt;li>Then insert or delete element: O(1) time.&lt;/li>
+&lt;li>Insert or delete from ends: O(1) time.&lt;/li>
+&lt;/ul>
+&lt;h4 id="circular-arrays-queues">Circular Arrays, Queues&lt;/h4>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-09-18-CPSC2120-Algorithm-Introduce/2018-09-19-10-05-38.png" alt="">&lt;/p>
+&lt;pre>&lt;code class="language-cpp">void enqueue(int x)
+{
+A[front] = x;
+front = (front+1) % N;
+}
+int dequeue(void)
+{
+int result = A[back];
+back = (back+1) % N;
+return result;
+}
+&lt;/code>&lt;/pre>
+&lt;h4 id="stacks">Stacks&lt;/h4>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-09-18-CPSC2120-Algorithm-Introduce/2018-09-19-10-07-33.png" alt="">&lt;/p>
+&lt;pre>&lt;code class="language-cpp">void push(int x)
+{
+A[top++] = x;
+}
+int pop(void)
+{
+return A[--top];
+}
+void what_does_this_do(int n)
+{
+if (n==0) return;
+printf (“%d\n”, n);
+what_does_this_do(n-1);
+printf (“%d\n”, n);
+}
+&lt;/code>&lt;/pre>
+&lt;h3 id="arrays-vs-lists-example">Arrays Vs Lists Example&lt;/h3>
+&lt;p>We can use a example(From Brian. Dean) to introduce the running time abou the Arrays and Lists.&lt;/p>
+&lt;p>In the file &lt;code>studens.txt&lt;/code> have a lot of students information about their name. Like this follow:&lt;/p>
+&lt;pre>&lt;code>Sebastian Valentin
+Jeffrey Wang
+Jacob William
+***
+&lt;/code>&lt;/pre>
+&lt;p>&lt;strong>Question:&lt;/strong>&lt;/p>
+&lt;p>Write for me a program in C++ that takes as input a list of names, and prints out each name that appears in the list multiple times.&lt;/p>
+&lt;p>&lt;strong>Arrays Solution:&lt;/strong>&lt;/p>
+&lt;pre>&lt;code class="language-cpp">#include &amp;lt;iostream&amp;gt;
+#include &amp;lt;fstream&amp;gt;
+using namespace std;
+string *name;
+int N; // how many elements we've actually read from the file
+int allocated; // how much memory we've allocated
+int num_occurences(string s)
+{
+int count = 0;
+for (int i=0; i&amp;lt;N; i++) if (name[i] == s) count++;
+return count;
+}
+int main (void)
+{
+string fname, lname;
+ifstream fin(&amp;quot;students.txt&amp;quot;);
+name = new string[4];
+allocated = 4; // start with array of size 4
+// (this is somewhat arbitrary; any small constant would be fine)
+while (fin &amp;gt;&amp;gt; fname &amp;gt;&amp;gt; lname) {
+if (num_occurences(fname) == 1) // O(n) time
+cout &amp;lt;&amp;lt; fname &amp;lt;&amp;lt; &amp;quot;\n&amp;quot;;
+// Check if we need to transfer our array into a new larger array
+if (N == allocated) {
+string *newarray = new string[allocated * 2];
+for (int i=0; i&amp;lt;N; i++) newarray[i] = name[i];
+delete [] name; // old array not needed any more; free it...
+name = newarray;
+allocated = allocated * 2;
+// now name points to the new array, which is twice as big and
+// contains all the N elements we've read so far...
+}
+name[N++] = fname;
+}
+return 0;
+}
+&lt;/code>&lt;/pre>
+&lt;p>&lt;strong>List Solution&lt;/strong>&lt;/p>
+&lt;pre>&lt;code class="language-cpp">#include &amp;lt;iostream&amp;gt;
+#include &amp;lt;fstream&amp;gt;
+using namespace std;
+struct Node {
+string name;
+Node *next;
+Node (string s, Node *n) { name = s; next = n; }
+};
+int num_occurences(Node *head, string s)
+{
+int count = 0;
+Node *n = head;
+while (n != NULL) {
+if (n-&amp;gt;name == s) count++;
+n = n-&amp;gt;next;
+}
+return count;
+}
+int main (void)
+{
+string fname, lname;
+ifstream fin(&amp;quot;students.txt&amp;quot;);
+Node *head = NULL;
+while (fin &amp;gt;&amp;gt; fname &amp;gt;&amp;gt; lname) {
+if (num_occurences(head, fname) == 1) // O(n)
+cout &amp;lt;&amp;lt; fname &amp;lt;&amp;lt; &amp;quot;\n&amp;quot;;
+head = new Node(fname, head);
+}
+return 0;
+}
+&lt;/code>&lt;/pre></description></item></channel></rss>

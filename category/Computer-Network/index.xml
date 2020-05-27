@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Computer Network | Terry Tang</title><link>http://www.guozet.me/category/Computer-Network/</link><atom:link href="http://www.guozet.me/category/Computer-Network/index.xml" rel="self" type="application/rss+xml"/><description>Computer Network</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><copyright>guozet.me © 2020</copyright><lastBuildDate>Sun, 20 May 2018 01:30:32 +0000</lastBuildDate><image><url>http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url><title>Computer Network</title><link>http://www.guozet.me/category/Computer-Network/</link></image><item><title>花生壳作为域名解析来搭建FTP服务器</title><link>http://www.guozet.me/post/FTP-server-by-oray/</link><pubDate>Sun, 20 May 2018 01:30:32 +0000</pubDate><guid>http://www.guozet.me/post/FTP-server-by-oray/</guid><description>&lt;h1 id="前言">前言&lt;/h1>
+&lt;p>在实际网络环境中很多时候我们需要在局域网内两台电脑之间，外网与局域网内部的电脑之间完成大文件的传输，在这里就会出现一个小问题，常规的小文件我们只需要使用QQ或者Skype这一类的即时聊天软件就可以办到，但是当我们的文件有几十个G那么大的时候，局域网内与外网之间进行大文件传输就没有那么方便了。&lt;/p>
+&lt;h1 id="背景">背景&lt;/h1>
+&lt;p>我的主机：Windows 10 旗舰版(路由器下面的局域网内)&lt;br>
+对方主机：Mac(不与我的主机在一个局域网内)&lt;br>
+要求: 需要将大约30G的10个视频文件传送到对方主机上面&lt;/p>
+&lt;h1 id="解决方式">解决方式&lt;/h1>
+&lt;p>由于视频文件单个文件超过的2G,使用常规的即时通信软件，无法满足我的需求。考虑到自己对FTP传输比较熟悉，选择搭建FTP服务器来进行传输。这里有以下几个步骤：&lt;/p>
+&lt;ul>
+&lt;li>我的主机上面搭建FTP服务器，并本地测试通过&lt;/li>
+&lt;li>选择路由器FTP服务请求端口映射，传递外网的FTP请求到我的主机上&lt;/li>
+&lt;li>考虑到方便输入FTP服务器网址，已经防止网络运营商动态分配公网IP地址到路由器上，选择使用了花生壳来作为一个域名解析器&lt;/li>
+&lt;/ul>
+&lt;h2 id="前期工作">前期工作&lt;/h2>
+&lt;h3 id="分辨自己路由器ip是真实的公网ip">分辨自己路由器IP是真实的公网IP&lt;/h3>
+&lt;ol>
+&lt;li>
+&lt;p>点击该
+&lt;a href="http://www.net.cn/static/customercare/yourIP.asp" target="_blank" rel="noopener">&lt;strong>链接&lt;/strong>&lt;/a> 得到自己当前的IP地址。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>环境：Windows10—打开一个命令提示窗口&lt;br>
+&lt;code>tracert 108.216.***.***(输入刚才得到的IP地址)&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>如果只有一跳那就说明你的路由器上面是有公网IP地址的，如果超过一跳那就肯定是内网IP地址了。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>如果本地主机的上层路由器是有公网IP地址(后面给外网的用户使用的来访问你内网FTP服务器的IP地址)的，那就可以进行下一步操作了。&lt;/p>
+&lt;h2 id="本地搭建ftp服务器">本地搭建FTP服务器&lt;/h2>
+&lt;p>在Windows下面来搭建FTP服务器是比较简单的，并不需要你再去下载一些其他的工具软件了，微软已经提供了FTP服务在系统中，你只需要做的就是打开对应的服务，建立自己的网站就好了，主要步骤：&lt;/p>
+&lt;ol>
+&lt;li>打开Windows10里面的FTP服务功能&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-05-20-FTP-server-by-oray/2018-09-23-16-46-36.png" alt="">&lt;/p>
+&lt;ol start="2">
+&lt;li>创建FTP服务器&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-05-20-FTP-server-by-oray/2018-09-23-16-47-01.png" alt="">&lt;/p>
+&lt;ol start="3">
+&lt;li>本地测试FTP服务器是否工作&lt;/li>
+&lt;/ol>
+&lt;h3 id="启动ftp和iis服务功能">启动ftp和iis服务功能&lt;/h3>
+&lt;p>控制面板-&amp;gt;程序和功能-&amp;gt;打开或关闭windows功能&lt;br>
+在功能服务中找到Internet信息服务下面的FTP服务器和Web管理工具，将这两个全部勾选&lt;/p>
+&lt;h3 id="添加ftp站点">添加FTP站点&lt;/h3>
+&lt;p>控制面板-&amp;gt;系统和安全-&amp;gt;管理工具-&amp;gt;(左面菜单中)服务&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-05-20-FTP-server-by-oray/2018-09-23-17-15-41.png" alt="">&lt;/p>
+&lt;p>之后选择一个本地路径来作为FTP的根服务&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-05-20-FTP-server-by-oray/2018-09-23-17-15-55.png" alt="">&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-05-20-FTP-server-by-oray/2018-09-23-17-16-06.png" alt="">&lt;/p>
+&lt;p>绑定IP地址，这里绑定的IP地址就是自己的内网路由器分配给你的地址，可以通过CMD的&lt;code>ipconfig&lt;/code>进行查询，查到自己当前使用的网络适配器下面的局域网分配的IP地址是多少。&lt;/p>
+&lt;p>所以我们就可以把这个内网的IP地址绑定上去&lt;code>192.168.1.149&lt;/code>，然后指定用户和用户组可以访问该FTP服务器或任意人均可访问。由于在这里，我只是用这个来短时间传递一些视频的大文件，所以我选择的是所有用户均可以访问。&lt;br>
+到这里差不多就设置完成了，可以打开网页输入&lt;code>ftp://192.168.1.149&lt;/code>进行测试，如果能够显示出来自己设置的根文件下面的文件内容，那表示测试成功，FTP服务器已经搭建完成。&lt;/p>
+&lt;blockquote>
+&lt;p>FTP服务器还涉及到一些权限设置方面的工作，可参考博客：&lt;br>
+&lt;a href="https://www.jianshu.com/p/766ec3356524" target="_blank" rel="noopener">windows 搭建ftp服务器与权限控制&lt;/a>&lt;br>
+&lt;a href="https://blog.csdn.net/EXLsunshine/article/details/29181465" target="_blank" rel="noopener">Windows下搭建FTP服务器&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;hr>
+&lt;h2 id="路由器端口映射">路由器端口映射&lt;/h2>
+&lt;p>上述搭建的FTP服务器仅仅能够在本地和局域网内部使用，因为外网是没有办法访问到你这个内网的网络IP地址的，路由器端口映射，路由映射FTP服务访问端口。因为公网IP是在路由器上的，外网访问时，需要经过路由，需要在路由器上做端口映射，将内网FTP服务访问端口打通。&lt;/p>
+&lt;h3 id="端口映射两种方式">端口映射(两种方式)&lt;/h3>
+&lt;h4 id="1使用dmz服务">1.使用DMZ服务&lt;/h4>
+&lt;p>TP-LINK路由器端口映射位置：转发规则/DMZ主机/启用DMZ并添加允许外网访问内网FTP服务器。我的FTP服务器内网地址是192.168.1.49.&lt;br>
+使用DMZ服务有一个缺陷，这就相当于把我们的本地主机的所有端口都暴露在网络上的，这并不是我们比较想要的处理方式。&lt;/p>
+&lt;h4 id="2使用虚拟服务器来完成端口映射">2.使用虚拟服务器来完成端口映射&lt;/h4>
+&lt;p>TP-LInk路由器点击转发规则——虚拟服务器，做好端口映射，如图(这里我使用的是网络图片：我们应该使用的IP地址是自己本地的局域网内地址)：&lt;br>
+&lt;img src="http://www.guozet.me/images/in-post/2018-05-20-FTP-server-by-oray/2018-09-23-16-48-49.png" alt="">&lt;/p>
+&lt;p>端口映射中，IP地址就是服务器内网IP是192.168.1.149.端口号就是21，要与FTP服务使用端口号（21）保持一致。协议选择ALL即可，勾选启用，然后保存即可。&lt;br>
+到这里，我们就可以尝试在外网访问我们的FTP服务器了，访问地址：&lt;br>
+&lt;code>ftp://你的路由器公网地址&lt;/code>&lt;/p>
+&lt;blockquote>
+&lt;p>当使用=公网IP无法访问，内网IP可以访问的时候，一般是杀毒软件或者防火墙问题，以windows 10 为例，在网络连接-属性-高级-防火墙设置，关闭防火墙。如果依旧不行，请关闭杀毒软件再进行尝试。&lt;/p>
+&lt;/blockquote>
+&lt;hr>
+&lt;h2 id="使用花生壳进行域名解析">使用花生壳进行域名解析&lt;/h2>
+&lt;p>使用FTP服务器，在实际使用中，我们的路由器公网IP地址可能发生变化，原因是：每次重启路由器，我们的网络供应商可能重新分配公网IP到这个路由器上面，这就会造成我们的FTP服务器不能访问。&lt;/p>
+&lt;p>解决方案：选择花生壳软件完成域名的动态解析，域名固定，即使我们的路由器公网地址变化，只要你在本地运行的花生壳软件客户端，就可以实时绑定最新的地址到我们的域名地址。(最主要的原因：这个软件是免费的)&lt;/p>
+&lt;h3 id="下载并安装花生壳客户端">下载并安装花生壳客户端&lt;/h3>
+&lt;h4 id="1下载并安装">1.下载并安装&lt;/h4>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-05-20-FTP-server-by-oray/2018-09-23-16-47-36.png" alt="">&lt;/p>
+&lt;h4 id="2登陆客户端需要先注册一个账号才能得到一个免费的域名">2.登陆客户端(需要先注册一个账号，才能得到一个免费的域名)&lt;/h4>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-05-20-FTP-server-by-oray/2018-09-23-16-48-20.png" alt="">&lt;/p>
+&lt;h4 id="3确定是否绑定了域名">3.确定是否绑定了域名&lt;/h4>
+&lt;p>使用您在花生壳官网注册的帐号名和密码填入花生壳客户端软件中进行登陆；登录Oray帐号之后，在主界面上面点击域名列表，进入到域名列表的管理界面。&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-05-20-FTP-server-by-oray/2018-09-23-16-48-35.png" alt="">&lt;/p>
+&lt;p>点击域名诊断，确定动态域名解析结果：&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-05-20-FTP-server-by-oray/2018-09-23-16-49-42.png" alt="">&lt;/p>
+&lt;p>如果得到的域名结果就是自己路由器的公网地址，那么外网的电脑就可以通过这个域名来访问你的FTP服务器了，即使你的主机处在局域网内。&lt;/p>
+&lt;blockquote>
+&lt;p>可查看花生壳软件的官网说明文档，但是不推荐使用它提到的FTP服务器软件(能够直接使用微软的服务，为何还用下载软件安装到自己的电脑上面呢)&lt;br>
+&lt;a href="http://service.oray.com/question/752.html" target="_blank" rel="noopener">使用花生壳服务搭建FTP服务器&lt;/a>&lt;/p>
+&lt;/blockquote></description></item></channel></rss>

@@ -1,0 +1,2868 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Linux | Terry Tang</title><link>http://www.guozet.me/category/Linux/</link><atom:link href="http://www.guozet.me/category/Linux/index.xml" rel="self" type="application/rss+xml"/><description>Linux</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><copyright>guozet.me © 2020</copyright><lastBuildDate>Sun, 09 Sep 2018 15:09:31 +0000</lastBuildDate><image><url>http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url><title>Linux</title><link>http://www.guozet.me/category/Linux/</link></image><item><title>Ubuntu里面update,upgrade和dist-upgrade的区别</title><link>http://www.guozet.me/post/Ubuntu-Update-Upgrade/</link><pubDate>Sun, 09 Sep 2018 15:09:31 +0000</pubDate><guid>http://www.guozet.me/post/Ubuntu-Update-Upgrade/</guid><description>&lt;h2 id="introduce">Introduce&lt;/h2>
+&lt;p>&lt;strong>常用的三个命令：&lt;/strong>&lt;/p>
+&lt;pre>&lt;code class="language-bash">sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get dist-upgrade
+&lt;/code>&lt;/pre>
+&lt;p>&lt;code>apt-get&lt;/code>是某些linux发行版使用的一个“包管理器”（还有别的发行版使用yum等，以及brew等其他平台上的包管理器，工作原理类似）。包管理器的作用是从源（Source）服务器那里下载最新的软件包列表，然后在你需要安装某个软件包（apt-get install）的时候从列表里面查询这个软件包的版本信息、系统要求、翻译、依赖项（该软件正常运行必须安装的其它软件）并且添加到同时安装的列表里面，再查询所有安装列表里面的软件包的.deb文件下载地址，最后批量下载，自动分析安装顺序然后安装完成。&lt;/p>
+&lt;hr>
+&lt;h2 id="update--upgrade--dist-upgrade">update &amp;amp; upgrade &amp;amp; dist-upgrade&lt;/h2>
+&lt;p>&lt;code>sudo apt-get update&lt;/code>和&lt;code>sudo apt-get upgrade&lt;/code>分别更新的是什么：&lt;/p>
+&lt;ul>
+&lt;li>update是下载源里面的metadata的. 包括这个源有什么包, 每个包什么版本之类的，最新版本是什么.&lt;/li>
+&lt;li>upgrade是根据update命令下载的metadata决定要更新什么包(同时获取每个包的位置)，对已经安装的软件包本身进行更新的过程。由于确定要更新的软件包需要对本地安装的版本和列表的版本进行比较，所以要在update以后运行这一条.&lt;/li>
+&lt;li>dist-upgrade:可以聪明的解决相依性的问题,如果有相依性问题,需要安装/移除新的Package,就会试着去安装/移除它. (所以通常这个会被认为是有点风险的升级)&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>注明：在install操作之前执行update和upgrade，实际上是确保本地软件列表信息和已安装软件均为最新的过程。这样做可以最大限度地确保新安装的软件包正常工作。&lt;/p>
+&lt;/blockquote>
+&lt;p>PS：软件源服务器地址可以在/etc/apt/sources.list里面看到。&lt;/p>
+&lt;p>&lt;strong>Example: upgrade and dist-upgrade&lt;/strong>&lt;/p>
+&lt;p>apt-get upgrade 和 apt-get dist-upgrade 本质上是没有什么不同的。只不过，dist-upgrade 会识别出当依赖关系改变的情形并作出处理，而upgrade对此情形不处理。&lt;/p>
+&lt;p>例如软件包 a 原先依赖 b c d，但是在源里面可能已经升级了，现在是 a 依赖 b c e。这种情况下，dist-upgrade 会删除 d 安装 e，并把 a 软件包升级，而 upgrade 会认为依赖关系改变而拒绝升级 a 软件包。&lt;/p></description></item><item><title>SSH协议解析</title><link>http://www.guozet.me/post/Linux-SSH-introduce/</link><pubDate>Sat, 12 May 2018 16:14:31 +0000</pubDate><guid>http://www.guozet.me/post/Linux-SSH-introduce/</guid><description>&lt;h1 id="前言">前言&lt;/h1>
+&lt;p>最近使用SSH来登陆DigitalOcean VPS的时候，第一次导入SSH的时候出现了一些问题，由此对SSH协议详细的学习了一番。在这里对自己SSH的学习做一个小结。&lt;/p>
+&lt;h1 id="基本概念">基本概念&lt;/h1>
+&lt;h2 id="什么是ssh">什么是SSH&lt;/h2>
+&lt;p>SSH(The Secure Shell)是指一种将所有传输的数据进行加密，这样&amp;quot;中间人&amp;quot;这种攻击方式就不可能实现了，而且也能够防止DNS欺骗和IP欺骗。使用SSH，还有一个额外的好处就是传输的数据是经过压缩的，所以可以加快传输的速度。SSH有很多功能，它既可以代替Telnet，又可以为FTP、Pop、甚至为PPP提供一个安全的&amp;quot;通道&amp;rdquo;。&lt;/p>
+&lt;blockquote>
+&lt;p>官方协议文档请参考:
+&lt;a href="https://www.ietf.org/rfc/rfc4251.txt" target="_blank" rel="noopener">The Secure Shell (SSH) Protocol Architecture&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="ssh基本框架">SSH基本框架&lt;/h2>
+&lt;p>SSH协议分三部分：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>传输层协议（The Transport Layer Protocol）提供服务器认证，数据机密性，信息完整性 等的支持；&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>用户认证协议（The User Authentication Protocol） 则为服务器提供客户端的身份鉴别；&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>连接协议（The Connection Protocol） 将加密的信息隧道复用成若干个逻辑通道，提供给更高层的应用协议使用； 各种高层应用协议可以相对地独立于SSH基本体系之外，并依靠这个基本框架，通过连接协议使用SSH的安全机制。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="ssh的秘钥管理">SSH的秘钥管理&lt;/h2>
+&lt;p>SSH协议要求每一个使用本协议的主机都必须至少有一个自己的主机密钥对，服务方通过对客户方主机密钥的认证之后，才能允许其连接请求。一个主机可以使用多个密钥，针对不同的密钥算法而拥有不同的密钥，但是至少有一种是必备的。SSH协议关于主机秘钥认证的方案有两种。&lt;/p>
+&lt;h3 id="方案一">方案一&lt;/h3>
+&lt;p>在第一种方案中，主机将自己的公用密钥分发给相关的客户机，客户机在访问主机时则使用该主机的公开密钥来加密数据，主机则使用自己的私有密钥来解密数据，从而实现主机密钥认证，确定客户机的可靠身份。在图2（a）中可以看到，用户从主机A上发起操作，去访问，主机B和主机C，此时，A成为客户机，它必须事先配置主机B和主机C的公开密钥，在访问的时候根据主机名来查找相应的公开密钥。对于被访问主机（也就是服务器端）来说则只要保证安全地存储自己的私有密钥就可以了。&lt;br>
+另外，SSH协议框架中还允许对主机密钥的一个折中处理，那就是首次访问免认证。首次访问免认证是指，在某客户机第一次访问主机时，主机不检查主机密钥，而向该客户都发放一个公开密钥的拷贝，这样在以后的访问中则必须使用该密钥，否则会被认为非法而拒绝其访问。
+&lt;img src="http://www.guozet.me/images/in-post/2018-05-21SSH%E4%B8%BB%E6%9C%BA%E7%A7%98%E9%92%A5%E8%AE%A4%E8%AF%81%E6%96%B9%E6%A1%88%E4%B8%80.png" alt="2018-05-21SSH主机秘钥认证方案一">&lt;/p>
+&lt;h3 id="方案二">方案二&lt;/h3>
+&lt;p>第二种方案中，存在一个密钥认证中心，所有系统中提供服务的主机都将自己的公开密钥提交给认证中心，而任何作为客户机的主机则只要保存一份认证中心的公开 密钥就可以了。在这种模式下，客户机在访问服务器主机之前，还必须向密钥认证中心请求认证，认证之后才能够正确地连接到目的主机上。&lt;br>
+&lt;img src="http://www.guozet.me/images/in-post/2018-05-21SSH%E4%B8%BB%E6%9C%BA%E7%A7%98%E9%92%A5%E8%AE%A4%E8%AF%81%E6%96%B9%E6%A1%88%E4%BA%8C.png" alt="2018-05-21SSH主机秘钥认证方案二">&lt;/p>
+&lt;h2 id="ssh的工作过程">SSH的工作过程&lt;/h2>
+&lt;p>在整个通讯过程中，为实现 SSH的安全连接，服务器端与客户端要经历如下五个阶段：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>客户端连接到服务器上，进行SSH协议版本协商&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>服务器向客户端提供自己的身份证明和会话参数&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>客户端给服务器发送一个（会话）密钥&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>双方启用加密并完成服务器认证&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>建立安全连接&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>每个阶段均涉及到客户端与服务端的多次交互，通过这些交互过程完成包括证书传输、算法协商、通道加密等过程。&lt;/p>
+&lt;h3 id="客户端连接到服务器上进行ssh协议版本协商">客户端连接到服务器上，进行SSH协议版本协商&lt;/h3>
+&lt;ol>
+&lt;li>
+&lt;p>服务器打开端口 22，等待客户端连接。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>客户端向服务器端发起 TCP初始连接请求，TCP连接建立后，服务器向客户端发送第一个报文，包括版本标志字符串，格式为“SSH－&amp;lt;主协议版本号&amp;gt;.&amp;lt;次协议版本号&amp;gt;－&amp;lt;软件版本号&amp;gt;”，协议版本号由主版本号和次版本号组成，软件版本号主要是为调试使用。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;blockquote>
+&lt;p>这些协议是以 ASCII 字符串(明文)表示，例如：SSH-1.5-1.2.27，其意义为SSH协议，版本号是V1.5，SSH1实现版本为1.2.27。&lt;/p>
+&lt;/blockquote>
+&lt;pre>&lt;code>➜ telnet 165.227.65.39(测试一个服务器地址)
+SSH-2.0-OpenSSH_7.2p2 Ubuntu-4ubuntu2.4
+&lt;/code>&lt;/pre>
+&lt;ol start="3">
+&lt;li>
+&lt;p>客户端收到报文后，解析该数据包，如果服务器端的协议版本号比自己的低，且客户端能支持服务器端的低版本，就使用服务器端的低版本协议号，否则使用自己的协议版本号。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>客户端回应服务器一个报文，包含了客户端决定使用的协议版本号。服务器比较客户端发来的版本号，决定是否能同客户端一起工作。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>如果协商成功，则进入密钥和算法协商阶段，否则服务器端断开 TCP连接。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;blockquote>
+&lt;p>如果客户端和服务器确定其协议版本号是兼容的，那么连按就继续进行，否则，双方都可能决定中断连接。例如，如果一个只使用 SSH-1 的客户端连接到一个只使用 SSH-2 的服务器上，那么客户端就会断开连接并打印一条错误消息。实际上还可能执行其他操作：例如，只使用SSH-2的服务器可以调用SSH-1服务器来处理这次连接请求。&lt;/p>
+&lt;/blockquote>
+&lt;p>Note： 版本号协商阶段报文都是采用明文方式传输的。&lt;br>
+协议版本号交换过程一旦完成，客户端和服务器都立即从下层的 TCP 连接切换到基于子报文的协议。每个报文都包含一个32位的字段，1 - 8字节的填充位[ 用来防止已知明文攻击unknown-plaintext attack ]，一个1字节的报文类型代码, 报文有效数据和一个4字节的完整性检査字段。&lt;/p>
+&lt;h3 id="服务器向客户端提供自己的身份证明和会话参数">服务器向客户端提供自己的身份证明和会话参数&lt;/h3>
+&lt;p>服务器向客户端发送以下信息(现在还沒有加密):&lt;/p>
+&lt;p>主机密钥（Host Key），用于后面证明服务器主机的身份
+服务器密钥（Server Key），用来帮助建立安全连接
+8个随机字节序列，称为检测字节（check bytes)。客户端在下一次响应中必须包括这些检测字节，否則服务器就会拒绝接收响应信息，这种方法可以防止某些 IP伪装攻击(IP spoofing attack)。
+该服务器支持的加密、压缩和认证方法
+此时，双方都要计算一个通用的 128 位会话标识符(Session ID)。它在某些协议中用来惟一标识这个 SSH 会话。该值是 主机密钥（Host Key）、服务器密钥（Server Key）和检测字节（check bytes)一起应用 MD5散列函数 得到的结果。&lt;/p>
+&lt;p>当客户端接收到 主机密钥（Host Key）时，它要进行询问：“之前我和这个服务器通信过吗？如果通信过，那么它的主机密钥是什么呢？”要回答这个问题，客户端就要査阅自己的已知名主机数据库。如果新近到达的主机密钥可以和数据库中以前的一个密钥匹，那么就没有问题了。&lt;/p>
+&lt;p>但是，此时还存在两种可能：已知名主机数据库中没有这个服务器，也可能有这个服务器但是其主机密钥不同。在这两种情况中，客户端要选择是信任这个新近到达的密钥还是拒绝接受该密钥。此时就需要人的指导参与了，例如，客户端用户可能被提示要求确定是接受还是拒绝该密钥。&lt;/p>
+&lt;pre>&lt;code>The authenticity of host 'ssh-server.example.com (12.18.429.21)' can't be established.
+RSA key fingerprint is 98:2e:d7:e0:de:9f:ac:67:28:c2:42:2d:37:16:58:4d.
+Are you sure you want to continue connecting (yes/no)?
+&lt;/code>&lt;/pre>
+&lt;p>如果客户端拒绝接受这个主机密钥，那么连接就中止了。让我们假设客户端接受该密钥，现在继续介绍。&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>客户端向服务器端发送认证请求，认证请求中包含用户名、认证方法、与该认证方法相关的内容（如：password认证时，内容为密码）。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>服务器端对客户端进行认证，如果认证失败，则向客户端发送认证失败消息，其中包含可以再次认证的方法列表。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>客户端从认证方法列表中选取一种认证方法再次进行认证。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>该过程反复进行， 直到认证成功或者认证次数达到上限， 服务器关闭连接为止。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;blockquote>
+&lt;p>SSH提供两种认证方式：&lt;/p>
+&lt;ol>
+&lt;li>password认证：客户端向服务器发出 password认证请求，将用户名和密码加密后发送给服务器；服务器将该信息解密后得到用户名和密码的明文，与设备上保存的用户名和密码进行比较，并返回认证成功或失败的消息。&lt;/li>
+&lt;li>publickey 认证：采用数字签名的方法来认证客户端。目前，设备上可以利用RSA和 DSA两种公共密钥算法实现数字签名。客户端发送包含用户名、公共密钥和公共密钥算法的 publickey 认证请求给服务器端。服务器对公钥进行合法性检查，如果不合法，则直接发送失败消息；否则，服务器利用数字签名对客户端进行认证，并返回认证成功或失败的消息&lt;/li>
+&lt;/ol>
+&lt;p>SSH2.0还提供了 password-publickey 认证和 any 认证:&lt;/p>
+&lt;ol>
+&lt;li>password-publickey 认证：指定该用户的认证方式为 password 和 publickey认证同时满足。客户端版本为 SSH1的用户只要通过其中一种认证即可登录；客户端版本为 SSH2的用户必须两种认证都通过才能登录。&lt;/li>
+&lt;li>any认证：指定该用户的认证方式可以是 password，也可以是 publickey。&lt;/li>
+&lt;/ol>
+&lt;/blockquote></description></item><item><title>Linux透明加密文件系统1_代码分析</title><link>http://www.guozet.me/post/Linux-Transparent-Encrypted-File-System/</link><pubDate>Tue, 08 May 2018 14:12:25 +0000</pubDate><guid>http://www.guozet.me/post/Linux-Transparent-Encrypted-File-System/</guid><description>&lt;p>主要分为三个部分：&lt;/p>
+&lt;blockquote>
+&lt;p>第一部分是交互脚本与自动化脚本(Ubuntu)&lt;br>
+第二部分是界面设计&lt;br>
+第三部分是开源项目代码的说明&lt;/p>
+&lt;/blockquote>
+&lt;p>用户使用的是基于QT的用户界面，可以选择需要加密的文件路径，已经加密之后的路径。当图形界面接收到这些信息之后，会将该信息转换成一段包含了8个参数的数据包传递给shell脚本进行处理。&lt;/p>
+&lt;!-- more -->
+&lt;h2 id="一交互脚本与自动化脚本">一.交互脚本与自动化脚本&lt;/h2>
+&lt;h3 id="1-处理交互式过程的脚本">1. 处理交互式过程的脚本&lt;/h3>
+&lt;pre>&lt;code class="language-sh">#!/usr/bin/expect
+#该文件是处理交互式过程的主要文件，用来对输出信息进行解析，并自动输入对应的信息
+set timeout 2
+set ecryptfs_real [lindex $argv 0]
+#真实文件路径,实际的加密文件位置
+set ecryptfs_mount [lindex $argv 1]
+#挂载点路径，解密文件的位置
+set tangpassword [lindex $argv 2]
+#用户密码
+set key_type1 [lindex $argv 3]
+#密码管理方式
+set Passphrase [lindex $argv 4]
+#文件加密密码
+set ecryptfs_type [lindex $argv 5]
+#文件加密类型
+set key_bytes [lindex $argv 6]
+#文件加密位数
+set ecryptfs_fspath [lindex $argv 7]
+#路径是否加密
+set ecryptfs_filename [lindex $argv 8]
+#文件名是否加密
+spawn sudo mount -t ecryptfs $ecryptfs_real $ecryptfs_mount#挂载加密文件系统
+expect &amp;quot;password for tang:&amp;quot;
+send &amp;quot;$tangpassword\n&amp;quot;
+#填充用户密码
+expect &amp;quot;Select key type to use for newly created files:&amp;quot;
+send &amp;quot;$key_type1\n&amp;quot;
+expect
+#填充加密方式类型 &amp;quot;Passphrase:&amp;quot;
+send &amp;quot;$Passphrase\n&amp;quot;
+#填充文件加密密码
+expect &amp;quot;aes&amp;quot;
+send &amp;quot;$ecryptfs_type\n&amp;quot;
+#填充文件加密类型
+expect &amp;quot;Select key bytes:&amp;quot;
+send &amp;quot;$key_bytes\n&amp;quot;
+#填写文件加密位数
+expect &amp;quot;Enable plaintext passthrough&amp;quot;
+send &amp;quot;$ecryptfs_fspath\n&amp;quot;
+#选择是否对路径加密
+expect &amp;quot;Enable filename encryption&amp;quot;
+send &amp;quot;$ecryptfs_filename\r&amp;quot;
+interact
+#选择是否对文件名加密
+#expect eof
+#exit
+&lt;/code>&lt;/pre>
+&lt;h3 id="2-与qt交互的脚本">2. 与QT交互的脚本&lt;/h3>
+&lt;pre>&lt;code class="language-sh">#!/bin/bash
+##该脚本主要作用是接收QT传递过来的变量，并进行解析，之后，调用相应的交互处理脚本##接收QT传递过来的变量
+ECRYPTFS_REAL=$1 ##获取加密路径
+PASSWD=$2 ##用户密码
+PASS_TYPE=$3 ##密码类型
+PASSPHRASE=$4 ##加密路径，挂载点
+ECRYPTFS_TYPE=$5 ##加密类型
+ECRYPTFS_BIT=$6 ##加密位数
+ECRYPTFS_FS=$7 ##路径是否加密
+ECRYPTFS_FILENAME=$8 ##文件名是否加密
+count=0 ##初始值
+dir=&amp;quot;/tmp/mnt/ecryptfs$count&amp;quot; ##初始挂载点
+echo &amp;quot;Ecryptfs加密程序启动中...&amp;quot;
+echo &amp;quot;申请超级用户权限,请输入用户密码&amp;quot;
+##/bin/testpass
+df 1&amp;gt;/tmp/1.txt 2&amp;gt;/dev/null
+##检测当前已经使用的挂载点，建立一个新的挂载点来使用
+echo &amp;quot;已经挂载的加密目录有：&amp;quot;
+while cat /tmp/1.txt | grep -q $dir 2&amp;gt;/dev/null
+##挂载点 是否使用了
+do
+echo $dir
+let count=$count+1 ##一定要是/bin/bash如是/bin/sh这里就会出错
+dir=&amp;quot;/tmp/mnt/ecryptfs$count&amp;quot; ###新挂载点
+done
+rm /tmp/1.txt
+echo &amp;quot;新增挂载目录：&amp;quot; ###创建新的挂载点
+if [ ! -d $dir ];then ##判断目录是否存在
+mkdir -p $dir ###建立新挂载点目录,选项p，可以创建连续文件夹
+fi
+echo &amp;quot;加密程序启动，开始加密……
+echo &amp;quot;请输入加密密码，选择加密方式：&amp;quot;
+## sudo mount -t ecryptfs $(pwd) $dir ### $( )为引用命令结果
+##调用交互脚本来处理和用户的交互过程
+echo $ECRYPTFS_REAL $dir $PASSWD $ECRYPTFS_TYPE $ECRYPTFS_BIT $ECRYPTFS_FS $ECRYPTFS_FILENAME
+/bin/automount $ECRYPTFS_REAL $dir $PASSWD $PASS_TYPE $PASSPHRASE $ECRYPTFS_TYPE $ECRYPTFS_BIT $ECRYPTFS_FS $ECRYPTFS_FILENAME
+&lt;/code>&lt;/pre>
+&lt;h3 id="3-挂载点操作脚本">3. 挂载点操作脚本&lt;/h3>
+&lt;pre>&lt;code class="language-sh">#!/bin/bash
+##用来对当前挂载点进行卸载删除
+count=0
+dir=&amp;quot;/tmp/mnt/ecryptfs$count&amp;quot;
+gksudo df 1&amp;gt;/tmp/1.txt
+while cat /tmp/1.txt |grep -q $dir 2&amp;gt;/dev/null ##检查现在存在的挂载
+do
+echo $dir
+let count=$count+1
+sudo umount $dir &amp;amp;&amp;amp; rmdir $dir　　##卸载挂载点，卸载成功的前提下删除挂载点
+dir=&amp;quot;/tmp/mnt/ecryptfs$count&amp;quot;
+done
+&lt;/code>&lt;/pre>
+&lt;h3 id="4-添加到鼠标右键菜单的执行脚本">4. 添加到鼠标右键菜单的执行脚本&lt;/h3>
+&lt;pre>&lt;code class="language-sh">#!/bin/bash
+##添加到右键的执行脚本，用来打开QT交互式界面，获取用户的输入信息
+/home/tang/ecryptfs/imageconverter
+#/bin/ecryptfs_mounted.sh&amp;amp;
+&lt;/code>&lt;/pre>
+&lt;h3 id="5-在qt调用执行挂载脚本">5. 在QT调用执行挂载脚本&lt;/h3>
+&lt;pre>&lt;code class="language-sh"> #!/bin/bash
+##在QT中调用该脚本，该脚本的主要功能是执行挂载脚本ecryptfs_mounted.sh
+REALFILE=$1
+ECRYPTFSPATH=&amp;quot;/bin/ecryptfs_mounted.sh $REALFILE&amp;quot;
+echo $REALFILE 1&amp;gt;/TMP/2.txt
+echo
+$ECRYPTFSPATH 1&amp;gt;&amp;gt;/tmp/2.txt
+exec
+$ECRYPTFSPATH
+#exec gnome-terminal -x
+$ECRYPTFSPATH
+#/bin/ecryptfs_mounted.sh&amp;amp;
+&lt;/code>&lt;/pre>
+&lt;h2 id="二-ｑｔ界面程序设计">二. ＱＴ界面程序设计&lt;/h2>
+&lt;pre>&lt;code class="language-c++">#include &amp;lt;QtGui&amp;gt;
+#include &amp;quot;convertdialog.h&amp;quot;
+ConvertDialog::ConvertDialog(QWidget *parent)
+: QDialog(parent)
+{
+setupUi(this); //创建并布局好所有的窗口部件
+passwordEdit-&amp;gt;setEchoMode (QLineEdit::Password);//用户口令输入框
+filepasswordEdit-&amp;gt;setEchoMode (QLineEdit::Password);//文件密码输入框
+}
+void ConvertDialog::on_browseButton_clicked()//选择路径按钮触发
+{
+QString initialName = sourceFileEdit-&amp;gt;text();//加密文件夹路径输入框
+if (initialName.isEmpty())
+initialName = QDir::homePath();//为空，使用默认路径
+QString fileName =
+QFileDialog::getExistingDirectory(this, tr(&amp;quot;Choose File&amp;quot;),
+initialName);//弹出计算机路径选择框，选择路径加密
+fileName = QDir::toNativeSeparators(fileName);//加密路径
+if (!fileName.isEmpty()) {
+sourceFileEdit-&amp;gt;setText(fileName);//将路径信息保存起来
+// buttonBox-&amp;gt;button(QDialogButtonBox::Ok)-&amp;gt;setEnabled(true);
+}
+}
+void ConvertDialog::on_passwordEdit_textEdited(const QString &amp;amp;arg1)//password密码框
+{
+QRegExp regx (&amp;quot;^[^ ]+$&amp;quot;);// 设定正则表达式，不能输入空格
+QValidator *validator=new QRegExpValidator(regx,this);
+passwordEdit-&amp;gt;setValidator(validator);
+filepasswordEdit-&amp;gt;setValidator(validator);//正则表达式控制输入框字符格式
+}
+void ConvertDialog::on_filepasswordEdit_textEdited(const QString &amp;amp;arg1)//filepassword密码框
+{
+QRegExp regx (&amp;quot;^[^ ]+$&amp;quot;);// 不能输入空格
+QValidator *validator2=new QRegExpValidator(regx,this);
+passwordEdit-&amp;gt;setValidator(validator2);
+filepasswordEdit-&amp;gt;setValidator(validator2);//正则表达式控制输入框字符格式
+}
+void ConvertDialog::on_shellButton_clicked()//确定加密按钮触发
+{
+//system(&amp;quot;/bin/ecryptfs_mounted.sh /home/tang/&amp;quot;); //直接调用的方式，会阻塞进程
+//QProcess::execute(&amp;quot;/opt/run&amp;quot;)　　//调用QT里面的函数来实现，会阻塞进程
+passwordEdit-&amp;gt;setInputMask(&amp;quot;&amp;quot;);//提取password输入框内容
+filepasswordEdit-&amp;gt;setInputMask(&amp;quot;&amp;quot;);//提取filepassword输入框内容
+if(sourceFileEdit-&amp;gt;text().isEmpty()) // 必须输入加密路径，否则报错
+{
+QMessageBox::warning(this,tr(&amp;quot;worning&amp;quot;),tr(&amp;quot; Please select the path to encrypt !&amp;quot;),QMessageBox::Yes);//报错信息
+sourceFileEdit-&amp;gt;setFocus();//移动光标到加密路径输入框
+}
+else if(passwordEdit-&amp;gt;text().isEmpty()||filepasswordEdit-&amp;gt;text().isEmpty())//如果任一密码为空，直接报错
+{
+QMessageBox::warning(this,tr(&amp;quot;worning&amp;quot;),tr(&amp;quot; user password or file password can't be empty!&amp;quot;),QMessageBox::Yes);
+//报错信息
+passwordEdit-&amp;gt;clear();//清空用户密码输入框
+filepasswordEdit-&amp;gt;clear();//清空文件密码输入框
+passwordEdit-&amp;gt;setFocus();//移动光标到用户密码输入框
+}
+else
+{
+QString p1=passwordEdit-&amp;gt;text().trimmed();//去除首尾空格
+QString f1=filepasswordEdit-&amp;gt;text().trimmed();// 去除首尾空格
+QString p2,f2;
+int length1=p1.length();
+int length2=f1.length();
+for (int i=0;i&amp;lt;length1;i++)
+{if (p1[i]!=' ') p2+=p1[i];}//去除password中的空格
+for (int i=0;i&amp;lt;length2;i++)
+{if (f1[i]!=' ') f2+=f1[i];}//去除filepassword中的空格
+QString define = p2+&amp;quot; &amp;quot;+&amp;quot;1 &amp;quot;+f2+&amp;quot; &amp;quot;+ecryptfstypeComboBox-&amp;gt;currentText().toLower()
++&amp;quot; &amp;quot;+ecryptfsbitComboBox-&amp;gt;currentText().toLower()
++&amp;quot; &amp;quot;+fileecryptfsComboBox-&amp;gt;currentText().toLower()
++&amp;quot; &amp;quot;+filenameecryptfsComboBox-&amp;gt;currentText().toLower();//输出需要的信息
+qDebug()&amp;lt;&amp;lt;define;
+QString ecryptfs_sh = sourceFileEdit-&amp;gt;text()+&amp;quot; &amp;quot;+define;//写出保存的信息
+//ecryptfs_sh.insert(0,QString(&amp;quot;/bin/tangguoze &amp;quot;));
+qDebug()&amp;lt;&amp;lt;ecryptfs_sh;
+QStringList arguments;
+arguments &amp;lt;&amp;lt; ecryptfs_sh;//输出信息到脚本中
+QProcess *poc = new QProcess;//定义新进程
+poc -&amp;gt; start (&amp;quot;/bin/tangguoze&amp;quot;,arguments);//在QT中调用启动进程运行
+}
+}
+&lt;/code>&lt;/pre>
+&lt;h2 id="三ecryptfs开源部分的分析">三．eCryptfs开源部分的分析&lt;/h2>
+&lt;p>主要分为7个部分：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>keystore&lt;br>
+Keystore部件从文件中提供文件头信息，并将信息数据转发给callout应用程序。Keystore与callout应用程序之前使用netlink机制通信，通信的发起者为keystore。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Callout应用程序&lt;br>
+Callout应用程序根据目标策略对头文件信息作出评估，并给出各种操作，如：调用后台给应用程序弹出对话框要求密码短语，或用私钥解密一个会话秘钥。&lt;br>
+eCryptfs内核模块和用户空间秘钥管理代码之间的主要通信是请求秘钥，由内核秘钥环发起。Callout应用程序从目录分析策略信息，解析每个文件的头信息。为了满足挂起的公钥请求，他可以调用PKI API，或者用特殊的签名搜索带盐值得密码短语。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>eCryptfs后台弹出对话框输入密码短语&lt;br>
+为了能给用户弹出对话框来输入密码短语，eCryptfs必须提供得到X会话的通道。这可能通过运行一个后台来实现。eCryptfs后台侦听一个socket，它的地址信息写在用户的会话秘钥环中，无论何时策略需要弹出一个对话框请求密码短语时，callout应用程序都能提取socket的地址信息，并用它请求后台给用户弹出对话框，接着，后台将用户的密码短语返回给callout应用程序。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>内核秘钥环&lt;br>
+内核秘钥环用于管理和保护秘钥和认证特征。eCryptfs用内核秘钥环存储认证特征、节点加密统计信息和秘钥。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>PAM&lt;br>
+PAM（可插入的认证模块）提供了灵活的认证机制。eCryptfs含有一个模块，能捕获用户注册的密码短语，并将它放在用户的会话秘钥环中，这个密码短语作为无盐值密码短语认证特征。
+eCryptfs可以基于策略，使用这个密码短语进行加密操作。如：用这个密码短语从用户的GunPG秘钥环中提取他的私钥；通过字符串到秘钥操作，将这个密码短语直接用于保护文件的会话秘钥；这个秘钥短语还可以与存在TPM中的秘钥结合在一起，用来提供两个因子的认证，即用户为了访问一个文件，他必须注册到特殊主机，还需要使用特征的密码短语。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>公钥设施&lt;br>
+eCryptfs提供了可插入的PKI（公钥设施）接口，eCryptfs的PKI模块利用GPGME（GuuPG Made Easy）接口访问用户的GnuPG秘钥环。这个模块能使用用户的注册密码解密用户保存的私钥。&lt;br>
+eCryptfs的TMP PKI模块的TrouSerS使用接口与TPM（可信平台模块）通信，用来使用存在硬件中的私钥，将文件绑定到一个特定的主机上。
+eCryptfs openCryptoki PKCS#11框架PKI通过各种open Crytok的硬件设备，对在硬件上执行公钥操作的机制提供了支持。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>目标中心策略（Target-centric Polocies）&lt;br>
+当应用程序创建一个新文件时，eCryptfs必须作出许多的决策，如：文件是否加密？用哪个对称密码加密数据？文件是否加入HMAC并附加IV？会话秘钥长度是多少？如何保护会话秘钥？等等。
+eCryptfs将策略定义文件应用于目标。&lt;br>
+eCryptfs文件系统由内核空间系统和用户空间系统两部分组成。内核空间系统由内核空间的内核keystore、内核加密API、eCryptfs层、加密元数据和底层文件系统组成。而用户空间由callout应用程序，eCryptfs后台和PKI API等组成。&lt;br>
+另外，eCryptfs文件系统使用了Linux内核的密钥环服务、Linux可插入认证模块(Pluggable Authentication Modules, PAM)、可信平台模块（Trusten Platform Module, TPM）和GnuPG密钥环，Ecryptfs超级块私有数据主要包括加密的各种信息，如：认证特征、密钥环等。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;pre>
+/* superblock private data. */
+struct ecryptfs_sb_info {
+struct super_block *wsi_sb;
+struct ecryptfs_mount_crypt_stat mount_crypt_stat;
+};
+/* dentry private data. Each dentry must keep track of a lower
+* vfsmount too. */
+struct ecryptfs_dentry_info {
+struct path lower_path;
+struct ecryptfs_crypt_stat *crypt_stat;
+};
+/* inode private data. */
+struct ecryptfs_inode_info {
+struct inode vfs_inode;
+struct inode *wii_inode;
+struct file *lower_file;
+struct mutex lower_file_mutex;
+struct ecryptfs_crypt_stat crypt_stat;
+};
+/* file private data. */
+struct ecryptfs_file_info {
+struct file *wfi_file;
+struct ecryptfs_crypt_stat *crypt_stat;
+};
+eCryptfs的认证特征包括会话密钥、口令和私钥等以及他们的签名。会话密钥将口令进行加密。结构eCryptfs_auth_toke存放了eCryptfs文件系统范围内的的认证特征。
+/* May be a password or a private key */
+struct ecryptfs_auth_tok {
+u16 version; /* 8-bit major and 8-bit minor */
+u16 token_type;
+#define ECRYPTFS_ENCRYPT_ONLY 0x00000001
+u32 flags;
+struct ecryptfs_session_key session_key;
+u8 reserved[32];
+union {
+struct ecryptfs_password password;
+struct ecryptfs_private_key private_key;
+} token;
+} __attribute__ ((packed));
+加密统计信息结构ecryptfs_crypt_stat存入了与每个加密文件相关的加密信息。如：文件的加密操作标识、文件头的结构信息等。列出如下：
+/**
+* This is the primary struct associated with each encrypted file.
+*
+* TODO: cache align/pack?
+*/
+struct ecryptfs_crypt_stat {
+#define ECRYPTFS_STRUCT_INITIALIZED 0x00000001
+#define ECRYPTFS_POLICY_APPLIED 0x00000002
+#define ECRYPTFS_NEW_FILE 0x00000004
+#define ECRYPTFS_ENCRYPTED 0x00000008
+#define ECRYPTFS_SECURITY_WARNING 0x00000010
+#define ECRYPTFS_ENABLE_HMAC 0x00000020
+#define ECRYPTFS_ENCRYPT_IV_PAGES 0x00000040
+#define ECRYPTFS_KEY_VALID 0x00000080
+#define ECRYPTFS_METADATA_IN_XATTR 0x00000100
+#define ECRYPTFS_VIEW_AS_ENCRYPTED 0x00000200
+#define ECRYPTFS_KEY_SET 0x00000400
+u32 flags;
+unsigned int file_version;
+size_t iv_bytes;
+size_t num_header_bytes_at_front;
+size_t extent_size; /* Data extent size; default is 4096 */
+size_t key_size;
+size_t extent_shift;
+unsigned int extent_mask;
+struct ecryptfs_mount_crypt_stat *mount_crypt_stat;
+struct crypto_blkcipher *tfm;
+struct crypto_hash *hash_tfm; /* Crypto context for generating
+* the initialization vectors */
+unsigned char cipher[ECRYPTFS_MAX_CIPHER_NAME_SIZE];
+unsigned char key[ECRYPTFS_MAX_KEY_BYTES];
+unsigned char root_iv[ECRYPTFS_MAX_IV_BYTES];
+struct list_head keysig_list;
+struct mutex keysig_list_mutex;
+struct mutex cs_tfm_mutex;
+struct mutex cs_hash_tfm_mutex;
+struct mutex cs_mutex;
+};
+&lt;/pre></description></item><item><title>基于Linux透明加密文件系统的设计与实现</title><link>http://www.guozet.me/post/Design-and-Implementation-of-Transparent-Encrypted-File-System-Based-on-Linux/</link><pubDate>Mon, 07 May 2018 13:04:27 +0000</pubDate><guid>http://www.guozet.me/post/Design-and-Implementation-of-Transparent-Encrypted-File-System-Based-on-Linux/</guid><description>&lt;hr>
+&lt;h1 id="选题背景">选题背景&lt;/h1>
+&lt;p>现在人们对计算机系统安全问题考虑的越来越多，对计算机系统安全的要求也越来越严格，数据安全早已不在是军方和政府要害部门的特殊需求。现在，几乎所有的应用领域包括银行、电子交易、政府、互联网络、专用网络和企业内部网络都有数据安全的需求。与此同时个人计算机的数据泄密问题也日益突出。加密技术在现代计算机系统安全中扮演着越来越重要的角色。而加密文件系统是加密技术中比较成熟和通用的方式。&lt;/p>
+&lt;!-- more -->
+&lt;h1 id="需求分析">需求分析&lt;/h1>
+&lt;p>对几种现有典型加密文件系统分析，我们可以发现传统的加密文件系统都存在着不同程度的问题，主要集中在这几个方面：数据的保护不完全；性能低下；密钥管理机制不够完善；界面交互性差；透明度差。&lt;/p>
+&lt;ul>
+&lt;li>针对用户：普通Ubuntu等Linux系统个人用户者&lt;/li>
+&lt;li>用户特点：对命令行操作并不是很熟悉&lt;/li>
+&lt;/ul>
+&lt;h1 id="设计目标">设计目标&lt;/h1>
+&lt;p>集合需求分析，我们的设计目标是：&lt;/p>
+&lt;ul>
+&lt;li>对系统的运算速度不能产生太大的影响；&lt;/li>
+&lt;li>整个加解密过程对用户而言是透明的，授权访问者可以很直观的读取文件明文，而非授权访问者读取到的都是已经加密过后的密文；&lt;/li>
+&lt;li>在相似的操作系统中能够很好的进行移植。&lt;/li>
+&lt;/ul>
+&lt;p>根据这些需求，并结合现有加密文件系统的分析，我们选用堆叠式文件系统的方式来实现。设计的系统框架如下:&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-05-09-Design-and-Implementation-of-Transparent-Encrypted-File-System-Based-on-Linux/2018-09-23-16-12-20.png" alt="">&lt;/p>
+&lt;h1 id="系统简介">系统简介&lt;/h1>
+&lt;p>系统的主体功能是通过堆叠式文件系统来实现本地数据的加解密工作，具体需要实现的有：&lt;/p>
+&lt;ul>
+&lt;li>加密文件系统开发，以一个独立的内核模块进行部署；&lt;/li>
+&lt;li>用户操作界面的开发，对用户更友好；&lt;/li>
+&lt;li>用户认证机制和文件加密密码验证结合，提高安全性；&lt;/li>
+&lt;li>除了正文，也可以对文件名加密；&lt;/li>
+&lt;li>用户可以自由选择下层文件系统来存放加密文件。&lt;/li>
+&lt;/ul>
+&lt;h2 id="系统框架">系统框架&lt;/h2>
+&lt;h3 id="read操作">Read操作&lt;/h3>
+&lt;p>当用户发起read操作，加密文件系统中相关函数就被VFS中的系统调用sys_read()调用来处理这一个请求，他必须首先调用下层文件系统的read()以读取加密过的文件数据，然后解密文件数据，最后将解密后的原数据返回给用户。&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-05-09-Design-and-Implementation-of-Transparent-Encrypted-File-System-Based-on-Linux/2018-09-23-16-12-54.png" alt="">&lt;/p>
+&lt;p>write操作
+用户进程的write()函数经过系统通用的VFS层，就转化成了系统调用sys_write()；VFS层的系统调用sys_write()函数再调用堆叠式加密文件系统中的encrypt_write()函数，然后compressfs_write()函数对上层用户空间传来的数据进行加密；之后再调用位于加密文件系统下层的具体文件系统中write()函数；将加密后的数据写入底层的具体文件系统当中去。&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-05-09-Design-and-Implementation-of-Transparent-Encrypted-File-System-Based-on-Linux/2018-09-23-16-13-11.png" alt="">&lt;/p>
+&lt;h3 id="文件系统详细结构图">文件系统详细结构图&lt;/h3>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-05-09-Design-and-Implementation-of-Transparent-Encrypted-File-System-Based-on-Linux/2018-09-23-16-13-37.png" alt="">&lt;/p>
+&lt;h3 id="秘钥管理">秘钥管理&lt;/h3>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-05-09-Design-and-Implementation-of-Transparent-Encrypted-File-System-Based-on-Linux/2018-09-23-16-13-52.png" alt="">&lt;/p>
+&lt;h1 id="成果展示">成果展示&lt;/h1>
+&lt;h2 id="工作流程">工作流程&lt;/h2>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-05-09-Design-and-Implementation-of-Transparent-Encrypted-File-System-Based-on-Linux/2018-09-23-16-14-09.png" alt="">&lt;/p>
+&lt;h2 id="用户操作界面">用户操作界面&lt;/h2>
+&lt;h3 id="用户加解密操作">用户加解密操作&lt;/h3>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-05-09-Design-and-Implementation-of-Transparent-Encrypted-File-System-Based-on-Linux/2018-09-23-16-14-33.png" alt="">&lt;/p>
+&lt;h3 id="文件挂载后的操作界面">文件挂载后的操作界面&lt;/h3>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-05-09-Design-and-Implementation-of-Transparent-Encrypted-File-System-Based-on-Linux/2018-09-23-16-14-47.png" alt="">&lt;/p>
+&lt;h1 id="技术难点">技术难点&lt;/h1>
+&lt;h2 id="加密文件系统实现方式选择三种选择">加密文件系统实现方式选择（三种选择）&lt;/h2>
+&lt;ul>
+&lt;li>基于应用层来实现文件的加解密；&lt;/li>
+&lt;li>修改现有文件系统来实现；&lt;/li>
+&lt;li>堆叠式文件系统。&lt;/li>
+&lt;/ul>
+&lt;p>综合用户需求我们选择的是第三种方案，用堆叠式文件系统来实现透明加密。&lt;/p>
+&lt;h2 id="加密位置的选择">加密位置的选择&lt;/h2>
+&lt;p>加密文件系统实现的难点之一在于找到一个Linux核心代码中合适的位置进行加解密操作。加密位置选择得好，便于实现，而且对系统的性能影响要比较小。我们选择的原则就是尽可能的将加解密操作延后。对于写操作，只在实际写入磁盘的时候才进行加密，对于读操作，只有在接近送到用户空间的缓冲区的时候才进行解密，加密的位置要让数据在Buffer Cache中是以明文形式存在的，以便能够利用Linux的缓冲机制提高加密文件系统的性能。反之，假设我们在Linux Buffer Cache层以上进行加解密操作，这就意味着对于加密的文件，Buffer Cache中存在的是密文，每次内核需要Buffer Cache中的内容的时候都要先进行加解密的工作，这将会大大的降低系统的性能。&lt;/p>
+&lt;h2 id="交互式脚本书写">交互式脚本书写&lt;/h2>
+&lt;p>如何书写与文件系统运行时候的交互式脚本，实现加密文件系统的自动化挂载过程。&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-05-09-Design-and-Implementation-of-Transparent-Encrypted-File-System-Based-on-Linux/2018-09-23-16-15-07.png" alt="">&lt;/p>
+&lt;h2 id="qt与shell脚本交互">QT与Shell脚本交互&lt;/h2>
+&lt;p>如何将QT图形界面获取到的参数传递给脚本，并启动脚本，如何返回脚本的执行情况给图形化界面。&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-05-09-Design-and-Implementation-of-Transparent-Encrypted-File-System-Based-on-Linux/2018-09-23-16-15-21.png" alt="">&lt;/p></description></item><item><title>嵌入式系统设计课程</title><link>http://www.guozet.me/post/Linux-Embedded-System-Design/</link><pubDate>Mon, 01 Aug 2016 13:04:27 +0000</pubDate><guid>http://www.guozet.me/post/Linux-Embedded-System-Design/</guid><description>&lt;p>《嵌入式系统设计》概述&lt;/p>
+&lt;h1 id="前言">前言&lt;/h1>
+&lt;p>这是《嵌入式系统设计》这本书籍的内容小结，主要介绍了嵌入式系统架构中的系统部分。&lt;/p>
+&lt;h1 id="书籍内容小结摘要">书籍内容小结摘要&lt;/h1>
+&lt;p>分为两个部分介绍：&lt;/p>
+&lt;ul>
+&lt;li>嵌入式系统设计部分：ARM架构部分&lt;/li>
+&lt;li>嵌入式系统设计部分&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;h4 id="嵌入式系统的定义">嵌入式系统的定义&lt;/h4>
+&lt;p>以应用为中心、以计算机技术为基础、软硬件可裁剪、适应应用系统对功能、可靠性、成本、体积、功耗严格要求的专用计算机系统。“嵌入”、“专用”、“计算机”&lt;/p>
+&lt;h4 id="嵌入式系统的软硬件组成以及主要特点">嵌入式系统的软、硬件组成？以及主要特点？&lt;/h4>
+&lt;ul>
+&lt;li>软件：从底层到上层：bootloader等系统初始化引导程序、设备驱动层（包括驱动程序、板级支持包BSP等）、操作系统、用户应用程序。（底层为上层提供服务）&lt;/li>
+&lt;li>开发软件：即集成开发环境（asemmbler&amp;amp;&amp;amp;compiler&amp;amp;&amp;amp;linker&amp;amp;&amp;amp;debugger&amp;amp;&amp;amp;loader）&lt;/li>
+&lt;li>硬件组成：核心板+外围板+外设(核心板：微控制器（CPU和外设接口、外设控制器）、电源、时钟、复位、SDRAM、flash。外围板面向外围设备，一般是引脚的集合、电平转换电路。外围设备。)，当然也可以将核心板和外围板放在一起。&lt;/li>
+&lt;li>硬件特点：通常由嵌入式处理器和嵌入式外围设备组成，高度集成，常采用SOC设计方法，对功耗、体积等有严格要求，定制性决定了它的可裁剪性，没有像计算机领域的垄断，解决方案不唯一。&lt;/li>
+&lt;li>软件特点：采用交叉开发方式，系统软件层次分明，操作系统为用户程序提供标准API，提供图形接口和文件系统。用户调用系统服务，系统调用设备驱动从而操纵硬件。&lt;/li>
+&lt;/ul>
+&lt;h4 id="嵌入式系统产品设计的基本流程">嵌入式系统产品设计的基本流程？&lt;/h4>
+&lt;ul>
+&lt;li>
+&lt;p>需求分析：&lt;/p>
+&lt;ul>
+&lt;li>功能性需求是系统的基本功能，如输入输出信号、操作方式等；&lt;/li>
+&lt;li>非功能性需求包括系统性能、成本、功耗、体积、重量等因素。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>规格说明：精确地反映客户的需求并且作为设计时必须明确遵循的要求。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>体系结构设计：描述系统如何实现所述的功能和非功能需求，包括对硬件、软件和执行装置的功能划分以及系统的软件、硬件选型等。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>软硬件设计：基于体系结构，对系统的软件、硬件进行详细设计。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>系统集成：把系统的软件、硬件和执行装置集成在一起，进行调试，发现并改进单元设计过程中的错误。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>系统测试：对设计好的系统进行测试，看其是否满足规格说明书中给定的功能要求。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h4 id="处理器及操作系统的选型主要考虑哪些方面">处理器及操作系统的选型主要考虑哪些方面？&lt;/h4>
+&lt;ul>
+&lt;li>操作系统本身所提供的开发工具。&lt;/li>
+&lt;li>操作系统向硬件接口移植难度。&lt;/li>
+&lt;li>操作系统的内存要求。&lt;/li>
+&lt;li>开发人员是否熟悉此操作系统及其提供的系统API。&lt;/li>
+&lt;li>操作系统是否提供硬件的驱动程序，如网卡驱动程序等。&lt;/li>
+&lt;li>操作系统的是否具有可剪裁性。&lt;/li>
+&lt;li>操作系统是否具有实时性能。&lt;/li>
+&lt;/ul>
+&lt;h4 id="交叉开发交叉开发环境为何需要交叉开发环境">交叉开发、交叉开发环境？为何需要交叉开发环境？&lt;/h4>
+&lt;p>交叉开发是指在一台通用计算机（宿主机）上进行软件的编辑编译，然后下载到嵌入式设备（目标机）中运行调试的开发方式&lt;/p>
+&lt;p>交叉开发环境一般由运行于宿主机上的交叉开发软件（assembler&amp;amp;&amp;amp;compiler&amp;amp;&amp;amp;linker&amp;amp;&amp;amp;debugger&amp;amp;&amp;amp;loader）、宿主机到目标机的调试通道组成&lt;/p>
+&lt;p>需要交叉开发环境是因为目标机一般对体积、功耗等有严格限制，资源也面向应用，较为紧张，要求仅仅能流畅运行代码即可，而将用户开发软件（包括各种库、工具）放置在主机上，而且现在的集成开发环境提供了各种修改好的功能库，用起来也方便。&lt;/p>
+&lt;h4 id="嵌入式集成开发环境的主要功能">嵌入式集成开发环境的主要功能？&lt;/h4>
+&lt;p>这是由其组成决定的。Assembler将.c源代码汇编，compiler形成目标文件，linker根据链接描述文件将各个目标代码链接定位生成可执行代码。Debugger有些交叉开发工具提供了仿真调试通道。Loader可以将目标文件烧录进设备中（有时需要内部引导代码的配合）&lt;/p>
+&lt;h4 id="嵌入式linux-开发主要流程">嵌入式Linux 开发主要流程？&lt;/h4>
+&lt;p>搭建开发环境–烧写bootloader–烧写内核–烧写根文件系统–烧写应用程序。&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>开发环境：REDHAT－LINUX、下载相应的GCC
+交叉编译器进行安装、配置开发主机（配置MINICOM和配置网络，MINICOM
+软件的作用是作为调试嵌入式开发板信息输出的监视器和键盘输入的工具，配置网络主要是配置IP地址、NFS网络文件系统，需要关闭防火墙）&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>烧写bootloader：下载一些公开源代码的BOOTLOADER根据自己具体芯片进行移植修改。
+注：下载时，有些芯片没有内置引导装载程序，比如三星的ARM7、ARM9系列芯片，这样就需要编写烧写开发板上flash 的烧写程序。或者网络上有免费下载的WINDOWS 下通过JTAG 并口简易仿真器烧写ARM 外围flash芯片的程序。也有LINUX 下公开源代码的J-FLASH 程序。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>下载内核：如果有专门针对你所使用的CPU 移植好的LINUX 操作系统那是再好不过，下载后再添加自己的特定硬件的驱动程序，进行调试修改。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>下载根文件系统：从www.busybox.net 下载使用BUSYBOX软件进行功能裁减，产生一个最基本的根文件系统。根文件系统在嵌入式系统中一般设为只读，需要使用mkcramfs、genromfs 等工具产生烧写映象文件。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>文件系统就是把你硬盘上数据按照一定格式组织成一棵树。数据块对应名称。删了它就相当于把硬盘格式化了。根文件系统就是出了内核以外，所有的系统文件存储的地方。之所以成为根，是因为有根才能成生长成树，是其它文件的最终挂载点。我们要明白根文件系统和内核是完全独立的两个部分，它是内核启动时所mount的第一个文件系统，里面有内核启动所必须的数据，不然就退出启动文件系统这种机制有利于用户和操作系统的交互。数据块对应名称。尽管内核是Linux 的核心，但文件却是用户与操作系统交互所采用的主要工具，尤其是LINUX。&lt;/p>
+&lt;p>下载用户程序:可以下载到根文件系统中，有的应用程序不使用根文件系统，而是直接将应用程序和内核设计在一起，这有点类似于UCOS-II的方式。&lt;/p>
+&lt;h4 id="嵌入式linux-开发环境中配置nfs服务的目的">嵌入式Linux 开发环境中配置NFS服务的目的？&lt;/h4>
+&lt;p>可以使不同机器、不同操作系统之间通过网络共享文件，像访问本地文件一样访问远端系统上的文件，在开发阶段，主机制作基于NFS的文件系统，制定开放目录，开放对象的IP范围，将目录挂载到嵌入式设备后，嵌入式设备可以方便地访问、修改主机主机文件。&lt;/p>
+&lt;h4 id="什么是硬件重定向">什么是硬件重定向？&lt;/h4>
+&lt;p>上课的老师举得printf（）是个很好的例子，重定向程序是面向编译环境中的连接器的，是用户自己定义的C库函数，有了它，在程序连接时连接器会连接用户自己编写的C库中的功能函数而不是标准C库。相当于将标准C库进行了一次移植。从主机环境到实际运行环境的移植。&lt;/p>
+&lt;p>比如：本来库函数fputc()是把字符输出到调试器控制窗口中去的,但用户把输出设备改成了UART端口,这样一来,所有基于fputc()函数的printf()系列函数输出都被重定向到UART端口上去了。相当于实现类似的功能，但是底层的驱动变了。&lt;/p>
+&lt;hr>
+&lt;h3 id="arm体系结构部分">ARM体系结构部分&lt;/h3>
+&lt;h4 id="arm硬件电路最小系统组成">ARM硬件电路最小系统组成？&lt;/h4>
+&lt;ul>
+&lt;li>微控制器（例如2410，CPU+外设接口/外设控制器）电源、时钟、复位、存储器（SDRAM/FLASH（NOR8位、NAND8 16 32位））&lt;/li>
+&lt;li>FLASH：存放操作系统、用户程序等需要掉电后保存的数据&lt;/li>
+&lt;li>SDRAM：系统运行的主要区域，系统及用户数据及堆栈，都在这个区域。有时启动模式选择
+有时需要JTAG：对芯片内所有部件进行访问，通过该接口对系统调试、编程&lt;/li>
+&lt;/ul>
+&lt;h4 id="arm处理器的主要工作模式">ARM处理器的主要工作模式？&lt;/h4>
+&lt;p>ARM的7种处理器模式（不同的模式下有自己的行为准则）&lt;/p>
+&lt;ul>
+&lt;li>USR；正常程序执行模式&lt;/li>
+&lt;li>FIQ；支持高速数据传送和通道处理&lt;/li>
+&lt;li>IRQ；用于通用中断的处理。&lt;/li>
+&lt;li>管理（SVC）；操作系统保护模式&lt;/li>
+&lt;li>中止&lt;/li>
+&lt;li>未定义&lt;/li>
+&lt;li>系统&lt;/li>
+&lt;/ul>
+&lt;p>除了USR之外，其它6种又称为特权模式。6中种除了系统模式又称为异常模式（即处理异常时的工作模式）。&lt;/p>
+&lt;p>在软件控制下可以改变模式（即改变CPSR相应），外部中断或异常处理也引起模式变化，用户模式下不能改变模式。&lt;/p>
+&lt;h4 id="核心寄存器的作用">核心寄存器的作用：&lt;/h4>
+&lt;p>R13通常用作堆栈指针，称为SP，被初始化为多个模式下的堆栈。R14用作子程序连接寄存器LR，中断异常或执行BL时得到PC即R15的备份。&lt;/p>
+&lt;p>Cpsr程序状态寄存器，32位只用12位，所有模式下均可见。&lt;/p>
+&lt;p>Spsr保存程序状态寄存器，即发生异常时对CPSR进行保存，保存当前状态。5个异常模式下均有各自的SPSR。&lt;/p>
+&lt;h4 id="arm处理器的启动过程">ARM处理器的启动过程？&lt;/h4>
+&lt;p>首先，看一下，ARM启动时的硬件机制，上电产生复位异常，CPU强制PC为0x00000000，执行复位异常处理函数，接下来就相当于执行了STRARTUP.S的功能。是给用户程序执行给以合适的工作环境，设置中断向量表、堆栈、时钟、完成内存拷贝等，相当于STARTUP.S或者bootloader的前端代码，是开机执行的程序。.拿2410的启动代码举例，它启动CPU的过程是：&lt;/p>
+&lt;p>在起始地址分配中断向量表即中断处理函数（CPU要求的），以为向量空间只有4字节，所以一般只是一个跳转指令，去别处执行。在跳到复位异常之后，关闭中断，关闭看门狗。&lt;/p>
+&lt;ul>
+&lt;li>之后初始化存储器系统&lt;/li>
+&lt;li>初始多个模式下的堆栈（模式切换时，硬件给SP置位）&lt;/li>
+&lt;li>初始化有特殊要求的外围设备，如LED灯、看门狗&lt;/li>
+&lt;li>初始化用户的执行环境（在FLASH中运行太慢了，把代码整体搬迁到RAM中）&lt;/li>
+&lt;li>切换处理器的工作模式&lt;/li>
+&lt;li>调用主程序&lt;/li>
+&lt;li>异常处理&lt;/li>
+&lt;/ul>
+&lt;p>当正常的程序执行流程发生暂时的停止时，称之为异常。对异常的处理有优先级，处理异常需要跳转至异常模式。并根据异常向量跳转至响应的子程序（执行之前必须保存现场），即异常出现后强制跳转至固定的存储器地址执行。异常是比中断更大的概念。&lt;/p>
+&lt;h4 id="异常处理">异常处理&lt;/h4>
+&lt;p>ARM有7种异常。包括:&lt;/p>
+&lt;ul>
+&lt;li>复位 管理模式 0x00000000&lt;/li>
+&lt;li>软中断SWI 管理模式 0x00000008&lt;/li>
+&lt;li>IRQ IRQ模式 0x00000018&lt;/li>
+&lt;li>FIQ FIQ模式 0x0000001c&lt;/li>
+&lt;li>还包括预取中止、数据中止、未定义&lt;/li>
+&lt;/ul>
+&lt;p>异常出现时，异常模式分组的R14和SPSR用于保存下一条程序地址和CPSR。异常返回时，SPSR-&amp;gt;CPSR，R14-&amp;gt;PC&lt;/p>
+&lt;p>在启动代码中首先就是设置所谓的异常向量表，也就是在指定的位置放置异常处理程序（一般是跳转指令）。异常发生时，CPU会根据规定强制置PC，恰好去执行我们设置好的跳转指令，接着执行服务程序。&lt;/p>
+&lt;h4 id="异常处理流程硬件机制只做这些跟代码无关">异常处理流程：（硬件机制，只做这些，跟代码无关）&lt;/h4>
+&lt;ul>
+&lt;li>根据异常类型，强制设置CPSR的运行模式位&lt;/li>
+&lt;li>在切换到的异常模式下，在当前的链接寄存器LR(r14)中保存上个模式的PC值-4，以便程序在处理异常返回时能从正确的位置重新开始执行&lt;/li>
+&lt;li>将上一个模式的CPSR复制到当前异常模式的SPSR中（注意1与2、3的矛盾，不能独立执行，但是是硬件实现的，无关代码）&lt;/li>
+&lt;li>强制PC。然后就到了执行代码的时候从相关的异常向量地址取下一条指令执行，从而跳转到相应的异常处理程序处。&lt;/li>
+&lt;/ul>
+&lt;h4 id="异常返回流程有指令">异常返回流程：（有指令）&lt;/h4>
+&lt;ul>
+&lt;li>将LR寄存器中的值减去相应的偏移量(对于IRQ/FIQ是4)送到PC中&lt;/li>
+&lt;li>将 SPSR 复制回 CPSR（注意1与2的矛盾，不能独立执行，用一条带∧的指令执行，怎么着都是一条）&lt;/li>
+&lt;li>清除禁止中断标志,如果它被设置成使能&lt;/li>
+&lt;li>所有修改过的用户寄存器必须从处理程序的保护堆栈中恢复（即出栈）。&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>对中断嵌套的处理(注意)：&lt;/strong>&lt;/p>
+&lt;p>保存在LR中的PC值，和该值返回时的处理过程。
+当IRQ异常中断产生时，程序计数器pc的值已经更新，它指向当前指令后面第3条指令（对于ARM指令，它指向当前指令地址加12字节的位置；当IRQ异常中断产生时，处理器将值（pc-4）保存到IRQ异常模式下的寄存器lr_irq中，它指向当前指令之后的第2条指令，因此返回操作可以通过下面指令实现：&lt;code>subs pc, lr, \#4&lt;/code>&lt;/p>
+&lt;p>有两种返回机制：&lt;/p>
+&lt;p>当返回地址保存在当前异常模式的r14时使用其中一种机制
+当返回地址保存在堆栈时使用另一种机制（进中断的时候保存的）。
+访问机制
+&lt;code>SUBS PC,R14_fiq ,\#4&lt;/code>
+（不同模式有不同的指令，返回PC的同时返回CPSR，一条指令实现）&lt;/p>
+&lt;pre>&lt;code class="language-c">SUB LR,LR,\#4``
+STMFD R13!，{R0，R4-R12，LR}
+&lt;/code>&lt;/pre>
+&lt;p>将寄存器列表中的寄存器R0，R4到R12，LR存入堆栈。&lt;/p>
+&lt;pre>&lt;code class="language-c">LDMFD R13!,{R0，R4-R12，PC} ∧
+&lt;/code>&lt;/pre>
+&lt;p>将堆栈内容恢复到寄存器R0，R4到R12，PC，同时SPSR复制到CPSR。{∧}为可选后缀，当指令为LDM且寄存器列表中包含R15，选用该后缀时表示：除了正常的数据传送之外，还将SPSR复制到CPSR，一条指令实现。&lt;/p>
+&lt;p>代码指令分析：&lt;/p>
+&lt;pre>&lt;code class="language-c">AREA Init，CODE，READONLY；代码段Init、只读
+……
+CODE32 ；32位ARM指令集
+LDR R0，＝NEXT＋1 ；给R0赋地址值
+BX R0 ；程序跳，并将处理器切换到Thumb工作状态
+……
+CODE16 ； 16位thumb指令集
+NEXT LDR R3，＝0x3FF 给R3赋值
+……
+END
+&lt;/code>&lt;/pre>
+&lt;p>高级语言和汇编语言函数间的相互调用:
+汇编调用C：&lt;/p>
+&lt;pre>&lt;code class="language-c">IMPORT Main ;通知编译器该标号为一个外部标号
+AREA Init,CODE,READONLY ；定义一个代码段
+ENTRY ；定义程序的入口点
+LDR R0,=0x3FF0000 ；初始化系统配置寄存器
+LDR R1,=0xE7FFFF80
+STR R1,[R0]
+LDR SP,=0x3FE1000 ；初始化用户堆栈
+BL Main ；**跳转到Main（）函数处的C/C++代码执行**
+END ；**标识汇编程序的结束**
+以上的程序段完成一些简单的初始化，然后跳转到Main（）函数所标识的C/C ＋＋代码处执行主要的任务，此处的Main仅为一个标号，也可使用其他名称。
+AREA Init , CODE , READONLY ;已定义代码段
+ENTRY；程序入口
+LDR R0, =0x3ff5000；R0赋寄存器地址值
+LDR R1, 0x；要给寄存器赋的值
+STR R1,[R0]；赋值
+LDR R0, =0x3ff5008
+LDR R1, 0x01
+STR R1,[R0]；给另一个寄存器赋值的过程
+BL PROC；跳转至标号为PROC的程序出执行
+:
+:
+:
+:
+PROC
+:
+:
+MOV PC, LR //将LR保存的程序指针返回，即**跳到BL下一句接着执行**
+:
+:
+END
+&lt;/code>&lt;/pre>
+&lt;hr>
+&lt;h3 id="arm-2410设计相关">ARM 2410设计相关&lt;/h3>
+&lt;h4 id="cpu外设外设控制器时序寄存器的相互关系">CPU、外设、外设控制器、时序、寄存器的相互关系？&lt;/h4>
+&lt;p>CPU与外设控制器构成微处理器，微处理器在核心板（最小系统）上发挥作用，将引脚集合成外设接口加上电平转换等就是外围板，外设通过外围板连接至外设控制器。CPU通过寄存器编程控制外设控制器产生时序控制外设。若是没有外设控制器，则需要CPU自己产生时序来与外设交互，这种时序相当于一种约定好的意思表示，相当于“语言”或者“通信协议”，&lt;/p>
+&lt;p>&lt;strong>例如&lt;/strong>：若是2410与一个带有IIC接口的器件通信，只需要连接起来，对IIC进行寄存器编程，控制它们之间的工作模式，可能收发数据就变成了在中断中读写寄存器操作，屏蔽了IIC规定的通信细节。若是51单片机要与IIC通信的话，就复杂多了，首先要仔细阅读IIC的协议，不容丝毫差错，然后用IO口模拟时序，CPU的工作量很大。&lt;/p>
+&lt;h4 id="寄存器编程的本质如何获取寄存器的配置">寄存器编程的本质？如何获取寄存器的配置？&lt;/h4>
+&lt;p>寄存器编程的本质是CPU控制外设寄存器工作模式的方法。可以想象寄存器的每一位肯定是外设控制器功能模块中的一个个“开关”，给某一位赋值0或者1，就相当于使能或关闭某一个功能。&lt;/p>
+&lt;h4 id="2410最小电路设计晶振选择启动选择数据宽度">2410最小电路设计？（晶振选择、启动选择、数据宽度）&lt;/h4>
+&lt;p>与一般的ARM系统相同，都需要微处理器、电源、晶振、复位、存储器（flash、SDRAM）、JTAG接口等，具体情况如下：（需要对OM0和OM1配置电平以决定启动方式，对OM2和OM3配置电平以决定时钟源。）&lt;/p>
+&lt;ul>
+&lt;li>电源设计：处理器用1.8V，RTC给时钟模块供电1.8V，存储器和普通IO用3.3V，ADC模块用3.3V，可见最小系统最少要用3.3和1.8两种直流稳压。课程实验中电源电压5V，分别用LM1085稳压3.3V，用AS1117稳压1.8V。&lt;/li>
+&lt;li>晶振设计: 2410的时钟控制逻辑可以产生系统所需要的时钟，包括CPU的FCLK，和AHB总线的HCLK，APB的PCLK。内部有两个锁相环PLL，MPLL提供前三个，UPLL给USB提供48MHZ的时钟。&lt;/li>
+&lt;li>主时钟源（UPLL和MPLL的时钟源）可以选择是来自外部时钟还是外部晶振，这是由OM2和OM3的管脚确定的，可以OM2和OM3同时接低电平，选择外部晶振，晶振加上15pF起振电容（经过锁相环倍频可以达到）。&lt;/li>
+&lt;li>复位电路设计:可以在nRESET端设计像51单片机那样的阻容复位电路，但为了稳定，可以使用复位芯片如MAX811或IMP811。&lt;/li>
+&lt;li>JTAG接口设计: 有20针和14针两种JTAG接口。&lt;/li>
+&lt;li>存储器设计: 2410有自己的存储器控制器，并且规定了哪些bank空间是RAM哪些是FLASH，存储器芯片严格按照DATASHEET上的要求和标明的引脚连接方式与存储器控制器的存储器接口相连就可以，控制器会根据地址产生读写存储器芯片的时序，完成存取数据的操作。&lt;/li>
+&lt;/ul>
+&lt;h4 id="2410nor和nand启动过程分析">2410nor和nand启动过程分析？&lt;/h4>
+&lt;p>&lt;code>NOR flash&lt;/code>:读取速度高、而擦写速度低，容量小，价格高，地址线和数据线分开，采用SRAM接口。
+&lt;code>NAND flash&lt;/code>:读速度不如NORflash
+但是擦写速度高，容量大，价格低，有取代硬盘的趋势，但是地址线和数据复用，需要程序配合才能读写数据。可以通过跳线设置时从NAND FLASH启动还是从NOR FLASH启动。&lt;/p>
+&lt;blockquote>
+&lt;p>NAND启动的优势：便宜、容量大。但是读写逻辑不能用硬件产生，也就是没办法接到BANK空间里，必须有程序配合才能读写（有专门的控制器接口，肯定要寄存器编程加上程序配合才能读写，没有PC的根正苗红），所以理论上它是不可以用来启动系统的，因为那之前什么程序都没有，要想读写它必须是系统装载完了而且有程序了。但是三星采用了SRAM映射解决了这个问题，下面就是这个过程：&lt;/p>
+&lt;/blockquote>
+&lt;p>电路中使&lt;code>OM1&lt;/code>和&lt;code>OM0&lt;/code>都接低电平，从&lt;code>NAND FLASH&lt;/code>中启动。（2410有NAND FLASH控制器，连接NAND Flash芯片，产生读写时序）&lt;/p>
+&lt;p>在该模式下，2410的前4KB地址空间对应一个名字叫做“起步石”的SRAM，系统启动时，自动将NAND FLASH的前4KB数据加载到起步石中，然后系统自动执行这些启动引导代码，CPU从内部RAM的0x00000000位置开始启动。这个过程不需要程序干涉。也就是类似于STARTUP.S的功能，初始化异常向量表、堆栈、将NAND FLASH中的代码(有代码支持喽)拷贝到SDRAM中运行。&lt;/p>
+&lt;h4 id="nor-flash">NOR FLASH&lt;/h4>
+&lt;p>采用的的是SRAM接口，可以直接到存储器控制器上，ARM内核产生的时序能对其读写。将bank0上接上NORflash芯片。上电产生复位异常后会自动从NOR
+flash中启动。&lt;/p>
+&lt;h4 id="2410的中断处理流程">2410的中断处理流程？&lt;/h4>
+&lt;p>首先应该明确2410与ARM内核的异常处理系统的角色，根据之前的ARM异常处理流程，我们清楚明了了哪些是CPU的硬件机制。2410通过中断控制器允许以优先级的方式将几十个中断源共同用一个IRQ。一个中断申请提出后，IRQ异常发生，切换模式、保存CPSR、保存PC，然后跳转到handleIRQ函数，然后跳转到ISRIRQ(这只是一个大概流程，也许会定义更多的跳转)根据中断源向量表的首地址和偏移量寄存器找出到底是哪个中断发生了。然后跳转到相应的中断处理函数，比如跳到串口中断，还可以根据挂起位（即中断标志位）再次判断到底是接收中断还是发送完成中断。也就是说2410处理流程除了ARM对异常的响应是硬件机制外，其余的都是代码实现的。我们在编程的时候没有写的话，那也是编译器加进去的。&lt;/p>
+&lt;h4 id="2410对嵌套的处理">2410对嵌套的处理&lt;/h4>
+&lt;p>比起2410的处理流程不同的是，因为有了中断控制器，这就是实现高优先级嵌套的硬件基础，因为每一次进入异常模式用户都会保存环境，这就是中断嵌套的软件基础。CPU的异常处理机制总是那些，很明确的。我正在执行一个中断服务程序，然后再次发生异常，保存，跳转（CPU）、再次判断是哪个中断，进去之后压栈，运行另一个中断的服务程序，运行完返回，这是就是返回到上一个中断了。上一个中断运行完，一返回就是返回发生异常前的状态。&lt;/p>
+&lt;p>S3C2410的串口、端口、外部中断、AD等及寄存器的编程能力（会读datasheet、会编程、作业、实验的相关代码）
+寄存器的赋值指令&lt;/p>
+&lt;pre>&lt;code class="language-c">LDR R0，=GPHCON
+LDR R1,=0X2AFAAA
+STR R1，[R0]
+&lt;/code>&lt;/pre>
+&lt;h4 id="时钟看门狗的相关概念">时钟、看门狗的相关概念&lt;/h4>
+&lt;ul>
+&lt;li>时钟: 整个系统提供同步脉冲，像人的脉搏一样。&lt;/li>
+&lt;li>看门狗：其实是一个计数器，当它计数溢出的时候，会使系统复位，所以它的作用是防止系统死机。打开看门狗之后，当代码跑飞或者陷入死循环之后，就不能喂狗，也就是不能清除计数值，那么它就会使系统重启。&lt;/li>
+&lt;li>VIVI&lt;/li>
+&lt;/ul>
+&lt;h4 id="什么是bootloader">什么是bootloader&lt;/h4>
+&lt;p>Bootloader，为引导加载程序，是嵌入式系统加电后运行的第一段代码，相当于PC机的BIOS。
+Bootloader在系统中的位置： 通常固化在硬件上的某个固态存储设备上，加电后自启动。&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-10-04-Linux-Embedded%20-System-Design/2018-10-04-16-04-02.png" alt="">&lt;/p>
+&lt;p>&lt;strong>Bootloader功能&lt;/strong>： 初始化，给CPU合适的工作环境（相当于STARTUP.S），以便为最终调用操作系统内核或用户应用程序境。加载内核，下载内核或者根文件系统。&lt;/p>
+&lt;h4 id="bootloader操作模式">Bootloader操作模式&lt;/h4>
+&lt;p>有启动加载和下载两种模式。&lt;/p>
+&lt;ul>
+&lt;li>启动加载模式是Bootloader的正常工作模式，在嵌入式产品发布的时侯，Bootloader必须工作在这种模式下。即初始化CPU的工作环境之后，将内核如RAM执行。&lt;/li>
+&lt;li>下载模式：目标机上的Bootloader将通过串口连接或网络连接等通信手段从主机下载文件。主要是下载内核映像和根文件系统映像等。从主机下载的文件通常首先被Bootloader保存到目标机的RAM中，然后再被Bootloader写到目标机上的FLASH类固态存储设备中。Bootloader的这种模式通常在第一次安装内核与根文件系统时被使用；此外，以后的系统更新也会使用到这种工作模式。&lt;/li>
+&lt;/ul>
+&lt;h4 id="bootloader启动过程">Bootloader启动过程&lt;/h4>
+&lt;p>上电之后，先启动CPU即执行startup.s类似功能代码（配置中断、初始化堆栈、拷贝代码等），然后进行加载内核的准备至少初始化一个串口，以便向终端用户反馈数据。检测系统内存映射，哪些是可用的RAM？在这一步之后，将检测外部按键，有按键按下将进入下载模式，没有按键的话将执行下面的步骤，加载内核：&lt;/p>
+&lt;ul>
+&lt;li>将kenel和根文件系统从flash调入RAM&lt;/li>
+&lt;li>为内核启动设置参数&lt;/li>
+&lt;li>调用内核。&lt;/li>
+&lt;/ul></description></item><item><title>嵌入式系统设计课程</title><link>http://www.guozet.me/post/Linux-Embedded-System-Design/</link><pubDate>Mon, 01 Aug 2016 13:04:27 +0000</pubDate><guid>http://www.guozet.me/post/Linux-Embedded-System-Design/</guid><description>&lt;p>《嵌入式系统设计》概述&lt;/p>
+&lt;h1 id="前言">前言&lt;/h1>
+&lt;p>这是《嵌入式系统设计》这本书籍的内容小结，主要介绍了嵌入式系统架构中的系统部分。&lt;/p>
+&lt;h1 id="书籍内容小结摘要">书籍内容小结摘要&lt;/h1>
+&lt;p>分为两个部分介绍：&lt;/p>
+&lt;ul>
+&lt;li>嵌入式系统设计部分：ARM架构部分&lt;/li>
+&lt;li>嵌入式系统设计部分&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;h4 id="嵌入式系统的定义">嵌入式系统的定义&lt;/h4>
+&lt;p>以应用为中心、以计算机技术为基础、软硬件可裁剪、适应应用系统对功能、可靠性、成本、体积、功耗严格要求的专用计算机系统。“嵌入”、“专用”、“计算机”&lt;/p>
+&lt;h4 id="嵌入式系统的软硬件组成以及主要特点">嵌入式系统的软、硬件组成？以及主要特点？&lt;/h4>
+&lt;ul>
+&lt;li>软件：从底层到上层：bootloader等系统初始化引导程序、设备驱动层（包括驱动程序、板级支持包BSP等）、操作系统、用户应用程序。（底层为上层提供服务）&lt;/li>
+&lt;li>开发软件：即集成开发环境（asemmbler&amp;amp;&amp;amp;compiler&amp;amp;&amp;amp;linker&amp;amp;&amp;amp;debugger&amp;amp;&amp;amp;loader）&lt;/li>
+&lt;li>硬件组成：核心板+外围板+外设(核心板：微控制器（CPU和外设接口、外设控制器）、电源、时钟、复位、SDRAM、flash。外围板面向外围设备，一般是引脚的集合、电平转换电路。外围设备。)，当然也可以将核心板和外围板放在一起。&lt;/li>
+&lt;li>硬件特点：通常由嵌入式处理器和嵌入式外围设备组成，高度集成，常采用SOC设计方法，对功耗、体积等有严格要求，定制性决定了它的可裁剪性，没有像计算机领域的垄断，解决方案不唯一。&lt;/li>
+&lt;li>软件特点：采用交叉开发方式，系统软件层次分明，操作系统为用户程序提供标准API，提供图形接口和文件系统。用户调用系统服务，系统调用设备驱动从而操纵硬件。&lt;/li>
+&lt;/ul>
+&lt;h4 id="嵌入式系统产品设计的基本流程">嵌入式系统产品设计的基本流程？&lt;/h4>
+&lt;ul>
+&lt;li>
+&lt;p>需求分析：&lt;/p>
+&lt;ul>
+&lt;li>功能性需求是系统的基本功能，如输入输出信号、操作方式等；&lt;/li>
+&lt;li>非功能性需求包括系统性能、成本、功耗、体积、重量等因素。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>规格说明：精确地反映客户的需求并且作为设计时必须明确遵循的要求。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>体系结构设计：描述系统如何实现所述的功能和非功能需求，包括对硬件、软件和执行装置的功能划分以及系统的软件、硬件选型等。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>软硬件设计：基于体系结构，对系统的软件、硬件进行详细设计。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>系统集成：把系统的软件、硬件和执行装置集成在一起，进行调试，发现并改进单元设计过程中的错误。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>系统测试：对设计好的系统进行测试，看其是否满足规格说明书中给定的功能要求。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h4 id="处理器及操作系统的选型主要考虑哪些方面">处理器及操作系统的选型主要考虑哪些方面？&lt;/h4>
+&lt;ul>
+&lt;li>操作系统本身所提供的开发工具。&lt;/li>
+&lt;li>操作系统向硬件接口移植难度。&lt;/li>
+&lt;li>操作系统的内存要求。&lt;/li>
+&lt;li>开发人员是否熟悉此操作系统及其提供的系统API。&lt;/li>
+&lt;li>操作系统是否提供硬件的驱动程序，如网卡驱动程序等。&lt;/li>
+&lt;li>操作系统的是否具有可剪裁性。&lt;/li>
+&lt;li>操作系统是否具有实时性能。&lt;/li>
+&lt;/ul>
+&lt;h4 id="交叉开发交叉开发环境为何需要交叉开发环境">交叉开发、交叉开发环境？为何需要交叉开发环境？&lt;/h4>
+&lt;p>交叉开发是指在一台通用计算机（宿主机）上进行软件的编辑编译，然后下载到嵌入式设备（目标机）中运行调试的开发方式&lt;/p>
+&lt;p>交叉开发环境一般由运行于宿主机上的交叉开发软件（assembler&amp;amp;&amp;amp;compiler&amp;amp;&amp;amp;linker&amp;amp;&amp;amp;debugger&amp;amp;&amp;amp;loader）、宿主机到目标机的调试通道组成&lt;/p>
+&lt;p>需要交叉开发环境是因为目标机一般对体积、功耗等有严格限制，资源也面向应用，较为紧张，要求仅仅能流畅运行代码即可，而将用户开发软件（包括各种库、工具）放置在主机上，而且现在的集成开发环境提供了各种修改好的功能库，用起来也方便。&lt;/p>
+&lt;h4 id="嵌入式集成开发环境的主要功能">嵌入式集成开发环境的主要功能？&lt;/h4>
+&lt;p>这是由其组成决定的。Assembler将.c源代码汇编，compiler形成目标文件，linker根据链接描述文件将各个目标代码链接定位生成可执行代码。Debugger有些交叉开发工具提供了仿真调试通道。Loader可以将目标文件烧录进设备中（有时需要内部引导代码的配合）&lt;/p>
+&lt;h4 id="嵌入式linux-开发主要流程">嵌入式Linux 开发主要流程？&lt;/h4>
+&lt;p>搭建开发环境–烧写bootloader–烧写内核–烧写根文件系统–烧写应用程序。&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>开发环境：REDHAT－LINUX、下载相应的GCC
+交叉编译器进行安装、配置开发主机（配置MINICOM和配置网络，MINICOM
+软件的作用是作为调试嵌入式开发板信息输出的监视器和键盘输入的工具，配置网络主要是配置IP地址、NFS网络文件系统，需要关闭防火墙）&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>烧写bootloader：下载一些公开源代码的BOOTLOADER根据自己具体芯片进行移植修改。
+注：下载时，有些芯片没有内置引导装载程序，比如三星的ARM7、ARM9系列芯片，这样就需要编写烧写开发板上flash 的烧写程序。或者网络上有免费下载的WINDOWS 下通过JTAG 并口简易仿真器烧写ARM 外围flash芯片的程序。也有LINUX 下公开源代码的J-FLASH 程序。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>下载内核：如果有专门针对你所使用的CPU 移植好的LINUX 操作系统那是再好不过，下载后再添加自己的特定硬件的驱动程序，进行调试修改。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>下载根文件系统：从www.busybox.net 下载使用BUSYBOX软件进行功能裁减，产生一个最基本的根文件系统。根文件系统在嵌入式系统中一般设为只读，需要使用mkcramfs、genromfs 等工具产生烧写映象文件。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>文件系统就是把你硬盘上数据按照一定格式组织成一棵树。数据块对应名称。删了它就相当于把硬盘格式化了。根文件系统就是出了内核以外，所有的系统文件存储的地方。之所以成为根，是因为有根才能成生长成树，是其它文件的最终挂载点。我们要明白根文件系统和内核是完全独立的两个部分，它是内核启动时所mount的第一个文件系统，里面有内核启动所必须的数据，不然就退出启动文件系统这种机制有利于用户和操作系统的交互。数据块对应名称。尽管内核是Linux 的核心，但文件却是用户与操作系统交互所采用的主要工具，尤其是LINUX。&lt;/p>
+&lt;p>下载用户程序:可以下载到根文件系统中，有的应用程序不使用根文件系统，而是直接将应用程序和内核设计在一起，这有点类似于UCOS-II的方式。&lt;/p>
+&lt;h4 id="嵌入式linux-开发环境中配置nfs服务的目的">嵌入式Linux 开发环境中配置NFS服务的目的？&lt;/h4>
+&lt;p>可以使不同机器、不同操作系统之间通过网络共享文件，像访问本地文件一样访问远端系统上的文件，在开发阶段，主机制作基于NFS的文件系统，制定开放目录，开放对象的IP范围，将目录挂载到嵌入式设备后，嵌入式设备可以方便地访问、修改主机主机文件。&lt;/p>
+&lt;h4 id="什么是硬件重定向">什么是硬件重定向？&lt;/h4>
+&lt;p>上课的老师举得printf（）是个很好的例子，重定向程序是面向编译环境中的连接器的，是用户自己定义的C库函数，有了它，在程序连接时连接器会连接用户自己编写的C库中的功能函数而不是标准C库。相当于将标准C库进行了一次移植。从主机环境到实际运行环境的移植。&lt;/p>
+&lt;p>比如：本来库函数fputc()是把字符输出到调试器控制窗口中去的,但用户把输出设备改成了UART端口,这样一来,所有基于fputc()函数的printf()系列函数输出都被重定向到UART端口上去了。相当于实现类似的功能，但是底层的驱动变了。&lt;/p>
+&lt;hr>
+&lt;h3 id="arm体系结构部分">ARM体系结构部分&lt;/h3>
+&lt;h4 id="arm硬件电路最小系统组成">ARM硬件电路最小系统组成？&lt;/h4>
+&lt;ul>
+&lt;li>微控制器（例如2410，CPU+外设接口/外设控制器）电源、时钟、复位、存储器（SDRAM/FLASH（NOR8位、NAND8 16 32位））&lt;/li>
+&lt;li>FLASH：存放操作系统、用户程序等需要掉电后保存的数据&lt;/li>
+&lt;li>SDRAM：系统运行的主要区域，系统及用户数据及堆栈，都在这个区域。有时启动模式选择
+有时需要JTAG：对芯片内所有部件进行访问，通过该接口对系统调试、编程&lt;/li>
+&lt;/ul>
+&lt;h4 id="arm处理器的主要工作模式">ARM处理器的主要工作模式？&lt;/h4>
+&lt;p>ARM的7种处理器模式（不同的模式下有自己的行为准则）&lt;/p>
+&lt;ul>
+&lt;li>USR；正常程序执行模式&lt;/li>
+&lt;li>FIQ；支持高速数据传送和通道处理&lt;/li>
+&lt;li>IRQ；用于通用中断的处理。&lt;/li>
+&lt;li>管理（SVC）；操作系统保护模式&lt;/li>
+&lt;li>中止&lt;/li>
+&lt;li>未定义&lt;/li>
+&lt;li>系统&lt;/li>
+&lt;/ul>
+&lt;p>除了USR之外，其它6种又称为特权模式。6中种除了系统模式又称为异常模式（即处理异常时的工作模式）。&lt;/p>
+&lt;p>在软件控制下可以改变模式（即改变CPSR相应），外部中断或异常处理也引起模式变化，用户模式下不能改变模式。&lt;/p>
+&lt;h4 id="核心寄存器的作用">核心寄存器的作用：&lt;/h4>
+&lt;p>R13通常用作堆栈指针，称为SP，被初始化为多个模式下的堆栈。R14用作子程序连接寄存器LR，中断异常或执行BL时得到PC即R15的备份。&lt;/p>
+&lt;p>Cpsr程序状态寄存器，32位只用12位，所有模式下均可见。&lt;/p>
+&lt;p>Spsr保存程序状态寄存器，即发生异常时对CPSR进行保存，保存当前状态。5个异常模式下均有各自的SPSR。&lt;/p>
+&lt;h4 id="arm处理器的启动过程">ARM处理器的启动过程？&lt;/h4>
+&lt;p>首先，看一下，ARM启动时的硬件机制，上电产生复位异常，CPU强制PC为0x00000000，执行复位异常处理函数，接下来就相当于执行了STRARTUP.S的功能。是给用户程序执行给以合适的工作环境，设置中断向量表、堆栈、时钟、完成内存拷贝等，相当于STARTUP.S或者bootloader的前端代码，是开机执行的程序。.拿2410的启动代码举例，它启动CPU的过程是：&lt;/p>
+&lt;p>在起始地址分配中断向量表即中断处理函数（CPU要求的），以为向量空间只有4字节，所以一般只是一个跳转指令，去别处执行。在跳到复位异常之后，关闭中断，关闭看门狗。&lt;/p>
+&lt;ul>
+&lt;li>之后初始化存储器系统&lt;/li>
+&lt;li>初始多个模式下的堆栈（模式切换时，硬件给SP置位）&lt;/li>
+&lt;li>初始化有特殊要求的外围设备，如LED灯、看门狗&lt;/li>
+&lt;li>初始化用户的执行环境（在FLASH中运行太慢了，把代码整体搬迁到RAM中）&lt;/li>
+&lt;li>切换处理器的工作模式&lt;/li>
+&lt;li>调用主程序&lt;/li>
+&lt;li>异常处理&lt;/li>
+&lt;/ul>
+&lt;p>当正常的程序执行流程发生暂时的停止时，称之为异常。对异常的处理有优先级，处理异常需要跳转至异常模式。并根据异常向量跳转至响应的子程序（执行之前必须保存现场），即异常出现后强制跳转至固定的存储器地址执行。异常是比中断更大的概念。&lt;/p>
+&lt;h4 id="异常处理">异常处理&lt;/h4>
+&lt;p>ARM有7种异常。包括:&lt;/p>
+&lt;ul>
+&lt;li>复位 管理模式 0x00000000&lt;/li>
+&lt;li>软中断SWI 管理模式 0x00000008&lt;/li>
+&lt;li>IRQ IRQ模式 0x00000018&lt;/li>
+&lt;li>FIQ FIQ模式 0x0000001c&lt;/li>
+&lt;li>还包括预取中止、数据中止、未定义&lt;/li>
+&lt;/ul>
+&lt;p>异常出现时，异常模式分组的R14和SPSR用于保存下一条程序地址和CPSR。异常返回时，SPSR-&amp;gt;CPSR，R14-&amp;gt;PC&lt;/p>
+&lt;p>在启动代码中首先就是设置所谓的异常向量表，也就是在指定的位置放置异常处理程序（一般是跳转指令）。异常发生时，CPU会根据规定强制置PC，恰好去执行我们设置好的跳转指令，接着执行服务程序。&lt;/p>
+&lt;h4 id="异常处理流程硬件机制只做这些跟代码无关">异常处理流程：（硬件机制，只做这些，跟代码无关）&lt;/h4>
+&lt;ul>
+&lt;li>根据异常类型，强制设置CPSR的运行模式位&lt;/li>
+&lt;li>在切换到的异常模式下，在当前的链接寄存器LR(r14)中保存上个模式的PC值-4，以便程序在处理异常返回时能从正确的位置重新开始执行&lt;/li>
+&lt;li>将上一个模式的CPSR复制到当前异常模式的SPSR中（注意1与2、3的矛盾，不能独立执行，但是是硬件实现的，无关代码）&lt;/li>
+&lt;li>强制PC。然后就到了执行代码的时候从相关的异常向量地址取下一条指令执行，从而跳转到相应的异常处理程序处。&lt;/li>
+&lt;/ul>
+&lt;h4 id="异常返回流程有指令">异常返回流程：（有指令）&lt;/h4>
+&lt;ul>
+&lt;li>将LR寄存器中的值减去相应的偏移量(对于IRQ/FIQ是4)送到PC中&lt;/li>
+&lt;li>将 SPSR 复制回 CPSR（注意1与2的矛盾，不能独立执行，用一条带∧的指令执行，怎么着都是一条）&lt;/li>
+&lt;li>清除禁止中断标志,如果它被设置成使能&lt;/li>
+&lt;li>所有修改过的用户寄存器必须从处理程序的保护堆栈中恢复（即出栈）。&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>对中断嵌套的处理(注意)：&lt;/strong>&lt;/p>
+&lt;p>保存在LR中的PC值，和该值返回时的处理过程。
+当IRQ异常中断产生时，程序计数器pc的值已经更新，它指向当前指令后面第3条指令（对于ARM指令，它指向当前指令地址加12字节的位置；当IRQ异常中断产生时，处理器将值（pc-4）保存到IRQ异常模式下的寄存器lr_irq中，它指向当前指令之后的第2条指令，因此返回操作可以通过下面指令实现：&lt;code>subs pc, lr, \#4&lt;/code>&lt;/p>
+&lt;p>有两种返回机制：&lt;/p>
+&lt;p>当返回地址保存在当前异常模式的r14时使用其中一种机制
+当返回地址保存在堆栈时使用另一种机制（进中断的时候保存的）。
+访问机制
+&lt;code>SUBS PC,R14_fiq ,\#4&lt;/code>
+（不同模式有不同的指令，返回PC的同时返回CPSR，一条指令实现）&lt;/p>
+&lt;pre>&lt;code class="language-c">SUB LR,LR,\#4``
+STMFD R13!，{R0，R4-R12，LR}
+&lt;/code>&lt;/pre>
+&lt;p>将寄存器列表中的寄存器R0，R4到R12，LR存入堆栈。&lt;/p>
+&lt;pre>&lt;code class="language-c">LDMFD R13!,{R0，R4-R12，PC} ∧
+&lt;/code>&lt;/pre>
+&lt;p>将堆栈内容恢复到寄存器R0，R4到R12，PC，同时SPSR复制到CPSR。{∧}为可选后缀，当指令为LDM且寄存器列表中包含R15，选用该后缀时表示：除了正常的数据传送之外，还将SPSR复制到CPSR，一条指令实现。&lt;/p>
+&lt;p>代码指令分析：&lt;/p>
+&lt;pre>&lt;code class="language-c">AREA Init，CODE，READONLY；代码段Init、只读
+……
+CODE32 ；32位ARM指令集
+LDR R0，＝NEXT＋1 ；给R0赋地址值
+BX R0 ；程序跳，并将处理器切换到Thumb工作状态
+……
+CODE16 ； 16位thumb指令集
+NEXT LDR R3，＝0x3FF 给R3赋值
+……
+END
+&lt;/code>&lt;/pre>
+&lt;p>高级语言和汇编语言函数间的相互调用:
+汇编调用C：&lt;/p>
+&lt;pre>&lt;code class="language-c">IMPORT Main ;通知编译器该标号为一个外部标号
+AREA Init,CODE,READONLY ；定义一个代码段
+ENTRY ；定义程序的入口点
+LDR R0,=0x3FF0000 ；初始化系统配置寄存器
+LDR R1,=0xE7FFFF80
+STR R1,[R0]
+LDR SP,=0x3FE1000 ；初始化用户堆栈
+BL Main ；**跳转到Main（）函数处的C/C++代码执行**
+END ；**标识汇编程序的结束**
+以上的程序段完成一些简单的初始化，然后跳转到Main（）函数所标识的C/C ＋＋代码处执行主要的任务，此处的Main仅为一个标号，也可使用其他名称。
+AREA Init , CODE , READONLY ;已定义代码段
+ENTRY；程序入口
+LDR R0, =0x3ff5000；R0赋寄存器地址值
+LDR R1, 0x；要给寄存器赋的值
+STR R1,[R0]；赋值
+LDR R0, =0x3ff5008
+LDR R1, 0x01
+STR R1,[R0]；给另一个寄存器赋值的过程
+BL PROC；跳转至标号为PROC的程序出执行
+:
+:
+:
+:
+PROC
+:
+:
+MOV PC, LR //将LR保存的程序指针返回，即**跳到BL下一句接着执行**
+:
+:
+END
+&lt;/code>&lt;/pre>
+&lt;hr>
+&lt;h3 id="arm-2410设计相关">ARM 2410设计相关&lt;/h3>
+&lt;h4 id="cpu外设外设控制器时序寄存器的相互关系">CPU、外设、外设控制器、时序、寄存器的相互关系？&lt;/h4>
+&lt;p>CPU与外设控制器构成微处理器，微处理器在核心板（最小系统）上发挥作用，将引脚集合成外设接口加上电平转换等就是外围板，外设通过外围板连接至外设控制器。CPU通过寄存器编程控制外设控制器产生时序控制外设。若是没有外设控制器，则需要CPU自己产生时序来与外设交互，这种时序相当于一种约定好的意思表示，相当于“语言”或者“通信协议”，&lt;/p>
+&lt;p>&lt;strong>例如&lt;/strong>：若是2410与一个带有IIC接口的器件通信，只需要连接起来，对IIC进行寄存器编程，控制它们之间的工作模式，可能收发数据就变成了在中断中读写寄存器操作，屏蔽了IIC规定的通信细节。若是51单片机要与IIC通信的话，就复杂多了，首先要仔细阅读IIC的协议，不容丝毫差错，然后用IO口模拟时序，CPU的工作量很大。&lt;/p>
+&lt;h4 id="寄存器编程的本质如何获取寄存器的配置">寄存器编程的本质？如何获取寄存器的配置？&lt;/h4>
+&lt;p>寄存器编程的本质是CPU控制外设寄存器工作模式的方法。可以想象寄存器的每一位肯定是外设控制器功能模块中的一个个“开关”，给某一位赋值0或者1，就相当于使能或关闭某一个功能。&lt;/p>
+&lt;h4 id="2410最小电路设计晶振选择启动选择数据宽度">2410最小电路设计？（晶振选择、启动选择、数据宽度）&lt;/h4>
+&lt;p>与一般的ARM系统相同，都需要微处理器、电源、晶振、复位、存储器（flash、SDRAM）、JTAG接口等，具体情况如下：（需要对OM0和OM1配置电平以决定启动方式，对OM2和OM3配置电平以决定时钟源。）&lt;/p>
+&lt;ul>
+&lt;li>电源设计：处理器用1.8V，RTC给时钟模块供电1.8V，存储器和普通IO用3.3V，ADC模块用3.3V，可见最小系统最少要用3.3和1.8两种直流稳压。课程实验中电源电压5V，分别用LM1085稳压3.3V，用AS1117稳压1.8V。&lt;/li>
+&lt;li>晶振设计: 2410的时钟控制逻辑可以产生系统所需要的时钟，包括CPU的FCLK，和AHB总线的HCLK，APB的PCLK。内部有两个锁相环PLL，MPLL提供前三个，UPLL给USB提供48MHZ的时钟。&lt;/li>
+&lt;li>主时钟源（UPLL和MPLL的时钟源）可以选择是来自外部时钟还是外部晶振，这是由OM2和OM3的管脚确定的，可以OM2和OM3同时接低电平，选择外部晶振，晶振加上15pF起振电容（经过锁相环倍频可以达到）。&lt;/li>
+&lt;li>复位电路设计:可以在nRESET端设计像51单片机那样的阻容复位电路，但为了稳定，可以使用复位芯片如MAX811或IMP811。&lt;/li>
+&lt;li>JTAG接口设计: 有20针和14针两种JTAG接口。&lt;/li>
+&lt;li>存储器设计: 2410有自己的存储器控制器，并且规定了哪些bank空间是RAM哪些是FLASH，存储器芯片严格按照DATASHEET上的要求和标明的引脚连接方式与存储器控制器的存储器接口相连就可以，控制器会根据地址产生读写存储器芯片的时序，完成存取数据的操作。&lt;/li>
+&lt;/ul>
+&lt;h4 id="2410nor和nand启动过程分析">2410nor和nand启动过程分析？&lt;/h4>
+&lt;p>&lt;code>NOR flash&lt;/code>:读取速度高、而擦写速度低，容量小，价格高，地址线和数据线分开，采用SRAM接口。
+&lt;code>NAND flash&lt;/code>:读速度不如NORflash
+但是擦写速度高，容量大，价格低，有取代硬盘的趋势，但是地址线和数据复用，需要程序配合才能读写数据。可以通过跳线设置时从NAND FLASH启动还是从NOR FLASH启动。&lt;/p>
+&lt;blockquote>
+&lt;p>NAND启动的优势：便宜、容量大。但是读写逻辑不能用硬件产生，也就是没办法接到BANK空间里，必须有程序配合才能读写（有专门的控制器接口，肯定要寄存器编程加上程序配合才能读写，没有PC的根正苗红），所以理论上它是不可以用来启动系统的，因为那之前什么程序都没有，要想读写它必须是系统装载完了而且有程序了。但是三星采用了SRAM映射解决了这个问题，下面就是这个过程：&lt;/p>
+&lt;/blockquote>
+&lt;p>电路中使&lt;code>OM1&lt;/code>和&lt;code>OM0&lt;/code>都接低电平，从&lt;code>NAND FLASH&lt;/code>中启动。（2410有NAND FLASH控制器，连接NAND Flash芯片，产生读写时序）&lt;/p>
+&lt;p>在该模式下，2410的前4KB地址空间对应一个名字叫做“起步石”的SRAM，系统启动时，自动将NAND FLASH的前4KB数据加载到起步石中，然后系统自动执行这些启动引导代码，CPU从内部RAM的0x00000000位置开始启动。这个过程不需要程序干涉。也就是类似于STARTUP.S的功能，初始化异常向量表、堆栈、将NAND FLASH中的代码(有代码支持喽)拷贝到SDRAM中运行。&lt;/p>
+&lt;h4 id="nor-flash">NOR FLASH&lt;/h4>
+&lt;p>采用的的是SRAM接口，可以直接到存储器控制器上，ARM内核产生的时序能对其读写。将bank0上接上NORflash芯片。上电产生复位异常后会自动从NOR
+flash中启动。&lt;/p>
+&lt;h4 id="2410的中断处理流程">2410的中断处理流程？&lt;/h4>
+&lt;p>首先应该明确2410与ARM内核的异常处理系统的角色，根据之前的ARM异常处理流程，我们清楚明了了哪些是CPU的硬件机制。2410通过中断控制器允许以优先级的方式将几十个中断源共同用一个IRQ。一个中断申请提出后，IRQ异常发生，切换模式、保存CPSR、保存PC，然后跳转到handleIRQ函数，然后跳转到ISRIRQ(这只是一个大概流程，也许会定义更多的跳转)根据中断源向量表的首地址和偏移量寄存器找出到底是哪个中断发生了。然后跳转到相应的中断处理函数，比如跳到串口中断，还可以根据挂起位（即中断标志位）再次判断到底是接收中断还是发送完成中断。也就是说2410处理流程除了ARM对异常的响应是硬件机制外，其余的都是代码实现的。我们在编程的时候没有写的话，那也是编译器加进去的。&lt;/p>
+&lt;h4 id="2410对嵌套的处理">2410对嵌套的处理&lt;/h4>
+&lt;p>比起2410的处理流程不同的是，因为有了中断控制器，这就是实现高优先级嵌套的硬件基础，因为每一次进入异常模式用户都会保存环境，这就是中断嵌套的软件基础。CPU的异常处理机制总是那些，很明确的。我正在执行一个中断服务程序，然后再次发生异常，保存，跳转（CPU）、再次判断是哪个中断，进去之后压栈，运行另一个中断的服务程序，运行完返回，这是就是返回到上一个中断了。上一个中断运行完，一返回就是返回发生异常前的状态。&lt;/p>
+&lt;p>S3C2410的串口、端口、外部中断、AD等及寄存器的编程能力（会读datasheet、会编程、作业、实验的相关代码）
+寄存器的赋值指令&lt;/p>
+&lt;pre>&lt;code class="language-c">LDR R0，=GPHCON
+LDR R1,=0X2AFAAA
+STR R1，[R0]
+&lt;/code>&lt;/pre>
+&lt;h4 id="时钟看门狗的相关概念">时钟、看门狗的相关概念&lt;/h4>
+&lt;ul>
+&lt;li>时钟: 整个系统提供同步脉冲，像人的脉搏一样。&lt;/li>
+&lt;li>看门狗：其实是一个计数器，当它计数溢出的时候，会使系统复位，所以它的作用是防止系统死机。打开看门狗之后，当代码跑飞或者陷入死循环之后，就不能喂狗，也就是不能清除计数值，那么它就会使系统重启。&lt;/li>
+&lt;li>VIVI&lt;/li>
+&lt;/ul>
+&lt;h4 id="什么是bootloader">什么是bootloader&lt;/h4>
+&lt;p>Bootloader，为引导加载程序，是嵌入式系统加电后运行的第一段代码，相当于PC机的BIOS。
+Bootloader在系统中的位置： 通常固化在硬件上的某个固态存储设备上，加电后自启动。&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-10-04-Linux-Embedded%20-System-Design/2018-10-04-16-04-02.png" alt="">&lt;/p>
+&lt;p>&lt;strong>Bootloader功能&lt;/strong>： 初始化，给CPU合适的工作环境（相当于STARTUP.S），以便为最终调用操作系统内核或用户应用程序境。加载内核，下载内核或者根文件系统。&lt;/p>
+&lt;h4 id="bootloader操作模式">Bootloader操作模式&lt;/h4>
+&lt;p>有启动加载和下载两种模式。&lt;/p>
+&lt;ul>
+&lt;li>启动加载模式是Bootloader的正常工作模式，在嵌入式产品发布的时侯，Bootloader必须工作在这种模式下。即初始化CPU的工作环境之后，将内核如RAM执行。&lt;/li>
+&lt;li>下载模式：目标机上的Bootloader将通过串口连接或网络连接等通信手段从主机下载文件。主要是下载内核映像和根文件系统映像等。从主机下载的文件通常首先被Bootloader保存到目标机的RAM中，然后再被Bootloader写到目标机上的FLASH类固态存储设备中。Bootloader的这种模式通常在第一次安装内核与根文件系统时被使用；此外，以后的系统更新也会使用到这种工作模式。&lt;/li>
+&lt;/ul>
+&lt;h4 id="bootloader启动过程">Bootloader启动过程&lt;/h4>
+&lt;p>上电之后，先启动CPU即执行startup.s类似功能代码（配置中断、初始化堆栈、拷贝代码等），然后进行加载内核的准备至少初始化一个串口，以便向终端用户反馈数据。检测系统内存映射，哪些是可用的RAM？在这一步之后，将检测外部按键，有按键按下将进入下载模式，没有按键的话将执行下面的步骤，加载内核：&lt;/p>
+&lt;ul>
+&lt;li>将kenel和根文件系统从flash调入RAM&lt;/li>
+&lt;li>为内核启动设置参数&lt;/li>
+&lt;li>调用内核。&lt;/li>
+&lt;/ul></description></item><item><title>Ubuntu编译、更换、删除内核</title><link>http://www.guozet.me/post/Linux-kernel-update/</link><pubDate>Sat, 07 May 2016 13:04:27 +0000</pubDate><guid>http://www.guozet.me/post/Linux-kernel-update/</guid><description>&lt;p>一直想将自己的linux内核更换一下，换一个低版本的方便平时做实验课程的时候使用，于是就开始了Ubuntu下换内核的过程．&lt;/p>
+&lt;h1 id="简要概述">简要概述&lt;/h1>
+&lt;p>原系统：Ubuntu 10.10（Virtualbox）平台中的linux内核2.6.35-22&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2016-07-12-Linux-kernel-update/2018-09-19-02-26-50.png" alt="">&lt;/p>
+&lt;p>降级为：linux内核2.6.39&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2016-07-12-Linux-kernel-update/2018-09-19-02-27-06.png" alt="">&lt;/p>
+&lt;p>具体操作：&lt;/p>
+&lt;ol>
+&lt;li>首先下载Linux2.6.39内核并解压到/usr/src下&lt;/li>
+&lt;li>安装必备软件编译工具
+&lt;code>#apt-get install libncurses5-dev build-essentialkernel-package&lt;/code>&lt;/li>
+&lt;li>做个链接文件#ln -s /usr/src/linux2.6.33/usr/src/linux&lt;/li>
+&lt;li>进入linux文件#cd linux&lt;/li>
+&lt;li>#make mrproper (删除以前到.o文件，初次更换可不用)&lt;/li>
+&lt;li>#make menuconfig (这里可以设置一些参数，并生成.config文件)&lt;/li>
+&lt;li>#make dep (建立依赖关系)&lt;/li>
+&lt;li>#make clean (删除没有用的文件)&lt;/li>
+&lt;li>#make bzImage (编译linux内核)&lt;/li>
+&lt;li>#make modules (编译linux模块)&lt;/li>
+&lt;li>#makemodules_install (安装linux模块)&lt;/li>
+&lt;li>#make install (建立initrd文件, 加载LKM用的程序)&lt;/li>
+&lt;li>生成initrd.img文件：&lt;/li>
+&lt;/ol>
+&lt;pre>&lt;code class="language-bash">cd /lib/modules/2.6.39
+update-initramfs -c -k 2.6.39
+&lt;/code>&lt;/pre>
+&lt;ol start="14">
+&lt;li>
+&lt;p>自动查找新内核，并添加到grub引导#update-grub&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>#shutdown -r now （立即重启，重启后会发现多了一个linux2.6.33到启动项）&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>以下过程全部在root权限下操作**:**\&lt;/p>
+&lt;hr>
+&lt;h1 id="详细步骤分析">详细步骤分析&lt;/h1>
+&lt;h3 id="下载内核">下载内核&lt;/h3>
+&lt;p>内核下载官网：
+&lt;a href="https://www.kernel.org/" target="_blank" rel="noopener">https://www.kernel.org/&lt;/a>&lt;/p>
+&lt;p>下载内核：2.6.39 该内核版本与自己当前系统内核版本2.6.35-22比较接近&lt;/p>
+&lt;p>概念：内核，是一个操作系统的核心。它负责管理系统的进程、内存、设备驱动程序、文件和网络系统，决定着系统的性能和稳定性。在广大爱好者的支持下，内核版本不断更新。新的内核修订了旧内核的bug，并增加了许多新的特性。如果用户想要使用这些新特性，或想根据自己的系统度身定制一个更高效，更稳定的内核，就需要重新编译内核。&lt;/p>
+&lt;p>为什么需要重新编译内核？&lt;/p>
+&lt;p>增加对某部分功能的支持，比如网络之类，可以把相应部分编译到内核中（build-in），在内核启动时就可以自动支持相应部分的功能，这样的优点是方便、速度快，机器一启动，你就可以使用这部分功能了,我们可将经常使用的部分直接编译到内核中，比如网卡。静态调用的缺点是会使内核变得庞大起来，不管你是否需要这部分功能，它都会存在。也可以把该部分编译成模块（module），要使用的时候再动态调用。如果编译成模块，就会生成对应的.o 文件，在使用的时候可以动态加载，优点是不会使内核过分庞大，缺点是你得自己来调用这些模块。&lt;/p>
+&lt;p>安装必备软件编译工具:.&lt;/p>
+&lt;pre>&lt;code class="language-bash">apt-get install libncurses5-dev build-essential kernel-package**
+&lt;/code>&lt;/pre>
+&lt;p>这几个文件介绍：&lt;/p>
+&lt;ul>
+&lt;li>libncurses5-dev是为之后配置内核能运行 make menuconfig程序做准备&lt;/li>
+&lt;li>Build-essential为编译工具；&lt;/li>
+&lt;li>kernel-package是编译内核工具。&lt;/li>
+&lt;/ul>
+&lt;p>如果系统显示无法查找到这三个文件，输入#apt-get update更新数据源，更新完之后即可找到这三个文件了。&lt;/p>
+&lt;h3 id="编译替换内核">编译替换内核&lt;/h3>
+&lt;h4 id="解压内核文件linux-2639到usrsrc下xx">解压内核文件linux 2.6.39到/usr/src下xx&lt;/h4>
+&lt;p>首先先将下载的内核拷贝到/usr/src目录下；/usr/src/目录是linux内核源码存放的目录，里面的内核源码目录为：linux-2.XX.XX目录等。&lt;/p>
+&lt;p>这里解压到任何目录都行，因为在这里我们是要增加一个内核，而不是覆盖掉原有系统的内核，即使是覆盖掉原有系统内核，也可以在后面执行#make install 自动就会将对应文件拷贝到本机相应的目录下去了。&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2016-07-12-Linux-kernel-update/2018-09-19-02-27-39.png" alt="">&lt;/p>
+&lt;p>解压命令：&lt;/p>
+&lt;pre>&lt;code class="language-bash">tar -jxvf linux-2.6.39.tar.bz2
+&lt;/code>&lt;/pre>
+&lt;p>注：较新的内核文件以tar.xz结尾的压缩文件时，如何解压&lt;/p>
+&lt;pre>&lt;code class="language-bash">xz -d ***.tar.xz
+tar -xvf ***.tar
+&lt;/code>&lt;/pre>
+&lt;p>可以看到这个压缩包也是打包后再压缩，外面是xz压缩方式，里层是tar打包方式。补充：目前可以直接使用 &lt;code>tar xvJf ***.tar.xz&lt;/code>来解压&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2016-07-12-Linux-kernel-update/2018-09-19-02-28-54.png" alt="">&lt;/p>
+&lt;p>进入内核源码目录：&lt;code>#cd /usr/src/linux-2.6.39/&lt;/code>可以查看相应内核文件&lt;/p>
+&lt;p>做个链接文件&lt;code>#ln -s /usr/src/linux2.6.39 /usr/src/linux &lt;/code>
+进入linux文件&lt;code>#cd /usr/src/linux&lt;/code>&lt;/p>
+&lt;p>&lt;code>/usr/src/linux&lt;/code>这个目录是编译内核时存放源代码的目录，而／usr/src/linux2.6.33这个目录是实际存放代码的目录．即在&lt;code>/usr/src&lt;/code>中建立一个软链接&lt;/p>
+&lt;h4 id="定制内核">定制内核&lt;/h4>
+&lt;p>&lt;strong>#make mrproper&lt;/strong>&lt;/p>
+&lt;p>清理以前加载的模块，第一次可省略&lt;/p>
+&lt;p>在每次配置并重新编译内核前需要先执行“makemrproper”命令清理源代码树，包括过去曾经配置的内核配置文件“.config”都将被清除。实验完成之后，在测试了一下这个命令，如下图所示，即进行新的编译工作时将原来旧的配置文件给删除到，以免影响新的内核编译。&lt;/p>
+&lt;p>&lt;img src="https://img-blog.csdn.net/20141203173804265" alt="">&lt;/p>
+&lt;p>即检查有无不正确的.o文件和依赖关系，如果使用刚下载的完整的源程序包即第一次进行编译，那么本步可以省略。而如果你多次使用了这些源程序编译内核，则最好要先运行一下这个命令。&lt;/p>
+&lt;p>&lt;code>#make menuconfig&lt;/code>&lt;/p>
+&lt;p>这里可以设置一些参数，并生成.config文件, 使用makemenuconfig 生成的内核配置文件，决定将内核的各个功能系统编译进内核还是编译为模块，或者不编译。&lt;/p>
+&lt;p>在这里就不介绍具体的内核配置操作，但是建议就算不打算配置什么也执行一下make menuconfig这个命令，并在退出的时候进行保存，因为如果不执行此操作的话在后面make编译内核的时候会提示你回答很多问题。&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2016-07-12-Linux-kernel-update/2018-09-19-02-29-47.png" alt="">&lt;/p>
+&lt;p>这一步可以&lt;code>#cp /boot/config-XX /usr/src/linux/.config&lt;/code>，即使用当前系统配置文件，之后进入&lt;code>make menuconfig &lt;/code>选择load配置文件之后，再做细微改动，或者不改动也可。&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2016-07-12-Linux-kernel-update/2018-09-19-02-29-58.png" alt="">&lt;/p>
+&lt;p>执行&lt;code>#cp /boot/config&lt;/code>-，然后按下Tab键，系统会自动填上该目录下符合条件的文件名，然后继续输入&lt;code> .config&lt;/code>，目的是使用在boot目录下的原配置文件。&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2016-07-12-Linux-kernel-update/2018-09-19-02-30-07.png" alt="">&lt;/p>
+&lt;p>3.编译安装内核和模块&lt;/p>
+&lt;p>&lt;code>#make dep 建立依赖关系&lt;/code>&lt;/p>
+&lt;p>根据上一步中加载的配置内容（.config）建立文件的依赖关系。&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2016-07-12-Linux-kernel-update/2018-09-19-02-30-17.png" alt="">&lt;/p>
+&lt;p>&lt;code>#make clean 清除内核编译的目标文件&lt;/code>&lt;/p>
+&lt;p>清理一些不必要的文件，如果你在上次编译的基础上，删去了一些选项，建议你执行这一步操作，否则，就没有必要了。&lt;/p>
+&lt;p>&lt;code>#make bzImage 编译内核&lt;/code>&lt;/p>
+&lt;p>内核编译成功后，会在源码树根目录即/usr/src/linux-2.6.39/arch/x86/boot/目录中生成一个新内核的映像文件bzImage。&lt;/p>
+&lt;p>&lt;code>#make modules 编译模块&lt;/code>&lt;/p>
+&lt;p>编译可加载模块（即内核选项中选择为M的选项），以便将来使用insmod命令进行加载。编译时间跟M选项的数量有关。&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2016-07-12-Linux-kernel-update/2018-09-19-02-30-29.png" alt="">&lt;/p>
+&lt;p>&lt;code>#make modules_install 安装模块&lt;/code>&lt;/p>
+&lt;p>编译成功后，系统会在/lib/modules目录下生成一个2.6.39子目录，里面存放着新内核的所有可加载模块(即将编译好的modules拷贝到/lib/modules下)。&lt;/p>
+&lt;p>&lt;code>#make install&lt;/code>&lt;/p>
+&lt;p>安装内核,即复制.config，vmlinuz，initrd.img，System.map文件到/boot目录、更新grub。&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2016-07-12-Linux-kernel-update/2018-09-19-02-30-45.png" alt="">&lt;/p>
+&lt;p>当然，在这里我们也可以分别拷贝到/boot目录：&lt;/p>
+&lt;ul>
+&lt;li>将生成的linux-2.6.39/.config 拷贝到要替换内核系统的/boot下，并重命名为config-2.6.39&lt;/li>
+&lt;li>将生成的linux-2.6.39/arch/x86-64/boot/bzImage拷贝到要替换内核系统的/boot下，并重命名为vmlinuz-2.6.39（注：这里需特别注意拷贝后的文件名变为vmlinuz-x.x.x）。&lt;/li>
+&lt;li>将生成的linux-2.6.39/System.map拷贝到要替换内核系统的/boot下，并重命名为System.map-2.6.39&lt;/li>
+&lt;li>将make modules_install生成的系统目录/lib/modules/linux-2.6.39拷贝到要替换内核系统的/lib/modules下。&lt;/li>
+&lt;/ul>
+&lt;p>&lt;code>#new-kernel-pkg --install --mkinitrd --depmod 2.6.33&lt;/code>(将启动信息写入grub.conf中，这里也可以去/etc/编辑grub.conf文件，将启动信息模仿原来到写进去。注：有的linux版本是 lilo.conf文件) (测试了一下网上流传的这条指令，在我的电脑上这条命令没有反应)&lt;/p>
+&lt;pre>&lt;code class="language-bash">cd /lib/modules/2.6.39
+update-initramfs –c –k 2.6.39
+#生成/boot/initrd.img-2.6.39文件
+&lt;/code>&lt;/pre>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2016-07-12-Linux-kernel-update/2018-09-19-02-31-04.png" alt="">&lt;/p>
+&lt;p>&lt;code>#update-grub&lt;/code>&lt;/p>
+&lt;p>自动查找新内核，并添加到grup引导中&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2016-07-12-Linux-kernel-update/2018-09-19-02-31-16.png" alt="">&lt;/p>
+&lt;p>&lt;code>#shutdown -r now&lt;/code>&lt;/p>
+&lt;p>立即重启，重启后按shift会发现多了一个linux2.6.39启动项。&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2016-07-12-Linux-kernel-update/2018-09-19-02-31-32.png" alt="">&lt;/p>
+&lt;p>补充：如何在启动界面中加入你想要的个人信息&lt;/p>
+&lt;p>方法有许多，在这里介绍三个方法：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>Ubuntu的登陆和欢迎信息控制/etc/issue和/etc/motd&lt;br>
+其中/etc/issue与/etc/motd区别在于：当一个网络用户或通过串口登录系统 上时,/etc/issue的文件内容显示在login提示符之前,而/etc/motd内容显示在用户成功登录系统之后。修改这两个文件都可以达到加入个人信息的效果。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>修改/boot/grub/grub.cfg文件来改动我们的引导项的名字来完成显示个人信息。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>在编译之前加入个人信息，将信息编译进内核：对/usr/src/linux-3.6/init.c文件进行修改，在最后一个函数中，加入printk（&amp;quot;***&amp;quot;）打印想要的信息，在这里要注意打印的优先级，必须设置超过一定的优先级方可在控制台打印出想要的信息（可参考相关printk函数的介绍）。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>&lt;strong>卸载内核&lt;/strong>&lt;/p>
+&lt;p>首先我们需要查看一下当前使用的是哪个内核：&lt;/p>
+&lt;pre>&lt;code class="language-bash">uname -r
+&lt;/code>&lt;/pre>
+&lt;p>该命令会告诉你当前使用的内核版本，在登录时候，不能卸载当前的内核，以免造成无法启动的悲剧~~&lt;br>
+接下来，如果你是自己**动手编译**的内核的话，请删除以下文件和文件夹&lt;/p>
+&lt;ol>
+&lt;li>删除掉/lib/modules/目录下过时的内核库文件&lt;/li>
+&lt;li>删除掉/usr/src/kernels/目录下过时的内核源代码&lt;/li>
+&lt;li>删除掉/boot目录下启动的核心档案以及内核映像&lt;/li>
+&lt;li>更改/boot/grub/menu.lst，删除掉不用的启动列表&lt;/li>
+&lt;/ol>
+&lt;p>在这里就只接受自己动手编译的内核如何卸载了，如果是安装包安装的内核，百度查询相关指令即可卸载，当然，自己手动卸载也是可以的。&lt;/p>
+&lt;h1 id="重要linux内核文件分析">重要Linux内核文件分析&lt;/h1>
+&lt;p>&lt;code>.config&lt;/code>&lt;/p>
+&lt;p>使用make menuconfig 生成的内核配置文件，决定将内核的各个功能系统编译进内核还是编译为模块还是不编译。&lt;/p>
+&lt;p>&lt;code>vmlinuz和vmlinux&lt;/code>&lt;/p>
+&lt;p>vmlinuz是可引导的、压缩的内核，“vm”代表“Virtual Memory”。Linux 支持虚拟内存，不像老的操作系统比如DOS有640KB内存的限制，Linux能够使用硬盘空间作为虚拟内存，因此得名“vm”。vmlinuz是可执行的Linux内核，位于/boot/vmlinuz&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2016-07-12-Linux-kernel-update/2018-09-19-02-32-24.png" alt="">&lt;/p>
+&lt;p>vmlinuz的建立有两种方式：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>编译内核时通过“make zImage”创建，然后通过：“cp /usr/src/linux-2.4/arch/i386/linux/boot/zImage /boot/vmlinuz”产生zImage适用于小内核的情况，它的存在是为了向后的兼容性；&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>内核编译时通过命令make bzImage创建，bzImage是压缩的内核映像，需要注意，bzImage不是用bzip2压缩的，bzImage中的bz容易引起误解，bz表示“big zImage”，bzImage中的b是“big”意思。 zImage（vmlinuz）和bzImage（vmlinuz）都是用gzip压缩的。它们不仅是一个压缩文件，而且在这两个文件的开头部分内嵌有gzip解压缩代码，所以你不能用gunzip 或 gzip –dc解包vmlinuz。内核文件中包含一个微型的gzip用于解压缩内核并引导它。两者的不同之处在于，老的zImage解压缩内核到低端内存（第一个640K），bzImage解压缩内核到高端内存（1M以上）。如果内核比较小，那么可以采用zImage 或bzImage之一，两种方式引导的系统运行时是相同的。大的内核采用bzImage，不能采用zImage。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>vmlinux是未压缩的内核，vmlinuz是vmlinux的压缩文件。&lt;/p>
+&lt;p>&lt;code>initrd.img&lt;/code>&lt;/p>
+&lt;p>initrd是“initial ramdisk”的简写。initrd一般被用来临时的引导硬件到实际内核vmlinuz能够接管并继续引导的状态。比如initrd- 2.4.7-10.img主要是用于加载ext3等文件系统及scsi设备的驱动。如果你使用的是scsi硬盘，而内核vmlinuz中并没有这个 scsi硬件的驱动，那么在装入scsi模块之前，内核不能加载根文件系统，但scsi模块存储在根文件系统的/lib/modules下。为了解决这个问题，可以引导一个能够读实际内核的initrd内核并用initrd修正scsi引导问题，initrd-2.2.39.img是用gzip压缩的文件。initrd映象文件是使用mkinitrd创建的，mkinitrd实用程序能够创建initrd映象文件，这个命令是RedHat专有的，其它Linux发行版或许有相应的命令。这是个很方便的实用程序。具体情况请看帮助：man mkinitrd&lt;/p>
+&lt;p>&lt;code>System.map&lt;/code>&lt;/p>
+&lt;p>System.map是一个特定内核的内核符号表，由“nm vmlinux”产生并且不相关的符号被滤出。&lt;/p>
+&lt;p>&lt;code>几个重要的内核文件分析&lt;/code>&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2016-07-12-Linux-kernel-update/2018-09-19-02-33-08.png" alt="">&lt;/p>
+&lt;p>arch子目录包括了所有和体系结构相关的核心代码。它的每一个子目录都代表一种支持的体系结构，例如i386就是关于intel cpu及与之相兼容体系结构的子目录。PC机一般都基于此目录；&lt;/p>
+&lt;p>include子目录包括编译核心所需要的大部分头文件。与平台无关的头文件在include/linux子目录下，与intel cpu相关的头文件在include/asm-i386子目录下,而include/scsi目录则是有关scsi设备的头文件目录；&lt;/p>
+&lt;p>init子目录包含核心的初始化代码(注：不是系统的引导代码)，包含的两个文件main.c和Version.c，这是研究核心如何工作的一个非常好的起点。&lt;/p>
+&lt;p>Mm子目录包括所有独立于cpu体系结构的内存管理代码，如页式存储管理内存的分配和释放等；而和体系结构相关的内存管理代码则位于arch/*/mm/，例如arch/i386/mm/Fault.c&lt;/p>
+&lt;p>Kernel子目录包括主要的核心代码，此目录下的文件实现了大多数linux系统的内核函数，其中最重要的文件当属sched.c；同样，和体系结构相关的代码在arch/*/kernel中；&lt;/p>
+&lt;p>Drivers子目录放置系统所有的设备驱动程序；每种驱动程序又各占用一个子目录：如，/block下为块设备驱动程序，比如ide（ide.c）。如果你希望查看所有可能包含文件系统的设备是如何初始化的，你可以看drivers/block/genhd.c中的device_setup()。它不仅初始化硬盘，也初始化网络，因为安装nfs文件系统的时候需要网络；&lt;/p>
+&lt;p>其他子目录：&lt;/p>
+&lt;p>Lib放置核心的库代码；Net,核心与网络相关的代码；Ipc,这个目录包含核心的进程间通讯的代码；&lt;/p>
+&lt;p>Fs,所有的文件系统代码和各种类型的文件操作代码，它的每一个子目录支持一个文件系统，例如fat和ext2；Scripts,此目录包含用于配置核心的脚本文件等。一般，在每个目录下，都有一个.depend文件和一个Makefile文件，这两个文件都是编译时使用的辅助文件，仔细阅读这两个文件对弄清各个文件这间的联系和依托关系很有帮助；而且，在有的目录下还有Readme文件，它是对该目录下的文件的一些说明，同样有利于我们对内核源码的理解。&lt;/p>
+&lt;h1 id="遇到的问题">遇到的问题&lt;/h1>
+&lt;p>1.源的问题&lt;br>
+安装必备软件编译工具:#apt-get installlibncurses5-dev build-essential kernel-package 的时候，无法更新，输入#sudo apt-get update也无法更新数据。&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2016-07-12-Linux-kernel-update/2018-09-19-02-33-19.png" alt="">&lt;/p>
+&lt;p>在这里是由于ubuntu10.10的源出现问题，导致无法更新、下载软件，这里需要重新修改源文件。处理如下：&lt;br>
+&lt;a href="http://www.cnblogs.com/linuxcat/archive/2012/12/29/2839216.html">http://www.cnblogs.com/linuxcat/archive/2012/12/29/2839216.html&lt;/a>&lt;/p>
+&lt;p>参考该网站内容后，将源换为http://old-releases.ubuntu.com/ubuntu/地址，即可更新、下载软件（当然，其他可用的源地址也是可以的）。&lt;/p>
+&lt;p>2.权限问题&lt;br>
+在这个内核的编译、安装过程中，涉及到的操作都是需要root权限才能进行操作的，如果权限不够，则产生错误。处理方法：使用sudo(必须给了给用户申请root的权限)或者直接su root切换到root用户下进行整个过程操作。&lt;/p></description></item><item><title>Linux内核分析课程_学习索引</title><link>http://www.guozet.me/post/Linux-kernel-analysis-catalogue/</link><pubDate>Sun, 14 Jun 2015 13:04:27 +0000</pubDate><guid>http://www.guozet.me/post/Linux-kernel-analysis-catalogue/</guid><description>&lt;p>
+&lt;a href="http://guozet.me/about/" target="_blank" rel="noopener">唐国泽&lt;/a> 原创作品转载请注明出处.&lt;br>
+&lt;a href="http://mooc.study.163.com/course/USTC-1000029000" target="_blank" rel="noopener">《Linux内核分析》MOOC课程&lt;/a>&lt;/p>
+&lt;h1 id="学习目录索引">学习目录索引&lt;/h1>
+&lt;p>Linux内核分析学习博客整理：&lt;/p>
+&lt;p>
+&lt;a href="../Linux-kernel-How-to-Work/">Linux内核分析课程1_计算机是如何工作的&lt;/a>&lt;/p>
+&lt;p>计算机的工作过程，一言以蔽之：执行程序的过程；所以分析计算机的工作原理也就是分析计算机存储程序，执行程序的原理，所以，我们就需要先通过了解程序存储的这个过程。&lt;/p>
+&lt;blockquote>
+&lt;p>这篇博客主要分析了计算机的组成和计算机的工作原理，并例举C语言和汇编的转化，最后给出了程序执行时候堆栈变化的动态示意图.&lt;/p>
+&lt;/blockquote>
+&lt;!-- more -->
+&lt;p>
+&lt;a href="../Linux-Kernel-analysis-Os-work/">Linux内核分析课程2_操作系统是如何工作的&lt;/a>&lt;/p>
+&lt;p>操作系统的工作原理，可以说是计算机工作原理的第二部分：程序控制的过程，程序控制的体现有中断，系统调用，进程调度等。&lt;/p>
+&lt;blockquote>
+&lt;p>博客中主要分析了操作系统的工作过程，用了一个时间中断函数来模拟了中断程序执行的过程，并给出了相应的堆栈变化示意图。&lt;/p>
+&lt;/blockquote>
+&lt;p>
+&lt;a href="../Linux-Kernel-analysis-Start-Kernel-Function/">Linux内核分析课程3_start_kernel()函数分析&lt;/a>&lt;/p>
+&lt;p>start_kernel()这个函数是内核由引导程序引导以后，由自解压程序解压以后执行的第一个函数，可以认为是整个内核的入口函数，start_kernel()做的工作就是线性的初始化一些内核的基础机制，如中断，内存管理，进程管理，信号，文件系统，KO等！最后就启动一个init线程，init线程再读取文件系统里的init程序，做为系统的第一个进程而存在！&lt;/p>
+&lt;blockquote>
+&lt;p>博客中对linux启动过程中的start_kernel()函数进行分析，了解其主要的实现功能，在这里，主要对代码进行了解析。主要解析了：start_kernel() -&amp;gt; rest_init() -&amp;gt; kernel_init() -&amp;gt; 启动init进程。&lt;/p>
+&lt;/blockquote>
+&lt;p>
+&lt;a href="../Linux-kernel-analysis-system-call/">Linux内核分析课程4_Linux系统调用&lt;/a>&lt;br>
+系统调用，顾名思义，说的是操作系统提供给用户程序调用的一组“特殊”接口。用户程序可以通过这组“特殊”接口来获得操作系统内核提供的服务，比如用户可以通过文件系统相关的调用请求系统打开文件、关闭文件或读写文件，可以通过时钟相关的系统调用获得系统时间或设置定时器等。&lt;/p>
+&lt;p>从逻辑上来说，系统调用可被看成是一个内核与用户空间程序交互的接口——它好比一个中间人，把用户进程的请求传达给内核，待内核把请求处理完毕后再将处理结果送回给用户空间。&lt;/p>
+&lt;blockquote>
+&lt;p>博客中详细的分析了系统调用的原理，实现方式和意义；API，系统调用，系统命令，内核函数之间的区别，最后分别用C语言和汇编来实现了exit系统调用。&lt;/p>
+&lt;/blockquote>
+&lt;p>
+&lt;a href="../Linux-kernel-analysis-interrupt/">Linux内核分析课程5_system_call中断处理过程&lt;/a>&lt;/p>
+&lt;p>系统调用流程介绍：&lt;/p>
+&lt;ol>
+&lt;li>执行用户程序(如:fork,exit)&lt;/li>
+&lt;li>根据glibc中的函数实现，取得系统调用号并执行int $0x80产生中断。&lt;/li>
+&lt;li>进行地址空间的转换和堆栈的切换，执行SAVE_ALL。（进行内核模式）&lt;/li>
+&lt;li>进行中断处理，根据系统调用表调用内核函数。&lt;/li>
+&lt;li>执行内核函数。&lt;/li>
+&lt;li>执行RESTORE_ALL并返回用户模式&lt;/li>
+&lt;/ol>
+&lt;blockquote>
+&lt;p>本文中使用gdb调试了sys_exit系统调用，并对系统调用的源代码进行了详细的分析。&lt;/p>
+&lt;/blockquote>
+&lt;p>
+&lt;a href="../Linux-kernel-analysis-building-task/">Linux内核分析课程6_进程创建&lt;/a>&lt;/p>
+&lt;p>在 Linux 内核中,供用户创建进程的系统调用fork()函数的响应函数是 sys_fork()、sys_clone()、sys_vfork()。这三个函数都是通过调用内核函数 do_fork() 来实现的。&lt;/p>
+&lt;blockquote>
+&lt;p>本篇博客详细分析了进程创建过程(fork())的详细执行过程。&lt;/p>
+&lt;/blockquote>
+&lt;p>
+&lt;a href="../Linux-kernel-analysis-execve-Function/">Linux内核分析课程7_execve()函数对应的系统调用处理过程&lt;/a>&lt;/p>
+&lt;p>昔者庄周梦为蝴蝶，栩栩然蝴蝶也，自喻适志与，不知周也。俄然觉，则蘧蘧然周也。不知周之梦为蝴蝶与，蝴蝶之梦为周与？周与蝴蝶，则必有分矣。此之谓物化。（《庄子·齐物论》）&lt;br>
+在我们的操作系统中,也有如此浪漫情怀的庄生梦蝶—–exec()函数族.&lt;/p>
+&lt;blockquote>
+&lt;p>博客中中对exec()函数族进行了介绍，之后对do_execve()函数进行了分析。&lt;/p>
+&lt;/blockquote>
+&lt;p>
+&lt;a href="../Linux-kernel-analysis-task-management/">Linux内核分析课程8_进程调度与进程切换过程&lt;/a>
+进程调度中schedule()函数选择一个新的进程来运行，并调用context_switch进行上下文的切换，这个宏调用switch_to来进行关键上下文切换。&lt;br>
+主要调用过程：&lt;/p>
+&lt;pre>&lt;code class="language-c">next = pick_next_task(rq, prev);//进程调度算法都封装这个函数内部
+context_switch(rq, prev, next);//进程上下文切换
+switch_to利用了prev和next两个参数：prev指向当前进程，next指向被调度的进程
+&lt;/code>&lt;/pre>
+&lt;blockquote>
+&lt;p>博客中对schedule函数进行了相关介绍，以及分析了schedule函数的内核实现的详细流程。&lt;/p>
+&lt;/blockquote>
+&lt;p>
+&lt;a href="../Linux-kernel-analysis-UNIX-United-System/">Linux内核分析课程9_UNIX United操作系统分析&lt;/a>&lt;/p>
+&lt;hr>
+&lt;h1 id="学习心得">学习心得&lt;/h1>
+&lt;h2 id="对linux系统的认识">对Linux系统的认识&lt;/h2>
+&lt;p>很幸运参加了这为期两个月的MOOC课程《Linux内核分析》，让我对Linux系统有了更深的认识。&lt;/p>
+&lt;ul>
+&lt;li>Linux系统的开源思想是最值得我们学习的，开源的思想也会成为我们软件行业的主导的。&lt;/li>
+&lt;li>Linux系统最为核心也就是进程调度，中断处理，时钟和文件系统，我们只要对这几个方面了解到了，也就了解了Linux系统的关键了。&lt;/li>
+&lt;/ul>
+&lt;h2 id="学习linux内核的心得">学习Linux内核的心得&lt;/h2>
+&lt;p>学习Linux内核的过程也半年多了，从嵌入式系统设计中的ucos初步认识操作系统(核心：进程调度)，嵌入式操作系统中的（ARM中的Linux）再到Linux内核分析(x86体系下)，一步一步的深入，在这个过程中，有几本书对我影响很多，给大家推荐一下:&lt;/p>
+&lt;p>《Linux内核设计与实现》，想学习linux内核就要先了解相应的机制之后再去看源代码的话，可能会收获到更多，而这本书介绍了诸如进程管理、系统调用、中断和中断处理程序、内核同步、时间管理、内存管理、地址空间、调试技术等方面，内容比较浅显易懂，比较适合学习Linux内核的新人.&lt;/p>
+&lt;p>之后就不得不提到《深入理解Linux内核》这本书了，这本最好是能深入学习。简而言之，第一本，提纲性阅读；第二本，适合深入阅读。&lt;/p>
+&lt;p>当然，纸上得来终觉浅，绝知此事要躬行；在书本学习的基础上，需要我们利用好gdb这个调试工具，多跟踪一下内核的一些机制的执行流程，在实践中验证知识，才能更好的掌握知识。&lt;/p></description></item><item><title>Linux内核分析课程9_UNIX United操作系统分析</title><link>http://www.guozet.me/post/Linux-kernel-analysis-UNIX-United-System/</link><pubDate>Thu, 07 May 2015 13:04:27 +0000</pubDate><guid>http://www.guozet.me/post/Linux-kernel-analysis-UNIX-United-System/</guid><description>&lt;p>Linux内核课第九周作业。本文在云课堂中实验楼完成。&lt;br>
+&lt;a href="http://guozet.me/about/" target="_blank" rel="noopener">唐国泽&lt;/a> 原创作品转载请注明出处.&lt;br>
+&lt;a href="http://mooc.study.163.com/course/USTC-1000029000" target="_blank" rel="noopener">《Linux内核分析》MOOC课程&lt;/a>&lt;/p>
+&lt;p>UNIX操作系统，是一个强大的多用户、多任务操作系统，支持多种处理器架构，按照操作系统的分类，属于分时操作系统&lt;/p>
+&lt;blockquote>
+&lt;p>UNIX United is an architecture for a distributed system based on UNIX. &lt;br>
+UNIX United可以看做是一种多台UNIX组成分布式系统的解决方案。&lt;/p>
+&lt;/blockquote>
+&lt;h1 id="1introduction">1.Introduction&lt;/h1>
+&lt;p>UNIX United系统是通过将一组的UNIX系统计算机，在上层叠加一个系统方式，是值在操作的时候，完全隐藏所有的处理器通信和网络协议。并且所有的UNUX工作方式（如：设备保护，访问和文件访问，进程间通信，输入/输出，重定向）都是一样的，和独立的UNIX没有任何差别。&lt;/p>
+&lt;blockquote>
+&lt;p>参考文献：
+《The Newcastle Connection or UNIXes of the world Unite!》
+《The Architecture of UNIX United》&lt;/p>
+&lt;/blockquote>
+&lt;!-- more -->
+&lt;p>&lt;strong>疑问：对文件访问的控制是怎么处理的呢？&lt;/strong>&lt;/p>
+&lt;h1 id="2对文件访问的处理">2.对文件访问的处理&lt;/h1>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-07-30-Linux-kernel-analysis-UNIX-United-System/2018-09-19-02-08-10.png" alt="">&lt;/p>
+&lt;p>简单的举一个例子，我们有两个独立的UNIX系统主机，现在将其构建成UNIX United System, 构建之后，UNIX1的用户如何读取UNIX2的文件呢？&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-07-30-Linux-kernel-analysis-UNIX-United-System/2018-09-19-02-08-21.png" alt="">&lt;/p>
+&lt;p>　　不知道大家是否还记得: &lt;strong>“ / ” 表示根目录，“&lt;/strong> .. ”表示当前目录的上一层目录，那么问题来了，“ /.. ”表示什么呢？&lt;/p>
+&lt;blockquote>
+&lt;p>如果在UNIX１主机上复制文件a到UNIX２上，可以这样操作。
+cp /user/brian/a /../unix2/user/brian/a
+现在问题再一次出现，这个cp使用的是UNIX1中的cp还是UNIX2中的cp呢？&lt;/p>
+&lt;/blockquote>
+&lt;h1 id="３用户认证和访问权限控制">３.用户认证和访问权限控制&lt;/h1>
+&lt;p>UNIX中用户认证相关的文件：用户，组，用户密码，Root
+UNIX United System中，各个子UNIX System拥有自己独立的users,user groups and user password file,root; 但每个系统都有义务对要登录UNIX United System的用户进行认证，那怎么认证呢？
+比如机器A上的用户u, 我们记为“A/u”，身份认证由A完成，但用户u可以访问所有A和B上属于该用户的文件。&lt;/p>
+&lt;h1 id="4连接通信-远程文件访问的处理">4.连接通信-远程文件访问的处理&lt;/h1>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-07-30-Linux-kernel-analysis-UNIX-United-System/2018-09-19-02-08-37.png" alt="">&lt;/p>
+&lt;p>在原有UNIX的基础上添加了一个通信链路和一个软件层, 这两部分的位置在UNIX Kernel和UNIX software之间。Newcastle Connection相当于是一个“过滤器”，过滤出要重定向其他系统的系统调用，而UNIX1和UNIX2之间的通信是通过远程过程调用(Remote Procedure Call，RPC)来交流的。&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-07-30-Linux-kernel-analysis-UNIX-United-System/2018-09-19-02-09-48.gif" alt="">&lt;/p>
+&lt;p>流程如下所示：&lt;/p>
+&lt;ol>
+&lt;li>上层应用发出一个系统调用；&lt;/li>
+&lt;li>Newcastle Connection检测该系统调用是不是远程调用；不是远程调用则直接转换为本地的系统调用（内核服务）；如果是对远程的文件进程操作，则是远程调用。&lt;/li>
+&lt;li>远程调用，则通过连接层将命令(加上额外信息，如当前用户id)发送到远程主机上（连接层相当于管道，连接了UNIX1和UNIX2）;&lt;/li>
+&lt;li>连接层解析文件的名称（如： /../UNIX2/）将其传递给对应的计算机。&lt;/li>
+&lt;li>远程主机调用对应进程来处理（即UNIX United中只有本地操作），远程主机返回执行情况&lt;/li>
+&lt;/ol></description></item><item><title>Linux内核分析课程8_进程调度与进程切换过程</title><link>http://www.guozet.me/post/Linux-kernel-analysis-task-management/</link><pubDate>Sun, 22 Mar 2015 13:04:27 +0000</pubDate><guid>http://www.guozet.me/post/Linux-kernel-analysis-task-management/</guid><description>&lt;p>Linux内核课第八周作业。本文在云课堂中实验楼完成。
+原创作品转载请注明出处
+&lt;a href="http://mooc.study.163.com/course/USTC-1000029000" target="_blank" rel="noopener">《Linux内核分析》MOOC课程&lt;/a>&lt;/p>
+&lt;hr>
+&lt;h1 id="一schedule函数介绍">一.schedule()函数介绍&lt;/h1>
+&lt;h2 id="１进程调度的时机">１.进程调度的时机&lt;/h2>
+&lt;p>中断处理过程（包括&lt;strong>时钟中断、I/O中断、系统调用和异常&lt;/strong>）中，直接调用schedule()，或者返回用户态时根据need_resched标记调用schedule()；&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;strong>内核线程&lt;/strong>可以&lt;strong>直接&lt;/strong>调用&lt;strong>schedule()&lt;strong>进行进程切换，也可以在中断处理过程中进行调度，也就是说内核线程作为一类的特殊的进程可以主动调度，也可以被动调度；&lt;br>
+&lt;/strong>用户态进程无法实现主动调度，仅能通过陷入内核态后的某个时机点进行调度&lt;/strong>，即在中断处理过程中进行调度。&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="2进程的切换">2.进程的切换&lt;/h2>
+&lt;p>为了控制进程的执行，内核必须有能力挂起正在CPU上执行的进程，并恢复以前挂起的某个进程的执行，这叫做进程切换、任务切换、上下文切换；&lt;/p>
+&lt;p>挂起正在CPU上执行的进程，与中断时保存现场是不同的，中断前后是在同一个进程上下文中，只是由用户态转向内核态执行；&lt;/p>
+&lt;p>进程上下文包含了进程执行需要的所有信息：&lt;/p>
+&lt;ol>
+&lt;li>用户地址空间: 包括程序代码，数据，用户堆栈等&lt;/li>
+&lt;li>控制信息: 进程描述符，内核堆栈等&lt;/li>
+&lt;li>硬件上下文（注意中断也要保存硬件上下文只是保存的方法不同）&lt;/li>
+&lt;/ol>
+&lt;!-- more -->
+&lt;h2 id="3具体进程切换的代码分析">3.具体进程切换的代码分析&lt;/h2>
+&lt;p>&lt;strong>schedule()函数&lt;/strong>选择一个新的进程来运行，并调用&lt;strong>context_switch&lt;/strong>进行上下文的切换，这个&lt;strong>宏调用switch_to&lt;/strong>来进行关键上下文切换：&lt;/p>
+&lt;blockquote>
+&lt;p>主要调用过程：&lt;/p>
+&lt;ol>
+&lt;li>next = pick_next_task(rq, prev);//进程调度算法都封装这个函数内部&lt;/li>
+&lt;li>context_switch(rq, prev, next);//进程上下文切换&lt;/li>
+&lt;li>switch_to利用了prev和next两个参数：prev指向当前进程，next指向被调度的进程&lt;/li>
+&lt;/ol>
+&lt;/blockquote>
+&lt;h3 id="1schedule函数">1)schedule()函数&lt;/h3>
+&lt;p>首先，切换时候，调用call schedule()；来执行schedule（）函数，如下图所示：&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-07-24-Linux-kernel-analysis-task-management/2018-09-19-02-04-02.png" alt="">&lt;/p>
+&lt;p>使用struct task_struct *tsk = current; 来获取当前进程；sched_submit_work(tsk); 避免死锁；最后调用＿schedule()来处理切换过程&lt;/p>
+&lt;h3 id="２schedule函数">２)＿schedule()函数&lt;/h3>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-07-24-Linux-kernel-analysis-task-management/2018-09-19-02-04-15.png" alt="">&lt;/p>
+&lt;p>其中 need_resched:为切换前的变量准备：&lt;/p>
+&lt;blockquote>
+&lt;p>preempt_disable()；//禁止内核抢占；&lt;br>
+cpu = smp_processor_id(); //获取当前CPU &lt;br>
+rq = cpu_rq(cpu); //获取该CPU维护的运行队列（run queue)&lt;br>
+rcu_note_context_switch(cpu); //更新全局状态，标识当前CPU发生上下文的切换&lt;br>
+prev = rq-&amp;gt;curr; //运行队列中的curr指针赋予prev。&lt;/p>
+&lt;/blockquote>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-07-24-Linux-kernel-analysis-task-management/2018-09-19-02-04-44.png" alt="">&lt;/p>
+&lt;p>其中的next=pick_next_task(rq, prev)来确定使用哪一种进程调度的策略，但总是选择了下一个进程来进行切换，即根据调度策略选择一个优先级最高的任务将其定为下一个进程，最后都是调用context_switch来进行进程上下文的切换过程．&lt;/p>
+&lt;h3 id="３context_switch函数解析">３)context_switch函数解析&lt;/h3>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-07-24-Linux-kernel-analysis-task-management/2018-09-19-02-05-09.png" alt="">&lt;/p>
+&lt;p>其中prepare_task_switch（）函数是完成切换前的准备工作；接着后面判断当前进程是不是内核线程，如果是内核线程，则不需要切换上下文&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-07-24-Linux-kernel-analysis-task-management/2018-09-19-02-05-20.png" alt="">&lt;/p>
+&lt;p>接着调用switch_mm(),把虚拟内存从一个进程映射切换到新进程中&lt;br>
+调用switch_to(),从上一个进程的处理器状态切换到新进程的处理器状态。这包括保存、恢复栈信息和寄存器信息&lt;/p>
+&lt;blockquote>
+&lt;p>如果next是内核线程，则线程使用prev所使用的地址空;schedule( )函数把该线程设置为懒惰TLB模式&lt;/p>
+&lt;/blockquote>
+&lt;p>事实上，每个内核线程并不拥有自己的页表集(task_struct-&amp;gt;mm = NULL)；更确切地说，它使用一个普通进程的页表集。不过，没有必要使一个用户态线性地址对应的TLB表项无效，因为内核线程不访问用户态地址空间。&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-07-24-Linux-kernel-analysis-task-management/2018-09-19-02-05-50.png" alt="">&lt;/p>
+&lt;p>如果next是一个普通进程，schedule( )函数用next的地址空间替换prev的地址空间&lt;/p>
+&lt;p>　　|&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;ndash;|
+　　| } else |
+　　| switch_mm(oldmm, mm, next); |
+　　|&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;ndash;|&lt;/p>
+&lt;p>如果prev是内核线程或正在退出的进程，context_switch()函数就把指向prev内存描述符的指针保存到运行队列的prev_mm字段中，然后重新设置prev-&amp;gt;active_mm&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-07-24-Linux-kernel-analysis-task-management/2018-09-19-02-06-15.png" alt="">&lt;/p>
+&lt;p>context_switch()最后调用switch_to()执行prev和next之间的进程切换了
+　　　　|&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;-|
+　　　　| switch_to(prev, next, prev); |
+　　　　|&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;-|
+　　　　 return prev;
+　　　　}&lt;/p>
+&lt;h3 id="４switch_to函数解析--">４)switch_to（）函数解析 　&lt;/h3>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-07-24-Linux-kernel-analysis-task-management/2018-09-19-02-06-38.png" alt="">&lt;/p>
+&lt;p>switch_to(prev, next, prev)：切换堆栈和寄存器的状态．&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-07-24-Linux-kernel-analysis-task-management/2018-09-19-02-06-51.png" alt="">&lt;/p>
+&lt;p>switch_to是一个宏定义，完成的工作主要是：&lt;/p>
+&lt;h4 id="1保存当前进程的flags状态和当前进程的ebp">(1)保存当前进程的flags状态和当前进程的ebp&lt;/h4>
+&lt;pre>&lt;code class="language-c">　　&amp;quot;pushfl\n\t&amp;quot; /* save flags */
+　　&amp;quot;pushl %%ebp\n\t&amp;quot; /* save EBP */
+&lt;/code>&lt;/pre>
+&lt;h4 id="2完成内核堆在esp的切换">(2)完成内核堆在esp的切换&lt;/h4>
+&lt;pre>&lt;code class="language-c">　　 &amp;quot;movl %%esp,%[prev_sp]\n\t&amp;quot; /* save ESP */
+　　 &amp;quot;movl %[next_sp],%%esp\n\t&amp;quot; /* restore ESP */
+&lt;/code>&lt;/pre>
+&lt;p>进程切换的时候，要修改堆栈，eip等数据．在switch_to中完成了这个工作。&lt;/p>
+&lt;h4 id="3保存eip的值">(3)保存eip的值&lt;/h4>
+&lt;pre>&lt;code class="language-c">　　&amp;quot;movl $1f,%[prev_ip]\n\t&amp;quot; /* save EIP */ \
+　　&amp;quot;pushl %[next_ip]\n\t&amp;quot; /* restore EIP */ \
+&lt;/code>&lt;/pre>
+&lt;p>将标号1:的地址保存到prev-&amp;gt;thread.ip中，然后下一次该进程被调用的时候，就从１的位置开始执行。
+　&lt;/p>
+&lt;blockquote>
+&lt;p>注明：如果之前next也被switch_to出去过，那么next-&amp;gt;thread.ip里存的就是下面这个1f的标号，但如果next进程刚刚被创建，之前没有被switch_to出去过，那么next-&amp;gt;thread.ip里存的将是ret_ftom_fork，即进程刚刚被fork后执行exec．&lt;/p>
+&lt;/blockquote>
+&lt;h4 id="4jmp-__switch_to">(4)jmp __switch_to&lt;/h4>
+&lt;p>让参数不压入堆栈，而是使用寄存器传值，来调用__switch_to eax存放prev,edx存放next。&lt;/p>
+&lt;h1 id="二gdb跟踪schedule函数">二.gdb跟踪schedule函数&lt;/h1>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-07-24-Linux-kernel-analysis-task-management/2018-09-19-02-07-18.png" alt="">&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-07-24-Linux-kernel-analysis-task-management/2018-09-19-02-07-28.png" alt="">&lt;/p>
+&lt;hr>
+&lt;p>小结：整个schedule的执行过程如下图所示&lt;br>
+　|&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;-|
+　schedule&lt;br>
+　　sched_submit_work(tsk)&lt;br>
+　　_schedule()&lt;br>
+　　　　pick_next_task&lt;br>
+　　　　context_switch(rq,prev,next)&lt;br>
+　　　　　　prepare_task_switch&lt;br>
+　　　　　　判断是不是内核线程&lt;br>
+　　　　　　switch_mm&lt;br>
+　　　　　　switch_to&lt;br>
+　　　　　　　　_switch_to&lt;br>
+　　　　　　finish_task_switch&lt;/p></description></item><item><title>Linux内核分析课程7_execve()函数对应的系统调用处理过程</title><link>http://www.guozet.me/post/Linux-kernel-analysis-execve-Function/</link><pubDate>Sat, 14 Mar 2015 13:04:27 +0000</pubDate><guid>http://www.guozet.me/post/Linux-kernel-analysis-execve-Function/</guid><description>&lt;p>Linux内核课第七周作业。本文在云课堂中实验楼完成。
+&lt;a href="http://guozet.me/about/" target="_blank" rel="noopener">唐国泽&lt;/a> 原创作品转载请注明出处.&lt;br>
+&lt;a href="http://mooc.study.163.com/course/USTC-1000029000" target="_blank" rel="noopener">《Linux内核分析》MOOC课程&lt;/a>&lt;/p>
+&lt;p>昔者庄周梦为蝴蝶，栩栩然蝴蝶也，自喻适志与，不知周也。俄然觉，则蘧蘧然周也。不知周之梦为蝴蝶与，蝴蝶之梦为周与？周与蝴蝶，则必有分矣。此之谓物化。（《庄子·齐物论》）&lt;/p>
+&lt;p>&lt;strong>在我们的操作系统中,也有如此浪漫情怀的庄生梦蝶&amp;mdash;&amp;ndash;exec()函数族.&lt;/strong>&lt;/p>
+&lt;p>庄周（调用execve的可执行程序）入睡（调用execve陷入内核），醒来（系统调用execve返回用户态）发现自己是蝴蝶（被execve加载的可执行程序）&lt;/p>
+&lt;!-- more -->
+&lt;h1 id="一-exec函数族">一. exec函数族&lt;/h1>
+&lt;h2 id="一-介绍">(一) 介绍&lt;/h2>
+&lt;p>fork()函数, 相当于是创建了一个新的进程, 但该子进程复制的确实父进程的内容, 如果让其执行下去,那么也是执行和父进程相同的内容呢, &lt;strong>但实际中,我们执行的是新的任务, 那么在这里是如何实现的呢?&lt;/strong>&lt;/p>
+&lt;p>exec函数族就实现了在一个进程中启动另外一个程序的方法. 它可以根据指定的文件名或目录名找到可执行文件，并用它来取代原调用进程的数据段、代码段和堆栈段，在执行完之后，原调用进程的内容除了进程号外，其他全部被新的进程替换了。另外，这里的可执行文件既可以是二进制文件，也可以是Linux下任何可执行的脚本文件。&lt;/p>
+&lt;p>那什么时候使用exec函数呢? 除了我们上面提到的fork()之后调用exec()函数来执行一个新进程外,还有当进程认为自己继续执行下去也没有什么实际的工作的时候,就可以调用exec函数来庄周梦蝶,化成蝶了.&lt;/p>
+&lt;h2 id="二-函数族具体实现">(二) 函数族具体实现&lt;/h2>
+&lt;p>在linux下,有六个exec开头的函数, 来实现:&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-07-21-Linux-kernel-analysis-execve-Function/2018-09-19-01-53-00.png" alt="">&lt;/p>
+&lt;p>这6个函数在函数名和使用语法的规则上都有细微的区别，下面就从可执行文件查找方式、参数传递方式和环境变量这几个方面进行比较。&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>查找方式：表1中的前4个函数的查找方式都是完整的文件目录路径，而最后两个函数（也就是以 p 结尾的两个函数）可以只给出文件名，系统就会自动按照环境变量“$PATH” 所指定的路径进行查找。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>参数传递方式：exec函数族的参数传递有两种：一种是逐个列举的方式，而另一种则是将所有参数整体构造指针数组传递。在这里是以函数名的第5位字母来区分的，字母为 &amp;ldquo;l&amp;rdquo;(list)的表示逐个列举参数的方式，其语法为：&lt;br>
+`const char *arg;字母为“v”(vector)的表示将所有参数整体构造指针数组传递，其语法为 char *const argv[]&amp;lsquo;``。&lt;br>
+这里的参数实际上就是用户在使用这个可执行文件时所需的全部命令选项字符串（包括该可执行程序命令本身）。要注意的是，这些参数必须以NULL结束。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>环境变量： exec函数族可以默认系统的环境变量，也可以传入指定的环境变量。这里以 “e”(environment)结尾的两个函数 execle()和 execve()就可以在 envp[]中指定当前进程所使用的环境变量。&lt;br>
+表2再对这6个函数中的函数名和对应语法做了一个小结，主要指出了函数名中每一位对应所表明的含义，以此表加以记住这6个函数。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-07-21-Linux-kernel-analysis-execve-Function/2018-09-19-01-53-37.png" alt="">&lt;/p>
+&lt;p>　　 事实上，这6个函数中真正的系统调用只有execve()，其他5个都是库函数，它们最终都会调用execve()这个系统调用。在使用exec函数族时，一定要加上错误判断语句。exec 很容易执行失败，其中最常见的原因有：&lt;/p>
+&lt;ol>
+&lt;li>找不到文件或路径，此时 errno 被设置为 ENOENT。&lt;/li>
+&lt;li>数组argv 和envp 忘记用NULL结束，此时，errno被设置为 EFAUL。&lt;/li>
+&lt;li>没有对应可执行文件的运行权限，此时 errno 被设置为EACCES。&lt;/li>
+&lt;/ol>
+&lt;h1 id="二实验分析">二.实验分析&lt;/h1>
+&lt;p>实践来检验理论, 才能让自己的知识学习的更加牢固。&lt;/p>
+&lt;p>进入gdb调试,设置断点:&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-07-21-Linux-kernel-analysis-execve-Function/2018-09-19-01-57-41.png" alt="">&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-07-21-Linux-kernel-analysis-execve-Function/2018-09-19-01-58-06.png" alt="">&lt;/p>
+&lt;p>　　主要设置了以下几个断点。&lt;/p>
+&lt;pre>&lt;code class="language-bash">b sys_execve
+b do_execve
+b do_open_exev
+b do search_binary_handler
+b load_elf_binary
+b start_thread
+b init_elf_binfmt
+&lt;/code>&lt;/pre>
+&lt;p>下面就主要分析这几个断点处的函数功能实现了.&lt;/p>
+&lt;h3 id="1首先分析函数实现">1.首先分析函数实现&lt;/h3>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-07-21-Linux-kernel-analysis-execve-Function/2018-09-19-01-58-55.png" alt="">&lt;/p>
+&lt;p>在函数中,我们可明显的看到,在fork执行完成之后,我们通过execlp()加载了可执行程序hello.&lt;/p>
+&lt;p>&lt;strong>在这里调用的是execlp(), 最终调用的也是execve()这个系统调用。&lt;/strong>&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-07-21-Linux-kernel-analysis-execve-Function/2018-09-19-01-59-12.png" alt="">
+　　
+清晰的看到, 系统调用之后执行了do_execve()&lt;/p>
+&lt;h3 id="2do_execve函数分析">2.do_execve()函数分析&lt;/h3>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-07-21-Linux-kernel-analysis-execve-Function/2018-09-19-01-59-32.png" alt="">&lt;/p>
+&lt;h4 id="1在do_execve中限设置了相应的参数和环境变量然后调用了do_execve_common函数">1)在do_execve中限设置了相应的参数和环境变量,然后调用了do_execve_common()函数&lt;/h4>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-07-21-Linux-kernel-analysis-execve-Function/2018-09-19-01-59-46.png" alt="">&lt;/p>
+&lt;h4 id="2do_execve_common函数介绍">2)do_execve_common()函数介绍&lt;/h4>
+&lt;p>在do_execve_common()函数中,先打开对应文件,在这里是hello&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-07-21-Linux-kernel-analysis-execve-Function/2018-09-19-01-59-57.png" alt="">&lt;/p>
+&lt;p>接着将文件名,环境变量,命令行参数拷贝到新分配的页面中:&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-07-21-Linux-kernel-analysis-execve-Function/2018-09-19-02-00-19.png" alt="">&lt;/p>
+&lt;p>最后执行 exec_binprm来执行该可执行文件格式的处理函数:&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-07-21-Linux-kernel-analysis-execve-Function/2018-09-19-02-00-33.png" alt="">&lt;/p>
+&lt;p>接着详细分析exec_binprm中函数的执行过程, 分析如何来加载elf文件格式的.&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-07-21-Linux-kernel-analysis-execve-Function/2018-09-19-02-00-43.png" alt="">
+　　
+在该函数中, 可以看到调用了search_binary_handler(bprm)函数,该函数寻找符合文件格式对应的解析模块.&lt;br>
+&lt;img src="http://www.guozet.me/images/in-post/2015-07-21-Linux-kernel-analysis-execve-Function/2018-09-19-02-00-52.png" alt="">
+　　
+其中的linux_binfmt *fmt结构体为:&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-07-21-Linux-kernel-analysis-execve-Function/2018-09-19-02-01-04.png" alt="">
+　　
+我们这里调用的是hello可执行文件,为elf格式,所有最后查找后调用为:&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-07-21-Linux-kernel-analysis-execve-Function/2018-09-19-02-01-14.png" alt="">&lt;/p>
+&lt;p>对应elf格式查找可得:&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-07-21-Linux-kernel-analysis-execve-Function/2018-09-19-02-01-30.png" alt="">
+　　
+对于ELF格式的可执行文件fmt-&amp;gt;load_binary(bprm);执行的应该是load_elf_binary其内部是和ELF文件格式解析的部分需要和ELF文件格式标准结合起来阅读&lt;/p>
+&lt;p>对应elf文件的格式为:&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-07-21-Linux-kernel-analysis-execve-Function/2018-09-19-02-01-49.png" alt="">&lt;/p>
+&lt;p>整个ELF映像就是由文件头、区段头表、程序头表、一定数量的区段、以及一定数量的部构成，而ELF映像的装入/启动过程，则就是在各种头部信息的指引下将某些部或区段装入一个进程的用户空间，并为其运行做好准备(例如装入所需的共享库)，最后(在目标进程首次受调度运行时)让CPU进入其程序入口的过程。接着是对elf_bss 、elf_brk、start_code、end_code等等变量的初始化。这些变量分别纪录着当前(到此刻为止)目标映像的bss段、代码段、数据段、以及动态分配“堆” 在用户空间的位置。除start_code的初始值为0xffffffff外，其余均为0。随着映像内容的装入，这些变量也会逐步得到调整。&lt;/p>
+&lt;p>load_elf_binary函数的作用就是读入了程序头表，并对start_code等变量进行初始化.&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-07-21-Linux-kernel-analysis-execve-Function/2018-09-19-02-02-10.png" alt="">&lt;/p>
+&lt;p>在load_elf_binary的最后调用&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-07-21-Linux-kernel-analysis-execve-Function/2018-09-19-02-02-28.png" alt="">&lt;/p>
+&lt;p>在这里就把新程序的ip和sp存入堆栈,覆盖掉了之前的ip,sp,之后,子进程返回的话,就从hello中的main开始执行了.&lt;/p>
+&lt;h2 id="3函数执行流程示意图">3.函数执行流程示意图:&lt;/h2>
+&lt;pre>&lt;code>execlp-&amp;gt;hello
+call *sys_execve
+........do_execve
+................. do_execve_common
+......................... exec_binprm
+...................................search_binary_handler(bprm)
+.........................................linux_binfmt= elf_format
+..............................................elf_format-&amp;gt; load_elf_binary
+..............................................load_elf_binary
+.....................................................start_thread
+ret
+&lt;/code>&lt;/pre></description></item><item><title>Linux内核分析课程6_进程创建</title><link>http://www.guozet.me/post/Linux-kernel-analysis-building-task/</link><pubDate>Sat, 07 Mar 2015 13:04:27 +0000</pubDate><guid>http://www.guozet.me/post/Linux-kernel-analysis-building-task/</guid><description>&lt;p>Linux内核课第六周作业。本文在云课堂中实验楼完成。&lt;br>
+&lt;a href="http://guozet.me/about/" target="_blank" rel="noopener">唐国泽&lt;/a> 原创作品转载请注明出处.&lt;br>
+&lt;a href="http://mooc.study.163.com/course/USTC-1000029000" target="_blank" rel="noopener">《Linux内核分析》MOOC课程&lt;/a>&lt;/p>
+&lt;h1 id="fork系统调用">fork()系统调用&lt;/h1>
+&lt;h2 id="预备知识">预备知识&lt;/h2>
+&lt;p>这里先列出一些必要的预备知识，对linux下进程机制比较熟悉的朋友可以略过。&lt;/p>
+&lt;ol>
+&lt;li>进程可以看做程序的一次执行过程。在linux下，每个进程有唯一的PID标识进程。PID是一个从1到32768的正整数，其中1一般是特殊进程init，其它进程从2开始依次编号。当用完32768后，从2重新开始。&lt;/li>
+&lt;li>linux中有一个叫进程表的结构用来存储当前正在运行的进程。可以使用“ps aux”命令查看所有正在运行的进程。&lt;/li>
+&lt;li>进程在linux中呈树状结构，init为根节点，其它进程均有父进程，某进程的父进程就是启动这个进程的进程，这个进程叫做父进程的子进程。&lt;/li>
+&lt;/ol>
+&lt;blockquote>
+&lt;p>[上述摘自:
+&lt;a href="http://www.cnblogs.com/leoo2sk/archive/2009/12/11/talk-about-fork-in-linux.html" target="_blank" rel="noopener">从一道面试题谈linux下fork的运行机制]&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;!-- more -->
+&lt;p>下面分析一个简单的例子:&lt;/p>
+&lt;pre>&lt;code class="language-C">#include &amp;lt;stdio.h&amp;gt;
+#include &amp;lt;stdlib.h&amp;gt;
+#include &amp;lt;unistd.h&amp;gt;
+int main(int argc, char * argv[])
+{
+int pid;
+/* fork another process */
+pid = fork();
+if (pid &amp;lt; 0)
+{
+/* error occurred */
+fprintf(stderr,&amp;quot;Fork Failed!&amp;quot;);
+exit(-1);
+}
+else if (pid == 0)
+{
+/* child process */
+printf(&amp;quot;This is Child Process!\n&amp;quot;);
+}
+else
+{
+/* parent process */
+printf(&amp;quot;This is Parent Process!\n&amp;quot;);
+/* parent will wait for the child to complete*/
+wait(NULL);
+printf(&amp;quot;Child Complete!\n&amp;quot;);
+}
+}
+&lt;/code>&lt;/pre>
+&lt;p>比较简单,运行结果为:&lt;/p>
+&lt;pre>&lt;code class="language-bash">This is Child Process!
+This is Parent Process!
+Child Complete!
+&lt;/code>&lt;/pre>
+&lt;p>&lt;strong>在pid = fork()前,只有一个进程执行这段代码&lt;/strong>,但在这条语句滞后,就有两个进程在执行后面的代码了,接下来的代码是:&lt;/p>
+&lt;p>&lt;code>if(pid.....)&lt;/code>&lt;/p>
+&lt;p>补充: fork语句的返回值,fork系统调用调用一次, 返回两次, 在这里有可能有三种返回值&lt;/p>
+&lt;ul>
+&lt;li>在父进程中，&lt;strong>fork返回新创建子进程的进程ID&lt;/strong>&lt;/li>
+&lt;li>在子进程中，fork返回0&lt;/li>
+&lt;li>如果出现错误，fork返回一个负值&lt;/li>
+&lt;/ul>
+&lt;p>所有在这段代码中, 如果pid = fork()执行成功, 那就有两个进程了, 一个父进程和一个子进程, 在子进程中，fork函数返回0，在父进程中，fork返回新创建子进程的进程ID。我们可以通过fork返回的值来判断当前进程是子进程还是父进程。&lt;/p>
+&lt;p>fork出错可能有两种原因：&lt;/p>
+&lt;ul>
+&lt;li>当前的进程数已经达到了系统规定的上限，这时errno的值被设置为EAGAIN。系统内存不足，这时errno的值被设置为ENOMEM。&lt;/li>
+&lt;li>创建新进程成功后，系统中出现两个基本完全相同的进程，&lt;strong>这两个进程执行没有固定的先后顺序，哪个进程先执行要看系统的进程调度策略&lt;/strong>。&lt;/li>
+&lt;/ul>
+&lt;p>参考博文:
+&lt;a href="http://blog.csdn.net/jason314/article/details/5640969" target="_blank" rel="noopener">linux中fork（）函数详解（原创！！实例讲解）&lt;/a>&lt;/p>
+&lt;h1 id="fork对应的系统调用过程">fork对应的系统调用过程&lt;/h1>
+&lt;p>在 Linux 内核中,供用户创建进程的系统调用fork()函数的响应函数是 sys_fork()、sys_clone()、sys_vfork()。&lt;br>
+这三个函数&lt;strong>都是通过调用内核函数 do_fork() 来实现的&lt;/strong>。根据调用时所使用的 clone_flags 参数不同，do_fork() 函数完成的工作也各异。下面分析do_fork(), 该函数主要作用是复制原来的进程成为另一个新的进程，它完成了整个进程的创建过程。&lt;/p>
+&lt;h2 id="do_fork函数的几个参数">do_fork()函数的几个参数:&lt;/h2>
+&lt;ul>
+&lt;li>
+&lt;p>clone_flags：该标志位的4个字节分为两部分。最低的一个字节为子进程结束时发送给父进程的信号代码，通常为SIGCHLD；剩余的三个字节则是各种clone标志的组合。通过clone标志可以有选择的对父进程的资源进行复制。例如CLONE_VM表示共享内存描述符合所有的页表； CLONE_FS共享根目录和当前工作目录所在的表以及权限掩码。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>statck_start：子进程用户态堆栈的地址；&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>regs：指向pt_regs结构体的指针。当系统发生系统调用，即用户进程从用户态切换到内核态时，该结构体保存通用寄存器中的值，并被存放于内核态的堆栈中；&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>stack_size：未被使用，通常被赋值为0；&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>parent_tidptr：父进程在用户态下pid的地址，该参数在CLONE_PARENT_SETTID标志被设定时有意义；&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>child_tidptr：子进程在用户态下pid的地址，该参数在CLONE_CHILD_SETTID标志被设定时有意义。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="do_fork-函数生成一个新的进程">do_fork() 函数生成一个新的进程&lt;/h2>
+&lt;ul>
+&lt;li>建立进程控制结构并赋初值，使其成为进程映像。这个过程完成以下内容。&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;ol>
+&lt;li>在内存中分配一个 task_struct 数据结构，以代表即将产生的新进程。&lt;/li>
+&lt;li>把父进程 PCB 的内容复制到新进程的 PCB 中。&lt;/li>
+&lt;li>**为新进程分配一个唯一的进程标识号 PID 和 user_struct 结构。**然后检查用户具有执行一个新进程所必须具有的资源。&lt;/li>
+&lt;li>重新设置 task_struct 结构中那些与父进程值不同的数据成员。&lt;/li>
+&lt;li>设置进程管理信息，根据所提供的 clone_flags 参数值，决定是否对父进程 task_struct 中的指针 fs 、files 指针等所选择的部分进行拷贝，如果 clone_flags 参数指明的是共享而不是拷贝，则将其计数器 count 的值加 1 ，否则就拷贝新进程所需要的相关信息内容 PCB 。这个地方是区分 sys_fork() 还是 sys_clone() 。&lt;/li>
+&lt;/ol>
+&lt;/blockquote>
+&lt;ul>
+&lt;li>必须为新进程的执行设置跟踪进程执行情况的相关内核数据结构。包括 任务数组、自由时间列表 tarray_freelist 以及 pidhash[] 数组。这部分完成如下内容：&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;ol>
+&lt;li>把新进程加入到进程链表中&lt;/li>
+&lt;li>把新进程加入到 pidhash 散列表中，并增加任务计数值。&lt;/li>
+&lt;li>通过拷贝父进程的上、下文来初始化硬件的上下文（TSS段、LDT以及 GDT）。&lt;/li>
+&lt;/ol>
+&lt;/blockquote>
+&lt;ul>
+&lt;li>启动调度程序，使子进程获得运行的机会。这部分完成以下动作：&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;ol>
+&lt;li>设置新的就绪队列状态 TASK_RUNING , 并将新进程挂到就绪队列中，并重新启动调度程序使其运行。&lt;/li>
+&lt;li>向父进程返回子进程的 PID，设置子进程从 do_fork() 返回 0 值。&lt;/li>
+&lt;/ol>
+&lt;/blockquote>
+&lt;pre>&lt;code class="language-C"> int do_fork(unsigned long clone_flags,unsigned long stack_start, struct pt_regs *regs,
+unsigned long stack_size)
+{
+int retval;
+struct task_struct *p;
+struct completion vfork;
+retval = -EPERM ;
+if ( clone_flags &amp;amp; CLONE_PID )
+{
+if ( current-&amp;gt;pid )
+goto fork_out;
+}
+reval = -ENOMEM ;
+p = alloc_task_struct(); // 分配内存建立新进程的 task_struct 结构
+if ( !p )
+goto fork_out;
+*p = *current ; //将当前进程的 task_struct 结构的内容复制给新进程的 PCB结构
+retval = -EAGAIN;
+//下面代码对父、子进程 task_struct 结构中不同值的数据成员进行赋值
+if ( atomic_read ( &amp;amp;p-&amp;gt;user-&amp;gt;processes ) &amp;gt;= p-&amp;gt;rlim[RLIMIT_NPROC].rlim_cur
+&amp;amp;&amp;amp; !capable( CAP_SYS_ADMIN ) &amp;amp;&amp;amp; !capable( CAP_SYS_RESOURCE ))
+goto bad_fork_free;
+atomic_inc ( &amp;amp;p-&amp;gt;user-&amp;gt;__count); //count 计数器加 1
+atomic_inc ( &amp;amp;p-&amp;gt;user-&amp;gt;processes); //进程数加 1
+if ( nr_threads &amp;gt;= max_threads )
+goto bad_fork_cleanup_count ;
+get_exec_domain( p-&amp;gt;exec_domain );
+if ( p-&amp;gt;binfmt &amp;amp;&amp;amp; p-&amp;gt;binfmt-&amp;gt;module )
+__MOD_INC_USE_COUNT( p-&amp;gt;binfmt-&amp;gt;module ); //可执行文件 binfmt 结构共享计数 + 1
+p-&amp;gt;did_exec = 0 ; //进程未执行
+p-&amp;gt;swappable = 0 ; //进程不可换出
+p-&amp;gt;state = TASK_UNINTERRUPTIBLE ; //置进程状态
+copy_flags( clone_flags,p ); //拷贝进程标志位
+p-&amp;gt;pid = get_pid( clone_flags ); //为新进程分配进程标志号
+p-&amp;gt;run_list.next = NULL ;
+p-&amp;gt;run_list.prev = NULL ;
+p-&amp;gt;run_list.cptr = NULL ;
+init_waitqueue_head( &amp;amp;p-&amp;gt;wait_childexit ); //初始化 wait_childexit 队列
+p-&amp;gt;vfork_done = NULL ;
+if ( clone_flags &amp;amp; CLONE_VFORK ) {
+p-&amp;gt;vfork_done = &amp;amp;vfork ;
+init_completion(&amp;amp;vfork) ;
+}
+spin_lock_init( &amp;amp;p-&amp;gt;alloc_lock );
+p-&amp;gt;sigpending = 0 ;
+init_sigpending( &amp;amp;p-&amp;gt;pending );
+p-&amp;gt;it_real_value = p-&amp;gt;it_virt_value = p-&amp;gt;it_prof_value = 0 ; //初始化时间数据成员
+p-&amp;gt;it_real_incr = p-&amp;gt;it_virt_incr = p-&amp;gt;it_prof_incr = 0 ; //初始化定时器结构
+init_timer( &amp;amp;p-&amp;gt;real_timer );
+p-&amp;gt;real_timer.data = (unsigned long)p;
+p-&amp;gt;leader = 0 ;
+p-&amp;gt;tty_old_pgrp = 0 ;
+p-&amp;gt;times.tms_utime = p-&amp;gt;times.tms_stime = 0 ; //初始化进程的各种运行时间
+p-&amp;gt;times.tms_cutime = p-&amp;gt;times.tms_cstime = 0 ;
+#ifdef CONFIG_SMP //初始化对称处理器成员
+{
+int i;
+p-&amp;gt;cpus_runnable = ~0UL;
+p-&amp;gt;processor = current-&amp;gt;processor ;
+for( i = 0 ; i &amp;lt; smp_num_cpus ; i++ )
+p-&amp;gt;per_cpu_utime[ i ] = p-&amp;gt;per_cpu_stime[ i ] = 0;
+spin_lock_init ( &amp;amp;p-&amp;gt;sigmask_lock );
+}
+#endif
+p-&amp;gt;lock_depth = -1 ; // 注意：这里 -1 代表 no ,表示在上下文切换时，内核不上锁
+p-&amp;gt;start_time = jiffies ; // 设置进程的起始时间
+INIT_LIST_HEAD ( &amp;amp;p-&amp;gt;local_pages );
+retval = -ENOMEM ;
+if ( copy_files ( clone_flags , p )) //拷贝父进程的 files 指针，共享父进程已打开的文件
+goto bad_fork_cleanup ;
+if ( copy_fs ( clone_flags , p )) //拷贝父进程的 fs 指针，共享父进程文件系统
+goto bad_fork_cleanup_files ;
+if ( copy_sighand ( clone_flags , p )) //子进程共享父进程的信号处理函数指针
+goto bad_fork_cleanup_fs ;
+if ( copy_mm ( clone_flags , p ))
+goto bad_fork_cleanup_mm ; //拷贝父进程的 mm 信息，共享存储管理信息
+retval = copy_thread( 0 , clone_flags , stack_start, stack_size , p regs );
+//初始化 TSS、LDT以及GDT项
+if ( retval )
+goto bad_fork_cleanup_mm ;
+p-&amp;gt;semundo = NULL ; //初始化信号量成员
+p-&amp;gt;prent_exec_id = p-self_exec_id ;
+p-&amp;gt;swappable = 1 ; //进程占用的内存页面可换出
+p-&amp;gt;exit_signal = clone_flag &amp;amp; CSIGNAL ;
+p-&amp;gt;pdeatch_signal = 0 ; //注意：这里是父进程消亡后发送的信号
+p-&amp;gt;counter = (current-&amp;gt;counter + 1) &amp;gt;&amp;gt; 1 ;//进程动态优先级，这里设置成父进程的一半,应注意的是，这里是采用位操作来实现的。
+current-&amp;gt;counter &amp;gt;&amp;gt; =1;
+if ( !current-&amp;gt;counter )
+current-&amp;gt;need_resched = 1 ; //置位重新调度标记，实际上从这个地方开始，分裂成了父子两个进程。
+retval = p-&amp;gt;pid ;
+p-&amp;gt;tpid = retval ;
+INIT_LIST_HEAD( &amp;amp;p-&amp;gt;thread_group );
+write_lock_irq( &amp;amp;tasklist_lock );
+p-&amp;gt;p_opptr = current-&amp;gt;p_opptr ;
+p-&amp;gt;p_pptr = current-&amp;gt;p_pptr ;
+if ( !( clone_flags &amp;amp; (CLONE_PARENT | CLONE_THREAD ))) {
+p-&amp;gt;opptr = current ;
+if ( !(p-&amp;gt;ptrace &amp;amp; PT_PTRACED) )
+p-&amp;gt;p_pptr = current ;
+}
+if ( clone_flags &amp;amp; CLONE_THREAD ){
+p-&amp;gt;tpid = current-&amp;gt;tpid ;
+list_add ( &amp;amp;p-&amp;gt;thread_group,&amp;amp;current-&amp;gt;thread_group );
+}
+SET_LINKS(p);
+hash_pid(p);
+nr_threads++;
+write_unlock_irq( &amp;amp;tasklist_lock );
+if ( p-&amp;gt;ptrace &amp;amp; PT_PTRACED )
+send_sig( SIGSTOP , p ,1 );
+wake_up_process(p); //把新进程加入运行队列，并启动调度程序重新调度，使新进程获得运行机会
+++total_forks ;
+if ( clone_flags &amp;amp; CLONE_VFRK )
+wait_for_completion(&amp;amp;vfork);
+//以下是出错处理部分
+fork_out:
+return retval;
+bad_fork_cleanup_mm:
+exit_mm(p);
+bad_fork_cleanup_sighand:
+exit_sighand(p);
+bad_fork_cleanup_fs:
+exit_fs(p);
+bad_fork_cleanup_files:
+exit_files(p);
+bad_fork_cleanup:
+put_exec_domain( p-&amp;gt;exec_domain );
+if ( p-&amp;gt;binfmt &amp;amp;&amp;amp; p-&amp;gt;binfmt-&amp;gt;module )
+__MOD_DEC_USE_COUNT( p-&amp;gt;binfmt-&amp;gt;module );
+bad_fork_cleanup_count:
+atomic_dec( &amp;amp;p-&amp;gt;user-&amp;gt;processes );
+free_uid ( p-&amp;gt;user );
+bad_fork_free:
+free_task_struct(p);
+goto fork_out;
+}
+&lt;/code>&lt;/pre>
+&lt;h1 id="实验">实验&lt;/h1>
+&lt;p>实验是在实验楼完成的:&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-07-13-Linux-kernel-analysis-building-task/2018-09-19-01-45-16.png" alt="">&lt;/p>
+&lt;p>总结:
+&lt;strong>新进程的执行起点为: ret_form_fork&lt;/strong>&lt;/p>
+&lt;p>当他从ret_from_fork退出时，会从堆栈中弹出原来保存的eip，而ip指向kernel_thread_helper,&lt;/p>
+&lt;p>至此kernel_thread_helper被调用，他就能够运行我们的指定的函数了do_exit().
+do_fork的执行流程可如下图表示:&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-07-13-Linux-kernel-analysis-building-task/2018-09-19-01-45-40.png" alt="">&lt;/p>
+&lt;p>图摘自:
+&lt;a href="http://www.ahlinux.com/start/base/6893.html" target="_blank" rel="noopener">Linux进程切换&lt;/a>&lt;/p></description></item><item><title>Linux内核分析课程2_操作系统是如何工作的</title><link>http://www.guozet.me/post/Linux-Kernel-analysis-Os-work-copy/</link><pubDate>Sun, 01 Mar 2015 13:04:27 +0000</pubDate><guid>http://www.guozet.me/post/Linux-Kernel-analysis-Os-work-copy/</guid><description>&lt;p>Linux内核课第二周作业。本文在云课堂中实验楼完成。&lt;br>
+&lt;a href="http://guozet.me/about/" target="_blank" rel="noopener">唐国泽&lt;/a> 原创作品转载请注明出处.&lt;br>
+&lt;a href="http://mooc.study.163.com/course/USTC-1000029000" target="_blank" rel="noopener">《Linux内核分析》MOOC课程&lt;/a>&lt;/p>
+&lt;h1 id="计算机是如何工作的小结">计算机是如何工作的（小结）&lt;/h1>
+&lt;h2 id="概念">概念&lt;/h2>
+&lt;p>计算机的工作，一言以蔽之：执行程序的过程；也就是存储程序和
+&lt;a href="http://baike.baidu.com/view/922446.htm" target="_blank" rel="noopener">程序控制&lt;/a>的过程。&lt;/p>
+&lt;ul>
+&lt;li>存储程序计算机工作模型，计算机系统最最基础性的逻辑结构&lt;/li>
+&lt;li>函数调用堆栈，高级语言得以运行的基础&lt;/li>
+&lt;li>中断，多道程序操作系统的基点&lt;/li>
+&lt;/ul>
+&lt;h2 id="以例分析">以例分析&lt;/h2>
+&lt;p>
+&lt;a href="https://github.com/mengning/mykernel" title="mykernel" target="_blank" rel="noopener">一个简单的中断的例子&lt;/a>(点击进入)&lt;/p>
+&lt;h3 id="简要分析mymainc与myinterruptc">简要分析mymain.c与myinterrupt.c&lt;/h3>
+&lt;pre>&lt;code class="language-c">void __init my_start_kernel(void) // mymain.c中主要内容
+{
+int i = 0;
+while (1) {
+i++;
+if (i % 100000 == 0) //每循环十万次打印一次my_start_kernel here
+printk(KERN_NOTICE &amp;quot;my_start_kernel here %d \n&amp;quot;, i);
+}
+}
+void my_timer_handler(void) //每次时钟中断调用一次 myinterrupt.c中主要内容
+{
+printk(KERN_NOTICE
+&amp;quot;\n&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;my_timer_handler here&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;\n\n&amp;quot;);
+}
+&lt;/code>&lt;/pre>
+&lt;p>可见，这只是一个很简单的时钟中断演示实验，执行结果如下所示：&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-06-15-Linux-Kernel-analysis-Os-work/2018-09-19-01-12-35.png" alt="">&lt;/p>
+&lt;p>可以清楚的看到，时钟每记数到十万的时候，打印一个my_start_kernel here，时钟中断的时候执行my_time_hander here.&lt;/p>
+&lt;h3 id="在第一个的基础上进行时间片轮转多道程序的小os">在第一个的基础上进行时间片轮转多道程序的小os.&lt;/h3>
+&lt;p>&lt;strong>主要对mypcb.h, mymain.c 和myinterrupt.c这三个文件进行分析&lt;/strong>&lt;/p>
+&lt;ol>
+&lt;li>mypcb.h&lt;/li>
+&lt;/ol>
+&lt;pre>&lt;code class="language-c">/ * linux/mykernel/**mypcb.h**
+* Kernel internal PCB types
+* Copyright (C) 2013 Mengning
+*/
+#define MAX_TASK_NUM 4
+#define KERNEL_STACK_SIZE 1024*8
+/* CPU-specific state of this task */
+struct Thread {//给任务定义一个eip和esp
+unsigned longip;
+unsigned longsp;
+};
+typedef struct PCB{
+int pid;//任务编号
+volatile long state;/* -1 unrunnable, 0 runnable, &amp;gt;0 stopped */
+char stack[KERNEL_STACK_SIZE]; //定义栈空间
+/* CPU-specific state of this task */
+struct Thread thread; //定义进程的结构体thread, 其中有eip和esp
+unsigned longtask_entry;//任务的函数起始处, 也就是任务第一次执行的起始位置
+struct PCB *next;//一个任务链表, 指向下一个任务
+}tPCB;
+void my_schedule(void);//任务调动函数**
+&lt;/code>&lt;/pre>
+&lt;ol start="2">
+&lt;li>mymain.c&lt;/li>
+&lt;/ol>
+&lt;pre>&lt;code class="language-c">/* linux/mykernel/mymain.c
+* Kernel internal my_start_kernel
+* Copyright (C) 2013 Mengning
+*/
+#include &amp;lt;linux/types.h&amp;gt;
+#include &amp;lt;linux/string.h&amp;gt;
+#include &amp;lt;linux/ctype.h&amp;gt;
+#include &amp;lt;linux/tty.h&amp;gt;
+#include &amp;lt;linux/vmalloc.h&amp;gt;
+#include &amp;quot;mypcb.h&amp;quot; //引入其中两个结构体表示**
+tPCB task[MAX_TASK_NUM];//定义两个数组
+tPCB * my_current_task = NULL;
+volatile int my_need_sched = 0;//定义是否调度, 1则调度, 0则不调度
+void my_process(void);
+void __init my_start_kernel(void) **//起始函数位置**
+{
+int pid = 0;
+int i;
+/* Initialize process 0*/
+task[pid].pid = pid;
+task[pid].state = 0;/* -1 unrunnable, 0 runnable, &amp;gt;0 stopped */
+task[pid].task_entry = task[pid].thread.ip = (unsigned long)my_process;
+task[pid].thread.sp = (unsigned long)&amp;amp;task[pid].stack[KERNEL_STACK_SIZE-1]; //0号进程栈在最开始的位置**
+task[pid].next = &amp;amp;task[pid];//下一个任务也是自己，在这里，其他任务还没有创建
+/*fork more process *///创建多个任务
+for(i=1;i&amp;lt;MAX_TASK_NUM;i++)
+{
+memcpy(&amp;amp;task[i],&amp;amp;task[0],sizeof(tPCB));//复制0号进程的结构形式
+task[i].pid = i;
+task[i].state = -1;//初始的任务(除0号进程外)都设置成未运行
+task[i].thread.sp = (unsigned long)&amp;amp;task[i].stack[KERNEL_STACK_SIZE-1];
+task[i].next = task[i-1].next;//新fork的进程加到进程链表的尾部, 该新建任务的next指向上一个任务的next,也就是自己（最后一个）
+task[i-1].next = &amp;amp;task[i]; //配置上一个任务的next指向这时候新创建的任务
+}
+/* start process 0 by task[0] */
+pid = 0;
+my_current_task = &amp;amp;task[pid];//先让0号进程先执行
+asm volatile(
+&amp;quot;movl %1,%%esp\n\t&amp;quot; /* set task[pid].thread.sp to esp */
+&amp;quot;pushl %1\n\t&amp;quot; /* push ebp ,当前esp=ebp*/
+&amp;quot;pushl %0\n\t&amp;quot; /* push task[pid].thread.ip */
+&amp;quot;ret\n\t&amp;quot; /* pop task[pid].thread.ip to eip */
+&amp;quot;popl %%ebp\n\t&amp;quot;
+:
+: &amp;quot;c&amp;quot; (task[pid].thread.ip),&amp;quot;d&amp;quot; (task[pid].thread.sp)
+);
+}
+void my_process(void)
+{
+int i = 0;
+while(1)
+{
+i++;
+if(i%10000000 == 0)
+{
+printk(KERN_NOTICE &amp;quot;this is process %d -\n&amp;quot;,my_current_task-&amp;gt;pid);
+if(my_need_sched == 1)//判断是否调度；该值可有itnerrupt.c中的函数来配置
+{
+my_need_sched = 0;
+my_schedule(); //主动调动的机制
+}
+printk(KERN_NOTICE &amp;quot;this is process %d +\n&amp;quot;,my_current_task-&amp;gt;pid);
+}
+}
+}
+&lt;/code>&lt;/pre>
+&lt;ol start="3">
+&lt;li>myinterrupt.c&lt;/li>
+&lt;/ol>
+&lt;pre>&lt;code class="language-c">/* linux/mykernel/myinterrupt.c
+* Kernel internal my_timer_handler
+* Copyright (C) 2013 Mengning
+*/
+#include &amp;lt;linux/types.h&amp;gt;
+#include &amp;lt;linux/string.h&amp;gt;
+#include &amp;lt;linux/ctype.h&amp;gt;
+#include &amp;lt;linux/tty.h&amp;gt;
+#include &amp;lt;linux/vmalloc.h&amp;gt;
+#include &amp;quot;mypcb.h&amp;quot;
+extern tPCB task[MAX_TASK_NUM];
+extern tPCB * my_current_task;
+extern volatile int my_need_sched;
+volatile int time_count = 0;
+/*
+* Called by timer interrupt.
+* it runs in the name of current running process,
+* so it use kernel stack of current running process
+*/
+void my_timer_handler(void)
+{
+#if 1
+if(time_count%1000 == 0 &amp;amp;&amp;amp; my_need_sched != 1)//时钟中断1000次的时候，调度一次, 配置调度值为1
+{
+printk(KERN_NOTICE &amp;quot;&amp;gt;&amp;gt;&amp;gt;my_timer_handler here&amp;lt;&amp;lt;&amp;lt;\n&amp;quot;);
+my_need_sched = 1;
+}
+time_count ++ ;
+#endif
+return;
+}
+void my_schedule(void) //调度函数, 核心函数
+{
+tPCB * next;//定义两个指针
+tPCB * prev;
+if(my_current_task == NULL //当前进程和下一进程为空, 即没有任务, 返回
+|| my_current_task-&amp;gt;next == NULL)
+{
+return;
+}
+printk(KERN_NOTICE &amp;quot;&amp;gt;&amp;gt;&amp;gt;my_schedule&amp;lt;&amp;lt;&amp;lt;\n&amp;quot;);
+/* 在调度函数中, next指向的是下一个将要被调度的任务, prev指向的是当前正在运行的任务*/
+/* schedule */
+next = my_current_task-&amp;gt;next;//把当前进程的下一个进程赋值给next，当前进程赋值给prev
+prev = my_current_task;
+if(next-&amp;gt;state == 0)/* -1 unrunnable, 0 runnable, &amp;gt;0 stopped */ //如果下一个任务不是第一次被调度, 则执行
+{
+/* switch to next process——这个时候下一个进程有进程上下文 */
+asm volatile(
+&amp;quot;pushl %%ebp\n\t&amp;quot; /* save 当前进程 ebp */
+&amp;quot;movl %%esp,%0\n\t&amp;quot; /* save 当前 esp 赋值到prev.thread.sp */
+&amp;quot;movl %2,%%esp\n\t&amp;quot; /* restore 下一个进程的sp到 esp */
+&amp;quot;movl $1f,%1\n\t&amp;quot; /* save 当前进程的 eip */
+&amp;quot;pushl %3\n\t&amp;quot; //保存下一个进程eip保存到栈里面
+&amp;quot;ret\n\t&amp;quot; /* restore eip */
+&amp;quot;1:\t&amp;quot; /* next process start here */
+&amp;quot;popl %%ebp\n\t&amp;quot;**
+: &amp;quot;=m&amp;quot; (prev-&amp;gt;thread.sp),&amp;quot;=m&amp;quot; (prev-&amp;gt;thread.ip)**
+: &amp;quot;m&amp;quot; (next-&amp;gt;thread.sp),&amp;quot;m&amp;quot; (next-&amp;gt;thread.ip)**
+);
+my_current_task = next;
+printk(KERN_NOTICE &amp;quot;&amp;gt;&amp;gt;&amp;gt;switch %d to %d&amp;lt;&amp;lt;&amp;lt;\n&amp;quot;,prev-&amp;gt;pid,next-&amp;gt;pid);
+}
+else//下一个进程为第一次运行时,没有进程上下文, 则以下面这种方式来处理
+{
+next-&amp;gt;state = 0;
+my_current_task = next;
+printk(KERN_NOTICE &amp;quot;&amp;gt;&amp;gt;&amp;gt;switch %d to %d&amp;lt;&amp;lt;&amp;lt;\n&amp;quot;,prev-&amp;gt;pid,next-&amp;gt;pid);
+/* switch to new process */
+asm volatile(
+&amp;quot;pushl %%ebp\n\t&amp;quot; /* save ebp */
+&amp;quot;movl %%esp,%0\n\t&amp;quot; /* save esp */x`
+&amp;quot;movl %2,%%esp\n\t&amp;quot; /* restore esp */
+&amp;quot;movl %2,%%ebp\n\t&amp;quot; /* restore ebp */
+&amp;quot;movl $1f,%1\n\t&amp;quot; /* save eip */
+&amp;quot;pushl %3\n\t&amp;quot;**
+&amp;quot;ret\n\t&amp;quot; /* restore eip */**
+: &amp;quot;=m&amp;quot; (prev-&amp;gt;thread.sp),&amp;quot;=m&amp;quot; (prev-&amp;gt;thread.ip)
+: &amp;quot;m&amp;quot; (next-&amp;gt;thread.sp),&amp;quot;m&amp;quot; (next-&amp;gt;thread.ip)
+);
+}
+return;
+}
+&lt;/code>&lt;/pre>
+&lt;p>以新任务切换为例进行堆栈变化分析：&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-06-15-Linux-Kernel-analysis-Os-work/2018-09-19-01-15-18.gif" alt="">&lt;/p>
+&lt;p>执行结果如下图所示：&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-06-15-Linux-Kernel-analysis-Os-work/2018-09-19-01-15-09.png" alt="">&lt;/p></description></item><item><title>Linux内核分析课程2_操作系统是如何工作的</title><link>http://www.guozet.me/post/Linux-Kernel-analysis-Os-work/</link><pubDate>Sun, 01 Mar 2015 13:04:27 +0000</pubDate><guid>http://www.guozet.me/post/Linux-Kernel-analysis-Os-work/</guid><description>&lt;p>Linux内核课第二周作业。本文在云课堂中实验楼完成。&lt;br>
+&lt;a href="http://guozet.me/about/" target="_blank" rel="noopener">唐国泽&lt;/a> 原创作品转载请注明出处.&lt;br>
+&lt;a href="http://mooc.study.163.com/course/USTC-1000029000" target="_blank" rel="noopener">《Linux内核分析》MOOC课程&lt;/a>&lt;/p>
+&lt;h1 id="计算机是如何工作的小结">计算机是如何工作的（小结）&lt;/h1>
+&lt;h2 id="概念">概念&lt;/h2>
+&lt;p>计算机的工作，一言以蔽之：执行程序的过程；也就是存储程序和
+&lt;a href="http://baike.baidu.com/view/922446.htm" target="_blank" rel="noopener">程序控制&lt;/a>的过程。&lt;/p>
+&lt;ul>
+&lt;li>存储程序计算机工作模型，计算机系统最最基础性的逻辑结构&lt;/li>
+&lt;li>函数调用堆栈，高级语言得以运行的基础&lt;/li>
+&lt;li>中断，多道程序操作系统的基点&lt;/li>
+&lt;/ul>
+&lt;h2 id="以例分析">以例分析&lt;/h2>
+&lt;p>
+&lt;a href="https://github.com/mengning/mykernel" title="mykernel" target="_blank" rel="noopener">一个简单的中断的例子&lt;/a>(点击进入)&lt;/p>
+&lt;h3 id="简要分析mymainc与myinterruptc">简要分析mymain.c与myinterrupt.c&lt;/h3>
+&lt;pre>&lt;code class="language-c">void __init my_start_kernel(void) // mymain.c中主要内容
+{
+int i = 0;
+while (1) {
+i++;
+if (i % 100000 == 0) //每循环十万次打印一次my_start_kernel here
+printk(KERN_NOTICE &amp;quot;my_start_kernel here %d \n&amp;quot;, i);
+}
+}
+void my_timer_handler(void) //每次时钟中断调用一次 myinterrupt.c中主要内容
+{
+printk(KERN_NOTICE
+&amp;quot;\n&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;my_timer_handler here&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;\n\n&amp;quot;);
+}
+&lt;/code>&lt;/pre>
+&lt;p>可见，这只是一个很简单的时钟中断演示实验，执行结果如下所示：&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-06-15-Linux-Kernel-analysis-Os-work/2018-09-19-01-12-35.png" alt="">&lt;/p>
+&lt;p>可以清楚的看到，时钟每记数到十万的时候，打印一个my_start_kernel here，时钟中断的时候执行my_time_hander here.&lt;/p>
+&lt;h3 id="在第一个的基础上进行时间片轮转多道程序的小os">在第一个的基础上进行时间片轮转多道程序的小os.&lt;/h3>
+&lt;p>&lt;strong>主要对mypcb.h, mymain.c 和myinterrupt.c这三个文件进行分析&lt;/strong>&lt;/p>
+&lt;ol>
+&lt;li>mypcb.h&lt;/li>
+&lt;/ol>
+&lt;pre>&lt;code class="language-c">/ * linux/mykernel/**mypcb.h**
+* Kernel internal PCB types
+* Copyright (C) 2013 Mengning
+*/
+#define MAX_TASK_NUM 4
+#define KERNEL_STACK_SIZE 1024*8
+/* CPU-specific state of this task */
+struct Thread {//给任务定义一个eip和esp
+unsigned longip;
+unsigned longsp;
+};
+typedef struct PCB{
+int pid;//任务编号
+volatile long state;/* -1 unrunnable, 0 runnable, &amp;gt;0 stopped */
+char stack[KERNEL_STACK_SIZE]; //定义栈空间
+/* CPU-specific state of this task */
+struct Thread thread; //定义进程的结构体thread, 其中有eip和esp
+unsigned longtask_entry;//任务的函数起始处, 也就是任务第一次执行的起始位置
+struct PCB *next;//一个任务链表, 指向下一个任务
+}tPCB;
+void my_schedule(void);//任务调动函数**
+&lt;/code>&lt;/pre>
+&lt;ol start="2">
+&lt;li>mymain.c&lt;/li>
+&lt;/ol>
+&lt;pre>&lt;code class="language-c">/* linux/mykernel/mymain.c
+* Kernel internal my_start_kernel
+* Copyright (C) 2013 Mengning
+*/
+#include &amp;lt;linux/types.h&amp;gt;
+#include &amp;lt;linux/string.h&amp;gt;
+#include &amp;lt;linux/ctype.h&amp;gt;
+#include &amp;lt;linux/tty.h&amp;gt;
+#include &amp;lt;linux/vmalloc.h&amp;gt;
+#include &amp;quot;mypcb.h&amp;quot; //引入其中两个结构体表示**
+tPCB task[MAX_TASK_NUM];//定义两个数组
+tPCB * my_current_task = NULL;
+volatile int my_need_sched = 0;//定义是否调度, 1则调度, 0则不调度
+void my_process(void);
+void __init my_start_kernel(void) **//起始函数位置**
+{
+int pid = 0;
+int i;
+/* Initialize process 0*/
+task[pid].pid = pid;
+task[pid].state = 0;/* -1 unrunnable, 0 runnable, &amp;gt;0 stopped */
+task[pid].task_entry = task[pid].thread.ip = (unsigned long)my_process;
+task[pid].thread.sp = (unsigned long)&amp;amp;task[pid].stack[KERNEL_STACK_SIZE-1]; //0号进程栈在最开始的位置**
+task[pid].next = &amp;amp;task[pid];//下一个任务也是自己，在这里，其他任务还没有创建
+/*fork more process *///创建多个任务
+for(i=1;i&amp;lt;MAX_TASK_NUM;i++)
+{
+memcpy(&amp;amp;task[i],&amp;amp;task[0],sizeof(tPCB));//复制0号进程的结构形式
+task[i].pid = i;
+task[i].state = -1;//初始的任务(除0号进程外)都设置成未运行
+task[i].thread.sp = (unsigned long)&amp;amp;task[i].stack[KERNEL_STACK_SIZE-1];
+task[i].next = task[i-1].next;//新fork的进程加到进程链表的尾部, 该新建任务的next指向上一个任务的next,也就是自己（最后一个）
+task[i-1].next = &amp;amp;task[i]; //配置上一个任务的next指向这时候新创建的任务
+}
+/* start process 0 by task[0] */
+pid = 0;
+my_current_task = &amp;amp;task[pid];//先让0号进程先执行
+asm volatile(
+&amp;quot;movl %1,%%esp\n\t&amp;quot; /* set task[pid].thread.sp to esp */
+&amp;quot;pushl %1\n\t&amp;quot; /* push ebp ,当前esp=ebp*/
+&amp;quot;pushl %0\n\t&amp;quot; /* push task[pid].thread.ip */
+&amp;quot;ret\n\t&amp;quot; /* pop task[pid].thread.ip to eip */
+&amp;quot;popl %%ebp\n\t&amp;quot;
+:
+: &amp;quot;c&amp;quot; (task[pid].thread.ip),&amp;quot;d&amp;quot; (task[pid].thread.sp)
+);
+}
+void my_process(void)
+{
+int i = 0;
+while(1)
+{
+i++;
+if(i%10000000 == 0)
+{
+printk(KERN_NOTICE &amp;quot;this is process %d -\n&amp;quot;,my_current_task-&amp;gt;pid);
+if(my_need_sched == 1)//判断是否调度；该值可有itnerrupt.c中的函数来配置
+{
+my_need_sched = 0;
+my_schedule(); //主动调动的机制
+}
+printk(KERN_NOTICE &amp;quot;this is process %d +\n&amp;quot;,my_current_task-&amp;gt;pid);
+}
+}
+}
+&lt;/code>&lt;/pre>
+&lt;ol start="3">
+&lt;li>myinterrupt.c&lt;/li>
+&lt;/ol>
+&lt;pre>&lt;code class="language-c">/* linux/mykernel/myinterrupt.c
+* Kernel internal my_timer_handler
+* Copyright (C) 2013 Mengning
+*/
+#include &amp;lt;linux/types.h&amp;gt;
+#include &amp;lt;linux/string.h&amp;gt;
+#include &amp;lt;linux/ctype.h&amp;gt;
+#include &amp;lt;linux/tty.h&amp;gt;
+#include &amp;lt;linux/vmalloc.h&amp;gt;
+#include &amp;quot;mypcb.h&amp;quot;
+extern tPCB task[MAX_TASK_NUM];
+extern tPCB * my_current_task;
+extern volatile int my_need_sched;
+volatile int time_count = 0;
+/*
+* Called by timer interrupt.
+* it runs in the name of current running process,
+* so it use kernel stack of current running process
+*/
+void my_timer_handler(void)
+{
+#if 1
+if(time_count%1000 == 0 &amp;amp;&amp;amp; my_need_sched != 1)//时钟中断1000次的时候，调度一次, 配置调度值为1
+{
+printk(KERN_NOTICE &amp;quot;&amp;gt;&amp;gt;&amp;gt;my_timer_handler here&amp;lt;&amp;lt;&amp;lt;\n&amp;quot;);
+my_need_sched = 1;
+}
+time_count ++ ;
+#endif
+return;
+}
+void my_schedule(void) //调度函数, 核心函数
+{
+tPCB * next;//定义两个指针
+tPCB * prev;
+if(my_current_task == NULL //当前进程和下一进程为空, 即没有任务, 返回
+|| my_current_task-&amp;gt;next == NULL)
+{
+return;
+}
+printk(KERN_NOTICE &amp;quot;&amp;gt;&amp;gt;&amp;gt;my_schedule&amp;lt;&amp;lt;&amp;lt;\n&amp;quot;);
+/* 在调度函数中, next指向的是下一个将要被调度的任务, prev指向的是当前正在运行的任务*/
+/* schedule */
+next = my_current_task-&amp;gt;next;//把当前进程的下一个进程赋值给next，当前进程赋值给prev
+prev = my_current_task;
+if(next-&amp;gt;state == 0)/* -1 unrunnable, 0 runnable, &amp;gt;0 stopped */ //如果下一个任务不是第一次被调度, 则执行
+{
+/* switch to next process——这个时候下一个进程有进程上下文 */
+asm volatile(
+&amp;quot;pushl %%ebp\n\t&amp;quot; /* save 当前进程 ebp */
+&amp;quot;movl %%esp,%0\n\t&amp;quot; /* save 当前 esp 赋值到prev.thread.sp */
+&amp;quot;movl %2,%%esp\n\t&amp;quot; /* restore 下一个进程的sp到 esp */
+&amp;quot;movl $1f,%1\n\t&amp;quot; /* save 当前进程的 eip */
+&amp;quot;pushl %3\n\t&amp;quot; //保存下一个进程eip保存到栈里面
+&amp;quot;ret\n\t&amp;quot; /* restore eip */
+&amp;quot;1:\t&amp;quot; /* next process start here */
+&amp;quot;popl %%ebp\n\t&amp;quot;**
+: &amp;quot;=m&amp;quot; (prev-&amp;gt;thread.sp),&amp;quot;=m&amp;quot; (prev-&amp;gt;thread.ip)**
+: &amp;quot;m&amp;quot; (next-&amp;gt;thread.sp),&amp;quot;m&amp;quot; (next-&amp;gt;thread.ip)**
+);
+my_current_task = next;
+printk(KERN_NOTICE &amp;quot;&amp;gt;&amp;gt;&amp;gt;switch %d to %d&amp;lt;&amp;lt;&amp;lt;\n&amp;quot;,prev-&amp;gt;pid,next-&amp;gt;pid);
+}
+else//下一个进程为第一次运行时,没有进程上下文, 则以下面这种方式来处理
+{
+next-&amp;gt;state = 0;
+my_current_task = next;
+printk(KERN_NOTICE &amp;quot;&amp;gt;&amp;gt;&amp;gt;switch %d to %d&amp;lt;&amp;lt;&amp;lt;\n&amp;quot;,prev-&amp;gt;pid,next-&amp;gt;pid);
+/* switch to new process */
+asm volatile(
+&amp;quot;pushl %%ebp\n\t&amp;quot; /* save ebp */
+&amp;quot;movl %%esp,%0\n\t&amp;quot; /* save esp */x`
+&amp;quot;movl %2,%%esp\n\t&amp;quot; /* restore esp */
+&amp;quot;movl %2,%%ebp\n\t&amp;quot; /* restore ebp */
+&amp;quot;movl $1f,%1\n\t&amp;quot; /* save eip */
+&amp;quot;pushl %3\n\t&amp;quot;**
+&amp;quot;ret\n\t&amp;quot; /* restore eip */**
+: &amp;quot;=m&amp;quot; (prev-&amp;gt;thread.sp),&amp;quot;=m&amp;quot; (prev-&amp;gt;thread.ip)
+: &amp;quot;m&amp;quot; (next-&amp;gt;thread.sp),&amp;quot;m&amp;quot; (next-&amp;gt;thread.ip)
+);
+}
+return;
+}
+&lt;/code>&lt;/pre>
+&lt;p>以新任务切换为例进行堆栈变化分析：&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-06-15-Linux-Kernel-analysis-Os-work/2018-09-19-01-15-18.gif" alt="">&lt;/p>
+&lt;p>执行结果如下图所示：&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-06-15-Linux-Kernel-analysis-Os-work/2018-09-19-01-15-09.png" alt="">&lt;/p></description></item><item><title>Linux内核分析课程3_start_kernel()函数分析</title><link>http://www.guozet.me/post/Linux-Kernel-analysis-Start-Kernel-Function/</link><pubDate>Sun, 01 Mar 2015 13:04:27 +0000</pubDate><guid>http://www.guozet.me/post/Linux-Kernel-analysis-Start-Kernel-Function/</guid><description>&lt;p>Linux内核课第三周作业。本文在云课堂中实验楼完成。&lt;br>
+&lt;a href="http://guozet.me/about/" target="_blank" rel="noopener">唐国泽&lt;/a> 原创作品转载请注明出处.&lt;br>
+&lt;a href="http://mooc.study.163.com/course/USTC-1000029000" target="_blank" rel="noopener">《Linux内核分析》MOOC课程&lt;/a>&lt;/p>
+&lt;h1 id="分析start_kernel函数">分析Start_kernel函数&lt;/h1>
+&lt;p>我使用的是linux-2.6.14的源代码来分析的。在这里突出重点，主要来分析start_kernel这个函数中的大致实现。开机启动到start_kernel这个过程主要是汇编来实现的，具体可参考&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;a href="https://blog.csdn.net/aaronychen/article/details/2838341" target="_blank" rel="noopener">linux kernel 从入口到start_kernel 的代码分析&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>start_kernel()这个函数是内核由引导程序引导以后，由自解压程序解压以后执行的第一个函数，可以认为是整个内核的入口函数，start_kernel()做的工作就是线性的初始化一些内核的基础机制，如中断，内存管理，进程管理，信号，文件系统，KO等！最后就启动一个init线程，init线程再读取文件系统里的init程序，做为系统的第一个进程而存在！&lt;/p>
+&lt;p>start_kernel源码如下：&lt;/p>
+&lt;pre>&lt;code class="language-cpp">&amp;lt;span style=&amp;quot;font-size:14px;&amp;quot;&amp;gt;asmlinkage void __init start_kernel(void)
+{
+char * command_line; //命令行，用来存放bootloader传递过来的参数
+extern struct kernel_param __start___param[], __stop___param[];&amp;lt;span style=&amp;quot;font-family: Arial, Helvetica, sans-serif; font-size: 12px;&amp;quot;&amp;gt;//这两个变量为地址指针，指向内核启动参数处理相关结构体在内存的位置， &amp;lt;/span&amp;gt;
+lock_kernel();&amp;lt;span style=&amp;quot;font-family: Arial, Helvetica, sans-serif; font-size: 12px;&amp;quot;&amp;gt;//建立一个哈希表(hash tables)，就是一个前后指向的指针结构体数组。&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;quot;font-family: Arial, Helvetica, sans-serif; font-size: 12px;&amp;quot;&amp;gt;【函数的主要作用是初始化锁的状态跟踪模块。由于内核大量使用锁来进行多进程多处理器的同步操作，死锁就会在代码不合理的时候出现，但是要定位哪个锁比较困难，用哈希表可以跟踪锁的使用状态。死锁情况：一个进程递归加锁同一把锁；同一把锁在两次中断中加锁；几把锁形成闭环死锁】&amp;lt;/span&amp;gt;
+page_address_init(); //初始化高端内存的映射表
+printk(KERN_NOTICE); //打印信息
+printk(linux_banner); //打印Linux的版本信息
+setup_arch(&amp;amp;command_line); &amp;lt;span style=&amp;quot;font-family: Arial, Helvetica, sans-serif; font-size: 12px;&amp;quot;&amp;gt;//内核架构相关初始化函数，是非常重要的一个初始化步骤。其中包含了处理器相关参数的初始化、内核启动参数(tagged list)的获取和前期处理、内存子系统的早期初始化(bootmem分配器)&amp;lt;/span&amp;gt;
+&amp;lt;span style=&amp;quot;font-family: Arial, Helvetica, sans-serif; font-size: 12px;&amp;quot;&amp;gt; setup_per_cpu_areas();&amp;lt;/span&amp;gt;
+smp_prepare_boot_cpu();//为SMP系统里引导CPU(boot-cpu)进行准备工作。在ARM系统单核里是空函数
+sched_init();&amp;lt;span style=&amp;quot;white-space:pre&amp;quot;&amp;gt; &amp;lt;/span&amp;gt;//对进程调度器的数据结构进行初始化，创建运行队列，设置当前任务的空线程，当前任务的调度策略为CFS调度器
+preempt_disable(); //关闭优先级调度。由于每个进程任务都有优先级，目前系统还没有完全初始化，还不能打开优先级调度。
+build_all_zonelists();
+page_alloc_init(); //设置内存页分配通知器
+printk(KERN_NOTICE &amp;quot;Kernel command line: %s\n&amp;quot;, saved_command_line); //输出命令参数到显示终端
+parse_early_param(); //解析cmdline中的启动参数
+parse_args(&amp;quot;Booting kernel&amp;quot;, command_line, __start___param,
+__stop___param - __start___param,
+&amp;amp;unknown_bootoption);
+//这行代码主要对传入内核参数进行解释，如果不能识别的命令就调用最后参数的函数
+sort_main_extable();//对内核异常表(exception table)按照异常向量号大小进行排序，以便加速访问
+trap_init(); //对内核陷阱异常进行初始化，初始化一些中断向量，在ARM系统里是空函数，没有任何的初始化
+rcu_init(); //初始化直接读拷贝更新的锁机制。 Read-Copy Update 【RCU主要提供在读取数据机会比较多，但更新比较的少的场合，这样减少读取数据锁的性能低下的问题。】
+init_IRQ();&amp;lt;span style=&amp;quot;white-space:pre&amp;quot;&amp;gt; &amp;lt;/span&amp;gt;//对应架构特定的中断初始化函数，在ARM中就是machine_desc-&amp;gt;init_irq()，就是运行设备描述结构体中的init_irq函数[arch/arm/mach-msm/board-xxx.c]
+pidhash_init();
+init_timers();&amp;lt;span style=&amp;quot;white-space:pre&amp;quot;&amp;gt; &amp;lt;/span&amp;gt;
+//初始化引导CPU的时钟相关的数据结构，注册时钟的回调函数，当时钟到达时可以回调时钟处理函数，最后初始化时钟软件中断处理
+//初始化定时器,开启定时器软中断服务以及注册服务程序以及初始化各CPU中的tev_base等init_timers()-&amp;gt;run_timer_softirq()-&amp;gt;__run_timers()..
+softirq_init();
+//初始化软件中断，软件中断与硬件中断区别就是中断发生时，软件中断是使用线程来监视中断信号，而硬件中断是使用CPU硬件来监视中断。
+time_init(); //初始化系统时钟。开启一个硬件定时器，开始产生系统时钟就是system_timer的初始化,arch/arm/mach-msm/board-*.c
+console_init();
+if (panic_later)
+panic(panic_later, panic_param);
+profile_init();
+local_irq_enable();
+#ifdef CONFIG_BLK_DEV_INITRD
+if (initrd_start &amp;amp;&amp;amp; !initrd_below_start_ok &amp;amp;&amp;amp;
+initrd_start &amp;lt; min_low_pfn &amp;lt;&amp;lt; PAGE_SHIFT) {
+printk(KERN_CRIT &amp;quot;initrd overwritten (0x%08lx &amp;lt; 0x%08lx) - &amp;quot;
+&amp;quot;disabling it.\n&amp;quot;,initrd_start,min_low_pfn &amp;lt;&amp;lt; PAGE_SHIFT);
+initrd_start = 0;
+}
+#endif
+vfs_caches_init_early(); //前期虚拟文件系统(vfs)的缓存初始化
+mem_init(); //初始化内存并计算可用内存大小;标记哪些内存可以使用，并且告诉系统有多少内存可以使用，当然是除了内核使用的内存以外
+kmem_cache_init(); // 初始化SLAB缓存分配器
+setup_per_cpu_pageset();
+numa_policy_init();
+if (late_time_init)
+late_time_init();
+calibrate_delay();
+pidmap_init(); //进程号位图初始化，一般用一个page来指示所有的进程PID占用情况
+pgtable_cache_init();
+prio_tree_init(); //初始化内核基于radix树的优先级搜索树(PST)，初始化结构体
+anon_vma_init(); //初始化反向映射的匿名内存，提供反向查找内存的结构指针位置，快速地回收内存。
+#ifdef CONFIG_X86
+if (efi_enabled)
+efi_enter_virtual_mode();
+#endif
+fork_init(num_physpages); //初始化kernel的fork()环境。Linux下应用程序执行是靠系统调用fork()完成，fork_init所完成的工作就是确定可以fork()的线程的数量，然后是初始化init_task进程
+proc_caches_init(); //进程缓存初始化，为进程初始化创建机制所需的其他数据结构申请空间
+buffer_init(); //初始化文件系统的缓冲区，并计算最大可以使用的文件缓存。
+unnamed_dev_init(); //初始化一个虚拟文件系统使用的哑文件
+key_init(); //没有键盘则为空，如果有键盘，则为键盘分配一个高速缓存
+security_init();
+vfs_caches_init(num_physpages); //初始化虚拟文件系统
+radix_tree_init();
+signals_init(); //初始化内核信号队列….
+page_writeback_init(); //页面写机制初始化
+#ifdef CONFIG_PROC_FS
+proc_root_init();
+//初始化系统进程文件系统，主要提供内核与用户进行交互的平台，方便用户实时查看进程的信息。
+#endif
+cpuset_init(); //初始化CPUSET，CPUSET主要为控制组提供CPU和内存节点的管理的结构。
+check_bugs(); //检查CPU配置、FPU等是否非法使用不具备的功能，检查CPU BUG，软件规避BUG
+acpi_early_init(); /* before LAPIC and SMP init */
+rest_init(); //最后实际进入reset_init()函数，包括所有剩下的硬件驱动，线程初始化等过程…这也最终完成start_kernel的启动过程。
+}&amp;lt;/span&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;p>接下来分析init进程的创建和执行：
+&lt;img src="http://www.guozet.me/images/in-post/2015-06-18-Linux-Kernel-analysis-Start-Kernel-Function/2018-09-19-01-21-04.png" alt="">&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-06-18-Linux-Kernel-analysis-Start-Kernel-Function/2018-09-19-01-21-19.png" alt="">&lt;/p>
+&lt;p>&lt;code>start_kernel() -&amp;gt; rest_init() -&amp;gt; kernel_init() -&amp;gt; 启动init进程;&lt;/code>&lt;/p>
+&lt;p>rest_init函数中创建的一个内核线程kernel_init，调用该内核线程之后，该线程要完成的任务是启动init进程，也就是我们所谓的１号进程，是系统启动后的第一个进程。大致可如下表示：
+0号进程(rest_init)-&amp;gt;1号内核进程（kernel_init）-&amp;gt;1号用户进程（init进程）
+同时０号进程rest_init中最后会调用一个idle的进程，idle进程是在系统中没有任何任务执行的时候，该任务开始工作。&lt;/p>
+&lt;h1 id="实验内核调试">实验：内核调试&lt;/h1>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-06-18-Linux-Kernel-analysis-Start-Kernel-Function/2018-09-19-01-22-15.png" alt="">&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-06-18-Linux-Kernel-analysis-Start-Kernel-Function/2018-09-19-01-22-25.png" alt="">&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-06-18-Linux-Kernel-analysis-Start-Kernel-Function/2018-09-19-01-22-34.png" alt="">&lt;/p></description></item><item><title>Linux内核分析课程4_Linux系统调用</title><link>http://www.guozet.me/post/Linux-kernel-analysis-system-call/</link><pubDate>Sun, 01 Mar 2015 13:04:27 +0000</pubDate><guid>http://www.guozet.me/post/Linux-kernel-analysis-system-call/</guid><description>&lt;p>Linux内核课第四周作业。本文在云课堂中实验楼完成。&lt;br>
+&lt;a href="http://guozet.me/about/" target="_blank" rel="noopener">唐国泽&lt;/a> 原创作品转载请注明出处.&lt;br>
+&lt;a href="http://mooc.study.163.com/course/USTC-1000029000" target="_blank" rel="noopener">《Linux内核分析》MOOC课程&lt;/a>&lt;/p>
+&lt;p>主要内容：&lt;/p>
+&lt;ol>
+&lt;li>Linux系统调用的原理&lt;/li>
+&lt;li>系统调用的实现与意义&lt;/li>
+&lt;li>API和系统调用&lt;/li>
+&lt;li>系统调用程序及服务例程&lt;/li>
+&lt;li>实验：使用C语言和汇编分别进行系统调用&lt;/li>
+&lt;/ol>
+&lt;h1 id="linux系统调用的原理">Linux系统调用的原理&lt;/h1>
+&lt;p>系统调用，顾名思义，说的是&lt;code>操作系统提供给用户程序调用的一组“特殊”接口。用户程序可以通过这组“特殊”接口来获得操作系统内核提供的服务&lt;/code>，比如用户可以通过文件系统相关的调用请求系统打开文件、关闭文件或读写文件，可以通过时钟相关的系统调用获得系统时间或设置定时器等。&lt;/p>
+&lt;p>从逻辑上来说，系统调用可被看成是一个内核与用户空间程序交互的接口——它好比一个中间人，把用户进程的请求传达给内核，待内核把请求处理完毕后再将处理结果送回给用户空间。&lt;/p>
+&lt;p>系统服务之所以需要通过系统调用来提供给用户空间的根本原因是为了对系统进行“保护”，因为我们知道Linux的运行空间分为内核空间与用户空间，它们各自运行在不同的级别中，逻辑上相互隔离。&lt;code>所以用户进程在通常情况下不允许访问内核数据，也无法使用内核函数，它们只能在用户空间操作用户数据，调用用户空间函数&lt;/code>。比如我们熟悉的“hello world”程序（执行时）就是标准的用户空间进程，它使用的打印函数printf就属于用户空间函数，打印的字符“hello word”字符串也属于用户空间数据。&lt;/p>
+&lt;p>但是很多情况下，用户进程需要获得系统服务（调用系统程序），这时就必须利用系统提供给用户的“特殊接口”——系统调用了，它的特殊性主要在于规定了用户进程进入内核的具体位置；换句话说，用户访问内核的路径是事先规定好的，只能从规定位置进入内核，而不准许肆意跳入内核。有了这样的陷入内核的统一访问路径限制才能保证内核安全无虞。&lt;code>我们可以形象地描述这种机制：作为一个游客，你可以买票要求进入野生动物园，但你必须老老实实地坐在观光车上，按照规定的路线观光游览。当然，不准下车，因为那样太危险，不是让你丢掉小命，就是让你吓坏了野生动物。&lt;/code>&lt;/p>
+&lt;p>该段引用自博客：
+&lt;a href="http://http//blog.csdn.net/orange_os/article/details/7485069" target="_blank" rel="noopener">Linux系统调用&lt;/a>&lt;/p>
+&lt;h1 id="系统调用的实现和意义">系统调用的实现和意义&lt;/h1>
+&lt;p>Linux系统调用是通过软中断来实现的，软中断是有编程人员在软件中进行触发的（注意区别与硬件中断）；在代码中的体现是通过int $0x80汇编指令来触发编程异常；&lt;/p>
+&lt;p>&lt;strong>那为什么要弄一个异常机制呢？&lt;/strong> 因为当用户态的进程调用一个系统调用时，CPU便被切换到内核态执行内核函数，而我们在i386体系结构部分已经讲述过了进入内核——进入高特权级别——必须经过系统的门机制，这里的异常实际上就是通过系统门陷入内核。&lt;/p>
+&lt;p>详细地解释一下这个过程。int $0x80指令的目的是产生一个编号为0x80的编程异常，这个编程异常对应的是中断描述符表IDT中的第128项——也就是对应的系统门描述符。门描述符中含有一个预设的内核空间地址，它指向了系统调用处理程序：system_call()（别和系统调用服务程序混淆,这个程序在entry.S文件中用汇编语言编写）。&lt;/p>
+&lt;p>很显然，所有的系统调用都会统一地转到这个地址，但&lt;code>Linux一共有256系统调用都从这里进入内核后又该如何派发到它们到各自的服务程序去呢？&lt;/code>&lt;/p>
+&lt;p>解决这个问题的方法非常简单：首先Linux为每个系统调用都进行了编号（0—NR_syscall），同时在内核中保存了一张系统调用表，该表中保存了系统调用编号和其对应的服务例程，因此在系统调入通过系统门陷入内核前，需要把系统调用号一并传入内核，在x86上，这个传递动作是通过在执行int0x80前把调用号装入eax寄存器实现的。这样系统调用处理程序一旦运行，就可以从eax中得到数据，然后再去系统调用表中寻找相应服务例程了。&lt;/p>
+&lt;p>&lt;strong>那么，调用时候的参数是如何传递的呢？&lt;/strong>&lt;/p>
+&lt;p>传递的参数主要有：&lt;/p>
+&lt;ul>
+&lt;li>实际的值；&lt;/li>
+&lt;li>用户态进程地址空间的变量的地址；&lt;/li>
+&lt;li>甚至是包含指向用户态函数的指针的数据结构的地址；&lt;/li>
+&lt;/ul>
+&lt;p>寄存器传递参数具有如下限制：&lt;/p>
+&lt;ul>
+&lt;li>每个参数的长度不能超过寄存器的长度，即32位&lt;/li>
+&lt;li>在系统调用号（eax）之外，参数的个数不能超过6个（ebx，ecx，edx，esi，edi，ebp）&lt;/li>
+&lt;/ul>
+&lt;p>超过6个怎么办？超过６个的话，可将其放到内存中，把内存地址传递过去即可；
+系统调用过程如下所示：
+&lt;img src="http://www.guozet.me/images/in-post/2015-06-19-Linux-kernel-analysis-system-call/2018-09-19-01-34-29.png" alt="">&lt;/p>
+&lt;p>&lt;strong>总结：系统调用，简而言之，就是软件通过调用API，由API调用int $0x80 触发软件中断，然后通过一些寄存器将参数传入，实现一些硬件的操作。&lt;/strong>&lt;/p>
+&lt;p>那设置系统调用的意义何在呢？&lt;/p>
+&lt;p>操作系统为用户态进程与硬件设备进行交互提供了一组接口——系统调用&lt;/p>
+&lt;ul>
+&lt;li>把用户从底层的硬件编程中解放出来&lt;/li>
+&lt;li>极大的提高了系统的安全性&lt;/li>
+&lt;li>使用户程序具有可移植性&lt;/li>
+&lt;/ul>
+&lt;h1 id="api系统调用系统命令内核函数">API，系统调用，系统命令，内核函数&lt;/h1>
+&lt;p>应用编程接口(application program interface, API)是一个函数定义，说明了如何获得一个给定的服务，比如read( )、malloc( )、free( )、abs( )等。它有可能和系统调用形式上一致，比如read()接口就和read系统调用对应，但这种对应并非一一对应，&lt;code>往往会出现几种不同的API内部用到同一个系统调用，比如malloc( )、free( )内部利用brk( )系统调用来扩大或缩小进程的堆&lt;/code>；或一个API利用了好几个系统调用组合完成服务。更有些API甚至不需要任何系统调用——因为它并不是必需要使用内核服务，如计算整数绝对值的abs（）接口&lt;/p>
+&lt;p>系统调用并非直接和程序员或系统管理员打交道，它仅仅是一个通过软中断机制（我们后面讲述）向内核提交请求，获取内核服务的接口。&lt;/p>
+&lt;p>系统命令，就是可以执行的一些程序，利用了现有的一些API来实现特定的常用功能。&lt;/p>
+&lt;p>内核函数，听着很高大上，其实它们和普通函数很像，但不对用户展现，系统自己使用的一些函数，在内核实现，因此要满足一些内核编程的要求。而系统调用是一层用户进入内核的接口，它本身并非内核函数，进入内核后，不同的系统调用会找到对应到各自的内核函数——换个专业说法就叫：&lt;code>系统调用服务例程。实际上针对请求提供服务的是内核函数而非调用接口。&lt;/code>&lt;/p>
+&lt;h1 id="系统调用程序和服务例程">系统调用程序和服务例程&lt;/h1>
+&lt;p>上面提到Linux只允许系统调用接口使用128这一个软中断向量，这也就意味着所有的系统调用接口必须共享这一个中断通道，并在同一个中断服务例程中（这里的中断服务例程就是对应于中断号为128的中断服务例程，通过查中断向量表得到）调用不同的内核服务例程，所以，系统调用接口除了要引发“int ＄ Ox80”软中断之外，为了进人内核后能调用不同的内核服务例程，还要提供识别内核服务例程的参数，这个参数叫做“系统调用号”。也就是说，所有可为进程提供服务的内核服务例程都应具有一个唯一的系统调用号。当然，系统调用接口还应为内核服务例程准各必要的参数。&lt;/p>
+&lt;p>那么，这里，我就截一个系统调用表的图片给大家看看：&lt;br>
+&lt;img src="http://www.guozet.me/images/in-post/2015-06-19-Linux-kernel-analysis-system-call/2018-09-19-01-35-22.png" alt="">&lt;/p>
+&lt;p>在图中我们可以看到，我们的系统调用表格中的第一个调用是sys_restart_syscall,也就是重启了，系统为每一个系统调用都定义了一个唯一的编号，同时在内核中保存了一张系统调用表，该表中保存了系统调用编号和其对应的服务例程地址，第呢n个表项包含了系统调用号为n的服务例程的地址；&lt;/p>
+&lt;p>所有系统调用陷入内核前，需要将系统调用号一起传入内核，而该标号实际上就是系统调用表的下标，在i386上，这个传递工作是通过在执行int $0x80前把调用号装入eax寄存器来实现的，这样系统调用处理程序一旦运行起来，就可以从eax中得到系统调用号，然后再到系统调用表中去寻找相应的服务例程。&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-06-19-Linux-kernel-analysis-system-call/2018-09-19-01-35-35.png" alt="">&lt;/p>
+&lt;p>&lt;strong>整理系统调用的过程：&lt;/strong>&lt;/p>
+&lt;ol>
+&lt;li>应用程序调用封装好的API&lt;/li>
+&lt;li>要保护用户态的现场，即把处理器的用户态运行环境保护到进程的内核堆栈。&lt;/li>
+&lt;li>API将对应的系统调用号存入eax，如果需要传参，还要在其他寄存器中传入相关参数，然后调用int $0x80触发中断进入内核中的中断处理函数&lt;/li>
+&lt;li>内核中的中断处理程序根据系统调用号调用对应的系统调用&lt;/li>
+&lt;li>系统完成相应功能，将返回值存入eax，返回到中断处理函数；&lt;/li>
+&lt;li>中断处理函数返回到API中;//在返回的途中，有进程调度，如果有优先级更高的进程，会调度&lt;/li>
+&lt;li>API将eax，即系统调用的返回值返回给应用程序。&lt;/li>
+&lt;/ol>
+&lt;h1 id="实验使用c语言和汇编分别进行系统调用">实验：使用C语言和汇编分别进行系统调用&lt;/h1>
+&lt;p>在这里，使用的系统调用中的exit()来进行系统调用实践，下面是C语言程序，主要的功能是父进程fork()一个子进程，然后子进程沉睡５秒钟后僵死，父进程等待子进程退出之后回收子进程。&lt;/p>
+&lt;pre>&lt;code class="language-c">&amp;lt;div style=&amp;quot;text-align: justify;&amp;quot;&amp;gt;&amp;lt;span style=&amp;quot;font-family: Arial, Helvetica, sans-serif;&amp;quot;&amp;gt;/*************************************************************************&amp;lt;/span&amp;gt;&amp;lt;/div&amp;gt; &amp;gt; File Name: Callexit.c
+&amp;gt; Author: GuoZe Tang
+&amp;gt; Mail: 269831714@qq.com
+&amp;lt;div style=&amp;quot;text-align: justify;&amp;quot;&amp;gt;&amp;lt;span style=&amp;quot;font-family: Arial, Helvetica, sans-serif;&amp;quot;&amp;gt; ************************************************************************/&amp;lt;/span&amp;gt;&amp;lt;/div&amp;gt; &amp;gt; Created Time: Sun 29 Mar 2015 01:08:06 PM CST
+#include&amp;lt;stdio.h&amp;gt;
+#include&amp;lt;time.h&amp;gt;
+#include&amp;lt;sys/types.h&amp;gt;
+&amp;lt;div style=&amp;quot;text-align: justify;&amp;quot;&amp;gt;&amp;lt;span style=&amp;quot;font-family: Arial, Helvetica, sans-serif;&amp;quot;&amp;gt; printf(&amp;quot;Fork error!\n&amp;quot;);&amp;lt;/span&amp;gt;&amp;lt;/div&amp;gt;#include&amp;lt;unistd.h&amp;gt;
+int main(int argc,char *argvs)
+{
+pid_t pc,pr;
+int t;
+pc =fork();
+if(pc &amp;lt; 0)
+&amp;lt;div style=&amp;quot;text-align: justify;&amp;quot;&amp;gt;&amp;lt;span style=&amp;quot;font-family: Arial, Helvetica, sans-serif;&amp;quot;&amp;gt; pr=wait(NULL);&amp;lt;/span&amp;gt;&amp;lt;/div&amp;gt; else if(pc == 0){
+printf(&amp;quot;This is child process with pid of %d\n&amp;quot;,getpid());
+sleep(5);
+}
+else{
+&amp;lt;div style=&amp;quot;text-align: justify;&amp;quot;&amp;gt;&amp;lt;span style=&amp;quot;font-family: Arial, Helvetica, sans-serif;&amp;quot;&amp;gt;}&amp;lt;/span&amp;gt;&amp;lt;/div&amp;gt; printf(&amp;quot;I catched a child process with pid of %d\n&amp;quot;,pr);
+}
+&amp;lt;div style=&amp;quot;text-align: justify;&amp;quot;&amp;gt;&amp;lt;span style=&amp;quot;font-family: Arial, Helvetica, sans-serif;&amp;quot;&amp;gt; exit(0);&amp;lt;/span&amp;gt;&amp;lt;/div&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;p>执行结果如下图所示，很简单：&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-06-19-Linux-kernel-analysis-system-call/2018-09-19-01-36-15.png" alt="">&lt;/p>
+&lt;p>进程的退出，调用系统调用exit（）就可完成，在这里exit写出汇编的形式，查询系统调用表，可知exit的系统调用号为１；使用汇编代码来书写exit系统调用如下：&lt;/p>
+&lt;pre>&lt;code class="language-c">/*************************************************************************
+&amp;gt; File Name: Callexit_asm.c
+&amp;gt; Author: GuoZe Tang
+&amp;gt; Mail: 269831714@qq.com
+&amp;gt; Created Time: Sun 29 Mar 2015 01:08:06 PM CST
+************************************************************************/
+#include&amp;lt;stdio.h&amp;gt;
+#include&amp;lt;time.h&amp;gt;
+#include&amp;lt;sys/types.h&amp;gt;
+#include&amp;lt;unistd.h&amp;gt;
+int main(int argc,char *argvs)
+{
+pid_t pc,pr;
+int t;
+pc =fork();
+if(pc &amp;lt; 0)
+printf(&amp;quot;Fork error!\n&amp;quot;);
+else if(pc == 0){
+printf(&amp;quot;This is child process with pid of %d\n&amp;quot;,getpid());
+sleep(5);
+}
+else{
+pr=wait(NULL);
+printf(&amp;quot;I catched a child process with pid of %d\n&amp;quot;,pr);
+}
+asm volatile(
+&amp;quot;mov $0x1,%%eax\n\t&amp;quot;
+&amp;quot;mov $0x0,%%ebx\n\t&amp;quot;
+&amp;quot;int $0x80\n\t&amp;quot;
+&amp;quot;mov %%eax,%0\n\t&amp;quot;
+:&amp;quot;=m&amp;quot; (t)
+);
+}
+&lt;/code>&lt;/pre>
+&lt;p>执行如下：&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-06-19-Linux-kernel-analysis-system-call/2018-09-19-01-36-42.png" alt="">&lt;/p></description></item><item><title>Linux内核分析课程5_System call中断处理过程</title><link>http://www.guozet.me/post/Linux-kernel-analysis-interrupt/</link><pubDate>Sun, 01 Mar 2015 13:04:27 +0000</pubDate><guid>http://www.guozet.me/post/Linux-kernel-analysis-interrupt/</guid><description>&lt;p>Linux内核课第五周作业。本文在云课堂中实验楼完成。&lt;br>
+&lt;a href="http://guozet.me/about/" target="_blank" rel="noopener">唐国泽&lt;/a> 原创作品转载请注明出处.&lt;br>
+&lt;a href="http://mooc.study.163.com/course/USTC-1000029000" target="_blank" rel="noopener">《Linux内核分析》MOOC课程&lt;/a>&lt;/p>
+&lt;hr>
+&lt;p>中断处理的主要内容：&lt;/p>
+&lt;ol>
+&lt;li>调试sys_exit()&lt;/li>
+&lt;li>系统调用源代码分析&lt;/li>
+&lt;li>系统调用小结&lt;/li>
+&lt;/ol>
+&lt;!-- more -->
+&lt;h1 id="加入自定义的系统调用callexit">加入自定义的系统调用CallExit.&lt;/h1>
+&lt;p>修改menu/test.c文件，加入自己定义的系统调用函数。&lt;/p>
+&lt;pre>&lt;code class="language-cpp"> #include &amp;lt;stdio.h&amp;gt;
+#include &amp;lt;stdlib.h&amp;gt;
+#include &amp;lt;time.h&amp;gt;
+#include &amp;quot;menu.h&amp;quot;
+#include&amp;lt;sys/types.h&amp;gt;
+#include&amp;lt;unistd.h&amp;gt;
+#define FONTSIZE 10
+......
+......
+int CallExit(int argc,char *argvs)
+{
+pid_t pc,pr;
+int t;
+pc =fork();
+if(pc &amp;lt; 0)
+printf(&amp;quot;Fork error!\n&amp;quot;);
+else if(pc == 0){
+printf(&amp;quot;This is child process with pid of %d\n&amp;quot;,getpid());
+sleep(5);
+}
+else{
+pr=wait(NULL);
+printf(&amp;quot;I catched a child process with pid of %d\n&amp;quot;,pr);
+}
+exit(0);
+}
+int CallExit_asm(int argc,char *argvs)
+{
+pid_t pc,pr;
+int t;
+pc =fork();
+if(pc &amp;lt; 0)
+printf(&amp;quot;Fork error!\n&amp;quot;);
+else if(pc == 0){
+printf(&amp;quot;This is child process with pid of %d\n&amp;quot;,getpid());
+sleep(5);
+}
+else{
+pr=wait(NULL);
+printf(&amp;quot;I catched a child process with pid of %d\n&amp;quot;,pr);
+}
+asm volatile(
+&amp;quot;mov $0x1,%%eax\n\t&amp;quot;
+&amp;quot;mov $0x0,%%ebx\n\t&amp;quot;
+&amp;quot;int $0x80\n\t&amp;quot;
+&amp;quot;mov %%eax,%0\n\t&amp;quot;
+:&amp;quot;=m&amp;quot; (t)
+);
+}
+int main()
+{
+PrintMenuOS();
+SetPrompt(&amp;quot;MenuOS&amp;gt;&amp;gt;&amp;quot;);
+MenuConfig(&amp;quot;version&amp;quot;,&amp;quot;MenuOS V1.0(Based on Linux 3.18.6)&amp;quot;,NULL);
+MenuConfig(&amp;quot;quit&amp;quot;,&amp;quot;Quit from MenuOS&amp;quot;,Quit);
+MenuConfig(&amp;quot;time&amp;quot;,&amp;quot;Show System Time&amp;quot;,Time);
+MenuConfig(&amp;quot;time-asm&amp;quot;,&amp;quot;Show System Time(asm)&amp;quot;,TimeAsm);
+**MenuConfig(&amp;quot;CallExit&amp;quot;,&amp;quot;Exit Systemcall&amp;quot;,CallExit);**
+**MenuConfig(&amp;quot;CallExit_asm&amp;quot;,&amp;quot;Exit_asm Systemcall&amp;quot;,CallExit_asm);**
+ExecuteMenu();
+}
+&lt;/code>&lt;/pre>
+&lt;p>即在main函数中，加入相应的系统调用定义，讲CallExit和CallExit_asm加入到其中去，在QEMU中启动系统之后可以输入help看到，我们的命令中多了两条命令。&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-07-03-Linux-kernel-analysis-interrupt/2018-09-19-01-38-52.png" alt="">&lt;/p>
+&lt;p>可惜在进行系统调用测试的时候出现了问题，导致系统崩溃了，暂时还没有测试出来代码中是什么地方出现了问题，会继续调试找出问题的地方。&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-07-03-Linux-kernel-analysis-interrupt/2018-09-19-01-39-08.png" alt="">&lt;/p>
+&lt;p>关于老师视频中提到的不能调试sys_time的一些分析：&lt;br>
+&lt;a href="http://www.cnblogs.com/hazir/p/syscall_marco_define.html" target="_blank" rel="noopener">Linux Kernel代码艺术——系统调用宏定义&lt;/a>&lt;/p>
+&lt;p>可以参考这一篇文章中的内容，在2.6.28之前的内核代码中，系统调用的时候是直接调用处理函数的，但出现了漏洞CVE-2009-0029漏洞之后，就是通过宏定义的方式来处理系统调用函数了。&lt;/p>
+&lt;hr>
+&lt;h1 id="系统调用源代码分析">系统调用源代码分析&lt;/h1>
+&lt;pre>&lt;code class="language-cpp"> # system call handler stub
+ENTRY(system_call) //所有系统调用函数的入口处
+RING0_INT_FRAME # can't unwind into user space anyway
+ASM_CLAC
+pushl_cfi %eax # 保存系统调用号
+SAVE_ALL # 保护现场
+GET_THREAD_INFO(%ebp)　#保存当前信息到ebp中
+# system call tracing in operation / emulation
+testl $_TIF_WORK_SYSCALL_ENTRY,TI_flags(%ebp)
+jnz syscall_trace_entry
+##判断是否是trace相关的调用
+##判断系统调用号是否超出了最大值255
+cmpl $(NR_syscalls), %eax
+jae syscall_badsys
+syscall_call:
+call *sys_call_table(,%eax,4) //由系统调用表中的对应系统调用号找服务函数
+syscall_after_call:
+movl %eax,PT_EAX(%esp) # store the return value
+#系统调用返回
+syscall_exit:　　　
+LOCKDEP_SYS_EXIT
+DISABLE_INTERRUPTS(CLBR_ANY) # make sure we don't miss an interrupt
+# setting need_resched or sigpending
+# between sampling and the iret
+TRACE_IRQS_OFF
+movl TI_flags(%ebp), %ecx
+##退出系统调用之前，检查是否需要处理信号
+testl $_TIF_ALLWORK_MASK, %ecx # current-&amp;gt;work
+jne syscall_exit_work
+#恢复处理器工作
+restore_all:
+TRACE_IRQS_IRET
+restore_all_notrace:
+#ifdef CONFIG_X86_ESPFIX32
+movl PT_EFLAGS(%esp), %eax # mix EFLAGS, SS and CS
+# Warning: PT_OLDSS(%esp) contains the wrong/random values if we
+# are returning to the kernel.
+# See comments in process.c:copy_thread() for details.
+movb PT_OLDSS(%esp), %ah
+movb PT_CS(%esp), %al
+andl $(X86_EFLAGS_VM | (SEGMENT_TI_MASK &amp;lt;&amp;lt; 8) | SEGMENT_RPL_MASK), %eax
+cmpl $((SEGMENT_LDT &amp;lt;&amp;lt; 8) | USER_RPL), %eax
+CFI_REMEMBER_STATE
+je ldt_ss # returning to user-space with LDT SS
+#endif
+restore_nocheck:
+RESTORE_REGS 4 # skip orig_eax/error_code
+irq_return:
+INTERRUPT_RETURN　　//中断系统调用的处理过程，结束点iret
+.section .fixup,&amp;quot;ax&amp;quot;
+ENTRY(iret_exc)
+pushl $0 # no error code
+pushl $do_iret_error
+jmp error_code
+.previous
+_ASM_EXTABLE(irq_return,iret_exc)
+#ifdef CONFIG_X86_ESPFIX32
+CFI_RESTORE_STATE
+ldt_ss:
+#ifdef CONFIG_PARAVIRT
+cmpl $0, pv_info+PARAVIRT_enabled
+jne restore_nocheck
+#endif
+#define GDT_ESPFIX_SS PER_CPU_VAR(gdt_page) + (GDT_ENTRY_ESPFIX_SS * 8)
+mov %esp, %edx /* load kernel esp */
+mov PT_OLDESP(%esp), %eax /* load userspace esp */
+mov %dx, %ax /* eax: new kernel esp */
+sub %eax, %edx /* offset (low word is 0) */
+shr $16, %edx
+mov %dl, GDT_ESPFIX_SS + 4 /* bits 16..23 */
+mov %dh, GDT_ESPFIX_SS + 7 /* bits 24..31 */
+pushl_cfi $__ESPFIX_SS
+pushl_cfi %eax /* new kernel esp */
+/* Disable interrupts, but do not irqtrace this section: we
+* will soon execute iret and the tracer was already set to
+* the irqstate after the iret */
+DISABLE_INTERRUPTS(CLBR_EAX)
+lss (%esp), %esp /* switch to espfix segment */
+CFI_ADJUST_CFA_OFFSET -8
+jmp restore_nocheck
+#endif
+CFI_ENDPROC
+ENDPROC(system_call)
+# perform work that needs to be done immediately before resumption
+ALIGN
+RING0_PTREGS_FRAME # can't unwind into user space anyway
+work_pending:
+testb $_TIF_NEED_RESCHED, %cl #检查是否需要重新调度
+jz work_notifysig　　#不需要重新调度，调到work_notifysig
+work_resched: 　　　#重新调度
+call schedule #进程调度
+LOCKDEP_SYS_EXIT
+DISABLE_INTERRUPTS(CLBR_ANY) # make sure we don't miss an interrupt
+# setting need_resched or sigpending
+# between sampling and the iret
+TRACE_IRQS_OFF
+movl TI_flags(%ebp), %ecx
+andl $_TIF_WORK_MASK, %ecx # is there any work to be done other
+# than syscall tracing?
+jz restore_all　　//没有其余事情，则恢复现场
+testb $_TIF_NEED_RESCHED, %cl
+jnz work_resched
+work_notifysig: # deal with pending signals and
+# notify-resume requests
+#ifdef CONFIG_VM86
+testl $X86_EFLAGS_VM, PT_EFLAGS(%esp)
+movl %esp, %eax
+jne work_notifysig_v86 # returning to kernel-space or
+# vm86-space
+1:
+#else
+movl %esp, %eax
+#endif
+TRACE_IRQS_ON
+ENABLE_INTERRUPTS(CLBR_NONE)
+movb PT_CS(%esp), %bl
+andb $SEGMENT_RPL_MASK, %bl
+cmpb $USER_RPL, %bl
+jb resume_kernel
+xorl %edx, %edx
+call do_notify_resume　　#进行信号处理
+jmp resume_userspace
+#ifdef CONFIG_VM86
+ALIGN
+work_notifysig_v86:
+pushl_cfi %ecx # save ti_flags for do_notify_resume
+call save_v86_state # %eax contains pt_regs pointer
+popl_cfi %ecx
+movl %eax, %esp
+jmp 1b
+#endif
+END(work_pending)
+# perform syscall exit tracing
+ALIGN
+syscall_trace_entry:
+movl $-ENOSYS,PT_EAX(%esp)
+movl %esp, %eax
+call syscall_trace_enter
+/* What it returned is what we'll actually use. */
+cmpl $(NR_syscalls), %eax
+jnae syscall_call
+jmp syscall_exit
+END(syscall_trace_entry)
+# perform syscall exit tracing
+ALIGN
+syscall_exit_work: #完成其他工作
+testl $_TIF_WORK_SYSCALL_EXIT, %ecx
+#检查是否系统调用跟踪,审计,单步执行,不需要则跳到work_pending(进行调度,信号处理)
+jz work_pending
+TRACE_IRQS_ON
+ENABLE_INTERRUPTS(CLBR_ANY) # could let syscall_trace_leave() call
+# schedule() instead
+movl %esp, %eax
+call syscall_trace_leave
+jmp resume_userspace
+END(syscall_exit_work)
+CFI_ENDPROC
+RING0_INT_FRAME # can't unwind into user space anyway
+syscall_fault:
+ASM_CLAC
+GET_THREAD_INFO(%ebp)
+movl $-EFAULT,PT_EAX(%esp)
+jmp resume_userspace
+END(syscall_fault)
+syscall_badsys:
+movl $-ENOSYS,%eax
+jmp syscall_after_call
+END(syscall_badsys)
+sysenter_badsys:
+movl $-ENOSYS,%eax
+jmp sysenter_after_call
+END(sysenter_badsys)
+CFI_ENDPROC
+.macro FIXUP_ESPFIX_STACK
+/*
+* Switch back for ESPFIX stack to the normal zerobased stack
+*
+* We can't call C functions using the ESPFIX stack. This code reads
+* the high word of the segment base from the GDT and swiches to the
+* normal stack and adjusts ESP with the matching offset.
+*/
+#ifdef CONFIG_X86_ESPFIX32
+/* fixup the stack */
+mov GDT_ESPFIX_SS + 4, %al /* bits 16..23 */
+mov GDT_ESPFIX_SS + 7, %ah /* bits 24..31 */
+shl $16, %eax
+addl %esp, %eax /* the adjusted stack pointer */
+pushl_cfi $__KERNEL_DS
+pushl_cfi %eax
+lss (%esp), %esp /* switch to the normal stack segment */
+CFI_ADJUST_CFA_OFFSET -8
+#endif
+.endm
+.macro UNWIND_ESPFIX_STACK
+&lt;/code>&lt;/pre>
+&lt;p>SAVE_ALL保存现场函数的宏定义如下图所示：&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-07-03-Linux-kernel-analysis-interrupt/2018-09-19-01-40-53.png" alt="">&lt;/p>
+&lt;hr>
+&lt;h1 id="系统调用小结">系统调用小结&lt;/h1>
+&lt;p>系统调用流程小结：&lt;/p>
+&lt;ol>
+&lt;li>执行用户程序(如:fork,exit)&lt;/li>
+&lt;li>根据glibc中的函数实现，取得系统调用号并执行int $0x80产生中断。&lt;/li>
+&lt;li>进行地址空间的转换和堆栈的切换，执行SAVE_ALL。（进行内核模式）&lt;/li>
+&lt;li>进行中断处理，根据系统调用表调用内核函数。&lt;/li>
+&lt;li>执行内核函数。&lt;/li>
+&lt;li>执行RESTORE_ALL并返回用户模式&lt;/li>
+&lt;/ol>
+&lt;p>类似中断处理过程，可以知道，在中断当中这个整体的框架是不变化的的，只是相应的系统调用号和处理函数之间的转化变化成了中断号和中断处理函数之间的转化。&lt;/p>
+&lt;pre>&lt;code class="language-flow">st=&amp;gt;start: int0x80-&amp;gt;ENTRY(system_call)
+e=&amp;gt;end: Ende|future:&amp;gt;http://www.google.com
+op1=&amp;gt;operation: SAVE_ALL(保存现场)|past
+op2=&amp;gt;operation: call *sys_call_table
+op3=&amp;gt;operation: 系统调用处理程序将返回值存入eax
+cond1=&amp;gt;condition: 是否有其他信号或调度
+io=&amp;gt;inputoutput: 处理其他信号|future
+cond2=&amp;gt;condition: 是否有调度信号
+op4=&amp;gt;operation: call_schedule（进程调度）
+op5=&amp;gt;operation: RESTORE_ALL(恢复现场)
+op6=&amp;gt;operation: INTRRRUPT_RET(iret)
+　　返回用户进程
+op7=&amp;gt;operation: 保存中断，调用上下文，调度
+op8=&amp;gt;operation: 未来再调度回来
+cond3=&amp;gt;condition: 是否有退出信号
+st-&amp;gt;op1-&amp;gt;op2-&amp;gt;op3-&amp;gt;cond1
+cond1(no,lift)-&amp;gt;op5-&amp;gt;op6
+cond1(yes,right)-&amp;gt;io-&amp;gt;cond3(no)-&amp;gt;cond2(yes)-&amp;gt;op4-&amp;gt;op7-&amp;gt;op8
+op8(right)-&amp;gt;op5
+cond2(no,right)-&amp;gt;op5
+&lt;/code>&lt;/pre></description></item></channel></rss>

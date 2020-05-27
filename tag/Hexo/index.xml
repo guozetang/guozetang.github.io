@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Hexo | Terry Tang</title><link>http://www.guozet.me/tag/Hexo/</link><atom:link href="http://www.guozet.me/tag/Hexo/index.xml" rel="self" type="application/rss+xml"/><description>Hexo</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><copyright>guozet.me © 2020</copyright><lastBuildDate>Sat, 08 Sep 2018 02:09:31 +0000</lastBuildDate><image><url>http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url><title>Hexo</title><link>http://www.guozet.me/tag/Hexo/</link></image><item><title>Hexo使用中的优化以及问题解决记录</title><link>http://www.guozet.me/post/Hexo-Optimize-and-patch/</link><pubDate>Sat, 08 Sep 2018 02:09:31 +0000</pubDate><guid>http://www.guozet.me/post/Hexo-Optimize-and-patch/</guid><description>&lt;h1 id="前言">前言&lt;/h1>
+&lt;p>记录对Hexo的优化，以及配置Hexo中遇到的问题以及解决方案。&lt;/p>
+&lt;h1 id="问题">问题&lt;/h1>
+&lt;h2 id="本地搜索路径不正确">本地搜索路径不正确&lt;/h2>
+&lt;h3 id="问题描述">问题描述&lt;/h3>
+&lt;p>期待路径是&lt;code>http://guozet.me/post/postname/&lt;/code>,然后实际得到的路径是&lt;code>/post/postname/&lt;/code>。
+先检查自己的
+&lt;a href="https://github.com/wzpan/hexo-generator-search" target="_blank" rel="noopener">配置过程&lt;/a>：&lt;/p>
+&lt;pre>&lt;code class="language-bash">$ npm install hexo-generator-search --save
+&lt;/code>&lt;/pre>
+&lt;p>站点配置文件：&lt;code>_config.yml&lt;/code>中任意位置加入：&lt;/p>
+&lt;pre>&lt;code class="language-bash">search:
+path: search.xml
+field: post
+&lt;/code>&lt;/pre>
+&lt;p>我本地的配置与上面的配置是一致的，但是路径位置就是不对，经过搜索，在这个
+&lt;a href="https://github.com/iissnan/hexo-theme-next/issues/1852" target="_blank" rel="noopener">链接&lt;/a>解决了我的问题。&lt;/p>
+&lt;h3 id="解决思路">解决思路&lt;/h3>
+&lt;p>在搜索页面，使用&lt;code>F12&lt;/code>打开确定自己的搜索路径链接是否有问题。
+&lt;img src="http://www.guozet.me/images/in-post/2018-09-08-Hexo-Optimize-and-patch/2018-09-08-02-18-22.png" alt="">
+发现在路径位置：&lt;/p>
+&lt;pre>&lt;code class="language-bash">&amp;lt;a href=&amp;quot;//post/Write-first-Analyzer-rip/&amp;quot; class=&amp;quot;search-result-title&amp;quot;&amp;gt;在&amp;lt;b class=&amp;quot;search-keyword&amp;quot;&amp;gt;Bro&amp;lt;/b&amp;gt;中完成第一个协议分析器—RIP协议&amp;lt;/a&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;p>这里有两个&lt;code>//&lt;/code>在post前面，直接修改配置文件，去掉一个&lt;code>/&lt;/code>。
+修改localsearch.swig源码:&lt;/p>
+&lt;pre>&lt;code class="language-bash">//var articleUrl = decodeURIComponent(data.url);
+var articleUrl = decodeURIComponent(data.url).substring(1);//截取第一位/斜杠
+&lt;/code>&lt;/pre>
+&lt;h2 id="修改页面宽度">修改页面宽度&lt;/h2>
+&lt;p>我们用Next主题是发现在电脑上阅读文章时内容两边留的空白较多，这样在浏览代码块时经常要滚动滚动条才能阅读完整，体验不是很好，下面提供修改内容区域的宽度的方法。
+NexT 对于内容的宽度的设定如下：&lt;/p>
+&lt;p>700px，当屏幕宽度 &amp;lt; 1600px
+900px，当屏幕宽度 &amp;gt;= 1600px
+移动设备下，宽度自适应
+如果你需要修改内容的宽度，同样需要编辑样式文件。
+在Mist和Muse风格可以用下面的方法：&lt;/p>
+&lt;p>编辑主题的 source/css/_variables/custom.styl 文件，新增变量：&lt;/p>
+&lt;pre>&lt;code class="language-cpp">// 修改成你期望的宽度
+$content-desktop = 700px
+// 当视窗超过 1600px 后的宽度
+$content-desktop-large = 900px
+&lt;/code>&lt;/pre></description></item><item><title>Hexo+Github+Travis CI完成博客的自动部署</title><link>http://www.guozet.me/post/hexo-and-travisci-to-implement-auto-setting/</link><pubDate>Thu, 09 Aug 2018 14:14:14 +0000</pubDate><guid>http://www.guozet.me/post/hexo-and-travisci-to-implement-auto-setting/</guid><description>&lt;blockquote>
+&lt;p>很多时候我们是需要在不同的电脑上面书写我们的博客，但是每次都要配置Hexo的环境的话，这就是一件非常崩溃的事情，所以我们需要利用我们的知识完成自动化部署。&lt;/p>
+&lt;/blockquote>
+&lt;p>&lt;strong>原理：&lt;/strong> 在github上面创建Blog的repo, 使用master分支作为博客分支，使用hexo来作为源文件保存分支，将该repo的token key 提供给Travis之后，Travis CI平台检测你的hexo分支数据变化的时候，就会执行你定义的脚本。（在这个脚本中，完成博客发布的内容）&lt;/p>
+&lt;h2 id="使用travis-ci">使用Travis CI&lt;/h2>
+&lt;p>&lt;img src="2018-08-09-14-22-10.png" alt="">&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/img/2018-08-09-14-27-35.png" alt="">
+&lt;img src="http://www.guozet.me/images/in-post/2018-08-09-14-31-29.png" alt="">&lt;/p>
+&lt;p>&lt;img>2018-08-09-hexo-and-travisci-to-implement-auto-setting_2018-08-09-14-36-40.png&lt;/img>&lt;/p></description></item><item><title>使用Hexo+Next主题+Github搭建博客</title><link>http://www.guozet.me/post/Use-Hexo-to-built-my-Blog/</link><pubDate>Thu, 10 May 2018 15:13:51 +0000</pubDate><guid>http://www.guozet.me/post/Use-Hexo-to-built-my-Blog/</guid><description>&lt;p>使用Jekyll搭建在github上博客已经快一年了，但一年的时间并没有写很多的文章。一部分原因是由于自己懈怠，另一部分也由于Jekyll写博客有很多不便之处。不能自动生成目录，以及每次新建文章都需要自己的手动设置目录结构以及添加Jekyll解析的格式内容在每一篇文章中，这是一件非常繁琐而无趣的工作。遵循自己动手丰衣足食的原则，查询目前比较流行的搭建博客的方式之后，决定使用Hero+Next主题在github上搭建博客。本篇博客记录搭建过程中的配置与优化。&lt;/p>
+&lt;blockquote>
+&lt;p>具体搭建博客过程请参考：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>
+&lt;a href="https://www.ezlippi.com/blog/2016/02/jekyll-to-hexo.html" target="_blank" rel="noopener">Jekyll迁移到Hexo搭建个人博客&lt;/a>&lt;br>
+适合熟悉原理的同学，作者详细的讲解了使用Hexo与Next主题搭建博客的过程。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>如果完全不熟悉Hexo的原理以及之前没有使用过git的同学，请参考：&lt;br>
+&lt;a href="https://ehlxr.me/2016/07/23/%E4%BD%BF%E7%94%A8Hexo%E5%9F%BA%E4%BA%8EGitHub-Pages%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%80%EF%BC%89/" target="_blank" rel="noopener">使用 Hexo 基于 GitHub Pages 搭建个人博客（一）&lt;/a>&lt;br>
+&lt;a href="https://ehlxr.me/2016/07/23/%E4%BD%BF%E7%94%A8Hexo%E5%9F%BA%E4%BA%8EGitHub-Pages%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%BA%8C%EF%BC%89/" target="_blank" rel="noopener">使用 Hexo 基于 GitHub Pages 搭建个人博客（二）&lt;/a>&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;/blockquote>
+&lt;!-- more -->
+&lt;p>完成Hexo搭建博客之后，可以参考一些配置说明,做一些优化：&lt;/p>
+&lt;p>
+&lt;a href="https://ehlxr.me/2016/08/30/%E4%BD%BF%E7%94%A8Hexo%E5%9F%BA%E4%BA%8EGitHub-Pages%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%89%EF%BC%89/" target="_blank" rel="noopener">使用 Hexo 基于 GitHub Pages 搭建个人博客&lt;/a>&lt;/p>
+&lt;h1 id="hexo基本操作">Hexo基本操作&lt;/h1>
+&lt;h3 id="基本命令">基本命令&lt;/h3>
+&lt;pre>&lt;code class="language-sh">hexo new &amp;quot;postName&amp;quot; #新建文章
+hexo new page &amp;quot;pageName&amp;quot; #新建页面
+hexo generate #生成静态页面至public目录
+hexo server #开启预览访问端口（默认端口4000，'ctrl + c'关闭server）
+hexo deploy #将.deploy目录部署到GitHub
+hexo help # 查看帮助
+hexo version #查看Hexo的版本
+hexo deploy -g #生成加部署
+hexo server -g #生成加预览
+命令的简写
+hexo n == hexo new
+hexo g == hexo generate
+hexo s == hexo server
+hexo d == hexo deploy
+&lt;/code>&lt;/pre>
+&lt;hr>
+&lt;h1 id="hexo-文章图片管理">Hexo 文章图片管理&lt;/h1>
+&lt;p>数无形时少直觉，很多时候一个配图能清晰的表达我们的观点。所以，我们需要研究Hexo写文章时插入图片的方法。主要有两种方式：&lt;/p>
+&lt;p>&lt;strong>本地引用&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>适用场景： 少量图片 + Blog搭载平台空间充足&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>优势： 简洁方便&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>远程图床引用&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>适用场景：深度使用用户 + 文章插入图片的需求较高 + Blog搭载平台空间不足&lt;/li>
+&lt;li>优势： 能够满足自己插入图片的需求，不用考虑空间问题&lt;/li>
+&lt;li>缺点： 所有文章中的图片受制于远程图床服务器的限制，如果服务器出现问题，所有图片都不能加载了&lt;/li>
+&lt;/ul>
+&lt;h2 id="本地引用">本地引用&lt;/h2>
+&lt;h3 id="绝对路径引用我选择的方式需要能够在首页上显示图片">绝对路径引用(我选择的方式，需要能够在首页上显示图片)&lt;/h3>
+&lt;p>当Hexo项目中只用到少量图片时，可以将图片统一放在source/images文件夹中，通过markdown语法访问它们。&lt;/p>
+&lt;blockquote>
+&lt;p>source/images/image.jpg&lt;br>
+&lt;code>![](/images/image.jpg)&lt;/code>&lt;/p>
+&lt;/blockquote>
+&lt;p>优势：图片既可以在&lt;strong>首页内容中访问到，也可以在文章正文中访问到&lt;/strong>。&lt;/p>
+&lt;h3 id="相对路径引用">相对路径引用&lt;/h3>
+&lt;h4 id="配置站点_configyml文件">配置站点_config.yml文件&lt;/h4>
+&lt;p>另外也可以将图片放在文章自己的目录中。文章的目录可以通过配置站点_config.yml来生成。&lt;/p>
+&lt;blockquote>
+&lt;p>_config.yml&lt;br>
+&amp;lsquo;post_asset_folder: true&amp;rsquo;&lt;/p>
+&lt;/blockquote>
+&lt;p>将post_asset_folder设为true后，执行命令：&lt;br>
+&lt;code>$ hexo new post_name&lt;/code>&lt;br>
+在source/_posts中会生成文章post_name.md和同名文件夹post_name。将图片资源放在post_name中，文章就可以使用相对路径引用图片资源了。&lt;br>
+&lt;code>_posts/post_name/image.jpg&lt;/code>&lt;/p>
+&lt;blockquote>
+&lt;p>参考博文：
+&lt;a href="http://www.cnblogs.com/lmf-techniques/articles/6911051.html" target="_blank" rel="noopener">在 hexo 中无痛使用本地图片&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;h4 id="markdown直接引用图片">Markdown直接引用图片&lt;/h4>
+&lt;p>&lt;code>![](image.jpg)&lt;/code>&lt;/p>
+&lt;p>上述是markdown的引用方式，图片放在文章所在的目录下，或者子目录下，图片只能在文章中显示，但无法在首页中正常显示。&lt;/p>
+&lt;p>如果希望图片在文章和首页中同时显示，可以使用标签插件语法。&lt;/p>
+&lt;blockquote>
+&lt;p>_posts/post_name/image.jpg&lt;/p>
+&lt;/blockquote>
+&lt;pre>&lt;code>{% asset_img image.jpg This is an image %}
+&lt;/code>&lt;/pre>
+&lt;h2 id="远程图床引用">远程图床引用&lt;/h2>
+&lt;p>除了在本地存储图片，还可以将图片上传到一些免费的CDN服务中。比如Cloudinary提供的图片CDN服务，在Cloudinary中上传图片后，会生成对应的url地址，将地址直接拿来引用即可。&lt;/p>
+&lt;blockquote>
+&lt;p>参考博文：
+&lt;a href="https://mapan.tech/posts/c9c3.html" target="_blank" rel="noopener">使Hexo文章图文并茂&lt;/a>&lt;br>
+该篇文章详细讲解如何使用新浪微博图床来实现在Hexo文章中插入图片&lt;/p>
+&lt;/blockquote>
+&lt;hr>
+&lt;h1 id="hexo的版本控制方式">Hexo的版本控制方式&lt;/h1>
+&lt;p>我们将Hexo生出来的静态网站放到了Github Pages上面去托管了。而我们一般也在在本地搭建Hexo的环境，编写新文章，然后利用hexo deploy来发布到Git，那么对于本地的Hexo的原始文件怎么管理呢？管理Hexo的原始文件的好处是：&lt;/p>
+&lt;ul>
+&lt;li>换电脑布置环境非常方便&lt;/li>
+&lt;li>不用担心本地环境挂了导致源文件流失，毕竟一折腾就容易搞坏环境的&lt;/li>
+&lt;/ul>
+&lt;p>我们可以把Hexo博客的源文件也Host在github上，这里我们可以选择把Hexo博客的源文件布置到和Blog同一个&lt;code>username.github.io&lt;/code>仓库，也可以选择将Hexo的源文件推到新建的一个Github Repo.&lt;/p>
+&lt;h2 id="利用github分支进行版本控制">利用Github分支进行版本控制&lt;/h2>
+&lt;h3 id="利用分支进行版本控制的流程">利用分支进行版本控制的流程&lt;/h3>
+&lt;p>通过新建一个hexo分支用于专门存放hexo代码。原先的master分支依然不变，作为hexo部署的分支。
+每次在部署后，再把代码提交到hexo分支:&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>到达Blog的本地文件根目录，本地创建git仓库&lt;br>
+&lt;code>git init&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>添加远程库&lt;br>
+&lt;code>git remote add origin git@github.com:user.name/user.name.github.io&lt;/code>&lt;br>
+注意，将其中的两个user.name置换成你自己的github名称&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>创建hexo分支&lt;br>
+&lt;code>git checkout -b hexo&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>添加文件并提交，push到远程仓库&lt;br>
+&lt;code>git add&lt;/code>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;blockquote>
+&lt;p>可能出现的问题：如果你使用了第三方主题，在进行代码提交的时候，是无法将第三方主题提交到你的github repository中，会出现 untracked content的提示。&lt;br>
+**原因：**第三方主题自身就是一个git项目，是没有办法将比人的git项目通过add和commit的方式添加到自己的git repository的。&lt;br>
+&lt;strong>解决方式：&lt;/strong> 删除第三方主题根目录下面的.git文件夹，再尝试提交git add&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="日常改动过程中的执行流程">日常改动过程中的执行流程：&lt;/h3>
+&lt;ul>
+&lt;li>
+&lt;p>依次执行git add .、git commit -m &amp;ldquo;&amp;hellip;&amp;quot;、git push origin hexo指令将改动推送到GitHub（此时当前分支应为hexo）；&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>执行hexo g -d发布网站到master分支上。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="本地资料丢失或者换电脑在其他电脑上面修改博客的步骤流程">本地资料丢失或者换电脑，在其他电脑上面修改博客的步骤流程&lt;/h3>
+&lt;ul>
+&lt;li>使用 &lt;code>git clone git@github.com:user.name/user.name.github.io.git&lt;/code>(默认的分支为hexo)&lt;/li>
+&lt;li>在本地clone下来的user.name.github.io文件夹下面通过git bash依次执行以下指令：&lt;/li>
+&lt;/ul>
+&lt;pre>&lt;code class="language-sh">npm install -g hexo-cli
+npm install hexo --save
+npm install hexo-deployer-git
+&lt;/code>&lt;/pre>
+&lt;blockquote>
+&lt;p>参考博客&lt;br>
+&lt;a href="http://crazymilk.github.io/2015/12/28/GitHub-Pages-Hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/#more" target="_blank" rel="noopener">GitHub Pages + Hexo搭建博客&lt;/a>&lt;br>
+&lt;a href="http://chenhuichao.com/2016/02/22/hexo/hexo-guide-3/" target="_blank" rel="noopener">Hexo博客代码版本控制&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;h1 id="其他功能参考网页">其他功能参考网页&lt;/h1>
+&lt;hr>
+&lt;h2 id="博客首页的显示问题">博客首页的显示问题&lt;/h2>
+&lt;h3 id="内容全部显示不收缩">内容全部显示，不收缩&lt;/h3>
+&lt;p>解决方式：配置Next主题中的&lt;code>_config.yml&lt;/code>里面的
+&lt;code>auto_excerpt = true&lt;/code>&lt;/p>
+&lt;h3 id="内容显示一部分但是显示格式不是markdown的格式">内容显示一部分，但是显示格式不是Markdown的格式&lt;/h3>
+&lt;p>使用 &lt;!-- more --> 替代 auto_excerpt&lt;/p>
+&lt;h2 id="添加文章阅读量统计与评论功能">添加文章阅读量统计与评论功能&lt;/h2>
+&lt;p>
+&lt;a href="https://notes.wanghao.work/2015-10-21-%E4%B8%BANexT%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E6%96%87%E7%AB%A0%E9%98%85%E8%AF%BB%E9%87%8F%E7%BB%9F%E8%AE%A1%E5%8A%9F%E8%83%BD.html#%E9%85%8D%E7%BD%AELeanCloud" target="_blank" rel="noopener">为NexT主题添加文章阅读量统计功能&lt;/a>&lt;/p>
+&lt;p>
+&lt;a href="https://giserdaishaoqing.github.io/2017/11/24/hexo%E5%8D%9A%E5%AE%A2%E8%AF%84%E8%AE%BA%E6%96%B0%E7%A5%9E%E5%99%A8%E2%80%94%E2%80%94Valine/" target="_blank" rel="noopener">hexo博客评论新神器——Valine&lt;/a>&lt;/p>
+&lt;hr>
+&lt;h2 id="添加搜索功能">添加搜索功能&lt;/h2>
+&lt;h3 id="场景">场景&lt;/h3>
+&lt;p>博文多了之后，就需要一个搜索功能能够快速的找到自己以前的博客。所以在我们的博客上加入搜索功能是很有必要的一件事情。&lt;/p>
+&lt;h3 id="安装插件">安装插件&lt;/h3>
+&lt;ul>
+&lt;li>
+&lt;p>直接在自己的博客文件夹下，点击鼠标右键选择Git Bash Here&lt;br>
+&lt;code>npm install hexo-generator-searchdb --save&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>修改站点配置文件:博客根目录下的_config.yml文件，可以在任意位置加入：&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;pre>&lt;code class="language-c++">search:
+path: search.xml
+field: post
+format: html
+limit: 10000
+&lt;/code>&lt;/pre>
+&lt;p>PS:每个冒号后面都有空格。
+修改主题配置文件
+我的路径：/blog/themes/next下的_config.yml文件，进行编辑。&lt;/p>
+&lt;pre>&lt;code class="language-c">local_search:
+enable: true
+&lt;/code>&lt;/pre>
+&lt;p>PS:冒号后面都有空格。
+此时，部署到github，打开网页就可以看到搜索功能了，容易添加，使用起来很方便，推荐添加，增加网站友好度。&lt;/p>
+&lt;hr>
+&lt;h2 id="添加站内聊天对话功能">添加站内聊天对话功能&lt;/h2>
+&lt;p>
+&lt;a href="https://www.ezlippi.com/blog/2018/01/next-chat.html" target="_blank" rel="noopener">Hexo博客添加在线联系功能&lt;/a>&lt;/p>
+&lt;hr>
+&lt;h2 id="添加rss功能">添加RSS功能&lt;/h2>
+&lt;h3 id="基本步骤">基本步骤&lt;/h3>
+&lt;h4 id="安装-rss-插件">安装 RSS 插件&lt;/h4>
+&lt;p>在blog根目录下执行命令安装 RSS 插件: hexo-generator-feed&lt;/p>
+&lt;p>&lt;code>npm install hexo-generator-feed --save&lt;/code>&lt;/p>
+&lt;h4 id="配置-rss-插件">配置 RSS 插件&lt;/h4>
+&lt;p>编辑 Hexo 的配置文件 _config.yml，添加以下代码&lt;/p>
+&lt;pre>&lt;code class="language-c"># RSS 订阅插件
+plugin:
+- hexo-generator-feed
+#RSS 插件配置
+feed:
+type: rss2
+path: rss.xml
+limit: 20
+hub:
+content: true
+&lt;/code>&lt;/pre>
+&lt;h4 id="主题开启-rss-支持">主题开启 RSS 支持&lt;/h4>
+&lt;p>NexT 主题，默认开启 RSS。其它主题请参考主题文档。&lt;/p>
+&lt;h4 id="生成-rss">生成 RSS&lt;/h4>
+&lt;p>执行 &lt;code>hexo clean &amp;amp;&amp;amp; hexo g &amp;amp;&amp;amp; hexo d&lt;/code> 重新生成博客文件并完成部署即可。&lt;/p>
+&lt;h2 id="添加显示文章最新更新时间">添加显示文章最新更新时间&lt;/h2>
+&lt;p>修改（博客主目录）&lt;code>/themes/next/layout/_macro/post.swig 文件，在&amp;lt;span class=&amp;quot;post-time&amp;quot;&amp;gt;...&amp;lt;/span&amp;gt;&lt;/code>标签后添加:&lt;/p>
+&lt;pre>&lt;code class="language-python">{%if post.updated and post.updated &amp;gt; post.date%}
+&amp;lt;span class=&amp;quot;post-updated&amp;quot;&amp;gt;
+&amp;amp;nbsp; | &amp;amp;nbsp; {{ __('post.updated') }}
+&amp;lt;time itemprop=&amp;quot;dateUpdated&amp;quot; datetime=&amp;quot;{{ moment(post.updated).format() }}&amp;quot; content=&amp;quot;{{ date(post.updated, config.date_format) }}&amp;quot;&amp;gt;
+{{ date(post.updated, config.date_format) }}
+&amp;lt;/time&amp;gt;
+&amp;lt;/span&amp;gt;
+{% endif %}
+&lt;/code>&lt;/pre>
+&lt;p>最后在文件中的效果为：
+&lt;img src="http://www.guozet.me/images/in-post/2018-06-10-Add-post-update.png" alt="2018-06-10-Add-post-update">&lt;/p>
+&lt;p>修改主题配置文件（博客主目录）``themes/next/_config.yml`，增加一行&lt;/p>
+&lt;p>&lt;code>display_updated: true&lt;/code>&lt;/p>
+&lt;p>如果需要中文支持，那么就需要在中文的文件里面添加updated的翻译：
+博客配置文件中的 language 参数修改对应的语言配置文件（博客主目录）&lt;/p>
+&lt;p>&lt;code>/themes/next/languages/zh_Hans.yml&lt;/code>&lt;/p>
+&lt;p>到这里就设置完成了，如果你在写文章的时候加入了Update的参数，那么就会显示为你加入的参数时间。
+比如：&lt;code>updated: 2018-01-01 12:00:00&lt;/code>
+如果你没有加入参数，那么就会显示为这个文件的最后修改时间。&lt;/p>
+&lt;h3 id="问题">问题&lt;/h3>
+&lt;h4 id="打开rss的时候出现错误提示">打开RSS的时候：出现错误提示&lt;/h4>
+&lt;blockquote>
+&lt;p>This page contains the following errors:&lt;br>
+error on line 317 at column 18: PCDATA invalid Char value 11&lt;br>
+Below is a rendering of the page up to the first error.&lt;/p>
+&lt;/blockquote>
+&lt;p>根据错误提示，用编辑器打开 public 目录下 的rss.xml 或 atom.xml。找到第317行18列，是一个未知字符小方块（原因应该是我从我的CSDN博客里面导出来的文章，出现了一些未知的问题）。根据小方块前后内容判断出来是哪个文章出现的问题。&lt;/p>
+&lt;p>打开对应的打开对应文章的.md文档，找到相应的的位置，替换出问题的字符。&lt;/p>
+&lt;p>重新生成 rss.xml 并部署: &lt;code>hexo clean &amp;amp;&amp;amp; hexo g &amp;amp;&amp;amp; hexo d&lt;/code>&lt;br>
+问题解决&lt;/p>
+&lt;h4 id="关闭打赏功能">关闭打赏功能&lt;/h4>
+&lt;p>暂时不需要开通打赏功能，在&lt;code>theme-&amp;gt;next-&amp;gt;_config.yml&lt;/code>文件中注释掉打赏模块。&lt;/p>
+&lt;pre>&lt;code class="language-c"># Reward
+# reward_comment: Donate comment here
+# wechatpay: /images/wechatpay.jpg
+# alipay: /images/alipay.jpg
+#bitcoin: /images/bitcoin.png
+&lt;/code>&lt;/pre></description></item></channel></rss>

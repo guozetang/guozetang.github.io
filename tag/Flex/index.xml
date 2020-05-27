@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Flex | Terry Tang</title><link>http://www.guozet.me/tag/Flex/</link><atom:link href="http://www.guozet.me/tag/Flex/index.xml" rel="self" type="application/rss+xml"/><description>Flex</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><copyright>guozet.me © 2020</copyright><lastBuildDate>Fri, 05 Oct 2018 13:04:27 +0000</lastBuildDate><image><url>http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url><title>Flex</title><link>http://www.guozet.me/tag/Flex/</link></image><item><title>Translation of Programming Languages(CU CPSC8270)</title><link>http://www.guozet.me/post/Translation-of-Programming-Languages-index/</link><pubDate>Fri, 05 Oct 2018 13:04:27 +0000</pubDate><guid>http://www.guozet.me/post/Translation-of-Programming-Languages-index/</guid><description>&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-10-04-Translation-of-Programming-Languages-index/2018-10-07-18-16-06.png" alt="">&lt;/p>
+&lt;p>编译原理这门课程是我在CU的2018 Fall选修的一门专业核心课程，老师是Clemson CS系比较受欢迎的
+&lt;a href="https://people.cs.clemson.edu/~malloy/" target="_blank" rel="noopener">Brian Malloy教授&lt;/a>。在他的个人主页上面也有Python, C++， 2D游戏的教程，非常适合对CS感兴趣的同学学习。&lt;/p>
+&lt;hr>
+&lt;h1 id="课程内容">课程内容&lt;/h1>
+&lt;h3 id="week1">Week1&lt;/h3>
+&lt;p>&lt;strong>Aug 28, Tue&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>Read Section 1, the Introduction, to grammarware paper&lt;/li>
+&lt;li>Discuss slides about Grammars&lt;/li>
+&lt;li>Answer questions about Basics and Classes&lt;/li>
+&lt;li>Do the Rule of 3&lt;/li>
+&lt;/ul>
+&lt;p>本周的重点内容是&lt;code>C++的基本语法以及Classes的使用&lt;/code> 和 &lt;code>C++ Rule of 3&lt;/code>的规则应用。在这里分别整理了两个部分的博客文章：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;a href="http://www.guozet.me/post/C&amp;#43;&amp;#43;-Rule-Of-Three/">C++ Rule of 3&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;!-- TODO:完成关于Basics and Classes的内容 -->
+&lt;p>&lt;strong>Aug 30, Thu&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>Regular grammars and regular expressions&lt;/li>
+&lt;li>Review Rule of 3&lt;/li>
+&lt;li>What gets called&lt;/li>
+&lt;li>The Rule of 5&lt;/li>
+&lt;li>The Rule of Zero&lt;/li>
+&lt;/ul>
+&lt;!-- TODO:Post: Rule of 5
+TODO:Post: Rule of Zero
+TODO:Post: what get called.
+TODO:Regular expressions -->
+&lt;h2 id="week2">Week2&lt;/h2>
+&lt;p>&lt;strong>Sep 4, Tue&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>What gets called
+&lt;ul>
+&lt;li>Why prefer init over assign?!&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Introduce vectors
+&lt;ul>
+&lt;li>size vs capacity&lt;/li>
+&lt;li>value semantics&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Intro to Flex&lt;/li>
+&lt;li>Project #2&lt;/li>
+&lt;li>Quiz #1 &amp;ndash; Thursday&lt;/li>
+&lt;/ul>
+&lt;h2 id="week3">Week3&lt;/h2>
+&lt;p>&lt;strong>Sep 13, Thu&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>Questions about move semantics?
+&lt;ul>
+&lt;li>Well I have one?&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>flex:
+&lt;ul>
+&lt;li>ambiguity:&lt;/li>
+&lt;li>codes&lt;/li>
+&lt;li>first&lt;/li>
+&lt;li>wc&lt;/li>
+&lt;li>states&lt;/li>
+&lt;li>line numbers: lineno&lt;/li>
+&lt;li>debug mode&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>static varsux&lt;/li>
+&lt;li>Singleton Pattern (单例设计模式)&lt;/li>
+&lt;/ul>
+&lt;p>理解为什么要使用 Singleton设计模式，已详细分析了为什么要使用singleton模式，以及Singleton设计模式的好处和如何来书写Singleton. 请参考博客:&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;a href="http://www.guozet.me/post/C&amp;#43;&amp;#43;Singleton-pattern/">C++软件设计模式之Singleton&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h2 id="week4">Week4&lt;/h2>
+&lt;p>&lt;strong>Sep 20, Thu&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>The Bison Parser Generator: shift/reduce parsing LALR(1)&lt;/li>
+&lt;li>Balanced Parens &amp;ndash; adding sets of them&lt;/li>
+&lt;li>sum &amp;ndash; adding numbers&lt;/li>
+&lt;/ul>
+&lt;h2 id="week-5">Week 5&lt;/h2>
+&lt;p>&lt;strong>Sep 25, Tue&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>conflicts &amp;ndash; the pointer model
+&lt;ul>
+&lt;li>Inserting semantic actions:&lt;/li>
+&lt;li>simple &amp;ndash; no actions but prec set&lt;/li>
+&lt;li>noPrec &amp;ndash; grammar refactored, no prec set&lt;/li>
+&lt;li>calc &amp;ndash; calculator example &amp;ndash; no variables&lt;/li>
+&lt;li>typedStack &amp;ndash; calculator w/ variables&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Project #3&lt;/li>
+&lt;li>Exam #1 &amp;ndash; everything up to and incl today&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>Sep 27. Thu&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>Exam #1 &amp;ndash; everything up to and incl today&lt;/li>
+&lt;/ul>
+&lt;h2 id="week-6">Week 6&lt;/h2>
+&lt;p>&lt;strong>Oct 2. Tue&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>Containers
+&lt;ul>
+&lt;li>vectors&lt;/li>
+&lt;li>List&lt;/li>
+&lt;li>Map&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Review Exam
+&lt;ul>
+&lt;li>Singleton&lt;/li>
+&lt;li>Exponent&lt;/li>
+&lt;li>Radon&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Inheritance&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>Oct 4. Thu&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>emplace_back &amp;ndash; When it help?&lt;/li>
+&lt;/ul>
+&lt;h1 id="项目内容">项目内容&lt;/h1>
+&lt;h2 id="项目">项目&lt;/h2>
+&lt;hr>
+&lt;h1 id="自己动手写python编译器">自己动手写Python编译器&lt;/h1>
+&lt;!--TODO:完成下面每一个被部分的博客文章 -->
+&lt;ul>
+&lt;li>概述&lt;/li>
+&lt;li>Python 源程序&lt;/li>
+&lt;li>使用flex做词法分析&lt;/li>
+&lt;li>上下文无关语法及分析&lt;/li>
+&lt;li>自顶向下分析&lt;/li>
+&lt;li>自底向上分析&lt;/li>
+&lt;li>使用Bison做语法分析&lt;/li>
+&lt;li>Python编译器&lt;/li>
+&lt;/ul></description></item><item><title>Flex与Bison基础概念介绍</title><link>http://www.guozet.me/post/Flex-And-Bison-Introduce/</link><pubDate>Mon, 24 Sep 2018 22:09:31 +0000</pubDate><guid>http://www.guozet.me/post/Flex-And-Bison-Introduce/</guid><description>&lt;h1 id="flex介绍">Flex介绍&lt;/h1>
+&lt;p>Flex和Bison都是用来生成程序的工具。编译器的工作主要可以分解成两个方面：词法分析与语法分析&lt;/p>
+&lt;ul>
+&lt;li>词法分析(lexical analysis 或Scanning): 将输入分割成一个个有意义的词块，称之为记号&lt;code>token&lt;/code>&lt;/li>
+&lt;li>语法分析(syntax analysis 或prsing): 这是确定这些记号是如何彼此关联的。&lt;/li>
+&lt;/ul>
+&lt;p>一个小的例子：&lt;/p>
+&lt;pre>&lt;code class="language-c++">alpha = beta + gamma;
+&lt;/code>&lt;/pre>
+&lt;p>词法分析器是将这些代码分解成一些&lt;code>token&lt;/code>: alpha, 等号， beta, 加号， gamma和分号。接下来语法分析器就需要确定&lt;code>beta + gamma&lt;/code>是一个表达式，而这个表达式被赋值给了&lt;code>alpha&lt;/code>。&lt;/p>
+&lt;h1 id="flex例子">Flex例子&lt;/h1>
+&lt;h2 id="第一个简单的flex例子">第一个简单的Flex例子&lt;/h2>
+&lt;p>我们使用flex来实现一个文件的&lt;code>行数，单词数和字符数&lt;/code>统计程序。包含两个文件&lt;code>main.cpp&lt;/code>以及flex语言的&lt;code>scan.l&lt;/code>。&lt;/p>
+&lt;h3 id="flex部分的程序代码">Flex部分的程序代码&lt;/h3>
+&lt;p>首先介绍&lt;code>scan.l&lt;/code>程序，介绍程序之前我们需要先了解一些flex的语法。Flex的程序主要包含三个部分，各个部分之间使用仅有的&lt;code>%%&lt;/code>来进行分隔。&lt;/p>
+&lt;ul>
+&lt;li>第一部分：包含声明和选项设置&lt;/li>
+&lt;li>第二部分：包含一些力的模式和动作&lt;/li>
+&lt;li>第三部分：这部分是&lt;code>C&lt;/code>代码，会被拷贝到生成的词法分析器（对应代码是由&lt;code>scan.l&lt;/code>文件转换得到的&lt;code>lex.yy.c&lt;/code>）里面的最后的位置。&lt;/li>
+&lt;/ul>
+&lt;pre>&lt;code class="language-lex">%{
+#include &amp;lt;iostream&amp;gt;
+int lines = 0;
+int words = 0;
+int chars = 0;
+%}
+word [a-zA-Z]+
+%%
+{word} { ++words; chars += strlen(yytext); }
+&amp;quot;\n&amp;quot; { ++lines; ++chars; }
+. { chars += strlen(yytext); }
+%%
+int yywrap() { return 1; }
+&lt;/code>&lt;/pre>
+&lt;p>在第一部分的&lt;code>%{ }%&lt;/code>之间代码会被拷贝到C文件&lt;code>lex.yy.c&lt;/code>文件的开头部分。&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-09-24-Flex-And-Bison-Introduce/2018-09-25-23-35-45.png" alt="">&lt;/p>
+&lt;p>第二部分，每个模式在第一行的开头位置，而后面是模式匹配时所需要执行程度C代码。这里的C代码就是&lt;code>{&lt;/code>和&lt;code>}&lt;/code>之间的一行或者多行代码。&lt;/p>
+&lt;blockquote>
+&lt;p>模式必须在行首出现，因为Flex会把空白开始的行都是代码而把它们复制到生成的c程序中&lt;/p>
+&lt;/blockquote>
+&lt;p>说明&lt;code>. { chars += strlen(yytext); }&lt;/code>这个位置使用了一个变量&lt;code>yytext&lt;/code>,这边变量总是被设置为指向本次匹配的输入文本。&lt;/p>
+&lt;p>第三部分的代码，是直接拷贝到&lt;code>lex.yy.c&lt;/code>文件的最后一部分的:&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-09-24-Flex-And-Bison-Introduce/2018-09-25-23-50-51.png" alt="">&lt;/p>
+&lt;p>接下来编译这个文件,编译的时候，使用flex对应的库文件&lt;code>-lfl&lt;/code>进行链接。&lt;/p>
+&lt;pre>&lt;code class="language-bash">flex scan.l
+gcc lex.yy.c -lfl
+&lt;/code>&lt;/pre>
+&lt;h2 id="main函数实现最后的打印功能">Main函数实现最后的打印功能&lt;/h2>
+&lt;p>在Main()函数里面，我们调用flex提供的词法分析例程&lt;code>yylex()&lt;/code>,&lt;/p>
+&lt;pre>&lt;code class="language-cpp">#include &amp;lt;iostream&amp;gt;
+int yylex();
+extern int words;
+extern int lines;
+extern int chars;
+int main() {
+yylex();
+std::cout &amp;lt;&amp;lt; &amp;quot;words: &amp;quot; &amp;lt;&amp;lt; words &amp;lt;&amp;lt; std::endl;
+std::cout &amp;lt;&amp;lt; &amp;quot;lines: &amp;quot; &amp;lt;&amp;lt; lines &amp;lt;&amp;lt; std::endl;
+std::cout &amp;lt;&amp;lt; &amp;quot;chars: &amp;quot; &amp;lt;&amp;lt; chars &amp;lt;&amp;lt; std::endl;
+return 0;
+}
+&lt;/code>&lt;/pre>
+&lt;p>运行结果，使用wc命令进行对比判断：&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-09-24-Flex-And-Bison-Introduce/2018-09-26-00-03-18.png" alt="">&lt;/p>
+&lt;p>在这里我们为了方便可以使用Markfile来进行编译的管理，Makefile文件如下：&lt;/p>
+&lt;pre>&lt;code class="language-Makefile">CCC = g++
+LEX = flex
+CFLAGS = -Wall
+LEXFLAGS = -Wno-unused
+OBJS = main.o lex.yy.o
+run: $(OBJS)
+$(CCC) $(CFLAGS) -o run $(OBJS)
+main.o: main.cpp
+$(CCC) $(CFLAGS) -c main.cpp
+lex.yy.c: scan.l
+$(LEX) scan.l
+lex.yy.o: lex.yy.c
+$(CCC) $(CFLAGS) $(LEXFLAGS) -c lex.yy.c
+clean:
+rm -f run *.o lex.yy.c
+&lt;/code>&lt;/pre>
+&lt;h2 id="这个例子的官方实现情况">这个例子的官方实现情况&lt;/h2>
+&lt;p>scan.l文件：&lt;/p>
+&lt;pre>&lt;code class="language-flex">%{
+/* TERMINOLOGY: A &amp;quot;word&amp;quot; is a set of non-delimiters seperated by delimiters.
+* -- edge case 1: files with a word and no delimiters
+* -- edge case 2: last word of the file
+* -- edge case 3: leading delimiters
+* -- edge case 4: files with only delimiters
+*
+* A &amp;quot;line&amp;quot; is a newline character \n.
+* -- Weirdly, a file written on one line with no newline
+* character at the end is considered to have ZERO lines
+*
+* A &amp;quot;char&amp;quot; is ANY character in the file (delimiters and non-delimiters).
+*/
+#include &amp;lt;iostream&amp;gt;
+#include &amp;lt;cstring&amp;gt;
+int words = 0; // count of words
+int chars = 0; // count of chars
+int lines = 0; // count of lines
+%}
+%option noinput
+%option nounput
+/* definition of characters that DO NOT compose words
+* ~ spaces, tabs, and newlines
+*/
+delimiter [ \t\n]
+/* definition of characters that DO compose words
+* ~ everything but spaces, stabs, and newlines
+*/
+letter [^ \t\n]
+%%
+/* This rule is for the edge-case that delimiters appear
+* at the front of the file or the file has only delimiters.
+*/
+{delimiter}+ {
+chars += strlen(yytext);
+for(int i = 0; yytext[i]; ++i)
+if(yytext[i] == '\n') ++lines;
+}
+/* This rule is for typical cases, files with one word
+* and no delimiters, and the last word of the file.
+*
+* Note that we use the closure set of delimiters, not the
+* the positive closure set. What would happen if we made this change?
+*/
+{letter}+{delimiter}* {
+++words;
+chars += strlen(yytext);
+for(int i = 0; yytext[i]; ++i)
+if(yytext[i] == '\n') ++lines;
+}
+%%
+int yywrap() { return 1; }
+&lt;/code>&lt;/pre>
+&lt;p>main.cc文件：&lt;/p>
+&lt;pre>&lt;code class="language-cpp">#include &amp;lt;iostream&amp;gt;
+int yylex();
+extern int words;
+extern int lines;
+extern int chars;
+int main() {
+yylex();
+std::cout &amp;lt;&amp;lt; std::endl &amp;lt;&amp;lt; &amp;quot;~~~~~~~~~~&amp;quot; &amp;lt;&amp;lt; std::endl;
+std::cout &amp;lt;&amp;lt; &amp;quot;lines: &amp;quot; &amp;lt;&amp;lt; lines &amp;lt;&amp;lt; std::endl;
+std::cout &amp;lt;&amp;lt; &amp;quot;words: &amp;quot; &amp;lt;&amp;lt; words &amp;lt;&amp;lt; std::endl;
+std::cout &amp;lt;&amp;lt; &amp;quot;characters: &amp;quot; &amp;lt;&amp;lt; chars &amp;lt;&amp;lt; std::endl;
+return 0;
+}
+&lt;/code>&lt;/pre>
+&lt;p>输出结果对比：&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-09-24-Flex-And-Bison-Introduce/2018-09-26-00-15-06.png" alt="">&lt;/p>
+&lt;hr>
+&lt;h1 id="使用flex和bison协同工作---计算器">使用Flex和Bison协同工作&amp;mdash;计算器&lt;/h1>
+&lt;p>语法分析器是找出输入记号之间的关系，最常见的关系就是语法分析树(parser tree)&lt;/p>
+&lt;h2 id="scanl文件协同工作原理分析">Scan.l文件协同工作原理分析&lt;/h2>
+&lt;p>&lt;code>scan.l&lt;/code>文件，在处理用户输入的数学方程式的时候，我们为了处理简单，这里只考虑识别整数，基本算术运算符。&lt;/p>
+&lt;blockquote>
+&lt;p>词法分析器与语法分析器协同工作
+使用词法分析器获得一个记号流，然后将这个记号流传递给其他程序，每当产生一个记号之后，就调用yylex()来读取当前匹配到的输入然后返回去相应的记号。当程序需要下一个记号的会后，需要再次调用yylex(). 注明：词法分析器以协同程序的方式进行运行，每次它返回的手，就会记住当前处理的位置，并从这个位置开始去处理下一次的调用。 如果这次匹配不需要产生记号，那么词法分析器就会在这次yylex()调用中继续分析接下来的输入字符。&lt;/p>
+&lt;/blockquote>
+&lt;p>特点：如果动作有返回，那么词法分析器就会在下一次&lt;code>yylex()&lt;/code>调用中继续；如果动作没有返回，词法分析器就会立即继续进行。&lt;/p>
+&lt;pre>&lt;code class="language-cpp">%{
+#include &amp;quot;parse.tab.h&amp;quot;
+%}
+%%
+&amp;quot;+&amp;quot; { return PLUS; }
+&amp;quot;-&amp;quot; { return MINUS; }
+&amp;quot;*&amp;quot; { return MULT; }
+&amp;quot;/&amp;quot; { return DIV; }
+[0-9]+ {
+return NUMBER;
+}
+&amp;quot;\n&amp;quot; { return CR; }
+&amp;lt;&amp;lt;EOF&amp;gt;&amp;gt; { yyterminate(); }
+%%
+int yywrap() {
+yylex_destroy();
+return 1;
+}
+&lt;/code>&lt;/pre>
+&lt;p>在这个程序中，我们可以看到出现的记号为：&lt;code>PLUS, MINUS, MULT, DIV, NUMBER, CR, EOF&lt;/code>,这些记号是在&lt;code>parse.tab.h&lt;/code>这个文件中生成的，而这个文件是根据&lt;code>parser.y&lt;/code>的bison文件生成出来的。这些记号是对应了一个记号编号和记号值的。记号编号是一个较小的整数，随机生成的，但是&lt;code>0&lt;/code>意味的是文件的结束。&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-09-24-Flex-And-Bison-Introduce/2018-09-26-01-16-09.png" alt="">&lt;/p>
+&lt;p>如果我们想完全在flex里面实现输出，那么也可以使用&lt;code>enum&lt;/code>来定义记号数值编号。&lt;/p>
+&lt;h2 id="bison部分工作">Bison部分工作&lt;/h2>
+&lt;p>Bison的程序包含了与Flex程序相同的三部分结构：声明部分，规则部分和C代码部分。&lt;/p>
+&lt;ul>
+&lt;li>声明部分：包含了会被原样拷贝到目标分析程序开头的C代码，通过&lt;code>%{ 和 }%&lt;/code>来声明，之后是&lt;code>%token&lt;/code>记号声明，用于告诉bison在语法分析器里面记号的名称。 (潜规则：记号使用大写字母)在第二部分中，任何没有在这里声明为记号的语法符号必须出现在至少一条规则的左边&lt;/li>
+&lt;li>第二部分，通过简单的BNF定义的规则。 Bison使用 &lt;code>:&lt;/code>来分割，使用&lt;code>;&lt;/code>来表示规则的结束。如果有C代码，那就需要在两个&lt;code>{&lt;/code> 与&lt;code>}&lt;/code>之间。&lt;/li>
+&lt;/ul>
+&lt;pre>&lt;code class="language-c++">%{
+#include &amp;lt;iostream&amp;gt;
+extern int yylex();
+extern int yylval;
+void yyerror(const char * msg);
+%}
+%token CR NUMBER PLUS MINUS MULT DIV
+%%
+lines : lines expr CR
+{ std::cout &amp;lt;&amp;lt; &amp;quot;result: &amp;quot; &amp;lt;&amp;lt; $2 &amp;lt;&amp;lt; std::endl; }
+| lines CR
+|
+;
+expr : expr PLUS term
+{ $$ = $1 + $3; }
+| expr MINUS term
+{ $$ = $1 - $3; }
+| term
+{ $$ = $1; }
+;
+term : term MULT factor
+{ $$ = $1 * $3; }
+| term DIV factor
+{ $$ = $1 / $3; }
+| factor
+{ $$ = $1; }
+;
+factor : NUMBER
+;
+%%
+void yyerror(const char * msg) { std::cout &amp;lt;&amp;lt; msg &amp;lt;&amp;lt; std::endl; }
+&lt;/code>&lt;/pre>
+&lt;pre>&lt;code class="language-cpp">#include &amp;lt;iostream&amp;gt;
+extern int yyparse();
+int main() {
+if ( yyparse() ) {
+std::cout &amp;lt;&amp;lt; &amp;quot;syntactically correct program&amp;quot; &amp;lt;&amp;lt; std::endl;
+}
+return 0;
+}
+&lt;/code>&lt;/pre></description></item></channel></rss>

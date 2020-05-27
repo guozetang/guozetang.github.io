@@ -1,0 +1,1058 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cloud Computing | Terry Tang</title><link>http://www.guozet.me/tag/Cloud-Computing/</link><atom:link href="http://www.guozet.me/tag/Cloud-Computing/index.xml" rel="self" type="application/rss+xml"/><description>Cloud Computing</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><copyright>guozet.me © 2020</copyright><lastBuildDate>Thu, 04 Oct 2018 15:09:31 +0000</lastBuildDate><image><url>http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url><title>Cloud Computing</title><link>http://www.guozet.me/tag/Cloud-Computing/</link></image><item><title>Cloud computing Basic concepts 2</title><link>http://www.guozet.me/post/CPSC6440-CloudComputing-basic-concepts2/</link><pubDate>Thu, 04 Oct 2018 15:09:31 +0000</pubDate><guid>http://www.guozet.me/post/CPSC6440-CloudComputing-basic-concepts2/</guid><description>&lt;p>Exam_2 Review Questions. Approximately 60% of the exam will be derived from these questions.&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>True or &lt;code>False&lt;/code>: Users should store dynamic web content in S3.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>What advantage is there in storing static web content in S3?
+S3 is reliable, and durable. S3 is simple to ensure static web content is quickly accessible, always available, and secure.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Name four AWS constructs that allow you to control your VPC traffic.
+Internet gateway, route tables, security group, network access control lists.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>True or &lt;code>False&lt;/code>: Security groups are stateless and Network ACLs are stateful. Explain what this means.
+Security group: Return traffic is automatically allowed, regardless of any rules.
+ACLs: Return traffic must be explicitly allowed by rules.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>What is the purpose of an Internet Gateway? Is this a managed AWS service?
+Yes, it’s a managed AWS service. An Internet gateway serves two purposes: to provide a target in your VPC route tables for Internet-routable traffic, and to perform network address translation (NAT) for instances that have been assigned public IPv4 addresses.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Describe the main difference between a public and a private subnet.
+The main difference is the route for 0.0.0.0/0 in the associated route table. &lt;code>A private subnet sets that route to a NAT instance.&lt;/code> Private subnet instances only need a private IP and internet traffic is routed through the NAT in the public subnet. You could also have no route to 0.0.0.0/0 to make it a truly private subnet with no internet access in or out. A public subnet routes 0.0.0.0/0 through an Internet Gateway (igw). Instances in a public subnet require public IPs to talk to the internet.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Expand each of the following acronyms of the following in the context of this class and provide a short description of what each is:&lt;/p>
+&lt;ul>
+&lt;li>RTO Recovery Time Objective, how quickly the system can recover?&lt;/li>
+&lt;li>RPO Recovery Point Objective, how much data can you afford to lose?&lt;/li>
+&lt;li>&lt;strong>HA High Availability&lt;/strong>&lt;/li>
+&lt;li>DNS Domain Name System&lt;/li>
+&lt;li>JSON JavaScript Object Notation&lt;/li>
+&lt;li>SOA Service Oriented Architecturegh&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol>
+&lt;blockquote>
+&lt;p>What is the difference about On-Premises HA Vs HA on AWS&lt;/p>
+&lt;ul>
+&lt;li>On-Promises HA: 1. very expensive; 2. It&amp;rsquo;s suitable only for mission-critical(派遣确定的) applications.&lt;/li>
+&lt;li>HA on AWS: 1.Multiple services. 2.Isolated redundancy data centers within each availability zone. 3.multiple availability zones within each region. 4. Region across the global. 5.Fault-tolerance service.&lt;/li>
+&lt;/ul>
+&lt;/blockquote>
+&lt;blockquote>
+&lt;p>From 100-CCA-31-EN-U3SG.pdf Module 3.&lt;/p>
+&lt;/blockquote>
+&lt;ol start="8">
+&lt;li>
+&lt;p>&lt;strong>List the three main factors associated with High Availability.&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>Fault tolerance: the &lt;strong>built-in redundancy&lt;/strong> of an application’s component(组件).&lt;/li>
+&lt;li>Recoverability: the process, policies, and procedures related to &lt;strong>restoring service&lt;/strong> after a catastrophic(灾难性的) event.&lt;/li>
+&lt;li>Scalability: the ability of application to &lt;strong>accommodate growth&lt;/strong> without changing design.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>What does enabling connection draining on an ELB do? Why is this important?
+This enables the load balancer to complete in-flight requests made to instances that are de-registering or unhealthy. To ensure that a Classic Load Balancer stops sending requests to instances that are de-registering or unhealthy, while keeping the existing connections open.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>True&lt;/code> or False: Amazon CloudWatch allows the user to create custom metrics for their specific application.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>What are three types of capacity parameters that an Auto Scaling Group defines?
+Desired, minimum,maximum&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Define a sample Auto Scale Policy.
+The scaling policies that you define adjust the number of instances, within your minimum and maximum number of instances, based on the criteria that you specify.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>True or &lt;code>False&lt;/code>: When using Auto Scaling, you should be more cautious scaling in and try to avoid aggressive instance termination.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>What are three languages AWS Lambda currently supports?
+Python, JavaScript, java, c#&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>What AWS Service can be classified as Infrastructure as Code?
+AWS CloudFormation&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Define AWS CloudFormation.
+AWS CloudFormation is a service that can be classified as infrastructure as code.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>List seven possible sections that can be included in a AWS CloudFormation Template.
+Description, metadata, parameters, mappings, conditions, transform, resources.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>True&lt;/code> or False: The more loosely your system is coupled the more easily it scales.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Define Services in the context of a SOA.
+Services are self-contained units of functionality.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Define a Microservice and give an example.
+Microservice: Small, independent processes within an SOA. Each process is focused on doing one small task. Processes communicate to each other using language-agnostic APIs.
+&lt;del>&lt;strong>Example&lt;/strong>: SNS? Use application load balancer with EC2 container service and auto scaling to implement mircoservice application.&lt;/del>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>What AWS Service provides a fully managed message queueing service?
+SQS: Amazon Simple Queue Service is a fully managed message queueing service. Transmit any volume of messages at any level of throughput without losing messages or requiring other services to be always available.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>What is a dead letter queue?
+A dead letter queue is a queue of messages that could not be processed.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>List three Amazon SQS use cases.&lt;/p>
+&lt;ul>
+&lt;li>Work Queues: Decouple components of a distributed application that may not all process the same amount of work simultaneously.&lt;/li>
+&lt;li>Buffering Batch Operations: Add scalability and reliability to your architecture and smooth out temporary volume spikes without losing messages or increasing latency.&lt;/li>
+&lt;li>Request Offloading: Move slow operations off of interactive request paths by enqueueing the request.&lt;/li>
+&lt;li>Fan-out: Combine Amazon SQS with Amazon SNS to send identical copies of a message to multiple queues in parallel for simultaneous processing.&lt;/li>
+&lt;li>Auto Scaling: Use Amazon SQS queues to help determine the load on an application, and when combined with Auto Scaling, you can scale the number of Amazon EC2 instances out or in, depending on the volume of traffic.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>List three subscriber types allowed by Amazon SNS.&lt;/p>
+&lt;ul>
+&lt;li>Email(plain or JSON)&lt;/li>
+&lt;li>HTTP/HTTPS&lt;/li>
+&lt;li>Short Message Service(SMS) clients(USA only)&lt;/li>
+&lt;li>Amazon SQS queues&lt;/li>
+&lt;li>Mobile push messaging&lt;/li>
+&lt;li>AWS lambda function&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>List the characteristics of Amazon SNS.
+Single published message, Order is not guaranteed, No recall, HTTP/HTTPS retry, 256 KB max per message&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>True or False: Amazon Kinesis is a database solution.
+False? Amazon Kinesis makes it easy to collect, process, and analyze real-time, streaming data so you can get timely insights and react quickly to new information.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Amazon S3 provides &lt;em>read-after-write&lt;/em> consistency for PUTS of new objects and provides &lt;em>eventual&lt;/em> consistency for overwrites of PUTS and DELETES.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Define eventual consistency. Define read-after-write consistency. (no specific definition)
+Eventual consistency is a consistency model used in distributed computing to achieve high availability that informally guarantees that, if no new updates are made to a given data item, eventually all accesses to that item will return the last updated value.
+&lt;strong>Read-after-write consistency&lt;/strong> is similar to a strongly consistent read returns a result that reflects all writes that received a successful response prior to the read.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Fill in the chart below:&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th align="left">Null&lt;/th>
+&lt;th align="left">Amazon SNS&lt;/th>
+&lt;th align="left">Amazon SQS&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td align="left">Manage Persistence&lt;/td>
+&lt;td align="left">No&lt;/td>
+&lt;td align="left">Yes&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td align="left">Delivery Mechanism&lt;/td>
+&lt;td align="left">Push(Passive)&lt;/td>
+&lt;td align="left">Poll(Active)&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td align="left">Producer/Consumer&lt;/td>
+&lt;td align="left">Publish(subscriber)&lt;/td>
+&lt;td align="left">Send(receive)&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;ol start="31">
+&lt;li>
+&lt;p>AWS Lambda starts code within &lt;code>milliseconds&lt;/code> of an event.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>List four triggers currently supported by AWS Lambda.&lt;/p>
+&lt;ul>
+&lt;li>Amazon DynamoDB&lt;/li>
+&lt;li>S3&lt;/li>
+&lt;li>SNS&lt;/li>
+&lt;li>CloudWatch&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>How many different levels of resource allocation does AWS Lambda provide? What is the range of memory provided? What is the maximum runtime of a AWS Lambda function?&lt;/p>
+&lt;ul>
+&lt;li>23 different levels&lt;/li>
+&lt;li>128M-1.5G&lt;/li>
+&lt;li>5 minutes&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>True or &lt;code>False&lt;/code>: Amazon CloudFront is located within AWS Edge Locations.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>List three ways to expire contents within Amazon CloudFront.&lt;/p>
+&lt;ul>
+&lt;li>Time to live (TTL)&lt;/li>
+&lt;li>Change Object Name&lt;/li>
+&lt;li>Invalidate Object&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>List the four pillars of the AWS Well-Architected Framework.&lt;/p>
+&lt;ul>
+&lt;li>Security pillar&lt;/li>
+&lt;li>Reliability pillar&lt;/li>
+&lt;li>Performance pillar&lt;/li>
+&lt;li>Cost pillar&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>Describe three principles of the Security pillar.&lt;/p>
+&lt;ul>
+&lt;li>Apply security at all layer: instead of just running security appliances at edge of your infrastructure, use firewalls and other security control on all of your resources.&lt;/li>
+&lt;li>Enable traceability: Log and audit all action and changes to your environment and access to yourservice&lt;/li>
+&lt;li>Automate response for security events: monitor and automatically trigger response to event-driven or condition driven alters&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>Describe three principles of the Reliability pillar.&lt;/p>
+&lt;ul>
+&lt;li>Test recovery procedures: in cloud, you can test how your system fail, and you can validate your recovery procedures.&lt;/li>
+&lt;li>Automatically recover from failure: by monitoring a system for key performance indicators(KPIs), you can trigger automation when a threshold is breached.&lt;/li>
+&lt;li>Scaling horizontally to increase aggregate system reliability: replace one large sources with multiple small sources to reduce the impact of single failure on the overall system.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>Describe three principles of the Performance pillar.&lt;/p>
+&lt;ul>
+&lt;li>Use advanced technologies: such as edge location or edge service, can reduce latency for service and load on your system.&lt;/li>
+&lt;li>Use “serverless” Architecture: serverless architectures remove the need for you to run and maintain servers to carry out traditional compute activities.&lt;/li>
+&lt;li>Go global in minutes: easily deploy your system in multiple regions around the world with just few clicks.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>Describe three principles of the Cost pillar.
+&lt;img src="http://www.guozet.me/images/in-post/2018-10-04-CPSC6440-CloudComputing-basic-concepts2/2018-10-03-22-28-10.png" alt="">&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Test recovery procedures: in cloud, you can test how your system fail, and you can validate your recovery procedures.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Automatically recover from failure: by monitoring a system for key performance indicators(KPIs), you can trigger automation when a threshold is breached.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Scaling horizontally to increase aggregate system reliability: replace one large sources with multiple small sources to reduce the impact of single failure on the overall system.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Describe three principles of the Performance pillar.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Use advanced technologies: such as edge location or edge service, can reduce latency for service and load on your system.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Use “serverless” Architecture: serverless architectures remove the need for you to run and maintain servers to carry out traditional compute activities.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Go global in minutes: easily deploy your system in multiple regions around the world with just few clicks.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>What are three things might you troubleshoot if your instance times out?&lt;/p>
+&lt;ul>
+&lt;li>check your routes&lt;/li>
+&lt;li>check your security group rules&lt;/li>
+&lt;li>check your network ACLs&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>What are three things might you troubleshoot if your network is unreachable?&lt;/p>
+&lt;ul>
+&lt;li>Check your routes&lt;/li>
+&lt;li>Check your security group rules&lt;/li>
+&lt;li>Check your Network ACLs&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>What are three things might you troubleshoot if the CPU load on your database is too high?&lt;/p>
+&lt;ul>
+&lt;li>Optimize your queries&lt;/li>
+&lt;li>Use read replicas&lt;/li>
+&lt;li>Ensure your are using the best instance type&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>What are three things might you troubleshoot if your access is denied?&lt;/p>
+&lt;ul>
+&lt;li>Verify you have permission to call that action on that resource&lt;/li>
+&lt;li>verify that any resource policies specify you as a principal and grant you access&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>Describe five tradeoffs, in a table, of Instance Store, EBS, S3, and Glacier.
+&lt;img src="https://lh6.googleusercontent.com/KKHztJzarMZvNVHJc63FIOplldn-oabFumiYNYsjbG7G17_KeVmjMX14y_EQ0D9K0HRBjvHT4KkEpwhrpEGQ1g3hD4fvJShriR7E2EXrq6WVLhUwVZ8IrMfzqt3rrzNIx_J7KD_qD39vAn-qDw" alt="https://lh5.googleusercontent.com/fJF5VSlHpe8MKd-ITv9MrUVVwi8WhTGd03AfhURy1DQzoaWUzx_VCxpgqcfz-O9SEnWg2nO3_MaUblXGxFIFgx6B5LViU8g8s3oEis9cVu5xMC9_EwjRA42ejU_9omoSCXY5gVfK">&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Describe five tradeoffs, in a table, of DynamoDB, RDS, and Redshift.
+&lt;img src="https://lh5.googleusercontent.com/rFTk0O3qw9MpIvQAmOPaS5tumdlTSIbXFHAXQOpcOJkpj3UEnmaii-ohG3oqhhI2rNPsFQZPzd8aVw8JYAgM6vWW5VB3Ne3pEAzKra9PSrQ2DzB-rKdyAPYQ4q1TNrMyjkIKL9FFDR5KfvBcNw" alt="https://lh5.googleusercontent.com/pkfPXpoE8Bk1yVHNrrjT0EyGIebfm3J_KQFkCie2GSLtUHUaS57Ype1OGuFb_Q3xHa5fofDgkcjgeIDbGi0YGQ1hZNtzM5o58_TgFXY6GwE3mZPmUz57wVZC1v5m5pGnicWjWzJt">&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>List five EC2 Purchasing Options&lt;/p>
+&lt;ul>
+&lt;li>On-demand instances&lt;/li>
+&lt;li>Spot instances&lt;/li>
+&lt;li>Reserved instances&lt;/li>
+&lt;li>Dedicated instances&lt;/li>
+&lt;li>Dedicated hosts&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>Spot instances are provided a termination notice &lt;code>24 times?&lt;/code> prior to termination (i.e., how much time?)&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>List and describe the differences of three different payment models for EC2 Reserved Instances.&lt;/p>
+&lt;ul>
+&lt;li>All upfront: pay for the entire Reserved Instance with one upfront payment.&lt;/li>
+&lt;li>Partial Upfront: make a low upfront payment, and then you are charged a discounted hourly rate for the instance for the duration of the Reserved Instance term&lt;/li>
+&lt;li>No Upfront: Does not require any upfront payments and provides a discounted hourly rate for the duration of the term.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>All upfront: pay for the entire Reserved Instance with one upfront payment.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Partial Upfront: make a low upfront payment, and then you are charged a discounted hourly rate for the instance for the duration of the Reserved Instance term&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>No Upfront: Does not require any upfront payments and provides a discounted hourly rate for the duration of the term.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Describe the difference between a Dedicated Instance and a Dedicated Host.&lt;/p>
+&lt;ul>
+&lt;li>Dedicated Instances - You pay for the instances, but they get placed on whatever dedicated hardware Amazon decides.&lt;/li>
+&lt;li>Dedicated Host - You pay for the entire physical server and can, in effect, run instances on it as you please.&lt;/li>
+&lt;li>A Dedicated Host and a dedicated instance is that a Dedicated Host gives you additional visibility and control over how instances are placed on a physical server, and you can consistently deploy your instances to the same physical server over time. As a result, Dedicated Hosts enable you to use your existing server-bound software licenses and address corporate compliance and regulatory requirements.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>Describe one advantage of each of the following High Availability Patterns (may not get to this one)&lt;/p>
+&lt;ul>
+&lt;li>Job Observer&lt;/li>
+&lt;li>Scheduled Scale-Out&lt;/li>
+&lt;li>Multi-AZ&lt;/li>
+&lt;li>High Availability Database&lt;/li>
+&lt;li>Floating IP&lt;/li>
+&lt;li>Floating Interface&lt;/li>
+&lt;li>State Sharing&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol></description></item><item><title>Cloud computing Basic concepts</title><link>http://www.guozet.me/post/CPSC6440-CloudComputing-basic-concepts/</link><pubDate>Sun, 23 Sep 2018 15:09:31 +0000</pubDate><guid>http://www.guozet.me/post/CPSC6440-CloudComputing-basic-concepts/</guid><description>&lt;p>Exam 1 Review Questions. Exam 1 will be derived from these questions.&lt;/p>
+&lt;p>注明：加粗的问题是考试的重点考试题目&lt;/p>
+&lt;p>&lt;strong>Acronyms&lt;/strong>
+Expand each of the following acronyms of the following in the context of this class:&lt;/p>
+&lt;ol>
+&lt;li>AWS: Amazon Web Services&lt;/li>
+&lt;li>AZ: Availablity Zone&lt;/li>
+&lt;li>&lt;strong>EC2: Elastic Compute Cloud&lt;/strong>&lt;/li>
+&lt;li>&lt;strong>S3: Sample Storage Service&lt;/strong>&lt;/li>
+&lt;li>EBS: Elastic Block Store&lt;/li>
+&lt;li>RDS: Relation Database Service&lt;/li>
+&lt;li>&lt;strong>NoSQL: No-relation SQL&lt;/strong>&lt;/li>
+&lt;li>ELB: Elastic Load Balancing&lt;/li>
+&lt;li>PAAS: Platform as a service&lt;/li>
+&lt;li>HAAS: Hardware as a service&lt;/li>
+&lt;li>IAAS: Infrastructure as a service&lt;/li>
+&lt;li>SAAS: Software as a service&lt;/li>
+&lt;li>&lt;strong>CIDR: Classless inter-domain routing&lt;/strong>&lt;/li>
+&lt;li>REST: Representational State Transfer&lt;/li>
+&lt;li>SOAP: Simple Object Access Protocol&lt;/li>
+&lt;li>&lt;strong>VPC: Virtual Private Cloud&lt;/strong>&lt;/li>
+&lt;li>CTO: Chief Technology Officer&lt;/li>
+&lt;li>CIO: Chief Information Officer&lt;/li>
+&lt;li>AMI: Amazon Machine Image&lt;/li>
+&lt;li>&lt;strong>IAM: Identity and Access Management&lt;/strong>&lt;/li>
+&lt;li>&lt;strong>MFA: Multi-factor Authentication&lt;/strong>&lt;/li>
+&lt;li>IOPS: I/O Operations per second&lt;/li>
+&lt;li>ACL: Access Control List&lt;/li>
+&lt;li>CLI: Command Line Interface&lt;/li>
+&lt;li>SDK: Software Development Kit&lt;/li>
+&lt;li>API: Application Interface&lt;/li>
+&lt;li>JSON: JavaScript Object Notation&lt;/li>
+&lt;/ol>
+&lt;hr>
+&lt;p>&lt;strong>General Questions&lt;/strong>&lt;/p>
+&lt;ol>
+&lt;li>Define cloud computing.&lt;/li>
+&lt;/ol>
+&lt;p>Cloud computing is the on-demand delivery of compute power, database storage, applications, and other IT resources through a cloud services platform via the internet, with pay-as-you-go pricing.
+&lt;del>Cloud computing is a model for enabling convenient, on-demand network access to a shared pool of configurable computing resources (e.g. networks, servers, applications, and services) that can be rapidly provisioned and released with minimal management effort or service provider interaction.&lt;/del>&lt;/p>
+&lt;ol start="2">
+&lt;li>
+&lt;p>Name and briefly describe six advantages and benefits of using commercial cloud computing.&lt;/p>
+&lt;ul>
+&lt;li>No upfront investment, users just click to order resources and can be immediate access and pay for the resources you need, which are available almost immediately.&lt;/li>
+&lt;li>Low on-going costs, AWS is continually lower prices and can optimize cost with prices option&lt;/li>
+&lt;li>Focus on innovation, users just need to focus on application development and do not care of other operations&lt;/li>
+&lt;li>Flexible capacity, you just provision the resources you need&lt;/li>
+&lt;li>Speed and agility, AWS is fast and on-demand provisioning. makes it possible for you to respond to changing market conditions.&lt;/li>
+&lt;li>Global reach on demand, users can deploy any AWS region on-demand and lower latency to distributed users bases.&lt;/li>
+&lt;/ul>
+&lt;p>Second&lt;/p>
+&lt;ul>
+&lt;li>Trade Capital Expense for Variable Expense&lt;/li>
+&lt;li>Benefit from massive economies of scale.&lt;/li>
+&lt;li>Stop guessing about capacity.&lt;/li>
+&lt;li>Increase speed and agility.&lt;/li>
+&lt;li>Stop spending money running and maintaining data centers.&lt;/li>
+&lt;li>Go global in minutes.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>What are the two cloud deployment models?
+All-in Cloud, Hybrid Cloud, Private Cloud(On-premises).
+&lt;del>Public Cloud, Private Cloud, Community Cloud and Hybrid Cloud.&lt;/del>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Explain the difference between a hybrid cloud deployment model and an All-In cloud deployment model.&lt;/p>
+&lt;ul>
+&lt;li>All-In&amp;rdquo; Cloud is a cloud-based application that is &lt;code>fully deployed in the cloud&lt;/code>, and all parts of the application run in the cloud.&lt;/li>
+&lt;li>A hybrid deployment is a way to &lt;code>connect infrastructure and applications between cloud-based resources and existing resources&lt;/code> that are not located in the cloud.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>When was the AWS cloud first made available as a product?
+2004&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Name three other commercial clouds in addition to AWS.
+Google Engine, Mircosoft Azure, Sun Cloud.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>True or False: Deploying your enterprise applications in the AWS cloud is cheaper than running your own data center. Explain your answer.
+&lt;strong>True&lt;/strong>. If you running your applications in your own data center, the first thing is you must build a data center, you need to build the basic infrastructure(Power system, engine room etc.) and you need to buy lots of servers and network devices. Moreover, you must employ people to help you to maintain and manage the datacenter. But, for AWS, you just pay for the resource that you truly want and there are lots of purchases options to use AWS service.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Describe three advantages and one disadvantage of running enterprise applications in the commercial cloud as compared to running your own data center.&lt;/p>
+&lt;ul>
+&lt;li>Advantages: Cheaper, scalable, no labor maintain&lt;/li>
+&lt;li>Disadvantage: Risk of AWS service down&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol>
+&lt;hr>
+&lt;p>&lt;strong>AWS Computing&lt;/strong>&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>What is the AWS Marketplace?
+AWS Marketplace is an online store where you can buy or sell software that runs on Amazon Web Services.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>What is a hypervisor and what is its main function? Do you have access to the hypervisor layer in AWS? Explain your answer.&lt;/p>
+&lt;ul>
+&lt;li>A hypervisor is a function which abstracts and isolates operating systems and applications from the underlying computer hardware. This abstraction allows the underlying host machine hardware to independently operate one or more virtual machines as guests, allowing multiple guest VMs to effectively share the system&amp;rsquo;s physical compute resources, such as processor cycles, memory space, network bandwidth and so on.&lt;/li>
+&lt;li>The main function of hypervisor is to manage the virtual machines.&lt;/li>
+&lt;li>No, you don’t need to access the hypervisor layer, you just need to use EC2 instance to develop your own application, and AWS will help you to manage the resource that your virtual machines needed.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>What is an Instance?&lt;/strong>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>Amazon instances are virtualized servers or virtual computing environments in amazon’s data centers.&lt;/p>
+&lt;ol>
+&lt;li>Draw the EC2 instance life cycle diagram. See
+&lt;a href="https://www.google.com/search?q=ec2&amp;#43;instance&amp;#43;lifecycle&amp;amp;rlz=1C1GCEA_enUS785US785&amp;amp;source=lnms&amp;amp;tbm=isch&amp;amp;sa=X&amp;amp;ved=0ahUKEwiNg87g9LfdAhVSzlMKHQAdDYwQ_AUICigB&amp;amp;biw=1361&amp;amp;bih=926#imgrc=CXUrONSjwds2NM:" target="_blank" rel="noopener">here (Links to an external site.)Links to an external site.&lt;/a>&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img src="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/images/instance_lifecycle.png" alt="Image result for ec2 instance lifecycle">&lt;/p>
+&lt;ol start="6">
+&lt;li>
+&lt;p>Explain what “Pay as you Go” means.
+“Pay as you Go” means you just pay for the resources that you truly used, and if you do not use those resources, you do not need to pay. Like electric power or water, when you use it, then you pay for it.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>List four AWS EC2 Purchasing Options.
+On-demand instance, Reserved instance, Spot instance, Dedicated Hosts.
+&lt;del>Scheduled instance, Dedicated instance,&lt;/del>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Describe at least three differences between On-Demand purchasing and Reserved Instance purchasing. (Between On-Demand purchasing and Spot Instance purchasing, between Reserved purchasing and Scheduled purchasing.)&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>On-Demand Instances: 1. Computer capacity by the hours &amp;amp; second. 2. It has short-term, spiky o unprecdictable workload. Low cost and flexibility.&lt;/li>
+&lt;li>Reserved Instance: 1. Purchasing need upfront payment, steady-state workload, can get 50%-75% lower than on-demand rate. 2. Overall cost is lower. 3. Predictability ensures compute capacity is available when needed.&lt;/li>
+&lt;li>Spot Instances: 1.Bid for unused Amazon EC2 capacity. 2.The price based on supply and demand. 3.Instances can be lost if you’re outbid, 4. Instances can be interrupted if the Spot price exceeds the maximum. 5.Large scale, dynamic workload.&lt;/li>
+&lt;li>Dedicated Hosts: 1.Save money on licensing costs. 2.Help meet compliance and regulatory requirements.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>For what kind of workload would you prefer on-Demand pricing? Spot pricing? Reserved Instance pricing? Scheduled Instance pricing?&lt;/p>
+&lt;ul>
+&lt;li>On-demand: short term, spiky or unpredicted workload;&lt;/li>
+&lt;li>Reserved: consistent, heavy workload. Steady state or preictable usage workloads.&lt;/li>
+&lt;li>Spot: Applications with flexible start and end times.&lt;/li>
+&lt;li>Scheduled: Usage and licensing tracking.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>True or False: If you launch an instance using Spot pricing and it is terminated by AWS in 30 minutes then you are charged for the full hour.&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>False. The minimum is 60 seconds. But it are billed on one-second increments.&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>True or False: If you launch an instance using Spot pricing and you terminate it in 30 seconds then you are charged for the full minute.
+&lt;code>True&lt;/code>. The minimum of 60 second.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>True or False: An AMI includes a template for the root volume, launch permission that control which AWS accounts can use the AMI, and a block device mapping that specifies the volumes to attach to the instance when it is launched.
+&lt;code>True&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Name four families of EC2 instances.&lt;/p>
+&lt;ul>
+&lt;li>General purpouse: t2, m3, m4&lt;/li>
+&lt;li>Compute-Optimized: c4,c3&lt;/li>
+&lt;li>Mermory-Optimized: r3&lt;/li>
+&lt;li>GPU instance: g2&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>What is Instance Metadata? Give an example.&lt;/strong>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>Instance Metadata is data about the instance, can be used to configure and manage a running instance. For example, aim-id, ami-launch-index, private or public IP address etc.&lt;/p>
+&lt;ol start="5">
+&lt;li>&lt;strong>What is Instance User Data? Give an example.&lt;/strong>&lt;/li>
+&lt;/ol>
+&lt;p>Instance User data is a data can be passed to the instance at launch and can be used to perform common automated configuration scripts. For example:&lt;/p>
+&lt;pre>&lt;code class="language-bash">#!/bin/bash
+yum update -y
+yum install -y httpd24 php56 mysql55-server php56-mysqlnd
+service httpd start
+chkconfig httpd on
+&lt;/code>&lt;/pre>
+&lt;ol start="6">
+&lt;li>&lt;strong>Explain the concept of bootstrapping an instance.&lt;/strong>&lt;/li>
+&lt;/ol>
+&lt;p>It creates an application context that provides the runtime context for an application.&lt;/p>
+&lt;ol start="7">
+&lt;li>True or False: You are able to reboot any type of instance.
+&lt;code>True&lt;/code>&lt;/li>
+&lt;/ol>
+&lt;hr>
+&lt;p>&lt;strong>AWS Storage&lt;/strong>&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>&lt;strong>Describe three differences between Amazon EBS and Amazon EC2 Instance Store&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>EBS: Data stored in EBS can persist independently of the life of instance. Storage is &lt;code>persistent&lt;/code>. Used to store higher level durable data.which can be mounted as a device to an Amazon EC2 instance. &lt;code>Mountable storage&lt;/code>, Amazon EBS can only be mounted to an Amazon EC2 instance within the &lt;code>same Availability Zone&lt;/code>.&lt;/li>
+&lt;li>EC2 Instance Store: Data stored in EC2 Instance Store can persist only as long as the instance alive. Storage is ephemeral. Used to store temporary data.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>True or False: Every type of instance can use EC2 Instance Store. Explain your answer. (This is a trick question).&lt;/strong>
+&lt;code>False: &lt;/code>Use the local instance store only for temporary data.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>What is the difference between ephemeral and persistent storage? Which type is EBS? Which type is S2? Which type is Instance Store?&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>Persistent storage is just like a data is stored in hard disk, and will persist in this disk.&lt;/li>
+&lt;li>The Ephemeral storage means the stored data always a temporary data, like cache, buffers etc. When the instance is unlived, this data will be deleted.&lt;/li>
+&lt;li>EBS: persistent storage, S3: persistent storage , Instance Store: ephemeral storag&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>Describe the difference between Block Storage and Object Storage. Describe what happens if you change a single character in Block Storage versus what happens if you change a single character in Object Storage.&lt;/p>
+&lt;ul>
+&lt;li>Block Storage: File is split and stored in fixed sized blocks; Capacity can be increased by adding more nodes; Suitable for applications which require high IOPS, database, transactional data.&lt;/li>
+&lt;li>Object Storage: Store virtually unlimited files; Maintain file revisions; HTTP(S) based interface; Files are distributed in different physical nodes.(from Google)&lt;/li>
+&lt;li>This means that you must write whole objects at a time. If you change one small part of a file, you must rewrite the entire file in order to commit the change to Amazon S3.(U2page77)&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>True or false: S3 is a Block Storage system.
+&lt;code>False&lt;/code>. S3 is cloud object storage for the Internet where files are reachable via a restful URL.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>True or false: EBS is an Object Storage system.
+&lt;code>False&lt;/code>. EBS provides block-level storage volumes for use with Amazon EC2 instances.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>True or false: S3 is a key-value object store with unlimited storage capacity. Explain your answer. &lt;code>True&lt;/code>
+False: An object is composed of a file and any metadata that describes that file. S3 can store an unlimited number of objects in a bucket. There is a 100-bucket limit per account and the size of an object can be up to 5 TB, and there is no limit to the size of a bucket.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>What is the largest size object that can be stored in S3?
+&lt;code>5TB&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>EBS can be compared to what real hardware device?
+&lt;code>Hard disk(Hard drive)&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>For what type of workload would you prefer S3?
+One very common use for Amazon S3 is storage and distribution of static web content and media
+Q: The data need to be accessed by internet.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>True or False: You can back up EBS to S3. Explain your answer.
+&lt;code>False&lt;/code>, we only can backup EBS snapshot to S3&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>What is an EBS Snapshot?
+An EBS snapshot is a point-in-time backup of your EBS volume. It is a “copy” of the data on your EBS volume. Snapshots are incremental backups, which means that only the blocks on the device that have changed after your most recent snapshot are saved&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Describe the EBS volume lifecycle.&lt;/strong>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-09-24-CPSC6440-CloudComputing-basic-concepts/2018-09-24-22-06-36.png" alt="">&lt;/p>
+&lt;ol start="14">
+&lt;li>
+&lt;p>&lt;strong>What are provisioned IOPS?&lt;/strong>
+Provisioned IOPS are a new EBS volume type designed to deliver predictable, high performance for I/O intensive workloads, such as database applications, that rely on consistent and fast response times&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Describe three use cases for EBS.
+OS: use for root/boot volume, secondary volume
+Databases: scales with your performance needs
+Applications: install and persist any application&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Describe the difference between Amazon S3 Standard and Amazon S3 Standard - Infrequent Access.&lt;/p>
+&lt;ul>
+&lt;li>Amazon S3 Standard, for general-purpose storage of frequently accessed data&lt;/li>
+&lt;li>Amazon S3 Standard-Infrequent Access (Standard-IA), for long-lived, but less frequently accessed data&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>Data retrieval from Amazon Glacier will take _____ to begin:&lt;/p>
+&lt;ol>
+&lt;li>10 minutes&lt;/li>
+&lt;li>1 hour&lt;/li>
+&lt;li>&lt;code>3-5 hours&lt;/code>&lt;/li>
+&lt;li>1-3 hours&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>
+&lt;p>What does it mean to be fault tolerant?
+Fault-tolerance defines the ability for a system to remain in operation even if some of the components used to build the system fail.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>What does it mean to be highly available?
+High availability refers to systems that are durable and likely to operate continuously without failure for a long time.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>What is the difference between availability and durability of data?&lt;/p>
+&lt;ul>
+&lt;li>Durability means data integrity, data is not lost etc.&lt;/li>
+&lt;li>Availability means that it is &amp;ldquo;available to access&amp;rdquo;&lt;/li>
+&lt;li>Data can be unavailable to access but the data will still be intact and not lost if there is high durability.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>Suppose that the probability that a storage device fails in a year is 1%. Suppose that you store your data redundantly on two independent devices with the same failure rate. What is the probability that you will lose your data in a year? Assuming no use of error correcting codes, on how many devices do you have to redundantly store your data so that the probability of losing it is less than .0000000001%?
+&lt;code>0.01%, 6&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>How much time will an application be unavailable in a year if it has 99.999999999% availability?
+&lt;code>0.000315s 0.019&lt;/code>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;hr>
+&lt;p>&lt;strong>AWS Networking&lt;/strong>&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>True or False: VPCs are logically isolated from other virtual networks.
+&lt;code>True&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>A VPC resides in a single:&lt;/strong>&lt;/p>
+&lt;ol>
+&lt;li>Availability Zone&lt;/li>
+&lt;li>Edge Location&lt;/li>
+&lt;li>&lt;strong>Region&lt;/strong>&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>
+&lt;p>What is a data center? An Availability Zone? A Region? Give two examples of AWS regions.&lt;/p>
+&lt;ul>
+&lt;li>Data center: A data center is a facility used to house computer systems and associated components, such as telecommunications and storage systems.&lt;/li>
+&lt;li>Availability Zone: AZs consist of data centers clustered in a region.&lt;/li>
+&lt;li>Region: Geographic locations that contain multiple Availability Zones.&lt;/li>
+&lt;li>Two examples: US East: N. Virginia, Ohio; US West: N. California, Oregon; China: Beijing&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>How do Availability Zones in the same Region differ?
+Availability Zones are always referenced by their Code Name, which is defined by the AZs Region Code Name that the AZ belongs to, followed by a letter.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>What is an Edge location?
+An edge location is where end users access services located on AWS platform.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>True or False: There are many more Regions than Edge locations in AWS. Explain your answer.
+&lt;code>False:&lt;/code> 74+ edge locations while 16 regions&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>True or False: Data transferred between AZs travel on private high-speed network links.
+&lt;code>True: &lt;/code>Each AZ is isolated, but the AZs in a region are connected through low-latency links.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>True or False: Data transferred between Regions travel on the public Internet.
+&lt;code>True&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>True or False: VPCs cannot include resources in more than one Availability Zone.
+&lt;code>False: &lt;/code>each subnet must reside entirely within one AZ&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>True or False: VPC provides various feature to provide security, including Security Groups, Network Access Control Lists, and Key Pairs.
+&lt;code>True&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Which of the following statements regarding Amazon VPC are True? 1,2,4&lt;/p>
+&lt;ol>
+&lt;li>&lt;code>A private subnet should be used for resources that won’t be accessible over the Internet&lt;/code>&lt;/li>
+&lt;li>&lt;code>Each subnet must reside entirely within one Availability Zone&lt;/code>&lt;/li>
+&lt;li>A public subnet should be used for resources that won’t be accessible over the Internet&lt;/li>
+&lt;li>&lt;code>A subnet defines a range of IP addresses in your VPC&lt;/code>&lt;/li>
+&lt;li>Subnets can span Availability Zones&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>
+&lt;p>Each Availability Zone in an AWS Region is separated by:&lt;/p>
+&lt;ol>
+&lt;li>&lt;code>At least 10s of miles&lt;/code>&lt;/li>
+&lt;li>At most 10s of miles&lt;/li>
+&lt;li>Exactly 10 miles&lt;/li>
+&lt;li>At least 100 miles&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>
+&lt;p>Regions consist of at least __ Availability Zones:&lt;/p>
+&lt;ol>
+&lt;li>1&lt;/li>
+&lt;li>6&lt;/li>
+&lt;li>&lt;code>2&lt;/code>&lt;/li>
+&lt;li>10&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>
+&lt;p>True or False: A Security Group is within a single VPC. &lt;code>True&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Give an example of a network rule you might assign in a Security Group.
+HTTP(80), HTTPS(443)&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Security Groups control both inbound and outbound traffic at the _____ level.&lt;/p>
+&lt;ol>
+&lt;li>Subnet&lt;/li>
+&lt;li>VPC&lt;/li>
+&lt;li>&lt;code>Instance&lt;/code>&lt;/li>
+&lt;li>Availability Zone&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ol>
+&lt;hr>
+&lt;p>&lt;strong>AWS Database&lt;/strong>&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>Describe three differences between an AWS managed service and an unmanaged service.&lt;/p>
+&lt;ul>
+&lt;li>Managed service offers support for every problem or task, emergency or routine versus unmanaged services offer no routine support.&lt;/li>
+&lt;li>Managed service is more expensive as there is constant management versus unmanaged
+services are cheaper as you are responsible for everything.&lt;/li>
+&lt;li>Managed hosting is far less work and requires little expertise. If something goes wrong and you&amp;rsquo;re stuck, you can call on your host to give you a hand versus Unmanaged hosting gives you complete control: sole access and total freedom.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>__________ are the basic building blocks of Amazon RDS.
+DB instances&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>True or False: A DB Instance is an isolated database environment in the cloud.&lt;/strong>
+True: A DB instance is an isolated database environment running in the cloud. It is the basic building block of Amazon RDS.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Name four databases supported by AWS RDS.
+MySQL, MariaDB, Microsoft SQL Server, Oracle, PostgreSQL&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Describe three differences between using a managed RDS and building your own database on EC2.
+Managed RDS provide cost-efficient and resizable capacity while managing time-consuming database administration task. RDS automatically patches the database software and backs up the database. It’s flexible. It accesses to the full capabilities of databases.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>In general, SQL databases have _____ scaling and NoSQL databases have _____ scaling.
+&lt;code>vertical&lt;/code>
+&lt;code>horizontal&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Describe the difference between vertical scaling and horizontal scaling.
+Horizontal scaling means that you scale by adding more machines into your pool of resources whereas vertical scaling means that you scale by adding more power (CPU, RAM) to an existing machine.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>What is the main limitation to vertical scaling? That is, when can you no longer scale vertically?
+In Scaling Up (also known as Vertical Scaling) the limitation is hardware related in a very specific way: how much memory, disk, and processor a single server can support…
+Vertical scaling is limited to the capacity of a single machine.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>What is the main limitation to horizontal scaling? That is, when can you no longer scale horizontally?&lt;/strong>
+In theory, horizontal scalability is only limited by how many entities can be connected successfully.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Give three examples of SQL-like statements.&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;pre>&lt;code class="language-sql">CREATE TABLE table_name (column_name column_type);
+Select * FROM table_name;
+INSERT INTO table_name (field1, field2,...) VALUES (value1, value2,...);
+&lt;/code>&lt;/pre>
+&lt;ol start="11">
+&lt;li>Give an example of datasqu that might be in a NoSQL database.&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-09-24-CPSC6440-CloudComputing-basic-concepts/2018-09-24-22-07-18.png" alt="">&lt;/p>
+&lt;ol start="12">
+&lt;li>
+&lt;p>True or False: You cannot use SQL to query a NoSQL database. Explain your answer.
+&lt;code>False&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>True or False: You can query and scan DynamoDB to retrieve data. &lt;code>True&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>For what type of workload would you prefer DynamoDB?
+New web-scale applications and larger number of small read and write&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>True/False: You should utilize Amazon DynamoDB if your application requires complex queries, joins, and updates.
+&lt;code>False&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>True or False: You should utilize Amazon DynamoDB if your data is unstructured and you require fast I/O.
+&lt;code>True&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Which of the following allows unlimited storage:&lt;/p>
+&lt;ol>
+&lt;li>&lt;code>S3&lt;/code>&lt;/li>
+&lt;li>EBS&lt;/li>
+&lt;li>Instance Store&lt;/li>
+&lt;li>RDS&lt;/li>
+&lt;li>&lt;code>DynamoDB&lt;/code>&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Describe eventually consistent reads and strongly consistent reads. Which AWS service(s) provide eventually consistent reads, and under what conditions? (Move to exam 2)&lt;/strong>
+service(s) provide eventually consistent reads, and under what conditions?&lt;/p>
+&lt;ul>
+&lt;li>Eventually Consistent Reads: When you read data from a DynamoDB table, the response might not reflect the results of a recently completed write operation. The response might include some stale data. If you repeat your read request after a short time, the response should return the latest data.&lt;/li>
+&lt;li>Strongly Consistent Reads: When you request a strongly consistent read, DynamoDB returns a response with the most up-to-date data, reflecting the updates from all prior write operations that were successful. A strongly consistent read might not be available if there is a network delay or outage.&lt;/li>
+&lt;li>By default (DynamoDB)&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>Why would we not always use strongly consistent reads in a distributed system like AWS?
+A strongly consistent read might not be available if there is a network delay or outage.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;em>Describe the similarity and difference between Secondary DB and Read Replica DB&lt;/em>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;hr>
+&lt;p>&lt;strong>AWS Scalability&lt;/strong>&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>Name the two types of load balancers.
+Classic load balancer, Application load balancer, Network load balancer.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>You can create Auto Scaling Group scaling policies that utilize _____ to determine when your Auto Scaling group should scale out or scale in.
+1. VPC
+2. S3
+3. &lt;code>CloudWatch alarms&lt;/code>
+4. Instance Store&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>List three things that you can specify when you create a Launch Configuration.&lt;/p>
+&lt;ul>
+&lt;li>A key pair&lt;/li>
+&lt;li>Security group&lt;/li>
+&lt;li>A block device mapping
+The ID of the Amazon Machine Image (AMI), the instance type, a key pair, one or more security groups, and a block device mapping&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>List three benefits of utilizing Auto Scaling within your application.&lt;/p>
+&lt;ul>
+&lt;li>Better fault tolerance&lt;/li>
+&lt;li>Better availability&lt;/li>
+&lt;li>Better cost management&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>True or False: An Auto Scaling group is a collection of EC2 Instances that share the same characteristics.
+&lt;code>True&lt;/code>: An Auto Scaling group contains a collection of EC2 instances that share similar characteristics and are treated as a logical grouping for the purposes of instance scaling and management.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Explain the concept of bootstrapping an instance.
+It creates an application context that provides the runtime context for an application.&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;hr>
+&lt;p>&lt;strong>AWS Security&lt;/strong>&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>&lt;strong>What does “Security of the Cloud” mean? Describe three aspects of security of the cloud.&lt;/strong>
+The policies and mechanisms AWS use to protect the cloud itself. Compute, storage, database, networking.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>What does “Security in the Cloud” mean? Describe three aspects of security in the cloud.&lt;/strong>
+The AWS service you utilize to run your workloads. Operating system, customer application and content, IAM&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Define authentication. Define authorization. How are they different?&lt;/p>
+&lt;ul>
+&lt;li>Authentication is the process of verifying who you are. When you log on to a PC with a username and password you are authenticating.&lt;/li>
+&lt;li>Authorization is the process of verifying that you have access to something. Gaining access to a resource (e.g. directory on a hard disk) because the permissions configured on it allow you access is authorization.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>List the three IAM constructs that an IAM Policy can be assigned to.
+IAM users, IAM groups, IAM role.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Explain what an IAM User is.
+An IAM user is an entity that you create in AWS to represent the person or service that uses it to interact with AWS.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Explain a difference between role-based authorization and user-based authorization.
+Roles-based authorization is used to group users into groups (roles) and then set permissions on the role rather than on individual users.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>True/False: All IAM permissions in AWS are implicitly allowed by default. &lt;code>False&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Draw the IAM permissions flow chart.&lt;/strong>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-09-24-CPSC6440-CloudComputing-basic-concepts/2018-09-24-22-07-58.png" alt="">&lt;/p>
+&lt;ol start="9">
+&lt;li>
+&lt;p>Suppose you create a policy for a user to Allow access to a table called “Table1”. In your same policy you Deny access to any table that is Not “Table1”. Then in the same policy you Allow access to “Table2”. Can this user access “Table2”? Why or why not?
+&lt;strong>Answer:&lt;/strong> The user can&amp;rsquo;t access table 2 because we can&amp;rsquo;t rewrite or overwrite the previlieges already defined. If the user needs to access it he needs to define it before its access is set as deny&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>IAM Policies are written in _____.&lt;/p>
+&lt;ol>
+&lt;li>&lt;code>JSON&lt;/code>&lt;/li>
+&lt;li>CSV&lt;/li>
+&lt;li>XML&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>
+&lt;p>True or False: IAM is appropriate for OS and application authentication.
+&lt;code>False&lt;/code>&lt;/p>
+&lt;/li>
+&lt;/ol></description></item><item><title>Courses Cloud Computing Introduce 1</title><link>http://www.guozet.me/post/Cloud-Computing-introduce/</link><pubDate>Mon, 27 Aug 2018 10:14:31 +0000</pubDate><guid>http://www.guozet.me/post/Cloud-Computing-introduce/</guid><description>&lt;p>8/23/2018&lt;/p>
+&lt;ul>
+&lt;li>Welcome, course overview, account setup, course logistics (20 minutes)&lt;/li>
+&lt;li>1.01 What is Cloud Computing (30 minutes)&lt;/li>
+&lt;li>AWS Management Console demo&lt;/li>
+&lt;li>&lt;em>Access the student materials at
+&lt;a href="https://www.google.com/url?q=https%3A%2F%2Fawsacademy.qwiklab.com%2F&amp;amp;sa=D&amp;amp;sntz=1&amp;amp;usg=AFQjCNGTi6DJo_tzl6XTUSgCHuJfeCKqdg" target="_blank" rel="noopener">https://awsacademy.qwiklab.com (Links to an external site.)Links to an external site.&lt;/a>&lt;/em>&lt;/li>
+&lt;li>Registration link &amp;ndash; will be provided in email to class participants&lt;/li>
+&lt;li>
+&lt;a href="https://www.google.com/url?q=https%3A%2F%2Fwww.dropbox.com%2Fs%2F2juvuht9g3o1ali%2F20160823%2520AWS%2520Academy%2520getting%2520started%2520for%2520students.pdf%3Fdl%3D0&amp;amp;sa=D&amp;amp;sntz=1&amp;amp;usg=AFQjCNFxciRZikyEAl9sJswYihv5mjs_hA" target="_blank" rel="noopener">AWS Getting Started (Links to an external site.)Links to an external site.&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>Homework:&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>AFTER EVERY LECTURE: Do the assessment(s) associated with the lecture slides just covered even if not listed in the Homework. Become familiar with the terms and concepts listed for each class period.&lt;/strong>&lt;/li>
+&lt;li>For today&amp;rsquo;s lecture, do the Assessment for Lecture 1.&lt;/li>
+&lt;li>Read
+&lt;a href="https://www.google.com/url?q=https%3A%2F%2Fwww.ibm.com%2Fblogs%2Fcloud-computing%2F2014%2F02%2Fcloud-computing-basics%2F&amp;amp;sa=D&amp;amp;sntz=1&amp;amp;usg=AFQjCNGCcrgBpw3vKMKLB7EZ7Gv8GFmQRQ" target="_blank" rel="noopener">Cloud computing basics (Links to an external site.)Links to an external site.&lt;/a>&lt;/li>
+&lt;li>Read:
+&lt;a href="http://www.google.com/url?q=http%3A%2F%2Fieeexplore.ieee.org%2Fdocument%2F5331755%2F&amp;amp;sa=D&amp;amp;sntz=1&amp;amp;usg=AFQjCNGj8YdvO-L3HtZv0kBGQ4zUg-8wDQ" target="_blank" rel="noopener">Taxonomy and Survey of Cloud Computing Systems (Links to an external site.)Links to an external site.&lt;/a> and be prepared to answer questions about it on the Exam.&lt;/li>
+&lt;li>Some terms everyone should know: on-demand self service, resource pooling, elasticity, measured service, SAAS, PAAS, IAAS, HAAS public/private/hybrid types of clouds, virtualization, hypervisor, stateful versus stateless services, cloud business model, on-premises/on-prem, enterprise application, &lt;strong>pay as you go&lt;/strong>&lt;/li>
+&lt;/ul>
+&lt;h1 id="introduce">Introduce&lt;/h1>
+&lt;h2 id="what-is-the-cloud-computing">What is the Cloud Computing?&lt;/h2>
+&lt;p>Cloud computing is a model for enabling convenient, on-demand network access to a shared pool of configurable computing resources (e.g. networks, servers, applications, and services) that can be rapidly provisioned and released with minimal management effort or service provider interaction.&lt;/p>
+&lt;h2 id="some-keywords">Some keywords&lt;/h2>
+&lt;h3 id="five-characteristics">Five Characteristics&lt;/h3>
+&lt;p>&lt;strong>On-demand self-service&lt;/strong>&lt;/p>
+&lt;p>This means provisioning or de-provisioning computing resources as needed in an automated fashion without human intervention [n. 介入；调停；妨碍]. An analogy to this is electricity as a utility where a consumer can turn on or off a switch on-demand to use as much electricity as required.&lt;/p>
+&lt;p>&lt;strong>Resource Pooling&lt;/strong>&lt;/p>
+&lt;p>This means that computing resources are pooled to meet the demand of the consumers so that resources (physical or virtual) can be dynamically assigned, reassigned or de-allocated as per the requirement. Generally the consumers are not aware of the exact location of computing resources. However, they may be able to specify location (country, city, region and the like) for their need. For example, I as a consumer might want to host my services with a cloud provider that has cloud data centers within the boundaries of Australia.&lt;/p>
+&lt;p>&lt;strong>Ubiquitous[adj. 普遍存在的；无所不在的] network access&lt;/strong>&lt;/p>
+&lt;p>This means that computing facilities can be accessed from anywhere over the network using any sort of thin or thick clients (for example smartphones, tablets, laptops, personal computers and so on).&lt;/p>
+&lt;p>&lt;strong>Elasticity&lt;/strong>&lt;/p>
+&lt;p>Cloud computing provides an illusion of infinite computing resources to the users. In cloud models, resources can be elastically provisioned or released according to demand.&lt;/p>
+&lt;p>&lt;strong>Measured service&lt;/strong>&lt;/p>
+&lt;p>This means that consumers only pay for the computing resources they have used. This concept is similar to utilities like water or electricity.&lt;/p>
+&lt;hr>
+&lt;h3 id="three-main-service-models-of-cloud-computing-cloud-architecture">Three main service models of cloud computing (Cloud Architecture)&lt;/h3>
+&lt;p>&lt;strong>XaaS&lt;/strong> offerings where X is Software, Hardware, Platform, Infrastructure, Data, Business etc.&lt;/p>
+&lt;p>&lt;strong>SAAS&lt;/strong>&lt;br>
+Software as a service (SaaS). Applications hosted by a provider on a cloud infrastructure are accessed from thin or thick clients over the network or a program interface (for example, web services). Examples are Google Docs, IBM SmartCloud Docs, IBM SmartCloud Meetings, Saleforce.com’s CRM application and so on.&lt;/p>
+&lt;p>&lt;strong>PAAS&lt;/strong>&lt;br>
+Platform as a service (PaaS). Providers deliver not only infrastructure but also middleware (databases, messaging engines and so on) and solution stacks for application build, development and deploy. IBM SmartCloud Application Services and Google App Engine are two examples of PaaS.&lt;/p>
+&lt;p>&lt;strong>IAAS&lt;/strong>&lt;br>
+Infrastructure as a service (IaaS). It is the delivery of computing infrastructure as a service. IBM SmartCloud Enterprise+, SoftLayer cloud and Amazon EC2 are some examples of IaaS.&lt;/p>
+&lt;p>&lt;strong>HAAS&lt;/strong>&lt;br>
+Hardware as a service (HaaS) refers to managed services or grid computing, where computing power is leased from a central provider. In each case, the HaaS model is similar to other service-based models, where users rent, rather than purchase, a provider&amp;rsquo;s tech assets.&lt;/p>
+&lt;p>There are others services emanating from these main services. Storage as a service &lt;strong>(STaaS)&lt;/strong> and communications as a service &lt;strong>(CaaS)&lt;/strong> are two such variants.&lt;/p>
+&lt;h3 id="four-cloud-deployment-models-publicprivatehybrid-types-of-clouds">Four cloud deployment models( public/private/hybrid types of clouds)&lt;/h3>
+&lt;p>&lt;strong>Public cloud&lt;/strong>&lt;/p>
+&lt;p>This is where computing resources provided by a cloud provider are used by different organizations through public Internet on a &lt;strong>pay as you go (PAYG)&lt;/strong> model. Cloud providers ensure some sort of separation for resources used by different organizations. This is known as multitenancy [n. 多租户技术].&lt;/p>
+&lt;p>&lt;strong>Private cloud&lt;/strong>&lt;/p>
+&lt;p>This is where cloud infrastructure is solely owned by an organization and maintained either by this organization or a third party and can be located on site or off-site. Computing resources are behind the corporate firewall.&lt;/p>
+&lt;p>&lt;strong>Community cloud&lt;/strong>&lt;/p>
+&lt;p>Here, cloud infrastructure is owned and shared by multiple organizations with a shared concern.&lt;/p>
+&lt;p>&lt;strong>Hybrid cloud&lt;/strong>&lt;/p>
+&lt;p>It is the combination of any type of cloud model mentioned above connected by standardized or proprietary technology.&lt;/p>
+&lt;h3 id="virtualization">Virtualization&lt;/h3>
+&lt;p>&lt;strong>Virtualization Management&lt;/strong> is the technology that abstracts the coupling between the hardware and operating system. It refers to the abstraction of logical resources away from their underlying physical resources in order to improve agility, flexibility, reduce costs and thus enhance busines valuse. Basically virtualizations in cloud are of different types such as server virtualization, storage virtuualization and network virtualization.&lt;/p>
+&lt;p>For example, a common interpretation of server virtualization is the mapping of single physical resources to multiple logical representations or partitions.&lt;/p>
+&lt;h3 id="hypervisor">Hypervisor&lt;/h3>
+&lt;p>We’ve heard the term hypervisor, of course, when talking of virtualization and the Cloud. Hypervisors allow a single set of physical hardware to host multiple virtual machines, and hold all of the necessary variables and information required to make those virtual machines work. But what is a Hypervisor actually, what does a Hypervisor do, and how does it make the Cloud possible? Let’s have a look:&lt;/p>
+&lt;p>In their simplest form, hypervisors are software, specialized firmware, or both which allow physical hardware to be shared across multiple virtual machines. The way the hypervisor does this will vary from vendor to vendor – like ESXi from WMware or Hyper-V from Microsoft, but they all accomplish the same task. Each takes one set of physical hardware (CPU, RAM, disk drives, peripherals, etc.) and allows it to be simultaneously used by multiple instances of Operating Systems (Windows, Linux, etc.).&lt;/p>
+&lt;p>There are two major classifications of hypervisors to be aware of. Type 1 and Type 2 both do the same basic task, but the way they do it is quite different from each other.&lt;/p>
+&lt;h3 id="stateful-versus-stateless-services">stateful versus stateless services&lt;/h3>
+&lt;p>I assume you are referring to Security Groups (stateful) and Access Control Lists (stateless) in Ryan&amp;rsquo;s videos. My understanding is:&lt;/p>
+&lt;p>Security Groups control connectivity to and from an EC2 instance or instances whereas ACLs control connectivity to and from a subnet.&lt;/p>
+&lt;p>Stateful = any connection inbound will also allow the response to be returned outbound without additional rules or will override an explicit DENY.&lt;/p>
+&lt;p>Stateless = you must explicitly ALLOW traffic in both directions.&lt;/p>
+&lt;h3 id="cloud-business-model">cloud business model&lt;/h3>
+&lt;h3 id="on-premiseson-prem">on-premises/on-prem&lt;/h3>
+&lt;p>On-premises software (sometimes misspelled &amp;ldquo;on-premise&amp;rdquo; or abbreviated as &amp;ldquo;on-prem&amp;rdquo;) is installed and runs on computers on the premises (in the building) of the person or organization using the software, rather than at a remote facility such as a server farm or cloud. On-premises software is sometimes referred to as “shrinkwrap” software, and off-premises software is commonly called “software as a service” (&amp;ldquo;SaaS&amp;rdquo;) or “cloud computing”.&lt;/p>
+&lt;h3 id="enterprise-application">enterprise application&lt;/h3>
+&lt;p>Enterprise application integration is an integration framework composed of a collection of technologies and services which form a middleware or &amp;ldquo;middleware framework&amp;rdquo; to enable integration of systems and applications across an enterprise.&lt;/p>
+&lt;h3 id="pay-as-you-go">pay as you go&lt;/h3>
+&lt;p>Pay-as-you-go cloud computing (PAYG cloud computing) is a payment method for cloud computing that charges based on usage. The practice is similar to that of utility bills, using only resources that are needed.&lt;/p>
+&lt;h2 id="some-websites-links">Some websites links&lt;/h2>
+&lt;p>There are some courses on this website. -
+&lt;a href="https://www.aws.training/" target="_blank" rel="noopener">AWS Training&lt;/a>&lt;/p>
+&lt;ul>
+&lt;li>AWS lab:
+&lt;a href="https://awsacademy.qwiklab.com/home" target="_blank" rel="noopener">awsacademy.qwiklabs.com&lt;/a>
+Use lab on this website&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;h1 id="aws-core-services">Aws Core services&lt;/h1>
+&lt;p>Elastic Load Balancing, Amazon CloudWatch, and Auto Scaling.&lt;/p>
+&lt;h2 id="elastic-load-balancingelb---traffic-cop交通警察">Elastic Load Balancing(ELB)&amp;ndash; Traffic cop(交通警察)&lt;/h2>
+&lt;p>ELB can automatically distributes incoming application traffic across multiple targets(Like Amazon EC2 Instances, Containers, and IP address).&lt;/p>
+&lt;h3 id="how-to-distribute-traffic-across-elb">How to distribute traffic across ELB&lt;/h3>
+&lt;h3 id="auto-scaling-to-launch-and-release-servers">Auto Scaling to launch and release servers&lt;/h3>
+&lt;h3 id="how-cloudwatch-enables-you-to-monitor-aws-resources-and-applications-in-real-time">How CloudWatch enables you to monitor AWS resources and applications in real time.&lt;/h3></description></item></channel></rss>

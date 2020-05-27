@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Courses | Terry Tang</title><link>http://www.guozet.me/category/Courses/</link><atom:link href="http://www.guozet.me/category/Courses/index.xml" rel="self" type="application/rss+xml"/><description>Courses</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><copyright>guozet.me © 2020</copyright><lastBuildDate>Mon, 27 Aug 2018 10:14:31 +0000</lastBuildDate><image><url>http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url><title>Courses</title><link>http://www.guozet.me/category/Courses/</link></image><item><title>Courses Cloud Computing Introduce 1</title><link>http://www.guozet.me/post/Cloud-Computing-introduce/</link><pubDate>Mon, 27 Aug 2018 10:14:31 +0000</pubDate><guid>http://www.guozet.me/post/Cloud-Computing-introduce/</guid><description>&lt;p>8/23/2018&lt;/p>
+&lt;ul>
+&lt;li>Welcome, course overview, account setup, course logistics (20 minutes)&lt;/li>
+&lt;li>1.01 What is Cloud Computing (30 minutes)&lt;/li>
+&lt;li>AWS Management Console demo&lt;/li>
+&lt;li>&lt;em>Access the student materials at
+&lt;a href="https://www.google.com/url?q=https%3A%2F%2Fawsacademy.qwiklab.com%2F&amp;amp;sa=D&amp;amp;sntz=1&amp;amp;usg=AFQjCNGTi6DJo_tzl6XTUSgCHuJfeCKqdg" target="_blank" rel="noopener">https://awsacademy.qwiklab.com (Links to an external site.)Links to an external site.&lt;/a>&lt;/em>&lt;/li>
+&lt;li>Registration link &amp;ndash; will be provided in email to class participants&lt;/li>
+&lt;li>
+&lt;a href="https://www.google.com/url?q=https%3A%2F%2Fwww.dropbox.com%2Fs%2F2juvuht9g3o1ali%2F20160823%2520AWS%2520Academy%2520getting%2520started%2520for%2520students.pdf%3Fdl%3D0&amp;amp;sa=D&amp;amp;sntz=1&amp;amp;usg=AFQjCNFxciRZikyEAl9sJswYihv5mjs_hA" target="_blank" rel="noopener">AWS Getting Started (Links to an external site.)Links to an external site.&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>Homework:&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>AFTER EVERY LECTURE: Do the assessment(s) associated with the lecture slides just covered even if not listed in the Homework. Become familiar with the terms and concepts listed for each class period.&lt;/strong>&lt;/li>
+&lt;li>For today&amp;rsquo;s lecture, do the Assessment for Lecture 1.&lt;/li>
+&lt;li>Read
+&lt;a href="https://www.google.com/url?q=https%3A%2F%2Fwww.ibm.com%2Fblogs%2Fcloud-computing%2F2014%2F02%2Fcloud-computing-basics%2F&amp;amp;sa=D&amp;amp;sntz=1&amp;amp;usg=AFQjCNGCcrgBpw3vKMKLB7EZ7Gv8GFmQRQ" target="_blank" rel="noopener">Cloud computing basics (Links to an external site.)Links to an external site.&lt;/a>&lt;/li>
+&lt;li>Read:
+&lt;a href="http://www.google.com/url?q=http%3A%2F%2Fieeexplore.ieee.org%2Fdocument%2F5331755%2F&amp;amp;sa=D&amp;amp;sntz=1&amp;amp;usg=AFQjCNGj8YdvO-L3HtZv0kBGQ4zUg-8wDQ" target="_blank" rel="noopener">Taxonomy and Survey of Cloud Computing Systems (Links to an external site.)Links to an external site.&lt;/a> and be prepared to answer questions about it on the Exam.&lt;/li>
+&lt;li>Some terms everyone should know: on-demand self service, resource pooling, elasticity, measured service, SAAS, PAAS, IAAS, HAAS public/private/hybrid types of clouds, virtualization, hypervisor, stateful versus stateless services, cloud business model, on-premises/on-prem, enterprise application, &lt;strong>pay as you go&lt;/strong>&lt;/li>
+&lt;/ul>
+&lt;h1 id="introduce">Introduce&lt;/h1>
+&lt;h2 id="what-is-the-cloud-computing">What is the Cloud Computing?&lt;/h2>
+&lt;p>Cloud computing is a model for enabling convenient, on-demand network access to a shared pool of configurable computing resources (e.g. networks, servers, applications, and services) that can be rapidly provisioned and released with minimal management effort or service provider interaction.&lt;/p>
+&lt;h2 id="some-keywords">Some keywords&lt;/h2>
+&lt;h3 id="five-characteristics">Five Characteristics&lt;/h3>
+&lt;p>&lt;strong>On-demand self-service&lt;/strong>&lt;/p>
+&lt;p>This means provisioning or de-provisioning computing resources as needed in an automated fashion without human intervention [n. 介入；调停；妨碍]. An analogy to this is electricity as a utility where a consumer can turn on or off a switch on-demand to use as much electricity as required.&lt;/p>
+&lt;p>&lt;strong>Resource Pooling&lt;/strong>&lt;/p>
+&lt;p>This means that computing resources are pooled to meet the demand of the consumers so that resources (physical or virtual) can be dynamically assigned, reassigned or de-allocated as per the requirement. Generally the consumers are not aware of the exact location of computing resources. However, they may be able to specify location (country, city, region and the like) for their need. For example, I as a consumer might want to host my services with a cloud provider that has cloud data centers within the boundaries of Australia.&lt;/p>
+&lt;p>&lt;strong>Ubiquitous[adj. 普遍存在的；无所不在的] network access&lt;/strong>&lt;/p>
+&lt;p>This means that computing facilities can be accessed from anywhere over the network using any sort of thin or thick clients (for example smartphones, tablets, laptops, personal computers and so on).&lt;/p>
+&lt;p>&lt;strong>Elasticity&lt;/strong>&lt;/p>
+&lt;p>Cloud computing provides an illusion of infinite computing resources to the users. In cloud models, resources can be elastically provisioned or released according to demand.&lt;/p>
+&lt;p>&lt;strong>Measured service&lt;/strong>&lt;/p>
+&lt;p>This means that consumers only pay for the computing resources they have used. This concept is similar to utilities like water or electricity.&lt;/p>
+&lt;hr>
+&lt;h3 id="three-main-service-models-of-cloud-computing-cloud-architecture">Three main service models of cloud computing (Cloud Architecture)&lt;/h3>
+&lt;p>&lt;strong>XaaS&lt;/strong> offerings where X is Software, Hardware, Platform, Infrastructure, Data, Business etc.&lt;/p>
+&lt;p>&lt;strong>SAAS&lt;/strong>&lt;br>
+Software as a service (SaaS). Applications hosted by a provider on a cloud infrastructure are accessed from thin or thick clients over the network or a program interface (for example, web services). Examples are Google Docs, IBM SmartCloud Docs, IBM SmartCloud Meetings, Saleforce.com’s CRM application and so on.&lt;/p>
+&lt;p>&lt;strong>PAAS&lt;/strong>&lt;br>
+Platform as a service (PaaS). Providers deliver not only infrastructure but also middleware (databases, messaging engines and so on) and solution stacks for application build, development and deploy. IBM SmartCloud Application Services and Google App Engine are two examples of PaaS.&lt;/p>
+&lt;p>&lt;strong>IAAS&lt;/strong>&lt;br>
+Infrastructure as a service (IaaS). It is the delivery of computing infrastructure as a service. IBM SmartCloud Enterprise+, SoftLayer cloud and Amazon EC2 are some examples of IaaS.&lt;/p>
+&lt;p>&lt;strong>HAAS&lt;/strong>&lt;br>
+Hardware as a service (HaaS) refers to managed services or grid computing, where computing power is leased from a central provider. In each case, the HaaS model is similar to other service-based models, where users rent, rather than purchase, a provider&amp;rsquo;s tech assets.&lt;/p>
+&lt;p>There are others services emanating from these main services. Storage as a service &lt;strong>(STaaS)&lt;/strong> and communications as a service &lt;strong>(CaaS)&lt;/strong> are two such variants.&lt;/p>
+&lt;h3 id="four-cloud-deployment-models-publicprivatehybrid-types-of-clouds">Four cloud deployment models( public/private/hybrid types of clouds)&lt;/h3>
+&lt;p>&lt;strong>Public cloud&lt;/strong>&lt;/p>
+&lt;p>This is where computing resources provided by a cloud provider are used by different organizations through public Internet on a &lt;strong>pay as you go (PAYG)&lt;/strong> model. Cloud providers ensure some sort of separation for resources used by different organizations. This is known as multitenancy [n. 多租户技术].&lt;/p>
+&lt;p>&lt;strong>Private cloud&lt;/strong>&lt;/p>
+&lt;p>This is where cloud infrastructure is solely owned by an organization and maintained either by this organization or a third party and can be located on site or off-site. Computing resources are behind the corporate firewall.&lt;/p>
+&lt;p>&lt;strong>Community cloud&lt;/strong>&lt;/p>
+&lt;p>Here, cloud infrastructure is owned and shared by multiple organizations with a shared concern.&lt;/p>
+&lt;p>&lt;strong>Hybrid cloud&lt;/strong>&lt;/p>
+&lt;p>It is the combination of any type of cloud model mentioned above connected by standardized or proprietary technology.&lt;/p>
+&lt;h3 id="virtualization">Virtualization&lt;/h3>
+&lt;p>&lt;strong>Virtualization Management&lt;/strong> is the technology that abstracts the coupling between the hardware and operating system. It refers to the abstraction of logical resources away from their underlying physical resources in order to improve agility, flexibility, reduce costs and thus enhance busines valuse. Basically virtualizations in cloud are of different types such as server virtualization, storage virtuualization and network virtualization.&lt;/p>
+&lt;p>For example, a common interpretation of server virtualization is the mapping of single physical resources to multiple logical representations or partitions.&lt;/p>
+&lt;h3 id="hypervisor">Hypervisor&lt;/h3>
+&lt;p>We’ve heard the term hypervisor, of course, when talking of virtualization and the Cloud. Hypervisors allow a single set of physical hardware to host multiple virtual machines, and hold all of the necessary variables and information required to make those virtual machines work. But what is a Hypervisor actually, what does a Hypervisor do, and how does it make the Cloud possible? Let’s have a look:&lt;/p>
+&lt;p>In their simplest form, hypervisors are software, specialized firmware, or both which allow physical hardware to be shared across multiple virtual machines. The way the hypervisor does this will vary from vendor to vendor – like ESXi from WMware or Hyper-V from Microsoft, but they all accomplish the same task. Each takes one set of physical hardware (CPU, RAM, disk drives, peripherals, etc.) and allows it to be simultaneously used by multiple instances of Operating Systems (Windows, Linux, etc.).&lt;/p>
+&lt;p>There are two major classifications of hypervisors to be aware of. Type 1 and Type 2 both do the same basic task, but the way they do it is quite different from each other.&lt;/p>
+&lt;h3 id="stateful-versus-stateless-services">stateful versus stateless services&lt;/h3>
+&lt;p>I assume you are referring to Security Groups (stateful) and Access Control Lists (stateless) in Ryan&amp;rsquo;s videos. My understanding is:&lt;/p>
+&lt;p>Security Groups control connectivity to and from an EC2 instance or instances whereas ACLs control connectivity to and from a subnet.&lt;/p>
+&lt;p>Stateful = any connection inbound will also allow the response to be returned outbound without additional rules or will override an explicit DENY.&lt;/p>
+&lt;p>Stateless = you must explicitly ALLOW traffic in both directions.&lt;/p>
+&lt;h3 id="cloud-business-model">cloud business model&lt;/h3>
+&lt;h3 id="on-premiseson-prem">on-premises/on-prem&lt;/h3>
+&lt;p>On-premises software (sometimes misspelled &amp;ldquo;on-premise&amp;rdquo; or abbreviated as &amp;ldquo;on-prem&amp;rdquo;) is installed and runs on computers on the premises (in the building) of the person or organization using the software, rather than at a remote facility such as a server farm or cloud. On-premises software is sometimes referred to as “shrinkwrap” software, and off-premises software is commonly called “software as a service” (&amp;ldquo;SaaS&amp;rdquo;) or “cloud computing”.&lt;/p>
+&lt;h3 id="enterprise-application">enterprise application&lt;/h3>
+&lt;p>Enterprise application integration is an integration framework composed of a collection of technologies and services which form a middleware or &amp;ldquo;middleware framework&amp;rdquo; to enable integration of systems and applications across an enterprise.&lt;/p>
+&lt;h3 id="pay-as-you-go">pay as you go&lt;/h3>
+&lt;p>Pay-as-you-go cloud computing (PAYG cloud computing) is a payment method for cloud computing that charges based on usage. The practice is similar to that of utility bills, using only resources that are needed.&lt;/p>
+&lt;h2 id="some-websites-links">Some websites links&lt;/h2>
+&lt;p>There are some courses on this website. -
+&lt;a href="https://www.aws.training/" target="_blank" rel="noopener">AWS Training&lt;/a>&lt;/p>
+&lt;ul>
+&lt;li>AWS lab:
+&lt;a href="https://awsacademy.qwiklab.com/home" target="_blank" rel="noopener">awsacademy.qwiklabs.com&lt;/a>
+Use lab on this website&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;h1 id="aws-core-services">Aws Core services&lt;/h1>
+&lt;p>Elastic Load Balancing, Amazon CloudWatch, and Auto Scaling.&lt;/p>
+&lt;h2 id="elastic-load-balancingelb---traffic-cop交通警察">Elastic Load Balancing(ELB)&amp;ndash; Traffic cop(交通警察)&lt;/h2>
+&lt;p>ELB can automatically distributes incoming application traffic across multiple targets(Like Amazon EC2 Instances, Containers, and IP address).&lt;/p>
+&lt;h3 id="how-to-distribute-traffic-across-elb">How to distribute traffic across ELB&lt;/h3>
+&lt;h3 id="auto-scaling-to-launch-and-release-servers">Auto Scaling to launch and release servers&lt;/h3>
+&lt;h3 id="how-cloudwatch-enables-you-to-monitor-aws-resources-and-applications-in-real-time">How CloudWatch enables you to monitor AWS resources and applications in real time.&lt;/h3></description></item></channel></rss>

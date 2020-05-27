@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Laptop | Terry Tang</title><link>http://www.guozet.me/tag/Laptop/</link><atom:link href="http://www.guozet.me/tag/Laptop/index.xml" rel="self" type="application/rss+xml"/><description>Laptop</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><copyright>guozet.me © 2020</copyright><lastBuildDate>Tue, 08 May 2018 12:00:00 +0000</lastBuildDate><image><url>http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url><title>Laptop</title><link>http://www.guozet.me/tag/Laptop/</link></image><item><title>Some issues when I used my MSI GE60 2PG</title><link>http://www.guozet.me/post/Some-issues-with-MSI-GE60-2PG/</link><pubDate>Tue, 08 May 2018 12:00:00 +0000</pubDate><guid>http://www.guozet.me/post/Some-issues-with-MSI-GE60-2PG/</guid><description>&lt;p>There are some issues when I used my MSI GE60 2PG.&lt;/p>
+&lt;h2 id="1-sound-blaster-cinema-1-potential-fix-on-windows-10">1. Sound Blaster Cinema 1 Potential fix on Windows 10&lt;/h2>
+&lt;p>A way to get Sound Blaster Cinema 1 fully functional on windows 10 x64 bit. This is a fix for those that attempt to open the program and immediately get a crash or no windows popping up and the system tray icon freezes.&lt;/p>
+&lt;!-- more -->
+&lt;blockquote>
+&lt;ol>
+&lt;li>Uninstalled both my realtek HD audio drivers via control panel, and uninstalled SBC.&lt;/li>
+&lt;li>Then rebooted and had ccleaner fix any registry errors. Reinstalled the drivers and SBC.&lt;/li>
+&lt;li>Go into the programs folder here:&lt;br>
+&lt;code>C:\Program Files (x86)\Creative\Sound Blaster Cinema\Sound Blaster Cinema&lt;/code>&lt;br>
+Then delete the SBCinema.exe.config file.&lt;/li>
+&lt;/ol>
+&lt;/blockquote>
+&lt;p>Now the SBC is fully functional on Windows 10 64 bit and hopefully it works for everyone else to!&lt;/p></description></item></channel></rss>

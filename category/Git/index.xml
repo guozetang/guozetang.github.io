@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Git | Terry Tang</title><link>http://www.guozet.me/category/Git/</link><atom:link href="http://www.guozet.me/category/Git/index.xml" rel="self" type="application/rss+xml"/><description>Git</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><copyright>guozet.me © 2020</copyright><lastBuildDate>Thu, 09 Aug 2018 13:42:10 +0000</lastBuildDate><image><url>http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url><title>Git</title><link>http://www.guozet.me/category/Git/</link></image><item><title>How to config git on Ubuntu</title><link>http://www.guozet.me/post/How-to-config-git-on-Ubuntu/</link><pubDate>Thu, 09 Aug 2018 13:42:10 +0000</pubDate><guid>http://www.guozet.me/post/How-to-config-git-on-Ubuntu/</guid><description>&lt;h2 id="git-command">Git command&lt;/h2>
+&lt;h3 id="branch-operation">Branch operation&lt;/h3>
+&lt;ol>
+&lt;li>Background: We often want the copy the &lt;code>master&lt;/code> branch(or other branch) to develop a new function.&lt;/li>
+&lt;/ol>
+&lt;pre>&lt;code class="language-bash">$git checkout master //Change to the master branch or which branch you want to copy
+$git pull //从远端拉取最新版本
+$git checkout -b NewBranch //Switched to a new branch 'NewBranch'
+$git push origin NewBranch //新建分支NewBranch到远端
+&lt;/code>&lt;/pre>
+&lt;h2 id="issues">Issues&lt;/h2>
+&lt;h3 id="git-pull-error">git pull error&lt;/h3>
+&lt;pre>&lt;code class="language-sh">$git pull
+There is no tracking information for the current branch.
+Please specify which branch you want to merge with.
+See git-pull(1) for details.
+git pull &amp;lt;remote&amp;gt; &amp;lt;branch&amp;gt;
+If you wish to set tracking information for this branch you can do so with:
+git branch --set-upstream-to=origin/&amp;lt;branch&amp;gt; NewBranch
+&lt;/code>&lt;/pre>
+&lt;p>&lt;strong>solution&lt;/strong>
+&lt;code>$git branch --set-upstream-to=origin/NewBranch&lt;/code>
+&lt;code>$git pull&lt;/code>
+&lt;code>$git push origin test:test&lt;/code>&lt;/p>
+&lt;h2 id="git-configure-on-ubuntu">Git configure on Ubuntu&lt;/h2>
+&lt;h3 id="add-git-branch-name-if-its-present">Add git branch name if its present&lt;/h3>
+&lt;p>Open &lt;code>~/.bashrc&lt;/code> file, add the code followed this paragraph after the default prompt definition and &lt;code>unset color_prompt force_color_prompt&lt;/code>. You also can replace the the default prompt definition with the snippet or leave your &lt;code>~/.bashrc&lt;/code> as it is and comment the default prompt definition along with &lt;code>unset color_prompt force_color_prompt&lt;/code>.&lt;/p>
+&lt;pre>&lt;code class="language-bash"># Add git branch if its present to PS1
+parse_git_branch() {
+git branch 2&amp;gt; /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+}
+if [ &amp;quot;$color_prompt&amp;quot; = yes ]; then
+PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[01;31m\]$(parse_git_branch)\[\033[00m\]\$ '
+else
+PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w$(parse_git_branch)\$ '
+fi
+&lt;/code>&lt;/pre>
+&lt;p>replace&lt;/p>
+&lt;pre>&lt;code class="language-bash">if [ &amp;quot;$color_prompt&amp;quot; = yes ]; then
+PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+else
+PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+fi
+&lt;/code>&lt;/pre>
+&lt;p>Which ends with:&lt;/p>
+&lt;pre>&lt;code class="language-bash">unset color_prompt force_color_prompt
+&lt;/code>&lt;/pre></description></item><item><title>Git不同场景常用命令</title><link>http://www.guozet.me/post/Some-git-common-commands-in-life/</link><pubDate>Sat, 12 May 2018 16:14:31 +0000</pubDate><guid>http://www.guozet.me/post/Some-git-common-commands-in-life/</guid><description>&lt;h1 id="git子模块仓库中包含另外一个仓库">Git子模块:仓库中包含另外一个仓库&lt;/h1>
+&lt;h2 id="场景">场景&lt;/h2>
+&lt;p>在工作的项目中需要包含另外的项目，这个时候我们就需要引出其他的项目，但是我们希望在引入的项目变化的时候，我们也可以很快的合并到我们现有的分支中。&lt;/p>
+&lt;h2 id="操作指令">操作指令&lt;/h2>
+&lt;h3 id="现有repo加入子repo">现有repo加入子repo&lt;/h3>
+&lt;p>在你想要添加的目录位置输入添加子repo的命令即可&lt;/p>
+&lt;pre>&lt;code class="language-bash">git submodule add https://github.com/guozetang/paper_code_tracker
+&lt;/code>&lt;/pre>
+&lt;p>查看状态参数：
+&lt;code>git status&lt;/code>&lt;/p>
+&lt;p>在repo(不是子repo)的根目录查看当前加入的子模块(子repo)。&lt;/p>
+&lt;pre>&lt;code class="language-bash">$ cat .gitmodules
+[submodule &amp;quot;python/paper_code_tracker&amp;quot;]
+path = python/paper_code_tracker
+url = https://github.com/guozetang/paper_code_tracker
+&lt;/code>&lt;/pre>
+&lt;h3 id="提交添加的子模块">提交添加的子模块&lt;/h3>
+&lt;pre>&lt;code class="language-bash">$ git commit -am &amp;quot;added subproject module&amp;quot;
+[master (root-commit) 9168027] added subproject module
+2 files changed, 7 insertions(+)
+create mode 100644 .gitmodules
+create mode 160000 python/paper_code_tracker
+&lt;/code>&lt;/pre>
+&lt;p>其他更多操作请参考:
+&lt;a href="https://www.jianshu.com/p/491609b1c426" target="_blank" rel="noopener">【Git】子模块：一个仓库包含另一个仓库&lt;/a>&lt;/p>
+&lt;h1 id="分支操作">分支操作&lt;/h1>
+&lt;h2 id="场景-1">场景&lt;/h2>
+&lt;p>开发过程中经常用到从master分支copy一个开发分支,进行开发&lt;/p>
+&lt;h2 id="操作指令介绍">操作指令介绍&lt;/h2>
+&lt;pre>&lt;code class="language-sh">$git checkout master //切换到被copy的分支（master）
+$git pull //从远端拉取最新版本
+$git checkout -b NewBranch //Switched to a new branch 'dev'
+$git push origin NewBranch //新建分支push到远端
+&lt;/code>&lt;/pre>
+&lt;h2 id="遇到的问题">遇到的问题&lt;/h2>
+&lt;pre>&lt;code class="language-sh">$git pull
+There is no tracking information for the current branch.
+Please specify which branch you want to merge with.
+See git-pull(1) for details.
+git pull &amp;lt;remote&amp;gt; &amp;lt;branch&amp;gt;
+If you wish to set tracking information for this branch you can do so with:
+git branch --set-upstream-to=origin/&amp;lt;branch&amp;gt; NewBranch
+&lt;/code>&lt;/pre>
+&lt;p>经过验证，当前的分支并没有和本地分支关联，根据提示进行下一步：&lt;/p>
+&lt;p>&lt;strong>关联&lt;/strong>&lt;/p>
+&lt;p>&lt;code>$git branch --set-upstream-to=origin/NewBranch&lt;/code>&lt;/p>
+&lt;p>注意：这里branch之后都是没有空格的，如果有空格则是错误命令&lt;/p>
+&lt;p>&lt;strong>再次拉取&lt;/strong>&lt;/p>
+&lt;p>&lt;code>$git pull&lt;/code>&lt;/p>
+&lt;hr>
+&lt;h1 id="关联远程repo">关联远程repo&lt;/h1>
+&lt;h2 id="场景-2">场景&lt;/h2>
+&lt;p>我们经常由于一起不知道的问题，造成我们需要删除&lt;code>.git&lt;/code>文件夹之后，使用&lt;code>git init&lt;/code>来新建一个文件夹，这时候就需要我们将新建的repo关联到远程的repo上去。&lt;/p>
+&lt;h2 id="操作命令介绍">操作命令介绍&lt;/h2>
+&lt;h3 id="在本地目录下关联远程repository">在本地目录下关联远程repository&lt;/h3>
+&lt;pre>&lt;code class="language-bash">git remote add origin git@github.com:git_username/repository_name.git
+&lt;/code>&lt;/pre>
+&lt;h3 id="取消本地目录下关联的远程库">取消本地目录下关联的远程库：&lt;/h3>
+&lt;pre>&lt;code class="language-bash">git remote remove origin
+&lt;/code>&lt;/pre>
+&lt;h1 id="文件操作">文件操作&lt;/h1>
+&lt;h2 id="场景-3">场景&lt;/h2>
+&lt;p>如果一个文件不小心被删除了，可以有两种方法恢复。&lt;/p>
+&lt;h2 id="操作命令介绍-1">操作命令介绍&lt;/h2>
+&lt;p>1、需要记住所需恢复文件的名字和版本号(commit id)&lt;/p>
+&lt;pre>&lt;code class="language-bash">git checkout commit_id -- file_name
+&lt;/code>&lt;/pre>
+&lt;h3 id="fatal-remote-origin-already-exists">fatal: remote origin already exists.&lt;/h3>
+&lt;p>如果输入:&lt;br>
+$ git remote add origin
+&lt;a href="https://link.jianshu.com?t=mailto:git@github.com:djqiang/gitdemo.git" target="_blank" rel="noopener">git@github.com:djqiang（github帐号名）/gitdemo（项目名）.git&lt;/a>&lt;br>
+提示出错信息：&lt;strong>fatal: remote origin already exists&lt;/strong>.&lt;br>
+解决办法如下：&lt;/p>
+&lt;p>1、先输入$ git remote rm origin&lt;/p>
+&lt;p>2、再输入$ git remote add origin
+&lt;a href="https://link.jianshu.com?t=mailto:git@github.com:djqiang/gitdemo.git" target="_blank" rel="noopener">git@github.com:djqiang/gitdemo.git&lt;/a> 就不会报错了！&lt;/p>
+&lt;p>3、如果输入$ git remote rm origin 还是报错的话，error: Could not remove config section &amp;lsquo;remote.origin&amp;rsquo;. 我们需要修改gitconfig文件的内容&lt;/p>
+&lt;p>4、找到你的github的安装路径，我的是&lt;/p>
+&lt;p>C:\Users\ASUS\AppData\Local\GitHub\PortableGit_ca477551eeb4aea0e4ae9fcd3358bd96720bb5c8\etc&lt;/p>
+&lt;p>5、找到一个名为gitconfig的文件，打开它把里面的[remote &amp;ldquo;origin&amp;rdquo;]那一行&lt;br>
+删掉就好了！&lt;/p>
+&lt;h3 id="permission-denied-publickey">Permission denied (publickey)&lt;/h3>
+&lt;p>如果输入:&lt;br>
+$ ssh -T
+&lt;a href="https://link.jianshu.com?t=mailto:git@github.com" target="_blank" rel="noopener">git@github.com&lt;/a>&lt;br>
+出现错误提示：&lt;strong>Permission denied (publickey)&lt;/strong>.因为新生成的key不能加入ssh就会导致连接不上github。&lt;br>
+解决办法如下：&lt;/p>
+&lt;p>1、先输入$ ssh-agent，再输入$ ssh-add ~/.ssh/id_key，这样就可以了。&lt;/p>
+&lt;p>2、如果还是不行的话，输入ssh-add ~/.ssh/id_key 命令后出现报错Could not open a connection to your authentication agent.解决方法是key用Git Gui的ssh工具生成，这样生成的时候key就直接保存在ssh中了，不需要再ssh-add命令加入了，其它的user，token等配置都用命令行来做。&lt;/p>
+&lt;p>3、最好检查一下在你复制id_rsa.pub文件的内容时有没有产生多余的空格或空行，有些编辑器会帮你添加这些的。&lt;/p>
+&lt;h3 id="errorfailed-to-push-som-refs-to-">error:failed to push som refs to &amp;hellip;&amp;hellip;.&lt;/h3>
+&lt;p>如果输入:&lt;br>
+$ git push origin master&lt;br>
+提示出错信息：&lt;strong>error:failed to push som refs to &amp;hellip;&amp;hellip;.&lt;/strong>&lt;br>
+解决办法如下：&lt;/p>
+&lt;p>1、先输入$ git pull origin master //先把远程服务器github上面的文件拉下来&lt;/p>
+&lt;p>2、再输入$ git push origin master&lt;/p>
+&lt;p>3、如果出现报错 fatal: Couldn&amp;rsquo;t find remote ref master或者fatal: &amp;lsquo;origin&amp;rsquo; does not appear to be a git repository以及fatal: Could not read from remote repository.&lt;/p>
+&lt;p>4、则需要重新输入$ git remote add origin
+&lt;a href="https://link.jianshu.com?t=mailto:git@github.com:djqiang/gitdemo.git" target="_blank" rel="noopener">git@github.com:djqiang/gitdemo.git&lt;/a>&lt;/p>
+&lt;h3 id="使用git在本地创建一个项目的过程">使用git在本地创建一个项目的过程&lt;/h3>
+&lt;pre>&lt;code>$ makdir ~/hello-world //创建一个项目hello-world
+$ cd ~/hello-world //打开这个项目
+$ git init //初始化
+$ touch README
+$ git add README //更新README文件
+$ git commit -m 'first commit' //提交更新，并注释信息“first commit”
+$ git remote add origin [git@github.com:defnngj/hello-world.git](mailto:git@github.com:defnngj/hello-world.git) //连接远程github项目
+$ git push -u origin master //将本地项目更新到github项目上去
+&lt;/code>&lt;/pre>
+&lt;h3 id="permission-deniedpublickey">Permission denied(publickey)&lt;/h3>
+&lt;pre>&lt;code class="language-bash">➜ workspace_config git:(document) git push origin document
+Permission denied (publickey).
+fatal: Could not read from remote repository.
+Please make sure you have the correct access rights
+and the repository exists.
+&lt;/code>&lt;/pre>
+&lt;p>&lt;strong>Solution:&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>Testing: &lt;code>$ssh -T git@github.com&lt;/code>
+If there is a mistake about: &lt;code>Permission Dnied(publickey)&lt;/code>, this is because your new private key is not fit with the public key in the server.&lt;/li>
+&lt;li>Input: &lt;code>$ssh-agent&lt;/code>, after that, you can input&lt;code>ssh-add ~/.ssh/id_key&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;h3 id="fatal-could-not-read-from-remote-repository">fatal: Could not read from remote repository.&lt;/h3>
+&lt;pre>&lt;code class="language-bash">➜ workspace_config git:(document) git push origin document
+Permission denied (publickey).
+fatal: Could not read from remote repository.
+Please make sure you have the correct access rights
+and the repository exists.
+&lt;/code>&lt;/pre>
+&lt;hr>
+&lt;h1 id="关联两个rep一个开发repo一个release的repo">关联两个Rep:一个开发repo，一个release的repo&lt;/h1>
+&lt;h2 id="使用场景">使用场景&lt;/h2>
+&lt;p>团队在一个&lt;code>private&lt;/code>的仓库(repo1)中进行项目的开发, 但是在开发的某一个进度的时候，想将这一个版本发布出去，这就需要建立另外一个&lt;code>repo2&lt;/code>来管理发布的项目。我们想实现能够在开发的&lt;code>repo1&lt;/code>里面添加直接将&lt;code>code&lt;/code> push 到 &lt;code>repo2&lt;/code>里面去。、&lt;/p>
+&lt;h2 id="操作命令介绍-2">操作命令介绍&lt;/h2>
+&lt;p>先检查自己当前的远程分支&lt;/p>
+&lt;pre>&lt;code class="language-bash">git remote -v
+github https://github.com/zxbetter/test.git (fetch)
+github https://github.com/zxbetter/test.git (push)
+&lt;/code>&lt;/pre>
+&lt;p>然后添加另外一个管理项目发布的&lt;code>repo2&lt;/code>&lt;/p>
+&lt;pre>&lt;code class="language-bash">git remote add oschina https://git.oschina.net/zxbetter/test.git
+&lt;/code>&lt;/pre>
+&lt;p>注意，这里的名字有点区别，&lt;code>repo1&lt;/code>对应的名字是&lt;code>github test&lt;/code>, 而&lt;code>repo2&lt;/code>对应的名字是&lt;code>oschina test&lt;/code>&lt;/p>
+&lt;pre>&lt;code class="language-bash">git push oschina test
+&lt;/code>&lt;/pre>
+&lt;p>关于关联两个repo的其他用法参考博客：
+&lt;a href="https://segmentfault.com/a/1190000011294144" target="_blank" rel="noopener">一个项目push到多个远程Git仓库&lt;/a>&lt;/p></description></item></channel></rss>

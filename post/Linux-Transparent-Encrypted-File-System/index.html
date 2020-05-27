@@ -1,0 +1,312 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=generator content="Source Themes Academic 4.8.0"><meta name=author content="Terry Tang"><meta name=description content="主要分为三个部分： 第一部分是交互脚本与自动化脚本(Ubunt"><link rel=alternate hreflang=en-us href=http://www.guozet.me/post/Linux-Transparent-Encrypted-File-System/><meta name=theme-color content="#3f51b5"><script src=/js/mathjax-config.js></script><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin=anonymous><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-1/css/all.min.css integrity="sha256-4w9DunooKSr3MFXHXWyFER38WmPdm361bQS/2KUWZbU=" crossorigin=anonymous><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin=anonymous><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/github.min.css crossorigin=anonymous title=hl-light><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/github.min.css crossorigin=anonymous title=hl-dark disabled><script src=https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.2/lazysizes.min.js integrity="sha256-Md1qLToewPeKjfAHU1zyPwOutccPAm5tahnaw7Osw0A=" crossorigin=anonymous async></script><script src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js integrity crossorigin=anonymous async></script><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CRoboto:400,400italic,700%7CRoboto+Mono&display=swap"><link rel=stylesheet href=/css/academic.css><link rel=manifest href=/index.webmanifest><link rel=icon type=image/png href=/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_32x32_fill_lanczos_center_2.png><link rel=apple-touch-icon type=image/png href=/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_192x192_fill_lanczos_center_2.png><link rel=canonical href=http://www.guozet.me/post/Linux-Transparent-Encrypted-File-System/><meta property="twitter:card" content="summary"><meta property="og:site_name" content="Terry Tang"><meta property="og:url" content="http://www.guozet.me/post/Linux-Transparent-Encrypted-File-System/"><meta property="og:title" content="Linux透明加密文件系统1_代码分析 | Terry Tang"><meta property="og:description" content="主要分为三个部分： 第一部分是交互脚本与自动化脚本(Ubunt"><meta property="og:image" content="http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png"><meta property="twitter:image" content="http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png"><meta property="og:locale" content="en-us"><meta property="article:published_time" content="2018-05-08T14:12:25+00:00"><meta property="article:modified_time" content="2018-05-08T14:12:25+00:00"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://www.guozet.me/post/Linux-Transparent-Encrypted-File-System/"},"headline":"Linux透明加密文件系统1_代码分析","datePublished":"2018-05-08T14:12:25Z","dateModified":"2018-05-08T14:12:25Z","author":{"@type":"Person","name":"Terry Tang"},"publisher":{"@type":"Organization","name":"Terry Tang","logo":{"@type":"ImageObject","url":"http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_192x192_fill_lanczos_center_2.png"}},"description":"主要分为三个部分： 第一部分是交互脚本与自动化脚本(Ubunt"}</script><title>Linux透明加密文件系统1_代码分析 | Terry Tang</title></head><body id=top data-spy=scroll data-offset=70 data-target=#TableOfContents><aside class=search-results id=search><div class=container><section class=search-header><div class="row no-gutters justify-content-between mb-3"><div class=col-6><h1>Search</h1></div><div class="col-6 col-search-close"><a class=js-search href=#><i class="fas fa-times-circle text-muted" aria-hidden=true></i></a></div></div><div id=search-box><input name=q id=search-query placeholder=Search... autocapitalize=off autocomplete=off autocorrect=off spellcheck=false type=search></div></section><section class=section-search-results><div id=search-hits></div></section></div></aside><nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id=navbar-main><div class=container><div class="d-none d-lg-inline-flex"><a class=navbar-brand href=/>Terry Tang</a></div><button type=button class=navbar-toggler data-toggle=collapse data-target=#navbar-content aria-controls=navbar aria-expanded=false aria-label="Toggle navigation">
+<span><i class="fas fa-bars"></i></span></button><div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none"><a class=navbar-brand href=/>Terry Tang</a></div><div class="navbar-collapse main-menu-item collapse justify-content-start" id=navbar-content><ul class="navbar-nav d-md-inline-flex"><li class=nav-item><a class="nav-link active" href=/post><span>Posts</span></a></li><li class=nav-item><a class=nav-link href=/#projects><span>Projects</span></a></li><li class=nav-item><a class=nav-link href=/#featured><span>Publications</span></a></li><li class=nav-item><a class=nav-link href=/courses/><span>Courses</span></a></li><li class=nav-item><a class=nav-link href=/leetcode><span>Leetcode</span></a></li><li class=nav-item><a class=nav-link href=/#contact><span>Contact</span></a></li></ul></div><ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2"><li class=nav-item><a class="nav-link js-search" href=#><i class="fas fa-search" aria-hidden=true></i></a></li><li class="nav-item dropdown theme-dropdown"><a href=# class="nav-link js-theme-selector" data-toggle=dropdown aria-haspopup=true><i class="fas fa-palette" aria-hidden=true></i></a><div class=dropdown-menu><a href=# class="dropdown-item js-set-theme-light"><span>Light</span></a>
+<a href=# class="dropdown-item js-set-theme-dark"><span>Dark</span></a>
+<a href=# class="dropdown-item js-set-theme-auto"><span>Automatic</span></a></div></li></ul></div></nav><article class=article><div class="article-container pt-3"><h1>Linux透明加密文件系统1_代码分析</h1><div class=article-metadata><span class=article-date>May 8, 2018</span>
+<span class=middot-divider></span><span class=article-reading-time>10 min read</span>
+<span class=middot-divider></span><a href=/post/Linux-Transparent-Encrypted-File-System/#disqus_thread></a><span class=middot-divider></span><span class=article-categories><i class="fas fa-folder mr-1"></i><a href=/category/Linux/>Linux</a></span></div></div><div class=article-container><div class=article-style><p>主要分为三个部分：</p><blockquote><p>第一部分是交互脚本与自动化脚本(Ubuntu)<br>第二部分是界面设计<br>第三部分是开源项目代码的说明</p></blockquote><p>用户使用的是基于QT的用户界面，可以选择需要加密的文件路径，已经加密之后的路径。当图形界面接收到这些信息之后，会将该信息转换成一段包含了8个参数的数据包传递给shell脚本进行处理。</p><h2 id=一交互脚本与自动化脚本>一.交互脚本与自动化脚本</h2><h3 id=1-处理交互式过程的脚本>1. 处理交互式过程的脚本</h3><pre><code class=language-sh>#!/usr/bin/expect
+#该文件是处理交互式过程的主要文件，用来对输出信息进行解析，并自动输入对应的信息
+set timeout 2
+set ecryptfs_real [lindex $argv 0]
+#真实文件路径,实际的加密文件位置
+set ecryptfs_mount [lindex $argv 1]
+#挂载点路径，解密文件的位置
+set tangpassword [lindex $argv 2]
+#用户密码
+set key_type1 [lindex $argv 3]
+ #密码管理方式
+set Passphrase [lindex $argv 4]
+ #文件加密密码
+set ecryptfs_type [lindex $argv 5]
+#文件加密类型
+set key_bytes [lindex $argv 6]
+#文件加密位数
+set ecryptfs_fspath [lindex $argv 7]
+#路径是否加密
+set ecryptfs_filename [lindex $argv 8]
+#文件名是否加密
+spawn sudo mount -t ecryptfs $ecryptfs_real $ecryptfs_mount#挂载加密文件系统
+expect &quot;password for tang:&quot;
+send &quot;$tangpassword\n&quot;
+#填充用户密码
+expect &quot;Select key type to use for newly created files:&quot;
+send &quot;$key_type1\n&quot;
+expect
+#填充加密方式类型 &quot;Passphrase:&quot;
+send &quot;$Passphrase\n&quot;
+#填充文件加密密码
+expect &quot;aes&quot;
+send &quot;$ecryptfs_type\n&quot;
+#填充文件加密类型
+expect &quot;Select key bytes:&quot;
+send &quot;$key_bytes\n&quot;
+#填写文件加密位数
+expect &quot;Enable plaintext passthrough&quot;
+send &quot;$ecryptfs_fspath\n&quot;
+#选择是否对路径加密
+expect &quot;Enable filename encryption&quot;
+send &quot;$ecryptfs_filename\r&quot;
+interact
+#选择是否对文件名加密
+#expect eof
+#exit
+</code></pre><h3 id=2-与qt交互的脚本>2. 与QT交互的脚本</h3><pre><code class=language-sh>#!/bin/bash
+##该脚本主要作用是接收QT传递过来的变量，并进行解析，之后，调用相应的交互处理脚本##接收QT传递过来的变量
+ECRYPTFS_REAL=$1	                ##获取加密路径
+PASSWD=$2		##用户密码
+PASS_TYPE=$3		##密码类型
+PASSPHRASE=$4		##加密路径，挂载点
+ECRYPTFS_TYPE=$5	                ##加密类型
+ECRYPTFS_BIT=$6		##加密位数
+ECRYPTFS_FS=$7		##路径是否加密
+ECRYPTFS_FILENAME=$8         ##文件名是否加密
+count=0   ##初始值
+dir=&quot;/tmp/mnt/ecryptfs$count&quot; ##初始挂载点
+echo &quot;Ecryptfs加密程序启动中...&quot;
+echo &quot;申请超级用户权限,请输入用户密码&quot;
+##/bin/testpass
+df 1&gt;/tmp/1.txt 2&gt;/dev/null
+##检测当前已经使用的挂载点，建立一个新的挂载点来使用
+echo &quot;已经挂载的加密目录有：&quot;
+ while cat /tmp/1.txt | grep -q $dir 2&gt;/dev/null
+   ##挂载点 是否使用了
+do
+echo $dir
+let count=$count+1 ##一定要是/bin/bash如是/bin/sh这里就会出错
+dir=&quot;/tmp/mnt/ecryptfs$count&quot;  ###新挂载点
+done
+rm /tmp/1.txt
+echo &quot;新增挂载目录：&quot; ###创建新的挂载点
+if [ ! -d $dir ];then ##判断目录是否存在
+mkdir -p $dir ###建立新挂载点目录,选项p，可以创建连续文件夹
+fi
+    echo &quot;加密程序启动，开始加密……
+ echo &quot;请输入加密密码，选择加密方式：&quot;
+
+## sudo mount -t ecryptfs $(pwd) $dir  ### $( )为引用命令结果
+##调用交互脚本来处理和用户的交互过程
+echo $ECRYPTFS_REAL $dir $PASSWD $ECRYPTFS_TYPE $ECRYPTFS_BIT $ECRYPTFS_FS $ECRYPTFS_FILENAME
+   /bin/automount $ECRYPTFS_REAL $dir $PASSWD $PASS_TYPE $PASSPHRASE $ECRYPTFS_TYPE $ECRYPTFS_BIT $ECRYPTFS_FS $ECRYPTFS_FILENAME
+
+</code></pre><h3 id=3-挂载点操作脚本>3. 挂载点操作脚本</h3><pre><code class=language-sh>#!/bin/bash
+##用来对当前挂载点进行卸载删除
+count=0
+dir=&quot;/tmp/mnt/ecryptfs$count&quot;
+gksudo df 1&gt;/tmp/1.txt
+while cat /tmp/1.txt |grep -q $dir 2&gt;/dev/null	##检查现在存在的挂载
+do
+ echo $dir
+let count=$count+1
+sudo umount $dir &amp;&amp; rmdir $dir　　##卸载挂载点，卸载成功的前提下删除挂载点
+dir=&quot;/tmp/mnt/ecryptfs$count&quot;
+done
+</code></pre><h3 id=4-添加到鼠标右键菜单的执行脚本>4. 添加到鼠标右键菜单的执行脚本</h3><pre><code class=language-sh>#!/bin/bash
+##添加到右键的执行脚本，用来打开QT交互式界面，获取用户的输入信息
+/home/tang/ecryptfs/imageconverter
+#/bin/ecryptfs_mounted.sh&amp;
+</code></pre><h3 id=5-在qt调用执行挂载脚本>5. 在QT调用执行挂载脚本</h3><pre><code class=language-sh> #!/bin/bash
+##在QT中调用该脚本，该脚本的主要功能是执行挂载脚本ecryptfs_mounted.sh
+REALFILE=$1
+ECRYPTFSPATH=&quot;/bin/ecryptfs_mounted.sh $REALFILE&quot;
+echo $REALFILE 1&gt;/TMP/2.txt
+echo
+$ECRYPTFSPATH 1&gt;&gt;/tmp/2.txt
+exec
+$ECRYPTFSPATH
+#exec gnome-terminal -x
+$ECRYPTFSPATH
+#/bin/ecryptfs_mounted.sh&amp;
+</code></pre><h2 id=二-ｑｔ界面程序设计>二. ＱＴ界面程序设计</h2><pre><code class=language-c++>#include &lt;QtGui&gt;
+#include &quot;convertdialog.h&quot;
+
+ConvertDialog::ConvertDialog(QWidget *parent)
+    : QDialog(parent)
+{
+    setupUi(this);      //创建并布局好所有的窗口部件
+     passwordEdit-&gt;setEchoMode (QLineEdit::Password);//用户口令输入框
+    filepasswordEdit-&gt;setEchoMode (QLineEdit::Password);//文件密码输入框
+}
+
+void ConvertDialog::on_browseButton_clicked()//选择路径按钮触发
+{
+    QString initialName = sourceFileEdit-&gt;text();//加密文件夹路径输入框
+    if (initialName.isEmpty())
+        initialName = QDir::homePath();//为空，使用默认路径
+    QString fileName =
+            QFileDialog::getExistingDirectory(this, tr(&quot;Choose File&quot;),
+                                         initialName);//弹出计算机路径选择框，选择路径加密
+    fileName = QDir::toNativeSeparators(fileName);//加密路径
+    if (!fileName.isEmpty()) {
+        sourceFileEdit-&gt;setText(fileName);//将路径信息保存起来
+       // buttonBox-&gt;button(QDialogButtonBox::Ok)-&gt;setEnabled(true);
+    }
+}
+
+void ConvertDialog::on_passwordEdit_textEdited(const QString &amp;arg1)//password密码框
+{
+    QRegExp regx (&quot;^[^ ]+$&quot;);// 设定正则表达式，不能输入空格
+    QValidator *validator=new QRegExpValidator(regx,this);
+    passwordEdit-&gt;setValidator(validator);
+    filepasswordEdit-&gt;setValidator(validator);//正则表达式控制输入框字符格式
+}
+
+void ConvertDialog::on_filepasswordEdit_textEdited(const QString &amp;arg1)//filepassword密码框
+{
+    QRegExp regx (&quot;^[^ ]+$&quot;);// 不能输入空格
+    QValidator *validator2=new QRegExpValidator(regx,this);
+    passwordEdit-&gt;setValidator(validator2);
+    filepasswordEdit-&gt;setValidator(validator2);//正则表达式控制输入框字符格式
+    }
+
+void ConvertDialog::on_shellButton_clicked()//确定加密按钮触发
+{
+    //system(&quot;/bin/ecryptfs_mounted.sh /home/tang/&quot;);  //直接调用的方式，会阻塞进程
+    //QProcess::execute(&quot;/opt/run&quot;)　　//调用QT里面的函数来实现，会阻塞进程
+
+    passwordEdit-&gt;setInputMask(&quot;&quot;);//提取password输入框内容
+    filepasswordEdit-&gt;setInputMask(&quot;&quot;);//提取filepassword输入框内容
+
+    if(sourceFileEdit-&gt;text().isEmpty()) //  必须输入加密路径，否则报错
+    {
+         QMessageBox::warning(this,tr(&quot;worning&quot;),tr(&quot; Please select the path to encrypt !&quot;),QMessageBox::Yes);//报错信息
+          sourceFileEdit-&gt;setFocus();//移动光标到加密路径输入框
+    }
+
+    else if(passwordEdit-&gt;text().isEmpty()||filepasswordEdit-&gt;text().isEmpty())//如果任一密码为空，直接报错
+    {
+        QMessageBox::warning(this,tr(&quot;worning&quot;),tr(&quot; user password or file password can't be empty!&quot;),QMessageBox::Yes);
+        //报错信息
+       passwordEdit-&gt;clear();//清空用户密码输入框
+       filepasswordEdit-&gt;clear();//清空文件密码输入框
+       passwordEdit-&gt;setFocus();//移动光标到用户密码输入框
+    }
+     else
+    {
+    QString p1=passwordEdit-&gt;text().trimmed();//去除首尾空格
+    QString f1=filepasswordEdit-&gt;text().trimmed();// 去除首尾空格
+
+    QString p2,f2;
+    int length1=p1.length();
+    int length2=f1.length();
+    for (int i=0;i&lt;length1;i++)
+    {if (p1[i]!=' ') p2+=p1[i];}//去除password中的空格
+
+    for (int i=0;i&lt;length2;i++)
+    {if (f1[i]!=' ') f2+=f1[i];}//去除filepassword中的空格
+
+    QString define = p2+&quot; &quot;+&quot;1 &quot;+f2+&quot; &quot;+ecryptfstypeComboBox-&gt;currentText().toLower()
+                    +&quot; &quot;+ecryptfsbitComboBox-&gt;currentText().toLower()
+                    +&quot; &quot;+fileecryptfsComboBox-&gt;currentText().toLower()
+                    +&quot; &quot;+filenameecryptfsComboBox-&gt;currentText().toLower();//输出需要的信息
+    qDebug()&lt;&lt;define;
+    QString ecryptfs_sh = sourceFileEdit-&gt;text()+&quot; &quot;+define;//写出保存的信息
+    //ecryptfs_sh.insert(0,QString(&quot;/bin/tangguoze &quot;));
+    qDebug()&lt;&lt;ecryptfs_sh;
+    QStringList arguments;
+    arguments &lt;&lt; ecryptfs_sh;//输出信息到脚本中
+    QProcess *poc = new QProcess;//定义新进程
+    poc -&gt; start (&quot;/bin/tangguoze&quot;,arguments);//在QT中调用启动进程运行
+    }
+}
+</code></pre><h2 id=三ecryptfs开源部分的分析>三．eCryptfs开源部分的分析</h2><p>主要分为7个部分：</p><ol><li><p>keystore<br>Keystore部件从文件中提供文件头信息，并将信息数据转发给callout应用程序。Keystore与callout应用程序之前使用netlink机制通信，通信的发起者为keystore。</p></li><li><p>Callout应用程序<br>Callout应用程序根据目标策略对头文件信息作出评估，并给出各种操作，如：调用后台给应用程序弹出对话框要求密码短语，或用私钥解密一个会话秘钥。<br>eCryptfs内核模块和用户空间秘钥管理代码之间的主要通信是请求秘钥，由内核秘钥环发起。Callout应用程序从目录分析策略信息，解析每个文件的头信息。为了满足挂起的公钥请求，他可以调用PKI API，或者用特殊的签名搜索带盐值得密码短语。</p></li><li><p>eCryptfs后台弹出对话框输入密码短语<br>为了能给用户弹出对话框来输入密码短语，eCryptfs必须提供得到X会话的通道。这可能通过运行一个后台来实现。eCryptfs后台侦听一个socket，它的地址信息写在用户的会话秘钥环中，无论何时策略需要弹出一个对话框请求密码短语时，callout应用程序都能提取socket的地址信息，并用它请求后台给用户弹出对话框，接着，后台将用户的密码短语返回给callout应用程序。</p></li><li><p>内核秘钥环<br>内核秘钥环用于管理和保护秘钥和认证特征。eCryptfs用内核秘钥环存储认证特征、节点加密统计信息和秘钥。</p></li><li><p>PAM<br>PAM（可插入的认证模块）提供了灵活的认证机制。eCryptfs含有一个模块，能捕获用户注册的密码短语，并将它放在用户的会话秘钥环中，这个密码短语作为无盐值密码短语认证特征。
+eCryptfs可以基于策略，使用这个密码短语进行加密操作。如：用这个密码短语从用户的GunPG秘钥环中提取他的私钥；通过字符串到秘钥操作，将这个密码短语直接用于保护文件的会话秘钥；这个秘钥短语还可以与存在TPM中的秘钥结合在一起，用来提供两个因子的认证，即用户为了访问一个文件，他必须注册到特殊主机，还需要使用特征的密码短语。</p></li><li><p>公钥设施<br>eCryptfs提供了可插入的PKI（公钥设施）接口，eCryptfs的PKI模块利用GPGME（GuuPG Made Easy）接口访问用户的GnuPG秘钥环。这个模块能使用用户的注册密码解密用户保存的私钥。<br>eCryptfs的TMP PKI模块的TrouSerS使用接口与TPM（可信平台模块）通信，用来使用存在硬件中的私钥，将文件绑定到一个特定的主机上。
+eCryptfs openCryptoki PKCS#11框架PKI通过各种open Crytok的硬件设备，对在硬件上执行公钥操作的机制提供了支持。</p></li><li><p>目标中心策略（Target-centric Polocies）<br>当应用程序创建一个新文件时，eCryptfs必须作出许多的决策，如：文件是否加密？用哪个对称密码加密数据？文件是否加入HMAC并附加IV？会话秘钥长度是多少？如何保护会话秘钥？等等。
+eCryptfs将策略定义文件应用于目标。<br>eCryptfs文件系统由内核空间系统和用户空间系统两部分组成。内核空间系统由内核空间的内核keystore、内核加密API、eCryptfs层、加密元数据和底层文件系统组成。而用户空间由callout应用程序，eCryptfs后台和PKI API等组成。<br>另外，eCryptfs文件系统使用了Linux内核的密钥环服务、Linux可插入认证模块(Pluggable Authentication Modules, PAM)、可信平台模块（Trusten Platform Module, TPM）和GnuPG密钥环，Ecryptfs超级块私有数据主要包括加密的各种信息，如：认证特征、密钥环等。</p></li></ol><pre>
+/* superblock private data. */
+struct ecryptfs_sb_info {
+	struct super_block *wsi_sb;
+	struct ecryptfs_mount_crypt_stat mount_crypt_stat;
+};
+
+/* dentry private data. Each dentry must keep track of a lower
+ * vfsmount too. */
+struct ecryptfs_dentry_info {
+	struct path lower_path;
+	struct ecryptfs_crypt_stat *crypt_stat;
+};
+
+/* inode private data. */
+struct ecryptfs_inode_info {
+	struct inode vfs_inode;
+	struct inode *wii_inode;
+	struct file *lower_file;
+	struct mutex lower_file_mutex;
+	struct ecryptfs_crypt_stat crypt_stat;
+};
+
+/* file private data. */
+struct ecryptfs_file_info {
+	struct file *wfi_file;
+	struct ecryptfs_crypt_stat *crypt_stat;
+};
+
+eCryptfs的认证特征包括会话密钥、口令和私钥等以及他们的签名。会话密钥将口令进行加密。结构eCryptfs_auth_toke存放了eCryptfs文件系统范围内的的认证特征。
+/* May be a password or a private key */
+struct ecryptfs_auth_tok {
+	u16 version; /* 8-bit major and 8-bit minor */
+	u16 token_type;
+#define ECRYPTFS_ENCRYPT_ONLY 0x00000001
+	u32 flags;
+	struct ecryptfs_session_key session_key;
+	u8 reserved[32];
+	union {
+		struct ecryptfs_password password;
+		struct ecryptfs_private_key private_key;
+	} token;
+} __attribute__ ((packed));
+
+加密统计信息结构ecryptfs_crypt_stat存入了与每个加密文件相关的加密信息。如：文件的加密操作标识、文件头的结构信息等。列出如下：
+/**
+ * This is the primary struct associated with each encrypted file.
+ *
+ * TODO: cache align/pack?
+ */
+struct ecryptfs_crypt_stat {
+#define ECRYPTFS_STRUCT_INITIALIZED 0x00000001
+#define ECRYPTFS_POLICY_APPLIED     0x00000002
+#define ECRYPTFS_NEW_FILE           0x00000004
+#define ECRYPTFS_ENCRYPTED          0x00000008
+#define ECRYPTFS_SECURITY_WARNING   0x00000010
+#define ECRYPTFS_ENABLE_HMAC        0x00000020
+#define ECRYPTFS_ENCRYPT_IV_PAGES   0x00000040
+#define ECRYPTFS_KEY_VALID          0x00000080
+#define ECRYPTFS_METADATA_IN_XATTR  0x00000100
+#define ECRYPTFS_VIEW_AS_ENCRYPTED  0x00000200
+#define ECRYPTFS_KEY_SET            0x00000400
+	u32 flags;
+	unsigned int file_version;
+	size_t iv_bytes;
+	size_t num_header_bytes_at_front;
+	size_t extent_size; /* Data extent size; default is 4096 */
+	size_t key_size;
+	size_t extent_shift;
+	unsigned int extent_mask;
+	struct ecryptfs_mount_crypt_stat *mount_crypt_stat;
+	struct crypto_blkcipher *tfm;
+	struct crypto_hash *hash_tfm; /* Crypto context for generating
+				       * the initialization vectors */
+	unsigned char cipher[ECRYPTFS_MAX_CIPHER_NAME_SIZE];
+	unsigned char key[ECRYPTFS_MAX_KEY_BYTES];
+	unsigned char root_iv[ECRYPTFS_MAX_IV_BYTES];
+	struct list_head keysig_list;
+	struct mutex keysig_list_mutex;
+	struct mutex cs_tfm_mutex;
+	struct mutex cs_hash_tfm_mutex;
+	struct mutex cs_mutex;
+};
+</pre></div><div class=article-tags><a class="badge badge-light" href=/tag/Linux/>Linux</a></div><div class=share-box aria-hidden=true><ul class=share><li><a href="https://twitter.com/intent/tweet?url=http://www.guozet.me/post/Linux-Transparent-Encrypted-File-System/&text=Linux%e9%80%8f%e6%98%8e%e5%8a%a0%e5%af%86%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f1_%e4%bb%a3%e7%a0%81%e5%88%86%e6%9e%90" target=_blank rel=noopener class=share-btn-twitter><i class="fab fa-twitter"></i></a></li><li><a href="https://www.facebook.com/sharer.php?u=http://www.guozet.me/post/Linux-Transparent-Encrypted-File-System/&t=Linux%e9%80%8f%e6%98%8e%e5%8a%a0%e5%af%86%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f1_%e4%bb%a3%e7%a0%81%e5%88%86%e6%9e%90" target=_blank rel=noopener class=share-btn-facebook><i class="fab fa-facebook"></i></a></li><li><a href="mailto:?subject=Linux%e9%80%8f%e6%98%8e%e5%8a%a0%e5%af%86%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f1_%e4%bb%a3%e7%a0%81%e5%88%86%e6%9e%90&body=http://www.guozet.me/post/Linux-Transparent-Encrypted-File-System/" target=_blank rel=noopener class=share-btn-email><i class="fas fa-envelope"></i></a></li><li><a href="https://www.linkedin.com/shareArticle?url=http://www.guozet.me/post/Linux-Transparent-Encrypted-File-System/&title=Linux%e9%80%8f%e6%98%8e%e5%8a%a0%e5%af%86%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f1_%e4%bb%a3%e7%a0%81%e5%88%86%e6%9e%90" target=_blank rel=noopener class=share-btn-linkedin><i class="fab fa-linkedin-in"></i></a></li><li><a href="https://web.whatsapp.com/send?text=Linux%e9%80%8f%e6%98%8e%e5%8a%a0%e5%af%86%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f1_%e4%bb%a3%e7%a0%81%e5%88%86%e6%9e%90%20http://www.guozet.me/post/Linux-Transparent-Encrypted-File-System/" target=_blank rel=noopener class=share-btn-whatsapp><i class="fab fa-whatsapp"></i></a></li><li><a href="https://service.weibo.com/share/share.php?url=http://www.guozet.me/post/Linux-Transparent-Encrypted-File-System/&title=Linux%e9%80%8f%e6%98%8e%e5%8a%a0%e5%af%86%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f1_%e4%bb%a3%e7%a0%81%e5%88%86%e6%9e%90" target=_blank rel=noopener class=share-btn-weibo><i class="fab fa-weibo"></i></a></li></ul></div><div class="media author-card content-widget-hr"><img class="avatar mr-3 avatar-circle" src=/author/Terry-Tang/avatar_hu0d5a7b86078ca7c7d7d2e2c9e8f7e04b_578713_270x270_fill_q90_lanczos_center.jpg alt="Terry Tang"><div class=media-body><h5 class=card-title><a href=http://www.guozet.me/>Terry Tang</a></h5><h6 class=card-subtitle>Software Development Engineer</h6><p class=card-text>My research interests include distributed robotics, mobile computing and programmable matter.</p><ul class=network-icon aria-hidden=true><li><a href=/#contact><i class="fas fa-envelope"></i></a></li><li><a href=https://github.com/guozetang target=_blank rel=noopener><i class="fab fa-github"></i></a></li><li><a href=https://www.facebook.com/guozetang target=_blank rel=noopener><i class="fab fa-facebook"></i></a></li><li><a href=https://www.linkedin.com/in/guoze/ target=_blank rel=noopener><i class="fab fa-linkedin"></i></a></li><li><a href=https://instagram.com/guozetang target=_blank rel=noopener><i class="fab fa-instagram"></i></a></li><li><a href=https://leetcode.com/guozetang/ target=_blank rel=noopener><i class="fas fa-laptop-code"></i></a></li><li><a href=/files/cv.pdf><i class="ai ai-cv"></i></a></li></ul></div></div><section id=comments><div id=disqus_thread></div><script>let disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return;}
+var d=document,s=d.createElement('script');s.async=true;s.src='https://'+"guozet-me"+'.disqus.com/embed.js';s.setAttribute('data-timestamp',+new Date());(d.head||d.body).appendChild(s);})();</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></section></div></article><script src=https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin=anonymous></script><script src=https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin=anonymous></script><script src=https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin=anonymous></script><script src=https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin=anonymous></script><script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js integrity="sha256-eOgo0OtLL4cdq7RdwRUiGKLX9XsIJ7nGhWEKbohmVAQ=" crossorigin=anonymous></script><script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/languages/r.min.js></script><script>const code_highlighting=true;</script><script>const isSiteThemeDark=false;</script><script>const search_config={"indexURI":"/index.json","minLength":1,"threshold":0.3};const i18n={"no_results":"No results found","placeholder":"Search...","results":"results found"};const content_type={'post':"Posts",'project':"Projects",'publication':"Publications",'talk':"Talks"};</script><script id=search-hit-fuse-template type=text/x-template>
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script><script src=https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin=anonymous></script><script src=https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin=anonymous></script><script id=dsq-count-scr src=https://guozet-me.disqus.com/count.js async></script><script src=/js/academic.min.37431be2d92d7fb0160054761ab79602.js></script><div class=container><footer class=site-footer><p class=powered-by>guozet.me © 2020</p><p class=powered-by>Powered by the
+<a href=https://sourcethemes.com/academic/ target=_blank rel=noopener>Academic theme</a> for
+<a href=https://gohugo.io target=_blank rel=noopener>Hugo</a>.
+<span class=float-right aria-hidden=true><a href=# class=back-to-top><span class=button_icon><i class="fas fa-chevron-up fa-2x"></i></span></a></span></p></footer></div><div id=modal class="modal fade" role=dialog><div class=modal-dialog><div class=modal-content><div class=modal-header><h5 class=modal-title>Cite</h5><button type=button class=close data-dismiss=modal aria-label=Close>
+<span aria-hidden=true>&#215;</span></button></div><div class=modal-body><pre><code class="tex hljs"></code></pre></div><div class=modal-footer><a class="btn btn-outline-primary my-1 js-copy-cite" href=# target=_blank><i class="fas fa-copy"></i>Copy</a>
+<a class="btn btn-outline-primary my-1 js-download-cite" href=# target=_blank><i class="fas fa-download"></i>Download</a><div id=modal-error></div></div></div></div></div></body></html>

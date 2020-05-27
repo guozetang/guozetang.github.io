@@ -1,0 +1,1228 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Network | Terry Tang</title><link>http://www.guozet.me/tag/Network/</link><atom:link href="http://www.guozet.me/tag/Network/index.xml" rel="self" type="application/rss+xml"/><description>Network</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><copyright>guozet.me © 2020</copyright><lastBuildDate>Sun, 15 Jul 2018 11:38:13 +0000</lastBuildDate><image><url>http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url><title>Network</title><link>http://www.guozet.me/tag/Network/</link></image><item><title>How to install RAMcloud on Ubuntu16.04</title><link>http://www.guozet.me/post/How-to-install-RAMcloud-on-Ubuntu16-04/</link><pubDate>Sun, 15 Jul 2018 11:38:13 +0000</pubDate><guid>http://www.guozet.me/post/How-to-install-RAMcloud-on-Ubuntu16-04/</guid><description>&lt;h1 id="introduce">Introduce&lt;/h1>
+&lt;p>
+&lt;a href="https://github.com/PlatformLab/RAMCloud" target="_blank" rel="noopener">RAMCloud&lt;/a> is a new class of super-high-speed storage for large-scale datacenter applications. It is designed for applications in which a large number of servers in a datacenter need low-latency access to a large durable datastore. RAMCloud offers the following properties:&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-07-15-How-to-install-RAMcloud-on-Ubuntu16-04/2018-09-08-16-47-41.png" alt="">&lt;/p>
+&lt;p>Project Link:
+&lt;a href="https://ramcloud.atlassian.net/wiki/spaces/RAM/overview" target="_blank" rel="noopener">RAMCloud&lt;/a>&lt;/p>
+&lt;p>Office Installing introduce:
+&lt;a href="https://ramcloud.atlassian.net/wiki/spaces/RAM/pages/6848614/General&amp;#43;Information&amp;#43;for&amp;#43;Developers" target="_blank" rel="noopener">General Information for Developers&lt;/a>&lt;/p>
+&lt;p>I have written the shell script to install the RAMCloud on Ubuntu 16.04 or Ubuntu18.04. If you want to build the RAMCloud as soon as possible, please fell free to use my repo on the github. Please read the README.md file in the repo and know how to use the scripts to help you.&lt;/p>
+&lt;ul>
+&lt;li>Github repo Link:
+&lt;a href="https://github.com/guozetang/RAMCloud_Ubuntu16.04" target="_blank" rel="noopener">RAMCloud For Ubuntu16.04&lt;/a>&lt;/li>
+&lt;li>Bitbucket repo Link:
+&lt;a href="https://bitbucket.org/guozetang/ramcloud/src/master/" target="_blank" rel="noopener">RAMCloud For Ubuntu16.04&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>If you have some issue with this script, please send
+&lt;a href="guoze.work@gmail.com">email&lt;/a> to me. I will reply it as soon as possible. In addtion, please read the next introduce about how to install Ramcloud by command if you want to understand each step to install RAMCloud.&lt;/p>
+&lt;hr>
+&lt;h1 id="installing-ramcloud-on-ubuntu1604">Installing Ramcloud on Ubuntu16.04&lt;/h1>
+&lt;h2 id="necessary-tools">Necessary Tools&lt;/h2>
+&lt;ul>
+&lt;li>GNU Make (Anything reasonably recent)&lt;/li>
+&lt;li>GNU g++ (4.9.x)&lt;/li>
+&lt;li>git (&amp;gt;= 1.6.0)&lt;/li>
+&lt;li>Perl (Anything reasonably recent)
+&lt;ul>
+&lt;li>For mergedeps.pl, which automatically inserts included headers in source files into the make dependencies.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Python 2.6, epydoc&lt;/li>
+&lt;li>Boost
+&lt;ul>
+&lt;li>If you&amp;rsquo;re having issues with Boost on Ubuntu, check boost ticket #3844.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>pcre&lt;/li>
+&lt;li>Doxygen 1.7.1&lt;/li>
+&lt;li>protocol buffers
+&lt;ul>
+&lt;li>If you&amp;rsquo;re getting lots of undefined reference errors during linking, it&amp;rsquo;s likely that your libprotobuf is compiled with a different library ABI than RAMCloud. Check GCC&amp;rsquo;s Dual ABI page and the &amp;ldquo;GLIBCXX_USE_CXX11_ABI&amp;rdquo; flag in GNUMakefile.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>ZooKeeper&lt;/li>
+&lt;li>java and javac (&amp;gt;= 1.7.0_25)&lt;/li>
+&lt;/ul>
+&lt;p>If your system is Ubuntu 15.04 or 14.04, then you can just use this command to install these packets in your system.&lt;/p>
+&lt;pre>&lt;code class="language-bash">apt-get install build-essential git-core doxygen=1.7.1 libpcre3-dev protobuf-compiler libprotobuf-dev libcrypto++-dev libevent-dev libboost-all-dev libgtest-dev libzookeeper-mt-dev zookeeper libssl-dev
+&lt;/code>&lt;/pre>
+&lt;h2 id="analyze">Analyze&lt;/h2>
+&lt;p>I can&amp;rsquo;t use this command to work on the Ubuntu 16.04. In addtion, I hope I can use the RAMCloud on any Ubuntu system. It means that it should be worked on Ubuntu 16.04 or 18.04. So I need to compile these packet by g++ or gcc or Cmake.&lt;/p>
+&lt;hr>
+&lt;h2 id="install-dependency">Install Dependency&lt;/h2>
+&lt;h3 id="install-build-essential-libssl-dev-and-git">Install build-essential, libssl-dev and git&lt;/h3>
+&lt;p>We can get these two libs on Ubuntu 16.06 or 18.04. So we just need to use &lt;code>apt-get&lt;/code> to get these lib.&lt;/p>
+&lt;pre>&lt;code class="language-bash">sudo apt-get -y build-essential libssl-dev git
+&lt;/code>&lt;/pre>
+&lt;h3 id="install-gccg-49">Install gcc/g++ 4.9&lt;/h3>
+&lt;p>The RAMCloud source code used some features in the C++11 Standard. As a result, we need to make sure the &lt;code>gcc/g++&lt;/code> version have support the &lt;code>C++11&lt;/code> Standard. Then we choose the &lt;code>gcc/g++ 4.9&lt;/code> to install. Please follow the commands.&lt;/p>
+&lt;pre>&lt;code class="language-bash">sudo apt-get install -y software-properties-common
+sudo add-apt-repositocry -y ppa:ubuntu-toolchain-r/test
+sudo apt-get update
+mv /usr/bin/gcc /usr/bin/gcc.bak
+mv /usr/bin/g++ /usr/bin/g++.bak
+sudo apt-get install -y gcc-4.9
+sudo apt-get install -y g++-4.9
+lnif /usr/bin/g++-4.9 /usr/bin/g++
+lnif /usr/bin/gcc-4.9 /usr/bin/gcc
+g++ -v
+gcc -v
+&lt;/code>&lt;/pre>
+&lt;p>If the &lt;code>g++ -v&lt;/code> command can output the information like the followed graph. Then it means that you have installed the &lt;code>g++ 4.9&lt;/code> correctly.&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-07-15-How-to-install-RAMcloud-on-Ubuntu16-04/2018-09-08-16-35-42.png" alt="">&lt;/p>
+&lt;p>If the &lt;code>gcc -v&lt;/code> command can output the information like the followed graph. Then it means that you have installed the &lt;code>gcc 4.9&lt;/code> correctly.&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-07-15-How-to-install-RAMcloud-on-Ubuntu16-04/2018-09-08-16-37-27.png" alt="">&lt;/p>
+&lt;p>You must to make sure you have installed the &lt;code>gcc&lt;/code> and &lt;code>g++&lt;/code> correctly when you want to continue the next steps.&lt;/p>
+&lt;h3 id="install-java-and-javac">Install Java and Javac&lt;/h3>
+&lt;pre>&lt;code class="language-bash">sudo apt-add-repository -y ppa:webupd8team/java
+sudo apt-get update
+install_dependency oracle-java8-installer
+java -version
+&lt;/code>&lt;/pre>
+&lt;p>If the &lt;code>java -version&lt;/code> command can output the information like the followed graph. Then it means that you have installed the &lt;code>java&lt;/code> correctly.&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-07-15-How-to-install-RAMcloud-on-Ubuntu16-04/2018-09-08-16-40-29.png" alt="">&lt;/p>
+&lt;h3 id="install-cmake">Install Cmake&lt;/h3>
+&lt;p>We will use &lt;code>Cmake&lt;/code> to compile the &lt;code>Doxygen 1.7.2&lt;/code> in the next steps.&lt;/p>
+&lt;pre>&lt;code class="language-bash">sudo apt-get install -y software-properties-common
+sudo add-apt-repository -y ppa:george-edison55/cmake-3.x
+sudo apt-get update
+sudo apt-get install -y cmake
+cmake --version
+&lt;/code>&lt;/pre>
+&lt;p>Use &lt;code>cmake --version&lt;/code> to check the version of cmake. If the &lt;code>cmake --version&lt;/code> command can output the informaton like the followed graph. Then it means that you have installed the &lt;code>cmake&lt;/code> correctly.&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-07-15-How-to-install-RAMcloud-on-Ubuntu16-04/2018-09-08-16-49-08.png" alt="">&lt;/p>
+&lt;hr>
+&lt;h3 id="download-the-packages-which-will-be-need-in-the-next-few-steps">Download the packages which will be need in the next few steps.&lt;/h3>
+&lt;pre>&lt;code class="language-bash">git clone git@bitbucket.org:guozetang/ramcloud.git
+cd ./ramcloud/packages/
+&lt;/code>&lt;/pre>
+&lt;p>When you get in to this director, you can find these packages in this director.
+&lt;img src="http://www.guozet.me/images/in-post/2018-07-15-How-to-install-RAMcloud-on-Ubuntu16-04/2018-09-08-20-16-41.png" alt="">&lt;/p>
+&lt;p>We will use these packages in the next steps.&lt;/p>
+&lt;h3 id="install-pcre">Install Pcre&lt;/h3>
+&lt;pre>&lt;code class="language-bash">tar -xzvf pcre-8.42.tar.gz
+cd pcre-8.42
+./configure --prefix=/usr/local/pcre
+make
+sudo make install
+sudo echo &amp;quot;/usr/local/pcre/lib/&amp;quot; &amp;gt; /etc/ld.so.conf.d/pcre.conf
+&lt;/code>&lt;/pre>
+&lt;h3 id="install-python26">Install Python2.6&lt;/h3>
+&lt;pre>&lt;code class="language-bash">tar zxvf Python-2.6.6.tgz
+cd Python-2.6.6
+./configure --prefix=/usr/local/python2.6
+make
+sudo make install
+sudo ln -s /usr/local/python2.6/bin/python2.6 /usr/bin/python2.6 -f
+config_ld_lib /usr/local/python2.6/lib/ /etc/ld.so.conf.d/python2.6.conf
+python2.6 --version
+&lt;/code>&lt;/pre>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-07-15-How-to-install-RAMcloud-on-Ubuntu16-04/2018-09-08-17-08-22.png" alt="">&lt;/p>
+&lt;h3 id="install-boost">Install Boost&lt;/h3>
+&lt;pre>&lt;code class="language-bash">tar -xvf boost_1_52_0.tar
+cd boost_1_52_0
+sudo ./bootstrap.sh
+sudo ./b2 -j
+sudo ./b2 install --prefix=/usr/local/boost_1_52_0
+sudo echo &amp;quot;/usr/local/boost_1_52_0/lib/&amp;quot; &amp;gt; /etc/ld.so.conf.d/boost_1_52_0.conf
+&lt;/code>&lt;/pre>
+&lt;h3 id="install-doxygen172">Install Doxygen1.7.2&lt;/h3>
+&lt;pre>&lt;code class="language-bash">tar -xzvf doxygen.tar.gz
+cd doxygen
+cd build
+cmake -G &amp;quot;Unix Makefiles&amp;quot; ..
+make
+sudo make Install
+&lt;/code>&lt;/pre>
+&lt;h3 id="install-protocol-buffers">Install Protocol Buffers&lt;/h3>
+&lt;pre>&lt;code class="language-bash">tar -xzvf protobuf-2.6.1.tar.gz
+cd $CURRENT_DIR/packages/protobuf-2.6.1
+./configure --prefix=/usr/local/protobuf
+make
+make check
+sudo make install
+sudo echo &amp;quot;/usr/local/protobuf/lib/&amp;quot; &amp;gt; /etc/ld.so.conf.d/protobuf.conf
+sudo ln -s /usr/local/protobuf/bin/protoc /usr/bin/protoc -f
+&lt;/code>&lt;/pre>
+&lt;h3 id="install-zookeeper">Install Zookeeper&lt;/h3>
+&lt;pre>&lt;code class="language-bash">tar -xzvf zookeeper-3.3.6.tar.gz
+cd zookeeper-3.3.6/src/c
+./configure --prefix=/usr/local/zookeeper
+make
+sudo make install
+sudo echo &amp;quot;/usr/local/zookeeper/lib/&amp;quot; &amp;gt; /etc/ld.so.conf.d/zookeeper.conf
+&lt;/code>&lt;/pre>
+&lt;p>This last command &lt;code>sudo echo &amp;quot;/usr/local/zookeeper/lib/&amp;quot; &amp;gt; /etc/ld.so.conf.d/zookeeper.conf&lt;/code> can make the other application can find the &lt;code>zookeeper lib&lt;/code> in the system.&lt;/p>
+&lt;h2 id="config-the-path">Config the Path&lt;/h2>
+&lt;p>Add the &lt;code>include path&lt;/code>,&lt;code>library path&lt;/code> in the &lt;code>/etc/profile&lt;/code>.&lt;/p>
+&lt;pre>&lt;code class="language-bash">export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/pcre/lib/:/usr/local/python2.6/lib/:/usr/local/boost_1_52_0/lib/:/usr/local/protobuf/lib/:/usr/local/zookeeper/lib/
+export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/pcre/lib/:/usr/local/python2.6/lib/:/usr/local/boost_1_52_0/lib/:/usr/local/protobuf/lib/:/usr/local/zookeeper/lib/
+export C_INCLUDE_PATH=$C_INCLUDE_PATH:/usr/local/pcre/include/:/usr/local/python2.6/include/:/usr/local/boost_1_52_0/include/:/usr/local/protobuf/include/:/usr/local/zookeeper/include/c-client-src/
+export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/usr/local/pcre/include/:/usr/local/python2.6/include/:/usr/local/boost_1_52_0/include/:/usr/local/protobuf/include/:/usr/local/zookeeper/include/c-client-src/
+export PATH=$PATH:/usr/local/pcre/bin/:/usr/local/python2.6/bin/:/usr/local/protobuf/bin/:/usr/local/zookeeper/bin/
+export PKG_CONFIG_PATH=:/usr/local/protobuf/lib/pkgconfig/
+&lt;/code>&lt;/pre>
+&lt;h2 id="install-ramcloud">Install RAMCloud&lt;/h2>
+&lt;pre>&lt;code class="language-bash">git clone https://github.com/PlatformLab/RAMCloud.git
+cd RAMCloud
+make -j12 DEBUG=no
+&lt;/code>&lt;/pre></description></item><item><title>Bro源代码分析---IP数据包处理流程</title><link>http://www.guozet.me/post/Bro-source-codes-walkthought/</link><pubDate>Sat, 09 Jun 2018 01:02:39 +0000</pubDate><guid>http://www.guozet.me/post/Bro-source-codes-walkthought/</guid><description>&lt;h1 id="前言">前言&lt;/h1>
+&lt;p>Bro是一款非常优秀的网络协议分析器。Bro里面的Binpac解析器可以很方便的让我们使用Binpac语言书写协议解析器，并通过Binpac转换成C++语言，这在使用中能够很大程度的减少开发时间，也可以避免手写容易考虑不全的问题。但是在使用Binpac之前，我们需要去了解Bro在处理网络数据包的时候的处理流程，能够方便我们在Binpac使用中去掉和Bro耦合的部分，生成我们需要的协议解析器的C++文件。&lt;/p>
+&lt;h1 id="源代码阅读">源代码阅读&lt;/h1>
+&lt;blockquote>
+&lt;p>重点：关注于网络数据包的处理部分代码&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="bro的网络数据包处理流程">Bro的网络数据包处理流程&lt;/h2>
+&lt;h3 id="bro启动初始化函数maincc">Bro启动初始化函数main.cc&lt;/h3>
+&lt;blockquote>
+&lt;p>int main(int argc, char** argv) (main.cc)&lt;/p>
+&lt;/blockquote>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-06-09Bro-Main.png" alt="2018-06-09Bro-Main">&lt;/p>
+&lt;p>在Bro的&lt;code>main.cc&lt;/code>文件里面的Main函数是Bro启动过程中的首先执行的函数，而在这个&lt;code>main&lt;/code>函数里面，和我们的数据包处理部分相关密切的函数是&lt;code>net_run()&lt;/code>函数，这个函数是一个一直循环的函数，一旦出来这个函数之后，后面差不多就结束了。接下来阅读该函数代码。&lt;/p>
+&lt;h3 id="数据包处理的主要函数-net_run">数据包处理的主要函数： net_run()&lt;/h3>
+&lt;blockquote>
+&lt;p>net_run() (Net.cc)&lt;/p>
+&lt;/blockquote>
+&lt;pre>&lt;code class="language-cpp">void net_run()
+{
+set_processing_status(&amp;quot;RUNNING&amp;quot;, &amp;quot;net_run&amp;quot;);
+while ( iosource_mgr-&amp;gt;Size() ||
+(BifConst::exit_only_after_terminate &amp;amp;&amp;amp; ! terminating) )
+{
+double ts;
+iosource::IOSource* src = iosource_mgr-&amp;gt;FindSoonest(&amp;amp;ts); //打开之后，获取所以的网卡或者文件的句柄
+current_iosrc = src;
+bool communication_enabled = using_communication;
+if ( src ) //如果这个句柄不是空的话就进入Process()函数
+src-&amp;gt;Process(); // which will call net_packet_dispatch()
+else if ( reading_live &amp;amp;&amp;amp; ! pseudo_realtime)
+{ // live but no source is currently active
+double ct = current_time();
+if ( ! net_is_processing_suspended() )
+{
+net_update_time(ct);
+expire_timers();
+usleep(1); // Just yield.
+}
+}
+else if ( (have_pending_timers || communication_enabled) &amp;amp;&amp;amp;
+! pseudo_realtime )
+{
+net_update_time(current_time());
+expire_timers();
+if ( ! communication_enabled )
+usleep(100000);
+else
+usleep(1000);
+mgr.Drain();
+processing_start_time = 0.0; // = &amp;quot;we're not processing now&amp;quot;
+current_dispatched = 0;
+current_iosrc = 0;
+extern void termination_signal();
+if ( signal_val == SIGTERM || signal_val == SIGINT )
+termination_signal();
+if ( ! reading_traces )
+have_pending_timers = timer_mgr-&amp;gt;Size() &amp;gt; 0;
+}
+net_get_final_stats();
+}
+&lt;/code>&lt;/pre>
+&lt;p>这个函数并不是很长，仔细阅读，我们可以发现我们只需要关注函数&lt;code>src-&amp;gt;Process&lt;/code>, 其中&lt;code>src&lt;/code>是&lt;code>iosource::IOSource* src = iosource_mgr-&amp;gt;FindSoonest(&amp;amp;ts);&lt;/code>相当于就是打开文件或者网卡数据的句柄（文件句柄或者网卡的句柄）。所以它的处理函数也就是我们想要的数据处理过程了。&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-06-09-Bro_net_run.png" alt="2018-06-09-Bro_net_run">&lt;/p>
+&lt;p>接下来看&lt;code>Process&lt;/code>函数,在这个函数中我们可以看到它处理了Packet，处理完之后，调用了一个&lt;code>DoneWithPacket()&lt;/code>函数，但我们重点是关注的处理过程，所以我们需要关注函数&lt;code>net_packet_dispatch(net_packet_dispatch(current_pseudo, &amp;amp;current_packet, this);)&lt;/code>,在这个函数中传入了当前数据包的指针。&lt;/p>
+&lt;blockquote>
+&lt;p>void Pktsrc::Process() (Pktsrc.cc)&lt;/p>
+&lt;/blockquote>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-06-09-src_process.png" alt="2018-06-09-src_process">&lt;/p>
+&lt;p>接下来阅读&lt;code>net_packet_dispatch(current_pseudo, &amp;amp;current_packet, this);&lt;/code>的处理过程。这个函数是在&lt;code>net.cc&lt;/code>文件中，和&lt;code>net_run()&lt;/code>函数是在同一个文件中。&lt;/p>
+&lt;blockquote>
+&lt;p>void net_packet_dispatch(double t, const Packet* pkt, iosource::PktSrc* src_ps) (net.cc)&lt;/p>
+&lt;/blockquote>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-06-09-net_packet_dispatch.png" alt="2018-06-09-net_packet_dispatch">&lt;/p>
+&lt;p>在&lt;code>net_packet_dispatch()&lt;/code>函数中，有一个特别重要的数据结构&lt;code>sessions&lt;/code>,这是在&lt;code>sessions.cc&lt;/code>文件中定义的一个全局变量。&lt;br>
+&lt;code>NetSessions* sessions;&lt;/code>&lt;br>
+在这里我们需要阅读一下结构体&lt;code>NetSessions&lt;/code>,这个结构体是在&lt;code>sessions.h&lt;/code>文件中定义的。在这个结构体中有一个特别重要的函数&lt;code>NextPacket&lt;/code>,这个函数也是在&lt;code>net_packet_dispatch&lt;/code>中被调用的最重要的函数。&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-06-09-NetSessions_class.png" alt="2018-06-09-NetSessions_class">&lt;/p>
+&lt;p>接下来阅读关键函数：&lt;code>NextPacket&lt;/code>&lt;/p>
+&lt;blockquote>
+&lt;p>void NetSessions::NextPacket(double t, const Packet* pkt) (sessions.cc)&lt;/p>
+&lt;/blockquote>
+&lt;pre>&lt;code class="language-cpp">void NetSessions::NextPacket(double t, const Packet* pkt) //t可能是时间戳
+{
+SegmentProfiler(segment_logger, &amp;quot;dispatching-packet&amp;quot;);
+.....
+if ( pkt-&amp;gt;hdr_size &amp;gt; pkt-&amp;gt;cap_len ) //开始判断包的大小问题
+{
+Weird(&amp;quot;truncated_link_frame&amp;quot;, pkt);
+return;
+}
+uint32 caplen = pkt-&amp;gt;cap_len - pkt-&amp;gt;hdr_size;
+//cap_len抓到的数据包的大小， hdr_size --- IP头里面的显示长度
+if ( pkt-&amp;gt;l3_proto == L3_IPV4 )
+{
+if ( caplen &amp;lt; sizeof(struct ip) )
+{
+Weird(&amp;quot;truncated_IP&amp;quot;, pkt);
+return;
+}
+const struct ip* ip = (const struct ip*) (pkt-&amp;gt;data + pkt-&amp;gt;hdr_size);
+IP_Hdr ip_hdr(ip, false);
+DoNextPacket(t, pkt, &amp;amp;ip_hdr, 0);
+}
+else if ( pkt-&amp;gt;l3_proto == L3_IPV6 )
+{
+.....
+DoNextPacket(t, pkt, &amp;amp;ip_hdr, 0);
+}
+else if ( pkt-&amp;gt;l3_proto == L3_ARP )
+{
+if ( arp_analyzer )
+arp_analyzer-&amp;gt;NextPacket(t, pkt);
+}
+.......
+if ( dump_this_packet &amp;amp;&amp;amp; ! record_all_packets )
+DumpPacket(pkt);
+}
+&lt;/code>&lt;/pre>
+&lt;p>经过分析，上述的代码中，最重要的是函数&lt;code>DoNextPacket(t, pkt, &amp;amp;ip_hdr, 0)&lt;/code>,把数据包传入，指向ip头的指针传入。这个函数可以说是我们要找的最重要的函数了，在这个函数中，完成了&lt;code>IP头&lt;/code>重组工作。&lt;/p>
+&lt;blockquote>
+&lt;p>void NetSessions::DoNextPacket(double t, const Packet* pkt, const IP_Hdr* ip_hdr,
+const EncapsulationStack* encapsulation) (Sessions.cc)&lt;/p>
+&lt;/blockquote>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-06-09-DoNextPacket_Main.png" alt="2018-06-09-DoNextPacket_Main">
+这个函数已经开始处理IP数据包了,在这个函数里面，最主要的部分是处理片段的部分工作：&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-06-09-DoNextPacket_fuction.png" alt="2018-06-09-DoNextPacket_fuction">&lt;/p>
+&lt;p>再初始化&lt;code>f&lt;/code>之前，执行了：&lt;/p>
+&lt;pre>&lt;code class="language-cpp"> if ( discarder &amp;amp;&amp;amp; discarder-&amp;gt;NextPacket(ip_hdr, len, caplen) )
+return;
+FragReassembler* f = 0;
+if ( ip_hdr-&amp;gt;IsFragment() )
+{
+dump_this_packet = 1; // always record fragments
+&lt;/code>&lt;/pre>
+&lt;p>主要看一下&lt;code>NextPacket函数&lt;/code>的执行过程:
+在这个函数中主要检查了IP数据包，判断是TCP还是UDP，然后处理IP嵌套的情况。&lt;/p>
+&lt;pre>&lt;code class="language-cpp">
+int Discarder::NextPacket(const IP_Hdr* ip, int len, int caplen)
+{
+int discard_packet = 0;
+if ( check_ip )
+{
+val_list* args = new val_list;
+args-&amp;gt;append(ip-&amp;gt;BuildPktHdrVal());
+try
+{
+discard_packet = check_ip-&amp;gt;Call(args)-&amp;gt;AsBool();
+}
+catch ( InterpreterException&amp;amp; e )
+{
+discard_packet = false;
+}
+delete args;
+if ( discard_packet )
+return discard_packet;
+}
+int proto = ip-&amp;gt;NextProto();
+if ( proto != IPPROTO_TCP &amp;amp;&amp;amp; proto != IPPROTO_UDP &amp;amp;&amp;amp;
+proto != IPPROTO_ICMP )
+// This is not a protocol we understand.
+return 0;
+// XXX shall we only check the first packet???
+if ( ip-&amp;gt;IsFragment() )
+// Never check any fragment.
+return 0;
+int ip_hdr_len = ip-&amp;gt;HdrLen();
+len -= ip_hdr_len; // remove IP header
+caplen -= ip_hdr_len;
+int is_tcp = (proto == IPPROTO_TCP);
+int is_udp = (proto == IPPROTO_UDP);
+int min_hdr_len = is_tcp ?
+sizeof(struct tcphdr) :
+(is_udp ? sizeof(struct udphdr) : sizeof(struct icmp));
+if ( len &amp;lt; min_hdr_len || caplen &amp;lt; min_hdr_len )
+// we don't have a complete protocol header
+return 0;
+// Where the data starts - if this is a protocol we know about,
+// this gets advanced past the transport header.
+const u_char* data = ip-&amp;gt;Payload();
+if ( is_tcp )
+{
+if ( check_tcp )
+{
+const struct tcphdr* tp = (const struct tcphdr*) data;
+int th_len = tp-&amp;gt;th_off * 4;
+val_list* args = new val_list;
+args-&amp;gt;append(ip-&amp;gt;BuildPktHdrVal());
+args-&amp;gt;append(BuildData(data, th_len, len, caplen));
+try
+{
+discard_packet = check_tcp-&amp;gt;Call(args)-&amp;gt;AsBool();
+}
+catch ( InterpreterException&amp;amp; e )
+{
+discard_packet = false;
+}
+delete args;
+}
+}
+else if ( is_udp )
+{
+if ( check_udp )
+{
+const struct udphdr* up = (const struct udphdr*) data;
+int uh_len = sizeof (struct udphdr);
+val_list* args = new val_list;
+args-&amp;gt;append(ip-&amp;gt;BuildPktHdrVal());
+args-&amp;gt;append(BuildData(data, uh_len, len, caplen));
+try
+{
+discard_packet = check_udp-&amp;gt;Call(args)-&amp;gt;AsBool();
+}
+catch ( InterpreterException&amp;amp; e )
+{
+discard_packet = false;
+}
+delete args;
+}
+}
+else
+{
+if ( check_icmp )
+{
+const struct icmp* ih = (const struct icmp*) data;
+val_list* args = new val_list;
+args-&amp;gt;append(ip-&amp;gt;BuildPktHdrVal());
+try
+{
+discard_packet = check_icmp-&amp;gt;Call(args)-&amp;gt;AsBool();
+}
+catch ( InterpreterException&amp;amp; e )
+{
+discard_packet = false;
+}
+delete args;
+}
+}
+return discard_packet;
+}
+&lt;/code>&lt;/pre>
+&lt;p>在这里主要是关键是四个部分&lt;/p>
+&lt;ul>
+&lt;li>FragReassembler* f = 0; 定义片段重组标志位为0&lt;/li>
+&lt;li>f = NextFragment(t, ip_hdr, pkt-&amp;gt;data + pkt-&amp;gt;hdr_size); 得到下一个片段的指针&lt;/li>
+&lt;li>const IP_Hdr* ih = f-&amp;gt;ReassembledPkt();&lt;/li>
+&lt;li>FragReassemblerTracker frt(this, f);&lt;/li>
+&lt;/ul>
+&lt;h3 id="详细分析donextpacket函数的处理过程">详细分析DoNextPacket函数的处理过程&lt;/h3>
+&lt;h4 id="fragreassembler类结构解析">FragReassembler类结构解析&lt;/h4>
+&lt;blockquote>
+&lt;p>class FragReassembler (Frag.h)&lt;/p>
+&lt;/blockquote>
+&lt;p>需要看一下&lt;code>FragReassembler&lt;/code>这个类里面的成员变量以及相应的函数。在这个类当中，最重要的函数是&lt;code>ReassembledPkt&lt;/code>&lt;br>
+&lt;img src="http://www.guozet.me/images/in-post/2018-06-09-class-FragReassembler.png" alt="2018-06-09-class-FragReassembler">&lt;/p>
+&lt;h4 id="nextfragment函数处理过程">NextFragment函数处理过程&lt;/h4>
+&lt;blockquote>
+&lt;p>FragReassembler* NetSessions::NextFragment(double t, const IP_Hdr* ip,
+const u_char* pkt) (sessions.cc)&lt;/p>
+&lt;/blockquote>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-06-09-FragReassembler-NextFragment.png" alt="2018-06-09-FragReassembler-NextFragment">&lt;/p>
+&lt;p>在这个函数中，主要查找了fragment，如果没有下一个，就新建一个新的Fragment并添加到&lt;code>fragments&lt;/code>的结构体里面去。&lt;/p>
+&lt;h4 id="reassembledpkt函数处理过程">ReassembledPkt函数处理过程&lt;/h4>
+&lt;p>这个函数的处理过程只有一条。&lt;/p>
+&lt;blockquote>
+&lt;p>ReassembledPkt() (Frag.h)&lt;/p>
+&lt;/blockquote>
+&lt;p>&lt;code> const IP_Hdr* ReassembledPkt() { return reassembled_pkt; }&lt;/code>&lt;/p>
+&lt;p>对应的&lt;code>IP_Hdr* reassembled_pkt;&lt;/code>,所以只是返回去了一个指针头&lt;/p>
+&lt;h4 id="fragreassemblertracker-frtthis-f处理过程">FragReassemblerTracker frt(this, f)处理过程&lt;/h4>
+&lt;h4 id="处理conn的过程">处理Conn的过程&lt;/h4>
+&lt;p>在&lt;code>DoNextPacket&lt;/code>这个函数的最后，会去新建或者找到一个&lt;code>Conn&lt;/code>处理处理数据包。执行代码:&lt;/p>
+&lt;blockquote>
+&lt;p>DoNextPacket() (Sessions.cc)&lt;/p>
+&lt;/blockquote>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-06-09-DoNextPacket-new-conn.png" alt="2018-06-09-DoNextPacket-new-conn">&lt;/p>
+&lt;p>在处理Conn这个部分的时候，检查是否有对应的&lt;code>connection&lt;/code>,根据hash值去查询&lt;code>HashKey* h = BuildConnIDHashKey(id);&lt;/code>,如果没有对应的&lt;code>Conn&lt;/code>，那么就去新建一个，新建完之后，插入到connect的链表中。如果已经有了对应的&lt;code>Conn&lt;/code>那就需要判断当前的&lt;code>conn&lt;/code>是不是不正确的数据以及有没有被复用。如果有的话，删除对应的&lt;code>conn&lt;/code>的Hash值。&lt;/p></description></item><item><title>Complete your first analyzer - RIP in bro</title><link>http://www.guozet.me/post/Write-your-first-Analyzer-en/</link><pubDate>Thu, 24 May 2018 20:30:32 +0000</pubDate><guid>http://www.guozet.me/post/Write-your-first-Analyzer-en/</guid><description>&lt;h2 id="introduce">Introduce&lt;/h2>
+&lt;p>The best way to understand the structure of the sources code is to write some modules by yourself. Let&amp;rsquo;s us to write an Analyzer in the Bro by Binpac. We choose
+&lt;a href="https://tools.ietf.org/html/rfc2453" target="_blank" rel="noopener">RIP v2&lt;/a> to write the first protocol.&lt;/p>
+&lt;h2 id="how-to-use-binpac-quick-start-to-create-the-relative-file-to-develop-an-analyzer">How to Use Binpac quick start to create the relative file to develop an analyzer?&lt;/h2>
+&lt;h4 id="download-binpac-quick-start">Download Binpac Quick Start&lt;/h4>
+&lt;p>&lt;code>git clone https://github.com/grigorescu/binpac_quickstart.git&lt;/code>
+When you finish download, you can enter the &lt;code>binpac_quickstart&lt;/code> directory, then you will find there are some files in this directory as blow.&lt;/p>
+&lt;pre>&lt;code class="language-bash">Guoze@node-0:~/00_Workbench$ cd binpac_quickstart/
+Guoze@node-0:~/00_Workbench/binpac_quickstart$ ls -al
+total 32
+drwxr-xr-x 4 Guoze senfv-PG0 4096 May 22 19:30 .
+drwxr-xr-x 11 Guoze senfv-PG0 4096 May 23 12:15 ..
+drwxr-xr-x 8 Guoze senfv-PG0 4096 May 22 19:30 .git
+-rw-r--r-- 1 Guoze senfv-PG0 21 May 22 19:30 __init__.py
+-rw-r--r-- 1 Guoze senfv-PG0 128 May 22 19:30 README.md
+-rwxr-xr-x 1 Guoze senfv-PG0 7151 May 22 19:30 start.py
+drwxr-xr-x 2 Guoze senfv-PG0 4096 May 22 19:30 templates
+&lt;/code>&lt;/pre>
+&lt;h4 id="user-startpyto-create-the-directory-structure-in-bro">User &lt;code>start.py&lt;/code>to create the directory structure in Bro&lt;/h4>
+&lt;p>start.py is the script which who can use to build a directory structure to develp the RIP analyzer. We can use this script as following.&lt;/p>
+&lt;pre>&lt;code class="language-bash">Guoze@node-0:~/00_Workbench/binpac_quickstart$ ./start.py
+Usage:
+start.py NAME DESCRIPTION PATH_TO_BRO_SRC (--tcp|--udp) [--buffered] [--plugin]
+&lt;/code>&lt;/pre>
+&lt;blockquote>
+&lt;p>Example: &lt;code>./start.py RIP &amp;quot;Routing Internet Protocl&amp;quot; ../bro --udp&lt;/code>
+Procotol name：RIP；
+Procoto description：Routing Internet Protocl
+The absolute path of the Bro source code：../bro
+The type of Network Portocol which the RIP use：&amp;ndash;udp&lt;/p>
+&lt;/blockquote>
+&lt;p>Use this script to built RIP work directory in the Bro source code file. If you don&amp;rsquo;t know RIP protocol before, please read the
+&lt;a href="https://tools.ietf.org/html/rfc2453" target="_blank" rel="noopener">RIP protocol documents&lt;/a>.&lt;/p>
+&lt;p>In the terminal, we just need to input the command as follows to create our work directory.
+&lt;code>./start.py RIP &amp;quot;Routing Internet Protocl&amp;quot; ../bro --udp&lt;/code>&lt;/p>
+&lt;p>After complete, It will create some files in the &lt;code>bro/scripts/base/protocols/rip/&lt;/code> directory and &lt;code>bro/src/analyzer/protocol/rip/&lt;/code> directory&lt;/p>
+&lt;ol>
+&lt;li>&lt;code>bro/scripts/base/protocols/rip/&lt;/code>&lt;/li>
+&lt;/ol>
+&lt;pre>&lt;code class="language-bash">Guoze@node-0:~/00_Workbench/bro/scripts/base/protocols/rip$ ls -l
+total 12
+-rw-r--r-- 1 Guoze senfv-PG0 245 May 23 12:49 dpd.sig
+-rw-r--r-- 1 Guoze senfv-PG0 66 May 23 12:49 __load__.bro
+-rw-r--r-- 1 Guoze senfv-PG0 1327 May 23 12:49 main.bro
+&lt;/code>&lt;/pre>
+&lt;blockquote>
+&lt;p>__load__.bro: This allows all the contents of the directory to be loaded via @load base/protocols/sip.
+dpd.sig: This file contains a signature that can be used to attach the analyzer to connections if their content matches.
+main.bro: Contains the base script-layer functionality for processing events emitted from the analyzer.&lt;/p>
+&lt;/blockquote>
+&lt;ol start="2">
+&lt;li>&lt;code>src/analyzer/protocol/sip/&lt;/code>&lt;/li>
+&lt;/ol>
+&lt;pre>&lt;code class="language-bash">Guoze@node-0:~/00_Workbench/bro/src/analyzer/protocol/rip$ ls -l
+total 32
+-rw-r--r-- 1 Guoze senfv-PG0 301 May 23 12:50 CMakeLists.txt
+-rw-r--r-- 1 Guoze senfv-PG0 472 May 23 12:50 events.bif
+-rw-r--r-- 1 Guoze senfv-PG0 480 May 23 12:50 Plugin.cc
+-rw-r--r-- 1 Guoze senfv-PG0 738 May 23 15:27 rip-analyzer.pac
+-rw-r--r-- 1 Guoze senfv-PG0 721 May 23 12:50 RIP.cc
+-rw-r--r-- 1 Guoze senfv-PG0 715 May 23 12:50 RIP.h
+-rw-r--r-- 1 Guoze senfv-PG0 1005 May 23 12:50 rip.pac
+-rw-r--r-- 1 Guoze senfv-PG0 939 May 23 15:03 rip-protocol.pac
+&lt;/code>&lt;/pre>
+&lt;blockquote>
+&lt;p>CMakeLists.txt: Informs the CMake build system how to compile the analyzer.
+Plugin.cc: Analyzers in Bro are a type of plugin. This file does what’s necessary to register the new analyzer plugin with Bro.
+RIP.h: Defines the API for the new analyzer which derives from one of Bro’s already-existing analyzer classes.
+RIP.cc: Implementation of the analyzer. It’s mostly just responsible for handing off data to the protocol parser that’s been generated by BinPAC.
+events.bif: Defines events that the analyzer will generate.
+rip.pac: The main entry point for the BinPAC definition of the protocol that you want to parse.
+rip-protocol.pac: Where the message format is defined.&lt;br>
+rip-analyzer.pac: Defines a connection, flow, and other processing functions for the analyzer.&lt;/p>
+&lt;/blockquote>
+&lt;p>If you just want to use Binpac to compile your c++ file, you just need to write these files:&lt;/p>
+&lt;ul>
+&lt;li>events.bif&lt;/li>
+&lt;li>rip.pac&lt;/li>
+&lt;li>rip-protocol.pac&lt;/li>
+&lt;li>rip-analyzer.pac&lt;/li>
+&lt;/ul>
+&lt;h2 id="implementation">Implementation&lt;/h2>
+&lt;h3 id="implement-the-rip-protocolpac-file">Implement the rip-protocol.pac file&lt;/h3>
+&lt;p>This file just defines each part in the RIP protocol. In the code, you will find the Binpac language use keywords &lt;code>type&lt;/code> to express a data structure in the RIP protocol. The &lt;code>RIP_PDU&lt;/code>funtion which is the lastest type in this file defines the data structure which user want to transfer when the RIP event happens.&lt;/p>
+&lt;p>The RIP packet format is:&lt;/p>
+&lt;pre>&lt;code> 0 1 2 3
+0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+| command (1) | version (1) | must be zero (2) |
++---------------+---------------+-------------------------------+
+| |
+~ RIP Entry (20) ~
+| |
++---------------+---------------+---------------+---------------+
+&lt;/code>&lt;/pre>
+&lt;p>There may be between 1 and 25 (inclusive) RIP entries. A RIP-1 entry
+has the following format:&lt;/p>
+&lt;pre>&lt;code> 0 1 2 3
+0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+| address family identifier (2) | must be zero (2) |
++-------------------------------+-------------------------------+
+| IPv4 address (4) |
++---------------------------------------------------------------+
+| must be zero (4) |
++---------------------------------------------------------------+
+| must be zero (4) |
++---------------------------------------------------------------+
+| metric (4) |
++---------------------------------------------------------------+
+&lt;/code>&lt;/pre>
+&lt;p>Use this file to design the protocol structures of RIP in our case. Just take the structures from the protocol and write the code in this file to parse it.&lt;/p>
+&lt;pre>&lt;code> Protocol Extensions
+RIP-2 is:
+0 1 2 3 3
+0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+| Address Family Identifier (2) | Route Tag (2) |
++-------------------------------+-------------------------------+
+| IP Address (4) |
++---------------------------------------------------------------+
+| Subnet Mask (4) |
++---------------------------------------------------------------+
+| Next Hop (4) |
++---------------------------------------------------------------+
+| Metric (4) |
++---------------------------------------------------------------+
+&lt;/code>&lt;/pre>
+&lt;p>The Address Family Identifier, IP Address, and Metric all have the meanings defined in
+&lt;a href="https://tools.ietf.org/html/rfc2453#section-3.4" target="_blank" rel="noopener">section 3.4&lt;/a>. The Version field will specify&lt;/p>
+&lt;pre>&lt;code class="language-cpp">1 # Generated by binpac_quickstart
+1
+2 # ## TODO: Add your protocol structures in here.
+3 # ## some examples:
+4
+5 # Types are your basic building blocks.
+6 # There are some builtins, or you can define your own.
+7 # Here's a definition for a regular expression:
+8 # type RIP_WHITESPACE = RE/[ \t]*/;
+9
+10 # A record is a collection of types.
+11 # Here's one with the built-in types
+12
+13 enum Rip_Command {
+14 RIP_REQUEST = 1,
+15 RIP_RESPONSE = 2,
+16 }
+17
+18 enum Rip_Version {
+19 RIP_V1 = 1,
+20 RIP_V2 = 2,
+21 }
+22
+23 type Rip_Message = record { //Base Message
+24 command : uint8;
+25 version : uint8;
+26 pad : padding[2]; //must be zero
+27 entry : Rip_Entry[] &amp;amp;until($input.length()) == 0;
+28 };
+29
+30 type Rip_Entry = record {
+31 af : uint16;
+32 rt : uint16;
+33 ip : uint32;
+34 mask : uint32;
+35 gateway : uint32;
+36 metric : uint32;
+37 };
+38
+39 type RIP_PDU(is_orig: bool) = record {
+40 command : uint8;
+41 version : uint8;
+42 pad : padding[2];
+43 } &amp;amp;byteorder=bigendian;
+&lt;/code>&lt;/pre>
+&lt;p>RIP_PDU structure: pass to the user land, just focus which you want to pass.&lt;/p>
+&lt;h3 id="implement-the-rip_analyzerpac-file">Implement the rip_analyzer.pac file&lt;/h3>
+&lt;p>This file mainly finishes the processing and analyzing of the data which was passed by the &lt;code>RIP_PDU&lt;/code> function to this file. If there is a RIP event happens, then it enters this processing flow.&lt;/p>
+&lt;p>The &lt;code>BifEvent::generate_rip_request&lt;/code> function illustrates how to generate an request event. We use this event to pass the data structure which is important in the next process (the data structure created in rip_protocol.pac). The main thing we need to define is what we want to pass. Such as: &lt;code>msg.command&lt;/code>, &lt;code>msg.version&lt;/code>&lt;/p>
+&lt;p>%code{ &amp;hellip; %} : Copy C++ code to the generated source file&lt;/p>
+&lt;pre>&lt;code class="language-cpp">1 # Generated by binpac_quickstart
+1
+2 refine flow RIP_Flow += {
+3 function proc_rip_message(msg: RIP_PDU): bool
+4 %{
+5 // Check for RIP commands
+6 if ( ${msg.command} == RIP_REQUEST) {
+7 BifEvent::generate_rip_request(connection()-&amp;gt;bro_analyzer(), connection()-&amp;gt;bro_analyzer()-&amp;gt;Conn(),
+8 ${msg.command}, //Pass more thing
+9 ${msg.version});
+10 return true;
+11 }
+12 if ( ${msg.command} == RIP_RESPONSE) {
+13 BifEvent::generate_rip_response(connection()-&amp;gt;bro_analyzer(), connection()-&amp;gt;bro_analyzer()-&amp;gt;Conn(),
+14 ${msg.command},
+15 ${msg.version});
+16 return true;
+17 }
+18 %}
+19 };
+20
+21 refine typeattr RIP_PDU += &amp;amp;let {
+22 proc: bool = $context.flow.proc_rip_message(this);
+23 };
+~
+&lt;/code>&lt;/pre>
+&lt;p>&lt;code>function proc_rip_message(msg: RIP_PDU): bool&lt;/code> just like to say please use that RIP_PDU data structure that was defined in the earlier file.&lt;/p>
+&lt;h3 id="implement-the-eventsbif-file">Implement the events.bif file&lt;/h3>
+&lt;pre>&lt;code class="language-cpp">1 # Generated by binpac_quickstart
+1
+2 # In this file, you'll define the events that your analyzer will
+3 # generate. A sample event is included.
+4
+5 # ## TODO: Edit the sample event, and add more events.
+6
+7 ## Generated for RIP connections
+8 ##
+9 ## See `Google &amp;lt;http://lmgtfy.com/?q=RIP&amp;gt;`__ for more information about RIP
+10 ##
+11 ## c: The connection
+12 ##
+13 event rip_request%(c: connection, command: count, version: count%);
+14 event rip_response%(c: connection, command: count, version: count%);
+&lt;/code>&lt;/pre>
+&lt;p>RIP just have two types of command:&lt;/p>
+&lt;ul>
+&lt;li>rip_request&lt;/li>
+&lt;li>rip_response&lt;/li>
+&lt;/ul>
+&lt;h2 id="test">Test&lt;/h2>
+&lt;h3 id="configure-bros-working-environment">Configure Bro&amp;rsquo;s Working Environment&lt;/h3>
+&lt;p>Firstly, we need to configure the bro&amp;rsquo;s path to execute it.
+The executable path of the Bro is &lt;code>bro/build/src/bro&lt;/code>.&lt;/p>
+&lt;pre>&lt;code class="language-bash">Guoze@node-0:~/00_Workbench/bro$ ./build/src/bro -h
+bro version 2.5-598
+usage: ./build/src/bro [options] [file ...]
+&amp;lt;file&amp;gt; | policy file, or read stdin
+-a|--parse-only | exit immediately after parsing scripts
+-b|--bare-mode | don't load scripts from the base/ directory
+-d|--debug-policy | activate policy file debugging
+-e|--exec &amp;lt;bro code&amp;gt; | augment loaded policies by given code
+-f|--filter &amp;lt;filter&amp;gt; | tcpdump filter
+&lt;/code>&lt;/pre>
+&lt;p>Bro has provided an executable script for you. As a result, you can easily configure environment variables. We just need to execute the configuration script. Use the shell script for configuring environment variables is as follows:&lt;/p>
+&lt;pre>&lt;code class="language-bash">Guoze@node-0:~/00_Workbench/bro/build$ cat bro-path-dev.sh
+export BROPATH=`/users/Guoze/00_Workbench/bro/build/bro-path-dev`
+export BRO_PLUGIN_PATH=&amp;quot;/users/Guoze/00_Workbench/bro/build/src&amp;quot;:
+export PATH=&amp;quot;/users/Guoze/00_Workbench/bro/build/src&amp;quot;:$PATH
+&lt;/code>&lt;/pre>
+&lt;pre>&lt;code class="language-bash">Guoze@node-0:~/00_Workbench/bro$ source ./build/bro-path-dev.sh
+&lt;/code>&lt;/pre>
+&lt;p>If you want to check the execution status of the script and determine whether it has completed the configuration, you can enter: &lt;code>bro -h&lt;/code>in the terminal. If the execution result is as same as the result of &lt;code>./build/src/bro -h&lt;/code>, then it means that the configuration has been configured successfully.&lt;/p>
+&lt;pre>&lt;code class="language-bash">Guoze@node-0:~/00_Workbench/bro$ bro -h
+bro version 2.5-598
+usage: bro [options] [file ...]
+&amp;lt;file&amp;gt; | policy file, or read stdin
+-a|--parse-only | exit immediately after parsing scripts
+-b|--bare-mode | don't load scripts from the base/ directory
+-d|--debug-policy | activate policy file debugging
+-e|--exec &amp;lt;bro code&amp;gt; | augment loaded policies by given code
+-f|--filter &amp;lt;filter&amp;gt; | tcpdump filter
+-g|--dump-config | dump current config into .state dir
+-h|--help|-? | command line help
+&lt;/code>&lt;/pre>
+&lt;h3 id="test-rip-parser">Test RIP parser&lt;/h3>
+&lt;h4 id="download-rip-network-data">Download RIP Network data&lt;/h4>
+&lt;p>We can directly download a RIPv2 packet which can be used for testing on Internet.
+&lt;code>$ wget http://packetlife.net/captures/RIPv2.cap&lt;/code>&lt;/p>
+&lt;p>After download, use the command &amp;lsquo;tcpdump&amp;rsquo; to determine whether the data packet contains RIP data.&lt;/p>
+&lt;pre>&lt;code class="language-bash">Guoze@node-0:~/00_Workbench$ tcpdump -nr RIPv2.cap
+reading from file RIPv2.cap, link-type EN10MB (Ethernet)
+23:06:26.942558 IP 10.0.0.1.520 &amp;gt; 224.0.0.9.520: RIPv2, Response, length: 84
+23:06:30.158769 IP 10.0.0.2.520 &amp;gt; 224.0.0.9.520: RIPv2, Response, length: 84
+23:06:52.663855 IP 10.0.0.1.520 &amp;gt; 224.0.0.9.520: RIPv2, Response, length: 84
+23:06:58.416478 IP 10.0.0.2.520 &amp;gt; 224.0.0.9.520: RIPv2, Response, length: 84
+23:07:19.709681 IP 10.0.0.1.520 &amp;gt; 224.0.0.9.520: RIPv2, Response, length: 84
+23:07:24.974047 IP 10.0.0.2.520 &amp;gt; 224.0.0.9.520: RIPv2, Response, length: 84
+23:07:45.389720 IP 10.0.0.1.520 &amp;gt; 224.0.0.9.520: RIPv2, Response, length: 84
+23:07:53.891896 IP 10.0.0.2.520 &amp;gt; 224.0.0.9.520: RIPv2, Response, length: 84
+23:08:14.625084 IP 10.0.0.1.520 &amp;gt; 224.0.0.9.520: RIPv2, Response, length: 84
+23:08:21.933550 IP 10.0.0.2.520 &amp;gt; 224.0.0.9.520: RIPv2, Response, length: 84
+23:08:41.410659 IP 10.0.0.1.520 &amp;gt; 224.0.0.9.520: RIPv2, Response, length: 84
+23:08:47.731064 IP 10.0.0.2.520 &amp;gt; 224.0.0.9.520: RIPv2, Response, length: 84
+&lt;/code>&lt;/pre>
+&lt;h4 id="add-some-print-information">Add some print information&lt;/h4>
+&lt;pre>&lt;code class="language-cpp"> 12 refine flow RIP_Flow += {
+11 function proc_rip_message(msg: RIP_PDU): bool
+10 %{
+9 // Check for RIP commands
+8 if ( ${msg.command} == RIP_REQUEST) {
+7 printf(&amp;quot;In rip_request\n&amp;quot;);
+6 BifEvent::generate_rip_request(connection()-&amp;gt;bro_analyzer(), connection()-&amp;gt;bro_analyzer()-&amp;gt;Conn(),
+5 ${msg.command},
+4 ${msg.version});
+3 return true;
+2 }
+1 if ( ${msg.command} == RIP_RESPONSE) {
+15 printf(&amp;quot;In rip_response\n&amp;quot;);
+1 BifEvent::generate_rip_response(connection()-&amp;gt;bro_analyzer(), connection()-&amp;gt;bro_analyzer()-&amp;gt;Conn(),
+2 ${msg.command},
+3 ${msg.version});
+4 return true;
+5 }
+6 %}
+&lt;/code>&lt;/pre>
+&lt;p>After change, &lt;code>make&lt;/code> the code again.&lt;/p>
+&lt;pre>&lt;code class="language-bash">Guoze@node-0:~/00_Workbench/bro$ sudo make
+make -C build all
+make[1]: Entering directory '/users/Guoze/00_Workbench/bro/build'
+make[2]: Entering directory '/users/Guoze/00_Workbench/bro/build'
+make[3]: Entering directory '/users/Guoze/00_Workbench/bro/build'
+make[3]: Leaving directory '/users/Guoze/00_Workbench/bro/build'
+........
+........
+[100%] Built target rst
+make[2]: Leaving directory '/users/Guoze/00_Workbench/bro/build'
+make[1]: Leaving directory '/users/Guoze/00_Workbench/bro/build'
+&lt;/code>&lt;/pre>
+&lt;h4 id="use-network-capture-data-for-testing">Use Network Capture Data for Testing&lt;/h4>
+&lt;pre>&lt;code class="language-bash">Guoze@node-0:~/00_Workbench$ bro -r RIPv2.cap
+In rip_response
+In rip_response
+In rip_response
+In rip_response
+In rip_response
+In rip_response
+In rip_response
+In rip_response
+In rip_response
+In rip_response
+In rip_response
+In rip_response
+&lt;/code>&lt;/pre></description></item><item><title>Ubuntu 16.04安装bro和Binpac</title><link>http://www.guozet.me/post/Install-bro-Binpac/</link><pubDate>Thu, 24 May 2018 13:30:32 +0000</pubDate><guid>http://www.guozet.me/post/Install-bro-Binpac/</guid><description>&lt;h1 id="前言">前言&lt;/h1>
+&lt;p>﻿Bro is a powerful network analysis framework that is much different from the typical IDS you may know.&lt;/p>
+&lt;p>BinPAC is a high level language for describing protocol parsers and generates C++ code. It is currently maintained and distributed with the Bro Network Security Monitor distribution, however, the generated parsers may be used with other programs besides Bro.&lt;/p>
+&lt;h1 id="软件安装">软件安装&lt;/h1>
+&lt;h2 id="安装bro">安装Bro&lt;/h2>
+&lt;h3 id="前期依赖包安装">前期依赖包安装&lt;/h3>
+&lt;p>Bro requires the following libraries and tools to be installed before you begin:&lt;/p>
+&lt;blockquote>
+&lt;ul>
+&lt;li>Libpcap (
+&lt;a href="http://www.tcpdump.org/" target="_blank" rel="noopener">http://www.tcpdump.org&lt;/a>)&lt;/li>
+&lt;li>OpenSSL libraries (
+&lt;a href="http://www.openssl.org/" target="_blank" rel="noopener">http://www.openssl.org&lt;/a>)&lt;/li>
+&lt;li>BIND8 library&lt;/li>
+&lt;li>Libz&lt;/li>
+&lt;li>Bash (for BroControl)&lt;/li>
+&lt;li>Python 2.6 or greater (for BroControl)&lt;/li>
+&lt;/ul>
+&lt;/blockquote>
+&lt;p>To build Bro from source, the following additional dependencies are required:&lt;/p>
+&lt;blockquote>
+&lt;ul>
+&lt;li>CMake 2.8 or greater (
+&lt;a href="http://www.cmake.org/" target="_blank" rel="noopener">http://www.cmake.org&lt;/a>)&lt;/li>
+&lt;li>Make&lt;/li>
+&lt;li>C/C++ compiler with C++11 support (GCC 4.8+ or Clang 3.3+)&lt;/li>
+&lt;li>SWIG (
+&lt;a href="http://www.swig.org/" target="_blank" rel="noopener">http://www.swig.org&lt;/a>)&lt;/li>
+&lt;li>Bison (GNU Parser Generator)&lt;/li>
+&lt;li>Flex (Fast Lexical Analyzer)&lt;/li>
+&lt;li>Libpcap headers (
+&lt;a href="http://www.tcpdump.org/" target="_blank" rel="noopener">http://www.tcpdump.org&lt;/a>)&lt;/li>
+&lt;li>OpenSSL headers (
+&lt;a href="http://www.openssl.org/" target="_blank" rel="noopener">http://www.openssl.org&lt;/a>)&lt;/li>
+&lt;li>zlib headers&lt;/li>
+&lt;li>Python&lt;/li>
+&lt;/ul>
+&lt;/blockquote>
+&lt;p>To install the required dependencies, you can use:&lt;/p>
+&lt;ul>
+&lt;li>DEB/Debian-based Linux:&lt;/li>
+&lt;/ul>
+&lt;pre>&lt;code class="language-bash">sudo apt-get install cmake make gcc g++ flex bison libpcap-dev libssl-dev python-dev swig zlib1g-dev
+&lt;/code>&lt;/pre>
+&lt;h3 id="installing-from-source">Installing from Source&lt;/h3>
+&lt;p>Bro releases are bundled into source packages for convenience and are available on the
+&lt;a href="https://www.bro.org/download/index.html" target="_blank" rel="noopener">bro downloads page&lt;/a>.&lt;/p>
+&lt;p>Alternatively, the latest Bro development version can be obtained through git repositories hosted at &lt;code>git.bro.org&lt;/code>. See their
+&lt;a href="https://www.bro.org/development/howtos/process.html" target="_blank" rel="noopener">git development documentation&lt;/a>.&lt;/p>
+&lt;pre>&lt;code class="language-sh">git clone --recursive git://git.bro.org/bro
+cd bro
+sudo su
+./configure
+make
+make install
+&lt;/code>&lt;/pre>
+&lt;h3 id="配置环境变量">配置环境变量&lt;/h3>
+&lt;p>&lt;code>export PATH=/usr/local/bro/bin:$PATH&lt;/code>&lt;/p>
+&lt;blockquote>
+&lt;p>注意：由于Export的方式，只是在本次登录sh的过程中有效果的，所以后续需要重新配置&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="安装binpac">安装Binpac&lt;/h2>
+&lt;h2 id="依赖包文件httpswwwbroorgsphinx-gitcomponentsbinpacreadmehtmlid7">
+&lt;a href="https://www.bro.org/sphinx-git/components/binpac/README.html#id7" target="_blank" rel="noopener">依赖包文件&lt;/a>&lt;/h2>
+&lt;p>BinPAC relies on the following libraries and tools, which need to be installed before you begin:&lt;/p>
+&lt;blockquote>
+&lt;ul>
+&lt;li>
+&lt;p>Flex (Fast Lexical Analyzer)
+Flex is already installed on most systems, so with luck you can skip having to install it yourself.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Bison (GNU Parser Generator)&lt;/p>
+&lt;p>Bison is also already installed on many system.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>CMake 2.6.3 or greater&lt;/p>
+&lt;p>CMake is a cross-platform, open-source build system, typically not installed by default. See
+&lt;a href="http://www.cmake.org/" target="_blank" rel="noopener">http://www.cmake.org&lt;/a> for more information regarding CMake and the installation steps below for how to use it to build this distribution. CMake generates native Makefiles that depend on GNU Make by default&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;/blockquote>
+&lt;h3 id="installing-from-source-1">Installing from Source&lt;/h3>
+&lt;p>To build and install into &lt;code>/usr/local&lt;/code>:&lt;/p>
+&lt;pre>&lt;code>git clone --recursive git@github.com:bro/binpac.git
+cd binpac
+./configure
+cd build
+make
+sudo make install
+&lt;/code>&lt;/pre>
+&lt;p>This will perform an out-of-source build into the build directory using the default build options and then install the binpac binary into &lt;code>/usr/local/bin&lt;/code>.&lt;/p>
+&lt;p>You can specify a different installation directory with:&lt;/p>
+&lt;p>./configure &amp;ndash;prefix=&lt;dir>&lt;/p>
+&lt;p>Run &lt;code>./configure --help&lt;/code> for more options.&lt;/p>
+&lt;h2 id="下载-binpac-sample-analyzer">下载 BinPAC Sample Analyzer&lt;/h2>
+&lt;p>这个是一个python脚本，能够按照bro的规则生成出Binpac需要书写的文件，生成出来之后，我们只需要填写这些文件就可以了。&lt;/p>
+&lt;h2 id="installing-from-source-2">Installing from Source&lt;/h2>
+&lt;p>从Github上面拷贝例子的文件下来
+&lt;code>git clone https://github.com/grigorescu/binpac_quickstart&lt;/code>
+Inside the binpac_quickstart directory, simply run:&lt;/p>
+&lt;p>&lt;code>python start.py Sample &amp;quot;Sample Protocol&amp;quot; ../bro --tcp --buffered&lt;/code>&lt;/p>
+&lt;p>This will generate all the necessary files for this sample analyzer. The ../bro argument here just points to the Bro source tree. Make sure to change it if yours lives in a different location. See the start.py —helpoptions for more explanation of the options.&lt;/p>
+&lt;p>Bro should be able to compile the generated template code right away, but files may have some “TODO” comments in them to mark places that typically need to be changed depending on the specifics of the protocol analyzer you want to make.&lt;/p>
+&lt;h1 id="遇到的问题">遇到的问题&lt;/h1>
+&lt;h2 id="书写analyzer时候遇到的问题">书写Analyzer时候遇到的问题&lt;/h2>
+&lt;h3 id="bro安装过程中遇到的错误">Bro安装过程中遇到的错误&lt;/h3>
+&lt;h4 id="错误1-configure错误">错误1 ./configure错误&lt;/h4>
+&lt;pre>&lt;code>bro# ./configure --with-pcap=/opt/pfring
+Build Directory : build
+Source Directory: /root/install/bro
+CMake Error at CMakeLists.txt:7 (include):
+include could not find load file:
+cmake/CommonCMakeConfig.cmake
+CMake Error at CMakeLists.txt:52 (include):
+include could not find load file:
+FindRequiredPackage
+– Found sed: /bin/sed
+CMake Error at CMakeLists.txt:64 (FindRequiredPackage):
+Unknown CMake command &amp;quot;FindRequiredPackage&amp;quot;.
+– Configuring incomplete, errors occurred!
+See also &amp;quot;/root/install/bro/build/CMakeFiles/CMakeOutput.log&amp;quot;.
+&lt;/code>&lt;/pre>
+&lt;p>解决方案：
+克隆的时候需要添加&amp;ndash;recursive参数，保证自己下载的子模块
+&lt;code>git clone --recursive git://git.bro.org/bro&lt;/code>&lt;/p>
+&lt;h3 id="编译自己书写的analyzer时候的问题">编译自己书写的Analyzer时候的问题&lt;/h3>
+&lt;h4 id="错误1">错误1&lt;/h4>
+&lt;pre>&lt;code> make[3]: Entering directory '/users/Guoze/00_Workbench/bro/build'
+make[3]: *** No rule to make target '../src/binpac', needed by 'src/binpac-lib_pac.h'. Stop.
+make[3]: Leaving directory '/users/Guoze/00_Workbench/bro/build'
+CMakeFiles/Makefile2:946: recipe for target 'src/CMakeFiles/pac-binpac-lib.pac.dir/all' failed
+make[2]: *** [src/CMakeFiles/pac-binpac-lib.pac.dir/all] Error 2
+make[2]: Leaving directory '/users/Guoze/00_Workbench/bro/build'
+Makefile:138: recipe for target 'all' failed
+make[1]: *** [all] Error 2
+make[1]: Leaving directory '/users/Guoze/00_Workbench/bro/build'
+Makefile:15: recipe for target 'all' failed
+make: *** [all] Error 2
+&lt;/code>&lt;/pre>
+&lt;p>解决方案：
+这个错误很大可能性是你使用了在该文件目录下没有权限，加入sudo make&lt;/p>
+&lt;h4 id="错误2">错误2&lt;/h4>
+&lt;pre>&lt;code>[ 1%] Completed 'project_caf'
+make[3]: Leaving directory '/users/Guoze/00_Workbench/bro/build'
+[ 2%] Built target project_caf
+make[2]: Leaving directory '/users/Guoze/00_Workbench/bro/build'
+Makefile:138: recipe for target 'all' failed
+make[1]: *** [all] Error 2
+make[1]: Leaving directory '/users/Guoze/00_Workbench/bro/build'
+Makefile:15: recipe for target 'all' failed
+make: *** [all] Error 2
+&lt;/code>&lt;/pre>
+&lt;p>解决方案：
+这个错误很大可能性是你使用了&lt;code>make -j 4&lt;/code>多核编译的方式导致的，取消多核编译，仅仅使用make&lt;/p></description></item><item><title>在Bro中完成第一个协议分析器—RIP协议</title><link>http://www.guozet.me/post/Write-first-Analyzer-rip/</link><pubDate>Wed, 23 May 2018 20:30:32 +0000</pubDate><guid>http://www.guozet.me/post/Write-first-Analyzer-rip/</guid><description>&lt;h1 id="前言">前言&lt;/h1>
+&lt;p>熟悉代码结构最好的方式，就是尝试自己去写一个模块加入到整个系统中，在调试代码的过程中，熟悉代码。&lt;/p>
+&lt;h1 id="实现流程">实现流程&lt;/h1>
+&lt;h2 id="使用binpac-quick-start脚本生成自己的analyzer目录结构">使用Binpac quick start脚本生成自己的Analyzer目录结构&lt;/h2>
+&lt;h4 id="下载binpac-quick-start脚本">下载Binpac Quick Start脚本&lt;/h4>
+&lt;p>&lt;code>git clone https://github.com/grigorescu/binpac_quickstart.git&lt;/code>
+下载完成之后，进入该目录，目录结构如下图所示:&lt;/p>
+&lt;pre>&lt;code class="language-bash">Guoze@node-0:~/00_Workbench$ cd binpac_quickstart/
+Guoze@node-0:~/00_Workbench/binpac_quickstart$ ls -al
+total 32
+drwxr-xr-x 4 Guoze senfv-PG0 4096 May 22 19:30 .
+drwxr-xr-x 11 Guoze senfv-PG0 4096 May 23 12:15 ..
+drwxr-xr-x 8 Guoze senfv-PG0 4096 May 22 19:30 .git
+-rw-r--r-- 1 Guoze senfv-PG0 21 May 22 19:30 __init__.py
+-rw-r--r-- 1 Guoze senfv-PG0 128 May 22 19:30 README.md
+-rwxr-xr-x 1 Guoze senfv-PG0 7151 May 22 19:30 start.py
+drwxr-xr-x 2 Guoze senfv-PG0 4096 May 22 19:30 templates
+&lt;/code>&lt;/pre>
+&lt;h4 id="使用脚本生产分析器目录结构">使用脚本生产分析器目录结构&lt;/h4>
+&lt;p>start.py的python就是我们可以用来生成bro中Analyzer的python脚本，使用方式：&lt;/p>
+&lt;pre>&lt;code class="language-bash">Guoze@node-0:~/00_Workbench/binpac_quickstart$ ./start.py
+Usage:
+start.py NAME DESCRIPTION PATH_TO_BRO_SRC (--tcp|--udp) [--buffered] [--plugin]
+&lt;/code>&lt;/pre>
+&lt;blockquote>
+&lt;p>Example: &lt;code>./start.py RIP &amp;quot;Routing Internet Protocl&amp;quot; ../bro --udp&lt;/code>
+协议名称：RIP；
+协议介绍：Routing Internet Protocl
+Bro源代码的路径：../bro
+底层的网络协议：&amp;ndash;udp&lt;/p>
+&lt;/blockquote>
+&lt;p>我们书写的第一个脚本就是实现RIP协议的解析，RIP协议的详细内容请参考。
+在终端输入：&lt;code>./start.py RIP &amp;quot;Routing Internet Protocl&amp;quot; ../bro --udp&lt;/code>
+执行结束之后分别在bro源代码下两个位置生产文件：&lt;/p>
+&lt;ol>
+&lt;li>&lt;code>bro/scripts/base/protocols/rip/&lt;/code>&lt;/li>
+&lt;/ol>
+&lt;pre>&lt;code class="language-bash">Guoze@node-0:~/00_Workbench/bro/scripts/base/protocols/rip$ ls -l
+total 12
+-rw-r--r-- 1 Guoze senfv-PG0 245 May 23 12:49 dpd.sig
+-rw-r--r-- 1 Guoze senfv-PG0 66 May 23 12:49 __load__.bro
+-rw-r--r-- 1 Guoze senfv-PG0 1327 May 23 12:49 main.bro
+&lt;/code>&lt;/pre>
+&lt;blockquote>
+&lt;p>&lt;strong>load&lt;/strong>.bro: This allows all the contents of the directory to be loaded via @load base/protocols/sip.
+dpd.sig: This file contains a signature that can be used to attach the analyzer to connections if their content matches.
+main.bro: Contains the base script-layer functionality for processing events emitted from the analyzer.&lt;/p>
+&lt;/blockquote>
+&lt;ol>
+&lt;li>&lt;code>src/analyzer/protocol/sip/&lt;/code>&lt;/li>
+&lt;/ol>
+&lt;pre>&lt;code class="language-bash">Guoze@node-0:~/00_Workbench/bro/src/analyzer/protocol/rip$ ls -l
+total 32
+-rw-r--r-- 1 Guoze senfv-PG0 301 May 23 12:50 CMakeLists.txt
+-rw-r--r-- 1 Guoze senfv-PG0 472 May 23 12:50 events.bif
+-rw-r--r-- 1 Guoze senfv-PG0 480 May 23 12:50 Plugin.cc
+-rw-r--r-- 1 Guoze senfv-PG0 738 May 23 15:27 rip-analyzer.pac
+-rw-r--r-- 1 Guoze senfv-PG0 721 May 23 12:50 RIP.cc
+-rw-r--r-- 1 Guoze senfv-PG0 715 May 23 12:50 RIP.h
+-rw-r--r-- 1 Guoze senfv-PG0 1005 May 23 12:50 rip.pac
+-rw-r--r-- 1 Guoze senfv-PG0 939 May 23 15:03 rip-protocol.pac
+&lt;/code>&lt;/pre>
+&lt;blockquote>
+&lt;p>CMakeLists.txt: Informs the CMake build system how to compile the analyzer.
+Plugin.cc: Analyzers in Bro are a type of plugin. This file does what’s necessary to register the new analyzer plugin with Bro.
+RIP.h: Defines the API for the new analyzer which derives from one of Bro’s already-existing analyzer classes.
+RIP.cc: mplementation of the analyzer. It’s mostly just responsible for handing off data to the protocol parser that’s been generated by BinPAC.
+events.bif: Defines events that the analyzer will generate.
+rip.pac: The main entry point for the BinPAC definition of the protocol that you want to parse.
+rip-protocol.pac: Where the message format is defined.&lt;br>
+rip-analyzer.pac: Defines a connection, flow, and other processing functions for the analyzer.&lt;/p>
+&lt;/blockquote>
+&lt;p>在这些文件当中，我们主要需要完成：&lt;/p>
+&lt;ul>
+&lt;li>events.bif&lt;/li>
+&lt;li>rip.pac&lt;/li>
+&lt;li>rip-protocol.pac&lt;/li>
+&lt;li>rip-analyzer.pac&lt;/li>
+&lt;/ul>
+&lt;h2 id="代码实现">代码实现&lt;/h2>
+&lt;h3 id="rip-protocolpac文件">rip-protocol.pac文件&lt;/h3>
+&lt;p>这个文件实现的是对RIP协议的组成部分进行定义，以type的方式定义协议数据传输的各个部分。其中&lt;code>RIP_PDU&lt;/code>函数是将需要处理的部分传递到分析仪去。&lt;/p>
+&lt;pre>&lt;code class="language-cpp">1 # Generated by binpac_quickstart
+2 # ## TODO: Add your protocol structures in here.
+3 # ## some examples:
+4
+5 # Types are your basic building blocks.
+6 # There are some builtins, or you can define your own.
+7 # Here's a definition for a regular expression:
+8 # type RIP_WHITESPACE = RE/[ \t]*/;
+9
+10 # A record is a collection of types.
+11 # Here's one with the built-in types
+12
+13 enum Rip_Command {
+14 RIP_REQUEST = 1,
+15 RIP_RESPONSE = 2,
+16 }
+17
+18 enum Rip_Version {
+19 RIP_V1 = 1,
+20 RIP_V2 = 2,
+21 }
+22
+23 type Rip_Message = record {
+24 command : uint8;
+25 version : uint8;
+26 pad : padding[2];
+27 entry : Rip_Entry[] &amp;amp;until($input.length()) == 0;
+28 };
+29
+30 type Rip_Entry = record {
+31 af : uint16;
+32 rt : uint16;
+33 ip : uint32;
+34 mask : uint32;
+35 gateway : uint32;
+36 metric : uint32;
+37 };
+38
+39 type RIP_PDU(is_orig: bool) = record {
+40 command : uint8;
+41 version : uint8;
+42 pad : padding[2];
+43 } &amp;amp;byteorder=bigendian;
+&lt;/code>&lt;/pre>
+&lt;h3 id="rip_analyzerpac文件实现">rip_analyzer.pac文件实现&lt;/h3>
+&lt;p>该文件主要完成对命令做出对&lt;code>RIP_PDU&lt;/code>函数传递过来的数据进行处理解析, 如果有RIP数据包出现那么就进入这个处理流程。&lt;/p>
+&lt;pre>&lt;code class="language-cpp">1 # Generated by binpac_quickstart
+1
+2 refine flow RIP_Flow += {
+3 function proc_rip_message(msg: RIP_PDU): bool
+4 %{
+5 // Check for RIP commands
+6 if ( ${msg.command} == RIP_REQUEST) {
+7 BifEvent::generate_rip_request(connection()-&amp;gt;bro_analyzer(), connection()-&amp;gt;bro_analyzer()-&amp;gt;Conn(),
+8 ${msg.command},
+9 ${msg.version});
+10 return true;
+11 }
+12 if ( ${msg.command} == RIP_RESPONSE) {
+13 BifEvent::generate_rip_response(connection()-&amp;gt;bro_analyzer(), connection()-&amp;gt;bro_analyzer()-&amp;gt;Conn(),
+14 ${msg.command},
+15 ${msg.version});
+16 return true;
+17 }
+18 %}
+19 };
+20
+21 refine typeattr RIP_PDU += &amp;amp;let {
+22 proc: bool = $context.flow.proc_rip_message(this);
+23 };
+~
+&lt;/code>&lt;/pre>
+&lt;h3 id="eventsbif文件实现">events.bif文件实现&lt;/h3>
+&lt;pre>&lt;code class="language-cpp">1 # Generated by binpac_quickstart
+1
+2 # In this file, you'll define the events that your analyzer will
+3 # generate. A sample event is included.
+4
+5 # ## TODO: Edit the sample event, and add more events.
+6
+7 ## Generated for RIP connections
+8 ##
+9 ## See `Google &amp;lt;http://lmgtfy.com/?q=RIP&amp;gt;`__ for more information about RIP
+10 ##
+11 ## c: The connection
+12 ##
+13 event rip_request%(c: connection, command: count, version: count%);
+14 Event rip_response%(c: connection, command: count, version: count%);
+&lt;/code>&lt;/pre>
+&lt;h2 id="测试">测试&lt;/h2>
+&lt;h3 id="配置bro的工作环境">配置bro的工作环境&lt;/h3>
+&lt;p>首先需要配置好bro的可执行文件的路径问题：
+Bro可执行文件的路径在：&lt;code>bro/build/src/bro&lt;/code>&lt;/p>
+&lt;pre>&lt;code class="language-bash">Guoze@node-0:~/00_Workbench/bro$ ./build/src/bro -h
+bro version 2.5-598
+usage: ./build/src/bro [options] [file ...]
+&amp;lt;file&amp;gt; | policy file, or read stdin
+-a|--parse-only | exit immediately after parsing scripts
+-b|--bare-mode | don't load scripts from the base/ directory
+-d|--debug-policy | activate policy file debugging
+-e|--exec &amp;lt;bro code&amp;gt; | augment loaded policies by given code
+-f|--filter &amp;lt;filter&amp;gt; | tcpdump filter
+&lt;/code>&lt;/pre>
+&lt;p>Bro已经提供了可执行脚本给你，让你可以方便的配置环境变量，所以我们可以直接执行配置脚本就好了。
+配置环境变量的shell脚本为：&lt;/p>
+&lt;pre>&lt;code class="language-bash">Guoze@node-0:~/00_Workbench/bro/build$ cat bro-path-dev.sh
+export BROPATH=`/users/Guoze/00_Workbench/bro/build/bro-path-dev`
+export BRO_PLUGIN_PATH=&amp;quot;/users/Guoze/00_Workbench/bro/build/src&amp;quot;:
+export PATH=&amp;quot;/users/Guoze/00_Workbench/bro/build/src&amp;quot;:$PATH
+&lt;/code>&lt;/pre>
+&lt;p>执行脚本完成配置&lt;/p>
+&lt;pre>&lt;code class="language-bash">Guoze@node-0:~/00_Workbench/bro$ source ./build/bro-path-dev.sh
+&lt;/code>&lt;/pre>
+&lt;p>检测脚本执行情况，判断是否完成配置，在终端输入：&lt;code>bro -h&lt;/code>, 如果执行结果和执行&lt;code>./build/src/bro -h&lt;/code>的结果一致，那么就表示已经配置成功了。&lt;/p>
+&lt;pre>&lt;code class="language-bash">Guoze@node-0:~/00_Workbench/bro$ bro -h
+bro version 2.5-598
+usage: bro [options] [file ...]
+&amp;lt;file&amp;gt; | policy file, or read stdin
+-a|--parse-only | exit immediately after parsing scripts
+-b|--bare-mode | don't load scripts from the base/ directory
+-d|--debug-policy | activate policy file debugging
+-e|--exec &amp;lt;bro code&amp;gt; | augment loaded policies by given code
+-f|--filter &amp;lt;filter&amp;gt; | tcpdump filter
+-g|--dump-config | dump current config into .state dir
+-h|--help|-? | command line help
+&lt;/code>&lt;/pre>
+&lt;h3 id="测试代码">测试代码&lt;/h3>
+&lt;h4 id="下载rip的网络数据抓包">下载RIP的网络数据抓包&lt;/h4>
+&lt;p>直接下载一个RIPv2的数据包就可以用于测试了
+&lt;code>$ wget http://packetlife.net/captures/RIPv2.cap&lt;/code>
+判断数据包是否是包含的RIP数据，能否符合我们的要求？&lt;/p>
+&lt;pre>&lt;code class="language-bash">Guoze@node-0:~/00_Workbench$ tcpdump -nr RIPv2.cap
+reading from file RIPv2.cap, link-type EN10MB (Ethernet)
+23:06:26.942558 IP 10.0.0.1.520 &amp;gt; 224.0.0.9.520: RIPv2, Response, length: 84
+23:06:30.158769 IP 10.0.0.2.520 &amp;gt; 224.0.0.9.520: RIPv2, Response, length: 84
+23:06:52.663855 IP 10.0.0.1.520 &amp;gt; 224.0.0.9.520: RIPv2, Response, length: 84
+23:06:58.416478 IP 10.0.0.2.520 &amp;gt; 224.0.0.9.520: RIPv2, Response, length: 84
+23:07:19.709681 IP 10.0.0.1.520 &amp;gt; 224.0.0.9.520: RIPv2, Response, length: 84
+23:07:24.974047 IP 10.0.0.2.520 &amp;gt; 224.0.0.9.520: RIPv2, Response, length: 84
+23:07:45.389720 IP 10.0.0.1.520 &amp;gt; 224.0.0.9.520: RIPv2, Response, length: 84
+23:07:53.891896 IP 10.0.0.2.520 &amp;gt; 224.0.0.9.520: RIPv2, Response, length: 84
+23:08:14.625084 IP 10.0.0.1.520 &amp;gt; 224.0.0.9.520: RIPv2, Response, length: 84
+23:08:21.933550 IP 10.0.0.2.520 &amp;gt; 224.0.0.9.520: RIPv2, Response, length: 84
+23:08:41.410659 IP 10.0.0.1.520 &amp;gt; 224.0.0.9.520: RIPv2, Response, length: 84
+23:08:47.731064 IP 10.0.0.2.520 &amp;gt; 224.0.0.9.520: RIPv2, Response, length: 84
+&lt;/code>&lt;/pre>
+&lt;h4 id="修改代码加入测试打印数据">修改代码，加入测试打印数据&lt;/h4>
+&lt;pre>&lt;code class="language-cpp"> 12 refine flow RIP_Flow += {
+11 function proc_rip_message(msg: RIP_PDU): bool
+10 %{
+9 // Check for RIP commands
+8 if ( ${msg.command} == RIP_REQUEST) {
+7 printf(&amp;quot;In rip_request\n&amp;quot;);
+6 BifEvent::generate_rip_request(connection()-&amp;gt;bro_analyzer(), connection()-&amp;gt;bro_analyzer()-&amp;gt;Conn(),
+5 ${msg.command},
+4 ${msg.version});
+3 return true;
+2 }
+1 if ( ${msg.command} == RIP_RESPONSE) {
+15 printf(&amp;quot;In rip_response\n&amp;quot;);
+1 BifEvent::generate_rip_response(connection()-&amp;gt;bro_analyzer(), connection()-&amp;gt;bro_analyzer()-&amp;gt;Conn(),
+2 ${msg.command},
+3 ${msg.version});
+4 return true;
+5 }
+6 %}
+&lt;/code>&lt;/pre>
+&lt;p>修改代码完成之后，重新编译代码:&lt;/p>
+&lt;pre>&lt;code class="language-bash">Guoze@node-0:~/00_Workbench/bro$ sudo make
+make -C build all
+make[1]: Entering directory '/users/Guoze/00_Workbench/bro/build'
+make[2]: Entering directory '/users/Guoze/00_Workbench/bro/build'
+make[3]: Entering directory '/users/Guoze/00_Workbench/bro/build'
+make[3]: Leaving directory '/users/Guoze/00_Workbench/bro/build'
+........
+........
+[100%] Built target rst
+make[2]: Leaving directory '/users/Guoze/00_Workbench/bro/build'
+make[1]: Leaving directory '/users/Guoze/00_Workbench/bro/build'
+&lt;/code>&lt;/pre>
+&lt;p>结尾和我上述结果类似的话，表示编译通过。&lt;/p>
+&lt;h4 id="使用网络抓包数据进行测试">使用网络抓包数据进行测试&lt;/h4>
+&lt;p>使用Bro导入这个数据包进行测试&lt;/p>
+&lt;pre>&lt;code class="language-bash">Guoze@node-0:~/00_Workbench$ bro -r RIPv2.cap
+In rip_response
+In rip_response
+In rip_response
+In rip_response
+In rip_response
+In rip_response
+In rip_response
+In rip_response
+In rip_response
+In rip_response
+In rip_response
+In rip_response
+&lt;/code>&lt;/pre>
+&lt;h2 id="提升理解">提升理解&lt;/h2>
+&lt;p>在前面的部分，并没有去处理&lt;code>scripts/base/protocols/rip/&lt;/code>目录下面的文件，接下来我们需要来理解这几个文件。&lt;/p>
+&lt;pre>&lt;code class="language-bash">Guoze@node-0:~/00_Workbench/bro/scripts/base/protocols/rip$ ls -l
+total 12
+-rw-r--r-- 1 Guoze senfv-PG0 245 May 23 12:49 dpd.sig
+-rw-r--r-- 1 Guoze senfv-PG0 66 May 23 12:49 __load__.bro
+-rw-r--r-- 1 Guoze senfv-PG0 1327 May 23 12:49 main.bro
+&lt;/code>&lt;/pre>
+&lt;blockquote>
+&lt;p>&lt;strong>load&lt;/strong>.bro: This allows all the contents of the directory to be loaded via @load base/protocols/sip.
+dpd.sig: This file contains a signature that can be used to attach the analyzer to connections if their content matches.
+main.bro: Contains the base script-layer functionality for processing events emitted from the analyzer.&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="__load__bro理解">&lt;strong>load&lt;/strong>.bro理解&lt;/h3>
+&lt;p>这个文件加载了所有的内容到Bro中去。&lt;/p>
+&lt;h3 id="dpdsig-digital-protocol-detection-scripts">dpd.sig (digital protocol detection scripts)&lt;/h3>
+&lt;p>当你找出来匹配你定义的特殊的协议的时候，他就会生成和调用对应的分析器去处理，我们可以这里定义它需要处理的接口&lt;/p>
+&lt;h3 id="mainbro">main.bro&lt;/h3>
+&lt;p>这个文件包含了所有的基本工作和所有分析器内容，Bro首先云心的内容&lt;/p>
+&lt;p>&amp;lt;未完待续&amp;gt;&lt;/p></description></item></channel></rss>

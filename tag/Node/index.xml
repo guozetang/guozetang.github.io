@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Node | Terry Tang</title><link>http://www.guozet.me/tag/Node/</link><atom:link href="http://www.guozet.me/tag/Node/index.xml" rel="self" type="application/rss+xml"/><description>Node</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><copyright>guozet.me © 2020</copyright><lastBuildDate>Thu, 14 Nov 2019 21:42:52 +0000</lastBuildDate><image><url>http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url><title>Node</title><link>http://www.guozet.me/tag/Node/</link></image><item><title>My workbench and Productivity tools</title><link>http://www.guozet.me/post/My-workbench-and-Productivity-tools/</link><pubDate>Thu, 14 Nov 2019 21:42:52 +0000</pubDate><guid>http://www.guozet.me/post/My-workbench-and-Productivity-tools/</guid><description>&lt;!-- TOC -->
+&lt;ul>
+&lt;li>
+&lt;a href="#hardware">Hardware&lt;/a>
+&lt;ul>
+&lt;li>
+&lt;a href="#laptop">Laptop&lt;/a>&lt;/li>
+&lt;li>
+&lt;a href="#mobile-phone">Mobile Phone&lt;/a>&lt;/li>
+&lt;li>
+&lt;a href="#accessories">Accessories&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;a href="#software">Software&lt;/a>
+&lt;ul>
+&lt;li>
+&lt;a href="#laptop-apps">Laptop Apps&lt;/a>&lt;/li>
+&lt;li>
+&lt;a href="#ios-apps">iOS Apps&lt;/a>&lt;/li>
+&lt;li>
+&lt;a href="#cloud-based-apps">Cloud-based Apps&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;!-- /TOC -->
+&lt;h1 id="hardware">Hardware&lt;/h1>
+&lt;h2 id="laptop">Laptop&lt;/h2>
+&lt;p>&lt;strong>Acer R11 Chromebook(11.5 inch, 2018)&lt;/strong>&lt;/p>
+&lt;p>Information:&lt;/p>
+&lt;ul>
+&lt;li>2018 year&lt;/li>
+&lt;li>11.6&amp;rdquo; HD (1366 x 768) 16:9 IPS&lt;/li>
+&lt;li>4 GB, DDR3L SDRAM, 32 GB SSD&lt;/li>
+&lt;li>Intel® Celeron® N3150 processor Quad-core 1.60 GHz&lt;/li>
+&lt;li>System: GalliumOS(xUbuntu)&lt;/li>
+&lt;/ul>
+&lt;!-- more -->
+&lt;h2 id="mobile-phone">Mobile Phone&lt;/h2>
+&lt;p>&lt;strong>iPhone 7 Plus(128GB)&lt;/strong>&lt;/p>
+&lt;p>I like the iOS system. It&amp;rsquo;s simple and good for me to keep touch with my friends.&lt;/p>
+&lt;h2 id="accessories">Accessories&lt;/h2>
+&lt;p>&lt;strong>iPad Pro(10.5 inch, 2017)&lt;/strong>&lt;/p>
+&lt;p>This iPad is my favorites produce. I usually use it to do somethings like follow:&lt;/p>
+&lt;ul>
+&lt;li>Reading PDF files&lt;/li>
+&lt;li>Write some post by markdown&lt;/li>
+&lt;/ul>
+&lt;h1 id="software">Software&lt;/h1>
+&lt;h2 id="laptop-apps">Laptop Apps&lt;/h2>
+&lt;ul>
+&lt;li>Chrome&lt;/li>
+&lt;li>VS code&lt;/li>
+&lt;li>Electron-SSR&lt;/li>
+&lt;li>AnyConnect&lt;/li>
+&lt;/ul>
+&lt;h2 id="ios-apps">iOS Apps&lt;/h2>
+&lt;p>&lt;strong>Security&amp;amp;Network&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;a href="https://duo.com/product/trusted-users/two-factor-authentication/duo-mobile" target="_blank" rel="noopener">Duo Mobile&lt;/a>:Secure Two-Factor Authentication App. Secure access to work and personal, cloud and on-premises apps with one simple app.&lt;/li>
+&lt;li>
+&lt;a href="https://www.lastpass.com/" target="_blank" rel="noopener">Lastpass&lt;/a>:A freemium password manager that stores encrypted passwords online.&lt;/li>
+&lt;li>VPN: AnyConnect, Quantumult&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>Productivity&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>IFTTT&lt;/li>
+&lt;li>Shortcuts&lt;/li>
+&lt;li>Scannable&lt;/li>
+&lt;li>Dropbox&lt;/li>
+&lt;li>OfficeSuite&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>Study&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>GoodNotes&lt;/li>
+&lt;li>Eudic&lt;/li>
+&lt;li>Aboboo&lt;/li>
+&lt;li>Reeder&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>Health&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>keep&lt;/li>
+&lt;li>MyFitnesspal&lt;/li>
+&lt;li>YUNMAI&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>Finance&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;a href="https://www.mint.com/" target="_blank" rel="noopener">Mint&lt;/a>: Record all the cost from my bank.(We bring together all of your accounts, bills and more, so you can conveniently manage your finances from one dashboard.)&lt;/li>
+&lt;li>随手记:Set the budget and record each cost by myself.&lt;/li>
+&lt;/ul>
+&lt;h2 id="cloud-based-apps">Cloud-based Apps&lt;/h2>
+&lt;ul>
+&lt;li>
+&lt;a href="https://ifttt.com/" target="_blank" rel="noopener">IFTTT&lt;/a>: Setup automation between apps and service.&lt;/li>
+&lt;li>
+&lt;a href="https://aws.amazon.com/" target="_blank" rel="noopener">AWS&lt;/a>(Amazon Web services): Cloud computing&lt;/li>
+&lt;li>Github&lt;/li>
+&lt;li>Travis CI&lt;/li>
+&lt;/ul></description></item><item><title>算法分析与设计－优先级队列</title><link>http://www.guozet.me/post/Algorithm-Priority-Queue/</link><pubDate>Thu, 02 May 2019 20:11:53 +0000</pubDate><guid>http://www.guozet.me/post/Algorithm-Priority-Queue/</guid><description>&lt;h1 id="优先级队列">优先级队列&lt;/h1>
+&lt;p>优先级队列：队列中的元素带有优先级，元素按照优先级不同处于队列中的不同位置．&lt;/p>
+&lt;blockquote>
+&lt;p>简单的 FIFO 队列，元素的位置与元素被加入进去时候的位置相同．优先级队列中，元素具有最高优先级（通常定义为具有最小的 key 值）的元素总是先从队列中出来．&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="使用场景">使用场景：&lt;/h2>
+&lt;ul>
+&lt;li>&lt;strong>任务调度&lt;/strong>: 操作系统中的进程调度就是使用优先级队列，有些进程优先级就是要高于其他进程（例如接电话优先级比玩游戏高）&lt;/li>
+&lt;li>&lt;strong>排序&lt;/strong>： 我们将元素插入到一个 priority queue之后，元素在优先级队列里就已经是排好序的了(时间复杂度：　$O(n \log n)$)&lt;/li>
+&lt;li>&lt;strong>使用在复杂的算法中&lt;/strong>：　比如 Dijksta&amp;rsquo;s Shortest path algorithm 算法中使用 priority queue 来保持没一个时刻的路径长度&lt;/li>
+&lt;/ul>
+&lt;h2 id="支持的操作">支持的操作&lt;/h2>
+&lt;p>所有的优先级队列都支持的操作：&lt;/p>
+&lt;ul>
+&lt;li>insert(e,k) : Insert a new element e with key k (插入一个优先级数值为key的元素e, key值越小优先级越大)&lt;/li>
+&lt;li>remove-min: 删除并返回key值最小的元素(优先级最大，也就是在队首的元素)&lt;/li>
+&lt;/ul>
+&lt;p>特殊操作：&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Decrease-key(e, k）&lt;/strong>:减少优先级队列中 key 为 e 的元素的数值(减少量为 k 值)&lt;/li>
+&lt;li>Increase-key(e, k）:增加优先级队列中 key 为 e 的元素的数值(增加量为 k 值)&lt;/li>
+&lt;li>Delete(e): 在优先级队列中去掉 key　值为 e　的元素&lt;/li>
+&lt;li>Find-min: 返回指向优先级队列中的最小值的指针&lt;/li>
+&lt;/ul>
+&lt;p>Decrease-key(e, k）常常被使用，比如迪杰斯特拉算法中需要经常使用，因为网络结点的权值一旦发生变化，那么就需要重新更新一边优先级队列&lt;/p>
+&lt;p>上面的几个操作是可以相互进行转换的：&lt;/p>
+&lt;ul>
+&lt;li>如果给我们 &lt;em>Insert(e, k)&lt;/em> 和　&lt;em>delete(e)&lt;/em> 操作，我们可以通过这两个操作实现　&lt;em>increase-key&lt;/em>　和　&lt;em>decrease-key&lt;/em>　操作&lt;/li>
+&lt;li>如果给我们 &lt;em>increase-key&lt;/em>　和　&lt;em>decrease-key&lt;/em>　操作操作，我们可以通过这两个操作实现　&lt;em>delete(e)&lt;/em> 操作&lt;/li>
+&lt;li>如果给我们 &lt;em>find-min&lt;/em>　和　&lt;em>delete&lt;/em>　操作操作，我们可以通过这两个操作实现　&lt;em>remove-min&lt;/em> 操作&lt;/li>
+&lt;li>如果给我们 &lt;em>remove-min&lt;/em>　和　&lt;em>insert&lt;/em>　操作操作，我们可以通过这两个操作实现　&lt;em>find-min&lt;/em> 操作&lt;/li>
+&lt;/ul>
+&lt;!-- more -->
+&lt;hr></description></item><item><title>Linux Bluetooth Setting</title><link>http://www.guozet.me/post/Linux-Bluetooth-Setting/</link><pubDate>Tue, 19 Feb 2019 13:55:25 +0000</pubDate><guid>http://www.guozet.me/post/Linux-Bluetooth-Setting/</guid><description>&lt;h1 id="introduce">Introduce&lt;/h1>
+&lt;p>[I ran into this issue on my Lenovo P51 running Ubuntu 18.04, and I discovered that the pactl module &amp;ldquo;module-bluetooth-discover&amp;rdquo; was not loading properly at boot time. I fixed the issue by replacing it with &amp;ldquo;module-bluez5-discover&amp;rdquo; in my pulse configuration.&lt;/p>
+&lt;p>You can test this by running:&lt;br>
+&lt;code>sudo pactl unload-module module-bluetooth-discover&lt;/code>&lt;br>
+&lt;code>sudo pactl load-module module-bluez5-discover&lt;/code>&lt;/p>
+&lt;p>And try to repair/reconnect your devices. If it works, replicate the following configuration in your /etc/pulse/default.pa config.
+](
+4&lt;/p>
+&lt;p>I ran into this issue on my Lenovo P51 running Ubuntu 18.04, and I discovered that the pactl module &amp;ldquo;module-bluetooth-discover&amp;rdquo; was not loading properly at boot time. I fixed the issue by replacing it with &amp;ldquo;module-bluez5-discover&amp;rdquo; in my pulse configuration.&lt;/p>
+&lt;p>You can test this by running:&lt;br>
+&lt;code>sudo pactl unload-module module-bluetooth-discover&lt;/code>&lt;br>
+&lt;code>sudo pactl load-module module-bluez5-discover&lt;/code>&lt;/p>
+&lt;p>And try to repair/reconnect your devices. If it works, replicate the following configuration in your /etc/pulse/default.pa config.&lt;/p>
+&lt;pre>&lt;code># Modify: /etc/pulse/default.pa
+# Comment out the following line
+.ifexists module-bluetooth-discover.so
+load-module module-bluetooth-discover
+.endif
+# Replace it with ...
+.ifexists module-bluez5-discover.so
+load-module module-bluez5-discover
+.endif
+&lt;/code>&lt;/pre>
+&lt;p>My suspicion is that this is a change that was made during the switch from Unity to Gnome and the leftover configurations remained, leaving the standard Bluetooth modules behind which don&amp;rsquo;t load correctly.&lt;/p>
+&lt;p>After switching to bluez5, I have since had no issues, and Bluetooth connects without complaint on my mobile phone, mouse, and headset. :)&lt;/p>
+&lt;p>EDIT: I also followed several steps mentioned here:
+&lt;a href="https://askubuntu.com/questions/1036195/bluetooth-doesnt-work-after-resuming-from-sleep-ubuntu-18-04-lts?noredirect=1&amp;amp;lq=1" target="_blank" rel="noopener">Bluetooth doesn&amp;rsquo;t work after resuming from sleep, Ubuntu 18.04 LTS&lt;/a>&lt;/p>
+&lt;p>To exactly replicate my configuration, make sure you &lt;code>apt-get install bluez blueman pulseaudio&lt;/code>to have all the same packages. As was suggested in the referenced problem, I believe this was caused by upgrading to 18.04 from 17.04.)&lt;/p>
+&lt;h2 id="update-bluez-to-5282">update bluez to &amp;gt;=5.28.2&lt;/h2>
+&lt;p>18.04 ships with a buggy bluez package for now; newer version is available from this PPA:
+&lt;a href="https://launchpad.net/~bluetooth/&amp;#43;archive/ubuntu/bluez" target="_blank" rel="noopener">https://launchpad.net/~bluetooth/+archive/ubuntu/bluez&lt;/a>:&lt;/p>
+&lt;pre>&lt;code>sudo add-apt-repository ppa:bluetooth/bluez
+sudo apt install bluez
+&lt;/code>&lt;/pre>
+&lt;hr>
+&lt;h3 id="workaround-for-buggy-bluetooth-applet-unity-specific">workaround for buggy Bluetooth applet (Unity specific?)&lt;/h3>
+&lt;p>This is probably the issue @solstice mentioned - BT menu applet doesn&amp;rsquo;t let me enable Bluetooth after resuming from sleep. No matter if the toggle switch is off or on, the BT icon is disabled, and rfkill output doesn&amp;rsquo;t change:&lt;/p>
+&lt;pre>&lt;code>$ rfkill list
+0: phy0: Wireless LAN
+Soft blocked: no
+Hard blocked: no
+12: hci0: Bluetooth
+Soft blocked: no
+Hard blocked: no
+&lt;/code>&lt;/pre>
+&lt;p>You can toggle BT manually by running (substitute your own ID):&lt;/p>
+&lt;pre>&lt;code>rfkill block 12
+rfkill unblock 12
+&lt;/code>&lt;/pre>
+&lt;p>and BT applet should pick it up correctly now. At this point, you should be able to connect to your devices. For now I&amp;rsquo;ve hacked it together using a script that does this automatically after resume:&lt;/p>
+&lt;pre>&lt;code>$ cat /lib/systemd/system-sleep/bt
+#!/bin/sh
+case $1 in
+post)
+sleep 5
+rfkill block `rfkill list | grep hci | cut -d: -f1`
+sleep 1
+rfkill unblock `rfkill list | grep hci | cut -d: -f1`
+;;
+esac
+&lt;/code>&lt;/pre>
+&lt;p>The ID number next to hci0 in rfkill list output seems to increment after every suspend/resume. Disabling/enabling BT using the BT menu should change the output (&amp;lsquo;soft blocked: yes&amp;rsquo; for BT disabled via menu), but it doesn&amp;rsquo;t. My guess is that the applet remembers the wrong device ID and is thus trying to enable a device that no longer exists.&lt;/p></description></item><item><title>Algorithm part I Hash Table</title><link>http://www.guozet.me/post/Algorithm-part-I-Hash-Table/</link><pubDate>Sun, 10 Feb 2019 12:07:23 +0000</pubDate><guid>http://www.guozet.me/post/Algorithm-part-I-Hash-Table/</guid><description>&lt;h1 id="hash-table">Hash Table&lt;/h1>
+&lt;p>There are four part we need to talk about the Hash-Table: &lt;code>Hash Function&lt;/code>, &lt;code>Separate Chaining&lt;/code>, &lt;code>Linear Probing&lt;/code> and &lt;code>Context&lt;/code>&lt;/p>
+&lt;blockquote>
+&lt;p>Hash tables, a data structure that achieves constant-time performance for core symbol table operations, provided that search keys are standard data types or simply defined. Then we consider several fundamental (and useful) examples of symbol-table clients.&lt;/p>
+&lt;/blockquote>
+&lt;p>&lt;strong>Basic Plan For Hash-Table&lt;/strong>&lt;/p>
+&lt;p>Save items in a &lt;code>key-indexed table&lt;/code> (index is a function of the key).&lt;/p>
+&lt;p>Hash function. Method for computing array index from key.&lt;/p>
+&lt;p>&lt;code>Hash(&amp;quot;it&amp;quot;) = 3&lt;/code>&lt;/p>
+&lt;p>The issues for this part:&lt;/p>
+&lt;ul>
+&lt;li>We need to computing the hash function.&lt;/li>
+&lt;li>Equality test: Method for checking whether tow keys are equal.&lt;/li>
+&lt;li>Collision resolution: Algorithm and data structure to handle tow keys that hash to the same array index.&lt;/li>
+&lt;/ul>
+&lt;p>Classic space-time tradeoff.&lt;/p>
+&lt;ul>
+&lt;li>No space limitation: Travial hash function with key as index.&lt;/li>
+&lt;li>No time limitation: Travial collision resolution with sequential search.&lt;/li>
+&lt;li>Space and time limitations: Hashing(The real world.)&lt;/li>
+&lt;/ul>
+&lt;h1 id="hash-function">Hash function&lt;/h1>
+&lt;ul>
+&lt;li>Efficiently computable&lt;/li>
+&lt;/ul></description></item><item><title>Algorim Lecture 2-Amortized Analysis</title><link>http://www.guozet.me/post/Algorim-Lecture-2/</link><pubDate>Tue, 15 Jan 2019 14:47:20 +0000</pubDate><guid>http://www.guozet.me/post/Algorim-Lecture-2/</guid><description>&lt;blockquote>
+&lt;p>Amortized Analysis: Adding Things in Smart ways.&lt;/p>
+&lt;/blockquote>
+&lt;p>Lots of analyses get easier when you add things together after re-grouping them in smart ways.&lt;/p>
+&lt;h1 id="introduce">Introduce&lt;/h1>
+&lt;h2 id="example-think-about-an-algorithm-from-the-perspective-of-a-data-element">Example: Think about an Algorithm from the Perspective of a Data Element&amp;hellip;&lt;/h2>
+&lt;p>&lt;strong>Example: Merge Sort&lt;/strong>&lt;/p>
+&lt;p>It takes Θ(n) time to merge two sorted lists of conbined length n.&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2019-01-15-Algorim-Lecture-2/2019-01-20-14-26-36.png" alt="">&lt;/p>
+&lt;p>Think about the runtime level by level. Each level, the runtime is O(n). Each element have one time to merge.&lt;/p>
+&lt;p>If I am is one element, one element runtime is the O(logn).&lt;/p>
+&lt;p>&lt;strong>How much of work in the function for one element.&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>Figure out &lt;code>how much work / running times is spent on a single generic element of data&lt;/code> during the course of the algorithm.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Add this up to get the total running time. (Compared to adding up the time spent on each &amp;ldquo;operation&amp;rdquo;, summed over each operation in chronological order)&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;!-- more -->
+&lt;h2 id="example-enumerating-subsets">Example: Enumerating Subsets&lt;/h2>
+&lt;p>counter = 0&lt;/p>
+&lt;pre>&lt;code>For all subsets S ⊆ {1, 2, 3, 4 ... n},
+increment counter.
+&lt;/code>&lt;/pre>
+&lt;p>What is the value of counter at the end of execution?&lt;/p>
+&lt;blockquote>
+&lt;p>Counter = n*n&lt;/p>
+&lt;/blockquote>
+&lt;p>Just two steps for each element, in the subset or not in the subset.&lt;/p>
+&lt;p>Think about the next one:&lt;/p>
+&lt;pre>&lt;code>For all subsets S ⊆ {1, 2, 3, 4 ... n},
+For all subsets T ⊆ S
+Increment Counter
+&lt;/code>&lt;/pre>
+&lt;p>Now, what is the value of counter at the end of execution?&lt;/p>
+&lt;p>If you thinking about the each subset, this is a confused way because some subsets are big and others are small. By this question, we can thing about the element by data.&lt;/p>
+&lt;p>So, each element can be in three ways: In S but not T, In S and T, not in S and T.&lt;/p>
+&lt;blockquote>
+&lt;p>Counter: n * n * n&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="example-domination-radius">Example: Domination Radius&lt;/h2>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2019-01-15-Algorim-Lecture-2/2019-01-20-14-42-39.png" alt="">&lt;/p>
+&lt;ul>
+&lt;li>Given the heights of N individuals standing in a line.&lt;/li>
+&lt;li>Goal: Find the domination radius of each individual.&lt;/li>
+&lt;/ul>
+&lt;p>In this problem, each one will expand both left and right sides. Then, this solution need &lt;code>n&lt;/code> expand time in the code. However, we want the solve this question in O(nlog n)&lt;/p>
+&lt;p>&lt;strong>Solution 1: Simple algorithm:&lt;/strong> from each element, scan left until blocked, then scan right until blocked.&lt;/p>
+&lt;blockquote>
+&lt;p>Running times: O($n^2$) worst-case&lt;/p>
+&lt;/blockquote>
+&lt;p>There is an issue with this solution, if the element have been sorted and you go to the wrong way firstly, then you will get into trouble.&lt;/p>
+&lt;p>&lt;strong>Solution 2: Refinement-&lt;/strong> From each element, scan left and right simultaneously until blocked.&lt;/p>
+&lt;blockquote>
+&lt;p>Running times: O($n^2$) worst-case&lt;/p>
+&lt;/blockquote>
+&lt;p>For each element in this array, they may have different worst time. The tallest one have the different worst time with the shortest one. The very tall people may spend a lot of works. and the lower one may only spend a few works. So, how we can get the worst-time for this solution, different element have the different worst-time in this case.
+Their behaivir is totoally different.&lt;/p>
+&lt;p>High-Work: Scan $\geq$ D, So, total: O($ \frac{n}{D}*n $ )&lt;/p>
+&lt;p>Low-Work: Scan $\leq$ D (the work per element), So,total: O(n*D)&lt;/p>
+&lt;p>n is the # of the number of element in the array, so the worst work for each element is &lt;code>n&lt;/code>. And How many elements for the high works: n/D because if the D is the each high-work element&amp;rsquo;s interval. If the interval is less than D, then the scan &amp;gt; D is error. THe number of high element is n/D&lt;/p>
+&lt;p>From the above, the total running times: O($\frac{n^2}{D} + nD$), in this case, if we choose the D is with small, the first value will be very big. However, if we choose the D is very big, the second value will be very big even though the first value change to the small value. What is the best way we can get the best running times?&lt;/p>
+&lt;p>When the $D = \sqrt{n}$, we can get the best running times: O($n^{1.5} + n^{1.5}$) = O($2*n^{1.5}$)&lt;/p>
+&lt;p>In this case, if we have a sorted array:&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2019-01-15-Algorim-Lecture-2/2019-01-17-15-15-41.png" alt="">&lt;/p>
+&lt;p>The running times is:&lt;/p>
+&lt;p>$1 + 2 + 3 + &amp;hellip; + n = \frac{n(n+1)}{2} = \Theta(n^2)$&lt;/p>
+&lt;p>Now, let&amp;rsquo;s us to thing about how to build these element more than three groups.&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>Work/Element&lt;/th>
+&lt;th>Range&lt;/th>
+&lt;th>Max Number of Element&lt;/th>
+&lt;th>Total&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>First Group&lt;/td>
+&lt;td>[n/2, n)&lt;/td>
+&lt;td>2 of them&lt;/td>
+&lt;td>O(n)&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Second Group&lt;/td>
+&lt;td>[n/4, n/2)&lt;/td>
+&lt;td>4 of them&lt;/td>
+&lt;td>O(n)&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Third Group&lt;/td>
+&lt;td>[n/8, n/4)&lt;/td>
+&lt;td>8 of them&lt;/td>
+&lt;td>O(n)&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&amp;hellip;&lt;/td>
+&lt;td>&amp;hellip;&lt;/td>
+&lt;td>&amp;hellip;&lt;/td>
+&lt;td>&amp;hellip;&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;hr>
+&lt;p>So, in this case, we get the total times: O(nlog n)&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2019-01-15-Algorim-Lecture-2/2019-01-20-14-24-12.png" alt="">&lt;/p>
+&lt;hr>
+&lt;h1 id="re-sizing-memory-blocks">Re-Sizing Memory Blocks&lt;/h1>
+&lt;p>There are some questions for the Re-Sizing Memory Blocks:&lt;/p>
+&lt;ul>
+&lt;li>Since Memory blocks often cannot expand after allocation, what do we do when a memory block fills up?&lt;/li>
+&lt;li>For example, suppose we allocate 100 words of memory space for a stack (implemented as an array), but then realize we have more than 100 elements to push onto the stack!&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>Of course, if we use a linked list would have solved this problem, but suppose we really want to use arrays instead&amp;hellip;)&lt;/p>
+&lt;/blockquote>
+&lt;p>&lt;strong>Some exixt solution for this problem&lt;/strong>&lt;/p>
+&lt;ol>
+&lt;li>A common technique for block expansion: Whenever our current block fills up, allocate a new block of twice its size and transfer the contents to the new block.&lt;/li>
+&lt;li>Unforturnaely, now some of our push operations will be quite slow!
+&lt;ul>
+&lt;li>Most push operations take only O(1) time.&lt;/li>
+&lt;li>However, a push operation &lt;strong>resulting in an expansion&lt;/strong> (and a copy of the n elements currently in the stack) will take $\Theta$(n) times.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol>
+&lt;p>So, what is the runtimes for the push.(It is hard to say.)&lt;/p>
+&lt;p>Push has a somewhat not-uniform running time profile:&lt;/p>
+&lt;ul>
+&lt;li>O(1) almost always&lt;/li>
+&lt;li>Except $\Theta$(N) every now and then.&lt;/li>
+&lt;/ul>
+&lt;p>But just saying the running time is &amp;ldquo;$\Theta$(N) in the worst case&amp;rdquo; doesn&amp;rsquo;t tell the whole story..&lt;/p>
+&lt;ul>
+&lt;li>Doesn&amp;rsquo;t do the structure justive.&lt;/li>
+&lt;li>People might be scared to use it for large input sizes&amp;hellip;&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>Most times, it is so fast.&lt;/strong> So, for these case, we need a new way to descript this case, it&amp;rsquo;s bad to misunderstanding for the only past descript.&lt;/p>
+&lt;h2 id="how-much-does-each-push-actually-cost">How much does each push actually cost?&lt;/h2>
+&lt;h3 id="if-we-insert-the-element-in-the-stackarray">If we insert the element in the stack(array)&lt;/h3>
+&lt;p>And, what about if we charge ourselves 3 units of work per operation instead&amp;hellip;?&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2019-01-15-Algorim-Lecture-2/2019-01-20-14-43-23.png" alt="">&lt;/p>
+&lt;p>&lt;strong>True&lt;/strong> cumulative cost after any sequence of k operations is upper bounded by &lt;code>fictitious&lt;/code> cumulative cost of &lt;code>3k&lt;/code>&amp;hellip;&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2019-01-15-Algorim-Lecture-2/2019-01-20-14-43-52.png" alt="">&lt;/p>
+&lt;p>And, if we change something:&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2019-01-15-Algorim-Lecture-2/2019-01-20-14-29-42.png" alt="">&lt;/p>
+&lt;p>So, how different is our version of push from a version that takes 3 units in the worst case?&lt;/p>
+&lt;h2 id="amortized-analysis">Amortized Analysis&lt;/h2>
+&lt;p>Any sequence of k pushes takes O(k) worst-case time, so we say that push takes O(1) &lt;strong>amortized time&lt;/strong>.&lt;/p>
+&lt;p>&lt;strong>On average&lt;/strong>, over the entire sequence, each individual push therefore takes O(1) time.&lt;/p>
+&lt;p>In general, an operation runs in O(f(n)) amortized time if any sequence of k such operations runs in O(k * f(n)) time.&lt;/p>
+&lt;h3 id="the-motivation-for-the-amortized-analysis">The motivation for the Amortized Analysis&lt;/h3>
+&lt;p>Amortized analysis is an ideal way to characterize the worst-case running time of operations with highly non-uniform performance.&lt;/p>
+&lt;p>It is still &lt;code>worst-case&lt;/code> analysis, just averaged over an arbitrary sequence of operations. And, it gives us a much clearer picture of the true performance of a data structure that more faithfully describes the true performance. (For example, $\Theta(N)$ worst case vs. O(1) amortized.)&lt;/p>
+&lt;p>&lt;strong>Example&lt;/strong>&lt;/p>
+&lt;p>Suppose we have 2 implementations of a data structure to choose from:&lt;/p>
+&lt;ul>
+&lt;li>O(log n) worst-case time / operation&lt;/li>
+&lt;li>O(log n) amortized time / operation&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>There is no difference if we use either A or B as part of &lt;strong>a larger algorithm&lt;/strong>. For example, if our algorithm makes n calls to the data structure, the running time is O(n log n) in either case.&lt;/p>
+&lt;/blockquote>
+&lt;p>The choice between A and B only matters in &lt;strong>a &amp;ldquo;real-time&amp;rdquo; setting&lt;/strong> when the response time of an &lt;strong>individual operation&lt;/strong> is important.&lt;/p>
+&lt;p>If the dataset is not big, you want to as fast as they can. Then choose the first one.&lt;/p>
+&lt;h3 id="generalizing-to-multiple-operations">Generalizing to Multiple operations&lt;/h3>
+&lt;p>We say an operation A requires O(f(n)) amortized time if any sequence of k invocations of A requires O(k f(n)) time in the worst case.&lt;/p>
+&lt;p>We say operations A and B have amortized running times of O($f_A(n)$) and O($f_B(n)$) if any sequence containing $K_A$ invocations of A and $K_B$ invocations of B requires: $O(K_A f_A(n) + K_B f_B(n))$. And so on, for 3 or more operations&amp;hellip;&lt;/p>
+&lt;h3 id="a-simple-but-often-limited-method-for-amortized-analysis">A simple, but often limited, method for Amortized analysis&lt;/h3>
+&lt;p>Compute the worst-case running time for an arbitrary sequence of k operations, then divide by k. Unfortunately, it is often hard to bound the running time of an arbitrary sequence of k operations.(Especially if the operations are of several types &amp;ndash; for example, &amp;ldquo;push&amp;rdquo; and &amp;ldquo;pop&amp;rdquo;)&amp;hellip;&lt;/p>
+&lt;hr>
+&lt;h2 id="accounting-method-analysis">Accounting Method Analysis&lt;/h2>
+&lt;p>&lt;strong>Example Using Memory Re-Sizing&lt;/strong>&lt;/p>
+&lt;p>Charge 3 units (i.e., O(1) amortized time) for each push operation.&lt;/p>
+&lt;ul>
+&lt;li>1 unit for the immediate push.&lt;/li>
+&lt;li>&amp;ldquo;$2&amp;rdquo; credit for future memory expansions.&lt;/li>
+&lt;/ul>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2019-01-15-Algorim-Lecture-2/2019-01-20-14-30-42.png" alt="">&lt;/p>
+&lt;p>You charged upfront and use it later. Ans the dataset is not changed. Just make this quesiton like you pay for the car fees which we talked before.&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2019-01-15-Algorim-Lecture-2/2019-01-20-14-33-04.png" alt="">&lt;/p>
+&lt;p>There are the same thing, pay for the cost which you may be used in the future. The data you need pay for is not changed, just make each step siilar.&lt;/p>
+&lt;h3 id="what-about-adding-pop---will-this-work-well">What about adding &amp;ldquo;Pop&amp;rdquo; - Will this work well?&lt;/h3>
+&lt;p>When the buffer fills up due to too many pushes, double its size. And when the buffer becomes less than half full due to too many pops, halve its size. We want think about how to make the most space in the buffer are effective.&lt;/p>
+&lt;blockquote>
+&lt;p>If we use the half of the buffer as the line to detect double its size or half its size, this buffer may double and half frequently if these data size close with the half of buffer size.&lt;/p>
+&lt;/blockquote>
+&lt;p>Change to When the buffer becomes less than one quarter full due to too many pops, halve its size. When the buffer fills up due to too many pushes, double its size.&lt;/p>
+&lt;h4 id="example-the-min-queue">Example: The Min-Queue&lt;/h4>
+&lt;p>Using either a linked list or a (circular) array, it is easy to implement a FIFO queue supporting the insert and delete operations both in O(1) worst-case time.&lt;/p>
+&lt;p>Suppose that we also want to support a find-min-operation, which returns the value of the minimum element currently present in the queue.&lt;strong>It is possible to implement a &amp;ldquo;min-queue&amp;rdquo; supporting insert, delete, and find-min all in O(1) worst-case time?&lt;/strong>&lt;/p>
+&lt;p>If we use a new structure about the Min-Queue as a Pair of &amp;ldquo;Back-to-Back&amp;rdquo; Min-Stacks.&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2019-01-15-Algorim-Lecture-2/2019-01-20-16-33-05.png" alt="">&lt;/p>
+&lt;p>We insert the data at the blue side, and delete the element at the yellow side. And, what will waste a lot of time in this case?&lt;/p>
+&lt;blockquote>
+&lt;p>When yellow stack becomes empty, spend O(n) time and transfer the contents of blue stack into the yellow stacks. Just like the blue stack pop and the yellow stack push the element in the stack.&lt;/p>
+&lt;/blockquote>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2019-01-15-Algorim-Lecture-2/2019-01-20-16-34-36.png" alt="">&lt;/p></description></item></channel></rss>

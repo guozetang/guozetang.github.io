@@ -1,0 +1,248 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=generator content="Source Themes Academic 4.8.0"><meta name=author content="Terry Tang"><meta name=description content="Linux内核课第六周作业。本文在云课堂中实验楼完成。
+
+唐国泽 原创作品转载请注明出处.
+
+《Linux内核分析》MOOC课程"><link rel=alternate hreflang=en-us href=http://www.guozet.me/post/Linux-kernel-analysis-building-task/><meta name=theme-color content="#3f51b5"><script src=/js/mathjax-config.js></script><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin=anonymous><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-1/css/all.min.css integrity="sha256-4w9DunooKSr3MFXHXWyFER38WmPdm361bQS/2KUWZbU=" crossorigin=anonymous><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin=anonymous><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/github.min.css crossorigin=anonymous title=hl-light><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/github.min.css crossorigin=anonymous title=hl-dark disabled><script src=https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.2/lazysizes.min.js integrity="sha256-Md1qLToewPeKjfAHU1zyPwOutccPAm5tahnaw7Osw0A=" crossorigin=anonymous async></script><script src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js integrity crossorigin=anonymous async></script><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CRoboto:400,400italic,700%7CRoboto+Mono&display=swap"><link rel=stylesheet href=/css/academic.css><link rel=manifest href=/index.webmanifest><link rel=icon type=image/png href=/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_32x32_fill_lanczos_center_2.png><link rel=apple-touch-icon type=image/png href=/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_192x192_fill_lanczos_center_2.png><link rel=canonical href=http://www.guozet.me/post/Linux-kernel-analysis-building-task/><meta property="twitter:card" content="summary"><meta property="og:site_name" content="Terry Tang"><meta property="og:url" content="http://www.guozet.me/post/Linux-kernel-analysis-building-task/"><meta property="og:title" content="Linux内核分析课程6_进程创建 | Terry Tang"><meta property="og:description" content="Linux内核课第六周作业。本文在云课堂中实验楼完成。
+
+唐国泽 原创作品转载请注明出处.
+
+《Linux内核分析》MOOC课程"><meta property="og:image" content="http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png"><meta property="twitter:image" content="http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png"><meta property="og:locale" content="en-us"><meta property="article:published_time" content="2015-03-07T13:04:27+00:00"><meta property="article:modified_time" content="2015-03-07T13:04:27+00:00"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://www.guozet.me/post/Linux-kernel-analysis-building-task/"},"headline":"Linux内核分析课程6_进程创建","datePublished":"2015-03-07T13:04:27Z","dateModified":"2015-03-07T13:04:27Z","author":{"@type":"Person","name":"Terry Tang"},"publisher":{"@type":"Organization","name":"Terry Tang","logo":{"@type":"ImageObject","url":"http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_192x192_fill_lanczos_center_2.png"}},"description":"\u003cp\u003eLinux内核课第六周作业。本文在云课堂中实验楼完成。\u003cbr\u003e\n\n\u003ca href=\"http://guozet.me/about/\" target=\"_blank\" rel=\"noopener\"\u003e唐国泽\u003c/a\u003e 原创作品转载请注明出处.\u003cbr\u003e\n\n\u003ca href=\"http://mooc.study.163.com/course/USTC-1000029000\" target=\"_blank\" rel=\"noopener\"\u003e《Linux内核分析》MOOC课程\u003c/a\u003e\u003c/p\u003e"}</script><title>Linux内核分析课程6_进程创建 | Terry Tang</title></head><body id=top data-spy=scroll data-offset=70 data-target=#TableOfContents><aside class=search-results id=search><div class=container><section class=search-header><div class="row no-gutters justify-content-between mb-3"><div class=col-6><h1>Search</h1></div><div class="col-6 col-search-close"><a class=js-search href=#><i class="fas fa-times-circle text-muted" aria-hidden=true></i></a></div></div><div id=search-box><input name=q id=search-query placeholder=Search... autocapitalize=off autocomplete=off autocorrect=off spellcheck=false type=search></div></section><section class=section-search-results><div id=search-hits></div></section></div></aside><nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id=navbar-main><div class=container><div class="d-none d-lg-inline-flex"><a class=navbar-brand href=/>Terry Tang</a></div><button type=button class=navbar-toggler data-toggle=collapse data-target=#navbar-content aria-controls=navbar aria-expanded=false aria-label="Toggle navigation">
+<span><i class="fas fa-bars"></i></span></button><div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none"><a class=navbar-brand href=/>Terry Tang</a></div><div class="navbar-collapse main-menu-item collapse justify-content-start" id=navbar-content><ul class="navbar-nav d-md-inline-flex"><li class=nav-item><a class="nav-link active" href=/post><span>Posts</span></a></li><li class=nav-item><a class=nav-link href=/#projects><span>Projects</span></a></li><li class=nav-item><a class=nav-link href=/#featured><span>Publications</span></a></li><li class=nav-item><a class=nav-link href=/courses/><span>Courses</span></a></li><li class=nav-item><a class=nav-link href=/leetcode><span>Leetcode</span></a></li><li class=nav-item><a class=nav-link href=/#contact><span>Contact</span></a></li></ul></div><ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2"><li class=nav-item><a class="nav-link js-search" href=#><i class="fas fa-search" aria-hidden=true></i></a></li><li class="nav-item dropdown theme-dropdown"><a href=# class="nav-link js-theme-selector" data-toggle=dropdown aria-haspopup=true><i class="fas fa-palette" aria-hidden=true></i></a><div class=dropdown-menu><a href=# class="dropdown-item js-set-theme-light"><span>Light</span></a>
+<a href=# class="dropdown-item js-set-theme-dark"><span>Dark</span></a>
+<a href=# class="dropdown-item js-set-theme-auto"><span>Automatic</span></a></div></li></ul></div></nav><article class=article><div class="article-container pt-3"><h1>Linux内核分析课程6_进程创建</h1><div class=article-metadata><span class=article-date>Mar 7, 2015</span>
+<span class=middot-divider></span><span class=article-reading-time>7 min read</span>
+<span class=middot-divider></span><a href=/post/Linux-kernel-analysis-building-task/#disqus_thread></a><span class=middot-divider></span><span class=article-categories><i class="fas fa-folder mr-1"></i><a href=/category/Linux/>Linux</a></span></div></div><div class=article-container><div class=article-style><p>Linux内核课第六周作业。本文在云课堂中实验楼完成。<br><a href=http://guozet.me/about/ target=_blank rel=noopener>唐国泽</a> 原创作品转载请注明出处.<br><a href=http://mooc.study.163.com/course/USTC-1000029000 target=_blank rel=noopener>《Linux内核分析》MOOC课程</a></p><h1 id=fork系统调用>fork()系统调用</h1><h2 id=预备知识>预备知识</h2><p>这里先列出一些必要的预备知识，对linux下进程机制比较熟悉的朋友可以略过。</p><ol><li>进程可以看做程序的一次执行过程。在linux下，每个进程有唯一的PID标识进程。PID是一个从1到32768的正整数，其中1一般是特殊进程init，其它进程从2开始依次编号。当用完32768后，从2重新开始。</li><li>linux中有一个叫进程表的结构用来存储当前正在运行的进程。可以使用“ps aux”命令查看所有正在运行的进程。</li><li>进程在linux中呈树状结构，init为根节点，其它进程均有父进程，某进程的父进程就是启动这个进程的进程，这个进程叫做父进程的子进程。</li></ol><blockquote><p>[上述摘自:
+<a href=http://www.cnblogs.com/leoo2sk/archive/2009/12/11/talk-about-fork-in-linux.html target=_blank rel=noopener>从一道面试题谈linux下fork的运行机制]</a></p></blockquote><p>下面分析一个简单的例子:</p><pre><code class=language-C>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+int main(int argc, char * argv[])
+{
+        int pid;
+        /* fork another process */
+        pid = fork();
+        if (pid &lt; 0) 
+        { 
+                /* error occurred */
+                fprintf(stderr,&quot;Fork Failed!&quot;);
+                exit(-1);
+        } 
+        else if (pid == 0) 
+        {
+                /* child process */
+                printf(&quot;This is Child Process!\n&quot;);
+        } 
+        else 
+        {  
+                /* parent process  */
+                printf(&quot;This is Parent Process!\n&quot;);
+                /* parent will wait for the child to complete*/
+                wait(NULL);
+                printf(&quot;Child Complete!\n&quot;);
+        }
+}
+</code></pre><p>比较简单,运行结果为:</p><pre><code class=language-bash>This is Child Process!
+This is Parent Process!
+Child Complete!
+</code></pre><p><strong>在pid = fork()前,只有一个进程执行这段代码</strong>,但在这条语句滞后,就有两个进程在执行后面的代码了,接下来的代码是:</p><p><code>if(pid.....)</code></p><p>补充: fork语句的返回值,fork系统调用调用一次, 返回两次, 在这里有可能有三种返回值</p><ul><li>在父进程中，<strong>fork返回新创建子进程的进程ID</strong></li><li>在子进程中，fork返回0</li><li>如果出现错误，fork返回一个负值</li></ul><p>所有在这段代码中, 如果pid = fork()执行成功, 那就有两个进程了, 一个父进程和一个子进程, 在子进程中，fork函数返回0，在父进程中，fork返回新创建子进程的进程ID。我们可以通过fork返回的值来判断当前进程是子进程还是父进程。</p><p>fork出错可能有两种原因：</p><ul><li>当前的进程数已经达到了系统规定的上限，这时errno的值被设置为EAGAIN。系统内存不足，这时errno的值被设置为ENOMEM。</li><li>创建新进程成功后，系统中出现两个基本完全相同的进程，<strong>这两个进程执行没有固定的先后顺序，哪个进程先执行要看系统的进程调度策略</strong>。</li></ul><p>参考博文:
+<a href=http://blog.csdn.net/jason314/article/details/5640969 target=_blank rel=noopener>linux中fork（）函数详解（原创！！实例讲解）</a></p><h1 id=fork对应的系统调用过程>fork对应的系统调用过程</h1><p>在 Linux 内核中,供用户创建进程的系统调用fork()函数的响应函数是 sys_fork()、sys_clone()、sys_vfork()。<br>这三个函数<strong>都是通过调用内核函数 do_fork() 来实现的</strong>。根据调用时所使用的 clone_flags 参数不同，do_fork() 函数完成的工作也各异。下面分析do_fork(), 该函数主要作用是复制原来的进程成为另一个新的进程，它完成了整个进程的创建过程。</p><h2 id=do_fork函数的几个参数>do_fork()函数的几个参数:</h2><ul><li><p>clone_flags：该标志位的4个字节分为两部分。最低的一个字节为子进程结束时发送给父进程的信号代码，通常为SIGCHLD；剩余的三个字节则是各种clone标志的组合。通过clone标志可以有选择的对父进程的资源进行复制。例如CLONE_VM表示共享内存描述符合所有的页表； CLONE_FS共享根目录和当前工作目录所在的表以及权限掩码。</p></li><li><p>statck_start：子进程用户态堆栈的地址；</p></li><li><p>regs：指向pt_regs结构体的指针。当系统发生系统调用，即用户进程从用户态切换到内核态时，该结构体保存通用寄存器中的值，并被存放于内核态的堆栈中；</p></li><li><p>stack_size：未被使用，通常被赋值为0；</p></li><li><p>parent_tidptr：父进程在用户态下pid的地址，该参数在CLONE_PARENT_SETTID标志被设定时有意义；</p></li><li><p>child_tidptr：子进程在用户态下pid的地址，该参数在CLONE_CHILD_SETTID标志被设定时有意义。</p></li></ul><h2 id=do_fork-函数生成一个新的进程>do_fork() 函数生成一个新的进程</h2><ul><li>建立进程控制结构并赋初值，使其成为进程映像。这个过程完成以下内容。</li></ul><blockquote><ol><li>在内存中分配一个 task_struct 数据结构，以代表即将产生的新进程。</li><li>把父进程 PCB 的内容复制到新进程的 PCB 中。</li><li>**为新进程分配一个唯一的进程标识号 PID 和 user_struct 结构。**然后检查用户具有执行一个新进程所必须具有的资源。</li><li>重新设置 task_struct 结构中那些与父进程值不同的数据成员。</li><li>设置进程管理信息，根据所提供的 clone_flags 参数值，决定是否对父进程 task_struct 中的指针 fs 、files 指针等所选择的部分进行拷贝，如果 clone_flags 参数指明的是共享而不是拷贝，则将其计数器 count 的值加 1 ，否则就拷贝新进程所需要的相关信息内容 PCB 。这个地方是区分 sys_fork() 还是 sys_clone() 。</li></ol></blockquote><ul><li>必须为新进程的执行设置跟踪进程执行情况的相关内核数据结构。包括 任务数组、自由时间列表 tarray_freelist 以及 pidhash[] 数组。这部分完成如下内容：</li></ul><blockquote><ol><li>把新进程加入到进程链表中</li><li>把新进程加入到 pidhash 散列表中，并增加任务计数值。</li><li>通过拷贝父进程的上、下文来初始化硬件的上下文（TSS段、LDT以及 GDT）。</li></ol></blockquote><ul><li>启动调度程序，使子进程获得运行的机会。这部分完成以下动作：</li></ul><blockquote><ol><li>设置新的就绪队列状态 TASK_RUNING , 并将新进程挂到就绪队列中，并重新启动调度程序使其运行。</li><li>向父进程返回子进程的 PID，设置子进程从 do_fork() 返回 0 值。</li></ol></blockquote><pre><code class=language-C>	int do_fork(unsigned long clone_flags,unsigned long stack_start, struct pt_regs *regs,
+	                unsigned long stack_size)
+	{
+	        int                   retval;
+	        struct  task_struct   *p;
+	        struct  completion    vfork;
+
+        retval = -EPERM ;
+
+        if ( clone_flags &amp; CLONE_PID )
+        {
+              if ( current-&gt;pid )
+                      goto fork_out;
+        }
+
+        reval = -ENOMEM ;
+        
+        p = alloc_task_struct();    // 分配内存建立新进程的 task_struct 结构
+        if ( !p )
+               goto fork_out;
+
+        *p = *current ;  //将当前进程的 task_struct 结构的内容复制给新进程的 PCB结构
+
+        retval = -EAGAIN;
+
+        //下面代码对父、子进程 task_struct 结构中不同值的数据成员进行赋值
+
+        if ( atomic_read ( &amp;p-&gt;user-&gt;processes ) &gt;= p-&gt;rlim[RLIMIT_NPROC].rlim_cur
+                &amp;&amp; !capable( CAP_SYS_ADMIN ) &amp;&amp; !capable( CAP_SYS_RESOURCE ))
+                goto bad_fork_free;
+
+        atomic_inc ( &amp;p-&gt;user-&gt;__count);   //count 计数器加 1
+        atomic_inc ( &amp;p-&gt;user-&gt;processes); //进程数加 1
+
+        if ( nr_threads &gt;= max_threads )
+               goto bad_fork_cleanup_count ;
+
+        get_exec_domain( p-&gt;exec_domain );
+
+        if ( p-&gt;binfmt &amp;&amp; p-&gt;binfmt-&gt;module )
+                  __MOD_INC_USE_COUNT( p-&gt;binfmt-&gt;module ); //可执行文件 binfmt 结构共享计数 + 1 
+        p-&gt;did_exec = 0 ;                                   //进程未执行
+        p-&gt;swappable = 0 ;                                  //进程不可换出
+        p-&gt;state = TASK_UNINTERRUPTIBLE ;                   //置进程状态
+        copy_flags( clone_flags,p );                        //拷贝进程标志位
+        p-&gt;pid = get_pid( clone_flags );                    //为新进程分配进程标志号
+        p-&gt;run_list.next = NULL ;
+        p-&gt;run_list.prev = NULL ;
+        p-&gt;run_list.cptr = NULL ;
+
+        init_waitqueue_head( &amp;p-&gt;wait_childexit );          //初始化 wait_childexit 队列
+
+        p-&gt;vfork_done  = NULL ;
+
+        if ( clone_flags &amp; CLONE_VFORK ) {
+               p-&gt;vfork_done = &amp;vfork ; 
+               init_completion(&amp;vfork) ;
+        }
+
+        spin_lock_init( &amp;p-&gt;alloc_lock );
+
+        p-&gt;sigpending = 0 ;
+
+        init_sigpending( &amp;p-&gt;pending );
+        p-&gt;it_real_value = p-&gt;it_virt_value = p-&gt;it_prof_value = 0 ; //初始化时间数据成员
+        p-&gt;it_real_incr = p-&gt;it_virt_incr = p-&gt;it_prof_incr = 0 ;    //初始化定时器结构
+        init_timer( &amp;p-&gt;real_timer );
+        p-&gt;real_timer.data = (unsigned long)p;
+        p-&gt;leader = 0 ;
+        p-&gt;tty_old_pgrp = 0 ;
+        p-&gt;times.tms_utime = p-&gt;times.tms_stime = 0 ;                 //初始化进程的各种运行时间
+        p-&gt;times.tms_cutime = p-&gt;times.tms_cstime = 0 ;
+	#ifdef CONFIG_SMP                 //初始化对称处理器成员
+	   {
+	        int      i;
+	        p-&gt;cpus_runnable = ~0UL;
+	        p-&gt;processor = current-&gt;processor ;
+	        for( i = 0 ; i &lt; smp_num_cpus ; i++ )
+	                 p-&gt;per_cpu_utime[ i ] = p-&gt;per_cpu_stime[ i ] = 0;
+	        spin_lock_init ( &amp;p-&gt;sigmask_lock );
+	    }
+
+	#endif
+        p-&gt;lock_depth = -1 ;        // 注意：这里 -1 代表 no ,表示在上下文切换时，内核不上锁
+        p-&gt;start_time = jiffies ;   // 设置进程的起始时间
+
+        INIT_LIST_HEAD ( &amp;p-&gt;local_pages );
+        retval = -ENOMEM ;
+
+        if ( copy_files ( clone_flags , p ))      //拷贝父进程的 files 指针，共享父进程已打开的文件
+                goto bad_fork_cleanup ;
+
+        if ( copy_fs ( clone_flags , p ))         //拷贝父进程的 fs 指针，共享父进程文件系统
+                goto bad_fork_cleanup_files ;
+
+        if ( copy_sighand ( clone_flags , p ))    //子进程共享父进程的信号处理函数指针
+                goto bad_fork_cleanup_fs ;
+
+        if ( copy_mm ( clone_flags , p ))
+                goto bad_fork_cleanup_mm ;        //拷贝父进程的 mm 信息，共享存储管理信息
+
+        retval = copy_thread( 0 , clone_flags , stack_start, stack_size , p regs );
+                                                  //初始化 TSS、LDT以及GDT项
+
+        if ( retval )
+                goto bad_fork_cleanup_mm ;
+
+        p-&gt;semundo = NULL ;                       //初始化信号量成员
+
+        p-&gt;prent_exec_id = p-self_exec_id ;
+
+        p-&gt;swappable = 1 ;                        //进程占用的内存页面可换出
+
+        p-&gt;exit_signal = clone_flag &amp; CSIGNAL ;
+
+        p-&gt;pdeatch_signal = 0 ;                   //注意：这里是父进程消亡后发送的信号
+
+        p-&gt;counter = (current-&gt;counter + 1) &gt;&gt; 1 ;//进程动态优先级，这里设置成父进程的一半,应注意的是，这里是采用位操作来实现的。
+
+        current-&gt;counter &gt;&gt; =1;
+
+        if ( !current-&gt;counter )
+                current-&gt;need_resched = 1 ;        //置位重新调度标记，实际上从这个地方开始，分裂成了父子两个进程。
+        
+        retval = p-&gt;pid ;
+
+        p-&gt;tpid = retval ;
+        INIT_LIST_HEAD( &amp;p-&gt;thread_group );
+
+        write_lock_irq( &amp;tasklist_lock );
+
+        p-&gt;p_opptr = current-&gt;p_opptr ;
+        p-&gt;p_pptr = current-&gt;p_pptr ;
+
+        if ( !( clone_flags &amp; (CLONE_PARENT | CLONE_THREAD ))) {
+                 p-&gt;opptr = current ;
+                 if ( !(p-&gt;ptrace &amp; PT_PTRACED) )
+                         p-&gt;p_pptr = current ;
+        }
+
+        if ( clone_flags &amp; CLONE_THREAD ){
+                 p-&gt;tpid = current-&gt;tpid ;
+                 list_add ( &amp;p-&gt;thread_group,&amp;current-&gt;thread_group );
+        }
+
+        SET_LINKS(p);
+
+        hash_pid(p);
+        nr_threads++;
+
+        write_unlock_irq( &amp;tasklist_lock );
+        if ( p-&gt;ptrace &amp; PT_PTRACED )
+                  send_sig( SIGSTOP , p ,1 );
+        wake_up_process(p);        //把新进程加入运行队列，并启动调度程序重新调度，使新进程获得运行机会
+        ++total_forks ; 
+        if ( clone_flags &amp; CLONE_VFRK )
+                  wait_for_completion(&amp;vfork);
+
+        //以下是出错处理部分
+        fork_out:
+                  return retval;
+        bad_fork_cleanup_mm:
+                  exit_mm(p);
+        bad_fork_cleanup_sighand:
+                  exit_sighand(p);
+        bad_fork_cleanup_fs:
+                  exit_fs(p);
+        bad_fork_cleanup_files:
+                  exit_files(p);
+
+        bad_fork_cleanup:
+                  put_exec_domain( p-&gt;exec_domain );
+
+                  if ( p-&gt;binfmt &amp;&amp; p-&gt;binfmt-&gt;module )
+                                __MOD_DEC_USE_COUNT( p-&gt;binfmt-&gt;module );
+        bad_fork_cleanup_count:
+                  atomic_dec( &amp;p-&gt;user-&gt;processes );
+                  free_uid ( p-&gt;user );
+        bad_fork_free:
+                  free_task_struct(p);
+                  goto fork_out;
+	}
+</code></pre><h1 id=实验>实验</h1><p>实验是在实验楼完成的:</p><p><img src=/images/in-post/2015-07-13-Linux-kernel-analysis-building-task/2018-09-19-01-45-16.png alt></p><p>总结:
+<strong>新进程的执行起点为: ret_form_fork</strong></p><p>当他从ret_from_fork退出时，会从堆栈中弹出原来保存的eip，而ip指向kernel_thread_helper,</p><p>至此kernel_thread_helper被调用，他就能够运行我们的指定的函数了do_exit().
+do_fork的执行流程可如下图表示:</p><p><img src=/images/in-post/2015-07-13-Linux-kernel-analysis-building-task/2018-09-19-01-45-40.png alt></p><p>图摘自:
+<a href=http://www.ahlinux.com/start/base/6893.html target=_blank rel=noopener>Linux进程切换</a></p></div><div class=article-tags><a class="badge badge-light" href=/tag/Linux-kernel/>Linux kernel</a></div><div class=share-box aria-hidden=true><ul class=share><li><a href="https://twitter.com/intent/tweet?url=http://www.guozet.me/post/Linux-kernel-analysis-building-task/&text=Linux%e5%86%85%e6%a0%b8%e5%88%86%e6%9e%90%e8%af%be%e7%a8%8b6_%e8%bf%9b%e7%a8%8b%e5%88%9b%e5%bb%ba" target=_blank rel=noopener class=share-btn-twitter><i class="fab fa-twitter"></i></a></li><li><a href="https://www.facebook.com/sharer.php?u=http://www.guozet.me/post/Linux-kernel-analysis-building-task/&t=Linux%e5%86%85%e6%a0%b8%e5%88%86%e6%9e%90%e8%af%be%e7%a8%8b6_%e8%bf%9b%e7%a8%8b%e5%88%9b%e5%bb%ba" target=_blank rel=noopener class=share-btn-facebook><i class="fab fa-facebook"></i></a></li><li><a href="mailto:?subject=Linux%e5%86%85%e6%a0%b8%e5%88%86%e6%9e%90%e8%af%be%e7%a8%8b6_%e8%bf%9b%e7%a8%8b%e5%88%9b%e5%bb%ba&body=http://www.guozet.me/post/Linux-kernel-analysis-building-task/" target=_blank rel=noopener class=share-btn-email><i class="fas fa-envelope"></i></a></li><li><a href="https://www.linkedin.com/shareArticle?url=http://www.guozet.me/post/Linux-kernel-analysis-building-task/&title=Linux%e5%86%85%e6%a0%b8%e5%88%86%e6%9e%90%e8%af%be%e7%a8%8b6_%e8%bf%9b%e7%a8%8b%e5%88%9b%e5%bb%ba" target=_blank rel=noopener class=share-btn-linkedin><i class="fab fa-linkedin-in"></i></a></li><li><a href="https://web.whatsapp.com/send?text=Linux%e5%86%85%e6%a0%b8%e5%88%86%e6%9e%90%e8%af%be%e7%a8%8b6_%e8%bf%9b%e7%a8%8b%e5%88%9b%e5%bb%ba%20http://www.guozet.me/post/Linux-kernel-analysis-building-task/" target=_blank rel=noopener class=share-btn-whatsapp><i class="fab fa-whatsapp"></i></a></li><li><a href="https://service.weibo.com/share/share.php?url=http://www.guozet.me/post/Linux-kernel-analysis-building-task/&title=Linux%e5%86%85%e6%a0%b8%e5%88%86%e6%9e%90%e8%af%be%e7%a8%8b6_%e8%bf%9b%e7%a8%8b%e5%88%9b%e5%bb%ba" target=_blank rel=noopener class=share-btn-weibo><i class="fab fa-weibo"></i></a></li></ul></div><div class="media author-card content-widget-hr"><img class="avatar mr-3 avatar-circle" src=/author/Terry-Tang/avatar_hu0d5a7b86078ca7c7d7d2e2c9e8f7e04b_578713_270x270_fill_q90_lanczos_center.jpg alt="Terry Tang"><div class=media-body><h5 class=card-title><a href=http://www.guozet.me/>Terry Tang</a></h5><h6 class=card-subtitle>Software Development Engineer</h6><p class=card-text>My research interests include distributed robotics, mobile computing and programmable matter.</p><ul class=network-icon aria-hidden=true><li><a href=/#contact><i class="fas fa-envelope"></i></a></li><li><a href=https://github.com/guozetang target=_blank rel=noopener><i class="fab fa-github"></i></a></li><li><a href=https://www.facebook.com/guozetang target=_blank rel=noopener><i class="fab fa-facebook"></i></a></li><li><a href=https://www.linkedin.com/in/guoze/ target=_blank rel=noopener><i class="fab fa-linkedin"></i></a></li><li><a href=https://instagram.com/guozetang target=_blank rel=noopener><i class="fab fa-instagram"></i></a></li><li><a href=https://leetcode.com/guozetang/ target=_blank rel=noopener><i class="fas fa-laptop-code"></i></a></li><li><a href=/files/cv.pdf><i class="ai ai-cv"></i></a></li></ul></div></div><section id=comments><div id=disqus_thread></div><script>let disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return;}
+var d=document,s=d.createElement('script');s.async=true;s.src='https://'+"guozet-me"+'.disqus.com/embed.js';s.setAttribute('data-timestamp',+new Date());(d.head||d.body).appendChild(s);})();</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></section><div class="article-widget content-widget-hr"><h3>Related</h3><ul><li><a href=/post/Linux-Kernel-analysis-Os-work-copy/>Linux内核分析课程2_操作系统是如何工作的</a></li><li><a href=/post/Linux-Kernel-analysis-Os-work/>Linux内核分析课程2_操作系统是如何工作的</a></li><li><a href=/post/Linux-Kernel-analysis-Start-Kernel-Function/>Linux内核分析课程3_start_kernel()函数分析</a></li><li><a href=/post/Linux-kernel-analysis-system-call/>Linux内核分析课程4_Linux系统调用</a></li><li><a href=/post/Linux-kernel-analysis-interrupt/>Linux内核分析课程5_System call中断处理过程</a></li></ul></div></div></article><script src=https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin=anonymous></script><script src=https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin=anonymous></script><script src=https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin=anonymous></script><script src=https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin=anonymous></script><script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js integrity="sha256-eOgo0OtLL4cdq7RdwRUiGKLX9XsIJ7nGhWEKbohmVAQ=" crossorigin=anonymous></script><script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/languages/r.min.js></script><script>const code_highlighting=true;</script><script>const isSiteThemeDark=false;</script><script>const search_config={"indexURI":"/index.json","minLength":1,"threshold":0.3};const i18n={"no_results":"No results found","placeholder":"Search...","results":"results found"};const content_type={'post':"Posts",'project':"Projects",'publication':"Publications",'talk':"Talks"};</script><script id=search-hit-fuse-template type=text/x-template>
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script><script src=https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin=anonymous></script><script src=https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin=anonymous></script><script id=dsq-count-scr src=https://guozet-me.disqus.com/count.js async></script><script src=/js/academic.min.37431be2d92d7fb0160054761ab79602.js></script><div class=container><footer class=site-footer><p class=powered-by>guozet.me © 2020</p><p class=powered-by>Powered by the
+<a href=https://sourcethemes.com/academic/ target=_blank rel=noopener>Academic theme</a> for
+<a href=https://gohugo.io target=_blank rel=noopener>Hugo</a>.
+<span class=float-right aria-hidden=true><a href=# class=back-to-top><span class=button_icon><i class="fas fa-chevron-up fa-2x"></i></span></a></span></p></footer></div><div id=modal class="modal fade" role=dialog><div class=modal-dialog><div class=modal-content><div class=modal-header><h5 class=modal-title>Cite</h5><button type=button class=close data-dismiss=modal aria-label=Close>
+<span aria-hidden=true>&#215;</span></button></div><div class=modal-body><pre><code class="tex hljs"></code></pre></div><div class=modal-footer><a class="btn btn-outline-primary my-1 js-copy-cite" href=# target=_blank><i class="fas fa-copy"></i>Copy</a>
+<a class="btn btn-outline-primary my-1 js-download-cite" href=# target=_blank><i class="fas fa-download"></i>Download</a><div id=modal-error></div></div></div></div></div></body></html>

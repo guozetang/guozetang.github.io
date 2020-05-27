@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Construction | Terry Tang</title><link>http://www.guozet.me/category/Construction/</link><atom:link href="http://www.guozet.me/category/Construction/index.xml" rel="self" type="application/rss+xml"/><description>Construction</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><copyright>guozet.me © 2020</copyright><lastBuildDate>Fri, 05 Oct 2018 13:04:27 +0000</lastBuildDate><image><url>http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url><title>Construction</title><link>http://www.guozet.me/category/Construction/</link></image><item><title>2-D Game Engine Construction (CU CPSC6160)</title><link>http://www.guozet.me/post/2D-Game-Engine-Construction/</link><pubDate>Fri, 05 Oct 2018 13:04:27 +0000</pubDate><guid>http://www.guozet.me/post/2D-Game-Engine-Construction/</guid><description>&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-10-04-2D-Game-Engine-Construction/2018-10-07-20-02-19.png" alt="">&lt;/p>
+&lt;p>2D游戏引擎设计这门课程是我在CU的2018 Fall选修的一门专业核心课程，老师是Clemson CS系比较受欢迎的
+&lt;a href="https://people.cs.clemson.edu/~malloy/" target="_blank" rel="noopener">Brian Malloy教授&lt;/a>。&lt;/p>
+&lt;hr>
+&lt;h1 id="课程内容">课程内容&lt;/h1>
+&lt;h3 id="week1">Week1&lt;/h3>
+&lt;p>&lt;strong>Aug 28, Tue:&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>Office hour: Wed 10-11:30 AM&lt;/li>
+&lt;li>Quiz on Tue or Thu&lt;/li>
+&lt;li>Answer Ques about Basics or Classes:
+&lt;ul>
+&lt;li>ternery operator&lt;/li>
+&lt;li>namespaces&lt;/li>
+&lt;li>if (0)&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Do the Rule of 3&lt;/li>
+&lt;/ul>
+&lt;p>本周的重点内容是&lt;code>C++的基本语法以及Classes的使用&lt;/code> 和 &lt;code>C++ Rule of 3&lt;/code>的规则应用。在这里分别整理了两个部分的博客文章：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;a href="http://www.guozet.me/post/C&amp;#43;&amp;#43;-Rule-Of-Three/">C++ Rule of 3&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>Aug 30, Thu:&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>refs vs ptrs&lt;/li>
+&lt;li>r-value references&lt;/li>
+&lt;li>Introduce SDL draw functions&lt;/li>
+&lt;li>Review Rule of 3 &amp;ndash; how to reproduce no crash?&lt;/li>
+&lt;li>Illustrate the functions that are called: whatcalls&lt;/li>
+&lt;li>Trace the Rule of 3 example from cppreference&lt;/li>
+&lt;li>Rule of 0&lt;/li>
+&lt;li>Introduce vectors:
+&lt;ul>
+&lt;li>size vs capacity&lt;/li>
+&lt;li>push_back vs emplace_back&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="week2">Week2&lt;/h3>
+&lt;p>&lt;strong>Sep 4, Tue&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>Review what get&amp;rsquo;s called:
+&lt;ul>
+&lt;li>why prefer init vs assign&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Introduce vectors:
+&lt;ul>
+&lt;li>size vs capacity&lt;/li>
+&lt;li>value semantics&lt;/li>
+&lt;li>emplace_back&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Marcus Painting&lt;/li>
+&lt;li>Project #2&lt;/li>
+&lt;li>Quiz #1 review&lt;/li>
+&lt;/ul>
+&lt;h2 id="week3">Week3&lt;/h2>
+&lt;p>&lt;strong>Sep 11, Tue:&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>Review the quiz&lt;/li>
+&lt;li>Why no vector.push_front() ???&lt;/li>
+&lt;li>When to use emplace_back()?&lt;/li>
+&lt;li>A temp is always an r-value reference&lt;/li>
+&lt;li>review Rule of 3, Rule of 0, Rule of 5&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>Sep 13, Thu:&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>Your game: can definitely be a &amp;ldquo;cover&amp;rdquo;
+&lt;ul>
+&lt;li>Keep the scope manageable &amp;ndash; one level, etc.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Terminology:
+&lt;ul>
+&lt;li>move assignment vs copy assignment&lt;/li>
+&lt;li>copy constructor vs move constructor&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Questions about move semantics&lt;/li>
+&lt;li>ranged for loops:
+&lt;ul>
+&lt;li>ints: size vs cap&lt;/li>
+&lt;li>C++ strings&lt;/li>
+&lt;li>why no push_front for vector?&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Drawing a texture: GPU
+&lt;ul>
+&lt;li>Makefile&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Drawing a Surface: CPU&lt;/li>
+&lt;/ul>
+&lt;h3 id="week4">Week4&lt;/h3>
+&lt;p>&lt;strong>Sep 18, Tue:&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>static variables&lt;/li>
+&lt;li>Design Patterns&lt;/li>
+&lt;li>The Singleton Design Pattern&lt;/li>
+&lt;li>Animations with SDL:
+&lt;ul>
+&lt;li>cpu clock vs game clock&lt;/li>
+&lt;li>Why clear the screen&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Inheritance:&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>Sep 20, Thu:&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>Sammy&amp;rsquo;s dilemma&lt;/li>
+&lt;li>Project #2 &amp;ndash; let&amp;rsquo;s look at my solution.&lt;/li>
+&lt;li>The Meyer&amp;rsquo;s Singleton&lt;/li>
+&lt;li>Polymorphism:
+&lt;ul>
+&lt;li>see poly example&lt;/li>
+&lt;li>shapes example&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Use g++ not clang++ for effc++ warnings&lt;/li>
+&lt;li>Project #3 and the tracker framework
+&lt;ul>
+&lt;li>default vs delete for constructors/destructors&lt;/li>
+&lt;li>ranged for vs while&lt;/li>
+&lt;li>when to use auto&lt;/li>
+&lt;li>function overload&lt;/li>
+&lt;li>transparency vs alpha channel&lt;/li>
+&lt;li>Parallax Scrolling&lt;/li>
+&lt;li>Getting images vs &amp;ldquo;rolling your own&amp;rdquo;&lt;/li>
+&lt;li>Making videos&lt;/li>
+&lt;li>why use g++ vs clang++&lt;/li>
+&lt;li>XML&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>理解为什么要使用 Singleton设计模式，已详细分析了为什么要使用singleton模式，以及Singleton设计模式的好处和如何来书写Singleton. 请参考博客:&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;a href="http://www.guozet.me/post/C&amp;#43;&amp;#43;Singleton-pattern/">C++软件设计模式之Singleton&lt;/a> 包含了两种Singleton的书写方式&lt;/li>
+&lt;/ul>
+&lt;h2 id="week-5">Week 5&lt;/h2>
+&lt;p>&lt;strong>Sep 25, Tue:&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>Last time: Many spinning stars &amp;ndash; tweak velocity using XML velocity as base!&lt;/li>
+&lt;li>Parallax Scrolling is easy &amp;ndash; it&amp;rsquo;s already in the code&lt;/li>
+&lt;li>string streams&lt;/li>
+&lt;li>making a video&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>Sep 27, Thu:&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>Quiz #2&lt;/li>
+&lt;/ul>
+&lt;h2 id="week-6">Week 6&lt;/h2>
+&lt;p>&lt;strong>Oct 2, Tue:&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>maps&lt;/li>
+&lt;li>sorting:
+&lt;ul>
+&lt;li>vectors&lt;/li>
+&lt;li>lists&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>emplace_back: how to use?&lt;/li>
+&lt;li>Why Singleton:
+&lt;ul>
+&lt;li>Gamedata?&lt;/li>
+&lt;li>Clock?&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Two-way sprites?&lt;/li>
+&lt;li>SpriteSheet&lt;/li>
+&lt;li>Project #2 &amp;ndash; CANDY&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>Oct 4, Thu:&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>Jacob Wood&lt;/li>
+&lt;li>IoMod: overload writeText
+&lt;ul>
+&lt;li>put in Engine::draw, which is const!&lt;/li>
+&lt;li>Engine::update is NOT const!&lt;/li>
+&lt;li>draw and update called every iteration of the event list&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Why Singleton:
+&lt;ul>
+&lt;li>Gamedata &amp;ndash; yes&lt;/li>
+&lt;li>Clock &amp;ndash; no!&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Clock and fps&lt;/li>
+&lt;li>string streams&lt;/li>
+&lt;li>Two-way sprites?&lt;/li>
+&lt;li>SpriteSheet&lt;/li>
+&lt;li>projects from last year&lt;/li>
+&lt;li>project #4&lt;/li>
+&lt;li>sorting:
+&lt;ul>
+&lt;li>vectors&lt;/li>
+&lt;li>lists&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="week-7">Week 7&lt;/h2>
+&lt;p>&lt;strong>Oct 9, Thu&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>Why Singleton:
+&lt;ul>
+&lt;li>Gamedata &amp;ndash; yes&lt;/li>
+&lt;li>Clock &amp;ndash; no!&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Clock and fps&lt;/li>
+&lt;li>string streams&lt;/li>
+&lt;li>Two-way sprites?&lt;/li>
+&lt;li>SpriteSheet&lt;/li>
+&lt;li>A Player Class&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>Oct 11, Thu:&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>Does anyone get a black screen on startup?&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Good rule to follow: pre-load assets! e.g.: collision strategies.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Reminder: Exam #1 in one week!&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Modifications to ImageFactory and/or SpriteSheet???&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Review:&lt;/p>
+&lt;ul>
+&lt;li>How to make video for #3&lt;/li>
+&lt;li>Adding a Player for #4
+&lt;ul>
+&lt;li>slide or no slide?&lt;/li>
+&lt;li>how to fit player into tracker framework&lt;/li>
+&lt;li>to cast or not to cast, that is the question.&lt;/li>
+&lt;li>Where to put stuff in Engine.cpp&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>Nested Classes: the Clock class&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Collisions&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>AI:&lt;/p>
+&lt;ul>
+&lt;li>observer pattern&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="week-8">Week 8&lt;/h2>
+&lt;p>&lt;strong>Oct 16, Tue:&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>Erasing from a list. Vector. map&lt;/li>
+&lt;li>Project #4&lt;/li>
+&lt;li>Exam #1&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>Oct 18, Thu:&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>Review Observer&lt;/li>
+&lt;li>Quiz #2&lt;/li>
+&lt;li>Sorting vectors and lists&lt;/li>
+&lt;/ul>
+&lt;h2 id="week-9">Week 9&lt;/h2>
+&lt;p>&lt;strong>Oct 25, Thu:&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>github repo&lt;/li>
+&lt;li>player/composition ==&amp;gt; it&amp;rsquo;s composition so need player.getVelocity()&lt;/li>
+&lt;li>drawable.h in tracker framework didn&amp;rsquo;t have method getSurface&lt;/li>
+&lt;li>input/mouse2
+&lt;ul>
+&lt;li>to get pixel color see getPixel&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="week-10">Week 10&lt;/h2>
+&lt;p>&lt;strong>Nov 1, Thu:&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>Write a fn object&lt;/li>
+&lt;li>Review lamda functions&lt;/li>
+&lt;li>Show lamda in sort&lt;/li>
+&lt;li>Review Explosions&lt;/li>
+&lt;li>Health bar (in your repo)
+&lt;ul>
+&lt;li>A model for your HUD!&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="week-11">Week 11&lt;/h2>
+&lt;p>&lt;strong>Nov 8, Tue:&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>Review fn objects and lambda functions&lt;/li>
+&lt;li>Review the two classes needed for Chunk explosions&lt;/li>
+&lt;li>Review Object pool&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>Quiz 3&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>Sort
+&lt;ul>
+&lt;li>Funciton object&lt;/li>
+&lt;li>lambda Funciton&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Search in a list, vector, map&lt;/li>
+&lt;li>Erasing from a list. Vector, map&lt;/li>
+&lt;li>observer pattern&lt;/li>
+&lt;li>static_cast Vs dynamic_cast&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;h1 id="自己动手写游戏引擎">自己动手写游戏引擎&lt;/h1>
+&lt;!--TODO:完成下面每一个被部分的博客文章 -->
+&lt;ul>
+&lt;li>概述&lt;/li>
+&lt;li>设计使用C++画出来图形&lt;/li>
+&lt;li>做一个Object移动的模式&lt;/li>
+&lt;/ul></description></item></channel></rss>

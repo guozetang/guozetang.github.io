@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Leetcode | Terry Tang</title><link>http://www.guozet.me/tag/Leetcode/</link><atom:link href="http://www.guozet.me/tag/Leetcode/index.xml" rel="self" type="application/rss+xml"/><description>Leetcode</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><copyright>guozet.me © 2020</copyright><lastBuildDate>Tue, 15 Jan 2019 21:52:04 +0000</lastBuildDate><image><url>http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url><title>Leetcode</title><link>http://www.guozet.me/tag/Leetcode/</link></image><item><title>Leetcode Algorithms. Binary Search</title><link>http://www.guozet.me/post/Algorithms-Binary-Search/</link><pubDate>Tue, 15 Jan 2019 21:52:04 +0000</pubDate><guid>http://www.guozet.me/post/Algorithms-Binary-Search/</guid><description>&lt;blockquote>
+&lt;p>All the pictures in this post are coming from the video:
+&lt;a href="https://www.youtube.com/watch?v=v57lNF2mb_s" target="_blank" rel="noopener">花花酱 LeetCode Binary Search - 刷题找工作 SP5&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;h1 id="summary">Summary&lt;/h1>
+&lt;p>The feature for the Binary Search is: &lt;strong>Fast, Fast, Fast&lt;/strong>. O(log(n))&lt;/p>
+&lt;h1 id="what-is-binary-search">What is Binary Search?&lt;/h1>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2019-01-15-Algorithms-Binary-Search/2019-01-15-21-57-59.png" alt="">&lt;/p>
+&lt;p>The requirment for the Binary Search is the &lt;strong>sorted input data&lt;/strong>.&lt;/p>
+&lt;p>Each node needs to make decision go to left or right. For the Binary Search method, the input data will include three partition: &lt;strong>Mid, left array, right array&lt;/strong>.&lt;/p>
+&lt;ul>
+&lt;li>If the mid number is less than the target number, then go to right array to find the target number.&lt;/li>
+&lt;li>If the mid number is larger than the target number, then go to left array to find the target number.&lt;/li>
+&lt;/ul>
+&lt;p>When you go to the left or right way, you can choose the recursive function or not recursive function to solve it.&lt;/p>
+&lt;p>The answer for this question is that the last mid point is the target number which you want to find if there is a target number in the array. If there is no target number in the array, when you find the last mid number and then you can return false or use this number to do something.&lt;/p>
+&lt;!-- more -->
+&lt;hr>
+&lt;h1 id="why-we-need-binary-search">Why we need Binary Search.&lt;/h1>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2019-01-15-Algorithms-Binary-Search/2019-01-15-22-06-06.png" alt="">&lt;/p>
+&lt;p>There are some states for the above picture:&lt;/p>
+&lt;ul>
+&lt;li>The O(eval) is the time to compare the mid number with the target number and the search space need to move to left part or right part. It may be: O(1), O(n), or O(logn).&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>SO, you can use the input dataset range to choose which mothod you can use to solve this problem.&lt;/strong> There are two tips which you can use to think which method is good for you to solve this problem.&lt;/p>
+&lt;!-- TODO: Wathc the video to add the note for how we can choose a method to solve the problem. -->
+&lt;hr>
+&lt;h1 id="template">Template&lt;/h1>
+&lt;h2 id="template-1-unique-and-sorted-elements">Template 1: Unique and sorted elements&lt;/h2>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2019-01-15-Algorithms-Binary-Search/2019-01-15-22-15-33.png" alt="">&lt;/p>
+&lt;p>Include the left data, but not include the right side.&lt;/p>
+&lt;pre>&lt;code class="language-python">def binary_search(1,r):
+while l &amp;lt; r:
+m = 1 + (r-1) // 2
+if f(m): return m #optional
+if g(m):
+r = m
+else:
+l + m + 1
+return l #or not find, return the min number
+&lt;/code>&lt;/pre>
+&lt;p>As the above picture, if the input element is unique and sorted, then we can easily use this template to deal with these similar problems. Like the example 1.&lt;/p>
+&lt;p>&lt;strong>If the Input data&amp;rsquo;s element is not unique. And it have repetitive numbers.&lt;/strong>&lt;/p>
+&lt;h2 id="template-2-repetitive-and-sorted-elements">Template 2: Repetitive and sorted elements&lt;/h2>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2019-01-15-Algorithms-Binary-Search/2019-01-15-22-34-55.png" alt="">&lt;/p>
+&lt;p>The lower_bound function will return the first index of i, such that A[i] &amp;gt;= x, So, when you find it, you need to check out if this A[i] may not = x. If the index &amp;gt; len, then there is no number &amp;gt; this.&lt;/p>
+&lt;p>&lt;strong>Example&lt;/strong>&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2019-01-15-Algorithms-Binary-Search/2019-01-15-22-44-18.png" alt="">&lt;/p>
+&lt;p>&lt;strong>Leetcode 69&lt;/strong>&lt;/p>
+&lt;p>It is not way to find the real number to fit the requrtment. So, we can find the number the first time bigger than the input.&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2019-01-15-Algorithms-Binary-Search/2019-01-15-22-47-51.png" alt="">&lt;/p></description></item><item><title>Leetcode Solutions(Updating)</title><link>http://www.guozet.me/post/All-Leetcode/</link><pubDate>Fri, 17 Aug 2018 01:02:39 +0000</pubDate><guid>http://www.guozet.me/post/All-Leetcode/</guid><description>&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-08-10-All-Leetcode/2019-01-09-19-22-01.png" alt="">&lt;/p>
+&lt;p>I have solved &lt;strong>SOLVEDNUMBER / 1020&lt;/strong> problems. I use this page to record the questions which I did on the Leetcode.&lt;/p>
+&lt;p>&lt;strong>Last Updated:&lt;/strong> UPDATETIMESTAMP&lt;/p>
+&lt;p>Please access my
+&lt;a href="http://guozet.me/leetcode/" target="_blank" rel="noopener">Leetcode Gitbook&lt;/a> to git all posts about leetcode.&lt;/p>
+&lt;blockquote>
+&lt;p>This table include: Question Number, Questions Name, Question Difficulty, Question Type, And when I did it.&lt;/p>
+&lt;/blockquote>
+&lt;!-- more -->
+&lt;style>
+table th:nth-of-type(1) {
+width: 45px;
+}
+table th:nth-of-type(2) {
+width: 50%;
+}
+&lt;/style>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th align="left">#&lt;/th>
+&lt;th align="left">Title&lt;/th>
+&lt;th align="left">Difficulty&lt;/th>
+&lt;th align="left">Topics&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;/table></description></item></channel></rss>

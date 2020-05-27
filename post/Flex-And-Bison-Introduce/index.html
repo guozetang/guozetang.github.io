@@ -1,0 +1,224 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=generator content="Source Themes Academic 4.8.0"><meta name=author content="Terry Tang"><meta name=description content="Flex介绍 Flex和Bison都是用来生成程序的工具。编译"><link rel=alternate hreflang=en-us href=http://www.guozet.me/post/Flex-And-Bison-Introduce/><meta name=theme-color content="#3f51b5"><script src=/js/mathjax-config.js></script><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin=anonymous><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-1/css/all.min.css integrity="sha256-4w9DunooKSr3MFXHXWyFER38WmPdm361bQS/2KUWZbU=" crossorigin=anonymous><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin=anonymous><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/github.min.css crossorigin=anonymous title=hl-light><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/github.min.css crossorigin=anonymous title=hl-dark disabled><script src=https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.2/lazysizes.min.js integrity="sha256-Md1qLToewPeKjfAHU1zyPwOutccPAm5tahnaw7Osw0A=" crossorigin=anonymous async></script><script src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js integrity crossorigin=anonymous async></script><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CRoboto:400,400italic,700%7CRoboto+Mono&display=swap"><link rel=stylesheet href=/css/academic.css><link rel=manifest href=/index.webmanifest><link rel=icon type=image/png href=/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_32x32_fill_lanczos_center_2.png><link rel=apple-touch-icon type=image/png href=/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_192x192_fill_lanczos_center_2.png><link rel=canonical href=http://www.guozet.me/post/Flex-And-Bison-Introduce/><meta property="twitter:card" content="summary"><meta property="og:site_name" content="Terry Tang"><meta property="og:url" content="http://www.guozet.me/post/Flex-And-Bison-Introduce/"><meta property="og:title" content="Flex与Bison基础概念介绍 | Terry Tang"><meta property="og:description" content="Flex介绍 Flex和Bison都是用来生成程序的工具。编译"><meta property="og:image" content="http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png"><meta property="twitter:image" content="http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png"><meta property="og:locale" content="en-us"><meta property="article:published_time" content="2018-09-24T22:09:31+00:00"><meta property="article:modified_time" content="2018-09-24T22:09:31+00:00"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://www.guozet.me/post/Flex-And-Bison-Introduce/"},"headline":"Flex与Bison基础概念介绍","datePublished":"2018-09-24T22:09:31Z","dateModified":"2018-09-24T22:09:31Z","author":{"@type":"Person","name":"Terry Tang"},"publisher":{"@type":"Organization","name":"Terry Tang","logo":{"@type":"ImageObject","url":"http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_192x192_fill_lanczos_center_2.png"}},"description":"Flex介绍 Flex和Bison都是用来生成程序的工具。编译"}</script><title>Flex与Bison基础概念介绍 | Terry Tang</title></head><body id=top data-spy=scroll data-offset=70 data-target=#TableOfContents><aside class=search-results id=search><div class=container><section class=search-header><div class="row no-gutters justify-content-between mb-3"><div class=col-6><h1>Search</h1></div><div class="col-6 col-search-close"><a class=js-search href=#><i class="fas fa-times-circle text-muted" aria-hidden=true></i></a></div></div><div id=search-box><input name=q id=search-query placeholder=Search... autocapitalize=off autocomplete=off autocorrect=off spellcheck=false type=search></div></section><section class=section-search-results><div id=search-hits></div></section></div></aside><nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id=navbar-main><div class=container><div class="d-none d-lg-inline-flex"><a class=navbar-brand href=/>Terry Tang</a></div><button type=button class=navbar-toggler data-toggle=collapse data-target=#navbar-content aria-controls=navbar aria-expanded=false aria-label="Toggle navigation">
+<span><i class="fas fa-bars"></i></span></button><div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none"><a class=navbar-brand href=/>Terry Tang</a></div><div class="navbar-collapse main-menu-item collapse justify-content-start" id=navbar-content><ul class="navbar-nav d-md-inline-flex"><li class=nav-item><a class="nav-link active" href=/post><span>Posts</span></a></li><li class=nav-item><a class=nav-link href=/#projects><span>Projects</span></a></li><li class=nav-item><a class=nav-link href=/#featured><span>Publications</span></a></li><li class=nav-item><a class=nav-link href=/courses/><span>Courses</span></a></li><li class=nav-item><a class=nav-link href=/leetcode><span>Leetcode</span></a></li><li class=nav-item><a class=nav-link href=/#contact><span>Contact</span></a></li></ul></div><ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2"><li class=nav-item><a class="nav-link js-search" href=#><i class="fas fa-search" aria-hidden=true></i></a></li><li class="nav-item dropdown theme-dropdown"><a href=# class="nav-link js-theme-selector" data-toggle=dropdown aria-haspopup=true><i class="fas fa-palette" aria-hidden=true></i></a><div class=dropdown-menu><a href=# class="dropdown-item js-set-theme-light"><span>Light</span></a>
+<a href=# class="dropdown-item js-set-theme-dark"><span>Dark</span></a>
+<a href=# class="dropdown-item js-set-theme-auto"><span>Automatic</span></a></div></li></ul></div></nav><article class=article><div class="article-container pt-3"><h1>Flex与Bison基础概念介绍</h1><div class=article-metadata><span class=article-date>Sep 24, 2018</span>
+<span class=middot-divider></span><span class=article-reading-time>5 min read</span>
+<span class=middot-divider></span><a href=/post/Flex-And-Bison-Introduce/#disqus_thread></a><span class=middot-divider></span><span class=article-categories><i class="fas fa-folder mr-1"></i><a href=/category/Flex/>Flex</a></span></div></div><div class=article-container><div class=article-style><h1 id=flex介绍>Flex介绍</h1><p>Flex和Bison都是用来生成程序的工具。编译器的工作主要可以分解成两个方面：词法分析与语法分析</p><ul><li>词法分析(lexical analysis 或Scanning): 将输入分割成一个个有意义的词块，称之为记号<code>token</code></li><li>语法分析(syntax analysis 或prsing): 这是确定这些记号是如何彼此关联的。</li></ul><p>一个小的例子：</p><pre><code class=language-c++>alpha = beta + gamma;
+</code></pre><p>词法分析器是将这些代码分解成一些<code>token</code>: alpha, 等号， beta, 加号， gamma和分号。接下来语法分析器就需要确定<code>beta + gamma</code>是一个表达式，而这个表达式被赋值给了<code>alpha</code>。</p><h1 id=flex例子>Flex例子</h1><h2 id=第一个简单的flex例子>第一个简单的Flex例子</h2><p>我们使用flex来实现一个文件的<code>行数，单词数和字符数</code>统计程序。包含两个文件<code>main.cpp</code>以及flex语言的<code>scan.l</code>。</p><h3 id=flex部分的程序代码>Flex部分的程序代码</h3><p>首先介绍<code>scan.l</code>程序，介绍程序之前我们需要先了解一些flex的语法。Flex的程序主要包含三个部分，各个部分之间使用仅有的<code>%%</code>来进行分隔。</p><ul><li>第一部分：包含声明和选项设置</li><li>第二部分：包含一些力的模式和动作</li><li>第三部分：这部分是<code>C</code>代码，会被拷贝到生成的词法分析器（对应代码是由<code>scan.l</code>文件转换得到的<code>lex.yy.c</code>）里面的最后的位置。</li></ul><pre><code class=language-lex>%{
+#include &lt;iostream&gt;
+  int lines = 0;
+  int words = 0;
+  int chars = 0;
+%}
+word      [a-zA-Z]+
+
+%%
+{word}        { ++words; chars += strlen(yytext); }
+&quot;\n&quot;          { ++lines; ++chars; }
+.             { chars += strlen(yytext); }
+%%
+int yywrap() { return 1; }
+</code></pre><p>在第一部分的<code>%{ }%</code>之间代码会被拷贝到C文件<code>lex.yy.c</code>文件的开头部分。</p><p><img src=/images/in-post/2018-09-24-Flex-And-Bison-Introduce/2018-09-25-23-35-45.png alt></p><p>第二部分，每个模式在第一行的开头位置，而后面是模式匹配时所需要执行程度C代码。这里的C代码就是<code>{</code>和<code>}</code>之间的一行或者多行代码。</p><blockquote><p>模式必须在行首出现，因为Flex会把空白开始的行都是代码而把它们复制到生成的c程序中</p></blockquote><p>说明<code>. { chars += strlen(yytext); }</code>这个位置使用了一个变量<code>yytext</code>,这边变量总是被设置为指向本次匹配的输入文本。</p><p>第三部分的代码，是直接拷贝到<code>lex.yy.c</code>文件的最后一部分的:</p><p><img src=/images/in-post/2018-09-24-Flex-And-Bison-Introduce/2018-09-25-23-50-51.png alt></p><p>接下来编译这个文件,编译的时候，使用flex对应的库文件<code>-lfl</code>进行链接。</p><pre><code class=language-bash>flex scan.l
+gcc lex.yy.c -lfl
+</code></pre><h2 id=main函数实现最后的打印功能>Main函数实现最后的打印功能</h2><p>在Main()函数里面，我们调用flex提供的词法分析例程<code>yylex()</code>,</p><pre><code class=language-cpp>#include &lt;iostream&gt;
+int yylex();
+
+extern int words;
+extern int lines;
+extern int chars;
+
+int main() {
+  yylex();
+  std::cout &lt;&lt; &quot;words: &quot; &lt;&lt; words &lt;&lt; std::endl;
+  std::cout &lt;&lt; &quot;lines: &quot; &lt;&lt; lines &lt;&lt; std::endl;
+  std::cout &lt;&lt; &quot;chars: &quot; &lt;&lt; chars &lt;&lt; std::endl;
+  return 0;
+}
+
+</code></pre><p>运行结果，使用wc命令进行对比判断：</p><p><img src=/images/in-post/2018-09-24-Flex-And-Bison-Introduce/2018-09-26-00-03-18.png alt></p><p>在这里我们为了方便可以使用Markfile来进行编译的管理，Makefile文件如下：</p><pre><code class=language-Makefile>CCC = g++
+LEX = flex
+CFLAGS = -Wall
+LEXFLAGS = -Wno-unused
+
+OBJS = main.o lex.yy.o
+
+run: $(OBJS)
+	$(CCC) $(CFLAGS) -o run $(OBJS)
+
+main.o: main.cpp
+	$(CCC) $(CFLAGS) -c main.cpp
+
+lex.yy.c: scan.l
+	$(LEX) scan.l
+
+lex.yy.o: lex.yy.c
+	$(CCC) $(CFLAGS) $(LEXFLAGS) -c lex.yy.c
+	
+clean:
+	rm -f run *.o lex.yy.c
+
+
+</code></pre><h2 id=这个例子的官方实现情况>这个例子的官方实现情况</h2><p>scan.l文件：</p><pre><code class=language-flex>%{
+/* TERMINOLOGY: A &quot;word&quot; is a set of non-delimiters seperated by delimiters.
+ *              -- edge case 1: files with a word and no delimiters
+ *              -- edge case 2: last word of the file
+ *              -- edge case 3: leading delimiters
+ *              -- edge case 4: files with only delimiters
+ *
+ *              A &quot;line&quot; is a newline character \n.
+ *              -- Weirdly, a file written on one line with no newline
+ *                 character at the end is considered to have ZERO lines
+ *
+ *              A &quot;char&quot; is ANY character in the file (delimiters and non-delimiters).
+ */ 
+
+#include &lt;iostream&gt;
+#include &lt;cstring&gt;
+  int words = 0; // count of words
+  int chars = 0; // count of chars
+  int lines = 0; // count of lines
+%}
+
+%option noinput
+%option nounput
+
+/* definition of characters that DO NOT compose words
+ * ~ spaces, tabs, and newlines
+ */
+delimiter [ \t\n]
+
+/* definition of characters that DO compose words
+ * ~ everything but spaces, stabs, and newlines
+ */
+letter    [^ \t\n]
+
+%%
+   /* This rule is for the edge-case that delimiters appear
+    * at the front of the file or the file has only delimiters.
+    */
+{delimiter}+ {
+   chars += strlen(yytext);
+
+   for(int i = 0; yytext[i]; ++i)
+      if(yytext[i] == '\n') ++lines;
+}
+
+   /* This rule is for typical cases, files with one word
+    * and no delimiters, and the last word of the file.
+    *
+    * Note that we use the closure set of delimiters, not the
+    * the positive closure set. What would happen if we made this change?
+    */
+{letter}+{delimiter}* {
+   ++words;
+   chars += strlen(yytext);
+
+   for(int i = 0; yytext[i]; ++i)
+      if(yytext[i] == '\n') ++lines;
+}
+%%
+int yywrap() { return 1; }
+
+</code></pre><p>main.cc文件：</p><pre><code class=language-cpp>#include &lt;iostream&gt;
+int yylex();
+
+extern int words;
+extern int lines;
+extern int chars;
+
+int main() {
+  yylex();
+
+  std::cout &lt;&lt; std::endl &lt;&lt; &quot;~~~~~~~~~~&quot; &lt;&lt; std::endl;
+  std::cout &lt;&lt; &quot;lines: &quot; &lt;&lt; lines &lt;&lt; std::endl;
+  std::cout &lt;&lt; &quot;words: &quot; &lt;&lt; words &lt;&lt; std::endl;
+  std::cout &lt;&lt; &quot;characters: &quot; &lt;&lt; chars &lt;&lt; std::endl;
+  return 0;
+}
+</code></pre><p>输出结果对比：</p><p><img src=/images/in-post/2018-09-24-Flex-And-Bison-Introduce/2018-09-26-00-15-06.png alt></p><hr><h1 id=使用flex和bison协同工作---计算器>使用Flex和Bison协同工作&mdash;计算器</h1><p>语法分析器是找出输入记号之间的关系，最常见的关系就是语法分析树(parser tree)</p><h2 id=scanl文件协同工作原理分析>Scan.l文件协同工作原理分析</h2><p><code>scan.l</code>文件，在处理用户输入的数学方程式的时候，我们为了处理简单，这里只考虑识别整数，基本算术运算符。</p><blockquote><p>词法分析器与语法分析器协同工作
+使用词法分析器获得一个记号流，然后将这个记号流传递给其他程序，每当产生一个记号之后，就调用yylex()来读取当前匹配到的输入然后返回去相应的记号。当程序需要下一个记号的会后，需要再次调用yylex(). 注明：词法分析器以协同程序的方式进行运行，每次它返回的手，就会记住当前处理的位置，并从这个位置开始去处理下一次的调用。 如果这次匹配不需要产生记号，那么词法分析器就会在这次yylex()调用中继续分析接下来的输入字符。</p></blockquote><p>特点：如果动作有返回，那么词法分析器就会在下一次<code>yylex()</code>调用中继续；如果动作没有返回，词法分析器就会立即继续进行。</p><pre><code class=language-cpp>%{
+#include &quot;parse.tab.h&quot;
+%}
+
+%%
+
+&quot;+&quot;       { return PLUS; }
+&quot;-&quot;       { return MINUS; }
+&quot;*&quot;       { return MULT; }
+&quot;/&quot;       { return DIV; }
+[0-9]+    {
+            return NUMBER;
+          }
+&quot;\n&quot;      { return CR; }
+&lt;&lt;EOF&gt;&gt;   { yyterminate(); }
+
+%%
+int yywrap() { 
+  yylex_destroy();
+  return 1; 
+}
+
+</code></pre><p>在这个程序中，我们可以看到出现的记号为：<code>PLUS, MINUS, MULT, DIV, NUMBER, CR, EOF</code>,这些记号是在<code>parse.tab.h</code>这个文件中生成的，而这个文件是根据<code>parser.y</code>的bison文件生成出来的。这些记号是对应了一个记号编号和记号值的。记号编号是一个较小的整数，随机生成的，但是<code>0</code>意味的是文件的结束。</p><p><img src=/images/in-post/2018-09-24-Flex-And-Bison-Introduce/2018-09-26-01-16-09.png alt></p><p>如果我们想完全在flex里面实现输出，那么也可以使用<code>enum</code>来定义记号数值编号。</p><h2 id=bison部分工作>Bison部分工作</h2><p>Bison的程序包含了与Flex程序相同的三部分结构：声明部分，规则部分和C代码部分。</p><ul><li>声明部分：包含了会被原样拷贝到目标分析程序开头的C代码，通过<code>%{ 和 }%</code>来声明，之后是<code>%token</code>记号声明，用于告诉bison在语法分析器里面记号的名称。 (潜规则：记号使用大写字母)在第二部分中，任何没有在这里声明为记号的语法符号必须出现在至少一条规则的左边</li><li>第二部分，通过简单的BNF定义的规则。 Bison使用 <code>:</code>来分割，使用<code>;</code>来表示规则的结束。如果有C代码，那就需要在两个<code>{</code> 与<code>}</code>之间。</li></ul><pre><code class=language-c++>%{
+#include &lt;iostream&gt;
+extern int yylex();
+extern int yylval;
+void yyerror(const char * msg);
+%}
+
+%token CR NUMBER PLUS MINUS MULT DIV
+
+%%
+lines   : lines expr CR
+          { std::cout &lt;&lt; &quot;result: &quot; &lt;&lt; $2 &lt;&lt; std::endl;  }
+        | lines CR
+        |
+        ;
+
+expr    : expr PLUS term
+          { $$ = $1 + $3;  }
+        | expr MINUS term
+          { $$ = $1 - $3;  }
+        | term
+          { $$ = $1;       }
+        ;
+
+term    : term MULT factor
+          { $$ = $1 * $3;  }
+        | term DIV factor
+          { $$ = $1 / $3;  }
+        | factor
+          { $$ = $1;  }
+        ;
+
+factor  : NUMBER
+        ;
+%%
+void yyerror(const char * msg) { std::cout &lt;&lt; msg &lt;&lt; std::endl; }
+
+</code></pre><pre><code class=language-cpp>#include &lt;iostream&gt;
+extern int yyparse();
+
+int main() {
+  if ( yyparse() ) {
+    std::cout &lt;&lt; &quot;syntactically correct program&quot; &lt;&lt; std::endl;
+  }
+  return 0;
+}
+
+</code></pre></div><div class=article-tags><a class="badge badge-light" href=/tag/Flex/>Flex</a></div><div class=share-box aria-hidden=true><ul class=share><li><a href="https://twitter.com/intent/tweet?url=http://www.guozet.me/post/Flex-And-Bison-Introduce/&text=Flex%e4%b8%8eBison%e5%9f%ba%e7%a1%80%e6%a6%82%e5%bf%b5%e4%bb%8b%e7%bb%8d" target=_blank rel=noopener class=share-btn-twitter><i class="fab fa-twitter"></i></a></li><li><a href="https://www.facebook.com/sharer.php?u=http://www.guozet.me/post/Flex-And-Bison-Introduce/&t=Flex%e4%b8%8eBison%e5%9f%ba%e7%a1%80%e6%a6%82%e5%bf%b5%e4%bb%8b%e7%bb%8d" target=_blank rel=noopener class=share-btn-facebook><i class="fab fa-facebook"></i></a></li><li><a href="mailto:?subject=Flex%e4%b8%8eBison%e5%9f%ba%e7%a1%80%e6%a6%82%e5%bf%b5%e4%bb%8b%e7%bb%8d&body=http://www.guozet.me/post/Flex-And-Bison-Introduce/" target=_blank rel=noopener class=share-btn-email><i class="fas fa-envelope"></i></a></li><li><a href="https://www.linkedin.com/shareArticle?url=http://www.guozet.me/post/Flex-And-Bison-Introduce/&title=Flex%e4%b8%8eBison%e5%9f%ba%e7%a1%80%e6%a6%82%e5%bf%b5%e4%bb%8b%e7%bb%8d" target=_blank rel=noopener class=share-btn-linkedin><i class="fab fa-linkedin-in"></i></a></li><li><a href="https://web.whatsapp.com/send?text=Flex%e4%b8%8eBison%e5%9f%ba%e7%a1%80%e6%a6%82%e5%bf%b5%e4%bb%8b%e7%bb%8d%20http://www.guozet.me/post/Flex-And-Bison-Introduce/" target=_blank rel=noopener class=share-btn-whatsapp><i class="fab fa-whatsapp"></i></a></li><li><a href="https://service.weibo.com/share/share.php?url=http://www.guozet.me/post/Flex-And-Bison-Introduce/&title=Flex%e4%b8%8eBison%e5%9f%ba%e7%a1%80%e6%a6%82%e5%bf%b5%e4%bb%8b%e7%bb%8d" target=_blank rel=noopener class=share-btn-weibo><i class="fab fa-weibo"></i></a></li></ul></div><div class="media author-card content-widget-hr"><img class="avatar mr-3 avatar-circle" src=/author/Terry-Tang/avatar_hu0d5a7b86078ca7c7d7d2e2c9e8f7e04b_578713_270x270_fill_q90_lanczos_center.jpg alt="Terry Tang"><div class=media-body><h5 class=card-title><a href=http://www.guozet.me/>Terry Tang</a></h5><h6 class=card-subtitle>Software Development Engineer</h6><p class=card-text>My research interests include distributed robotics, mobile computing and programmable matter.</p><ul class=network-icon aria-hidden=true><li><a href=/#contact><i class="fas fa-envelope"></i></a></li><li><a href=https://github.com/guozetang target=_blank rel=noopener><i class="fab fa-github"></i></a></li><li><a href=https://www.facebook.com/guozetang target=_blank rel=noopener><i class="fab fa-facebook"></i></a></li><li><a href=https://www.linkedin.com/in/guoze/ target=_blank rel=noopener><i class="fab fa-linkedin"></i></a></li><li><a href=https://instagram.com/guozetang target=_blank rel=noopener><i class="fab fa-instagram"></i></a></li><li><a href=https://leetcode.com/guozetang/ target=_blank rel=noopener><i class="fas fa-laptop-code"></i></a></li><li><a href=/files/cv.pdf><i class="ai ai-cv"></i></a></li></ul></div></div><section id=comments><div id=disqus_thread></div><script>let disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return;}
+var d=document,s=d.createElement('script');s.async=true;s.src='https://'+"guozet-me"+'.disqus.com/embed.js';s.setAttribute('data-timestamp',+new Date());(d.head||d.body).appendChild(s);})();</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></section></div></article><script src=https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin=anonymous></script><script src=https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin=anonymous></script><script src=https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin=anonymous></script><script src=https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin=anonymous></script><script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js integrity="sha256-eOgo0OtLL4cdq7RdwRUiGKLX9XsIJ7nGhWEKbohmVAQ=" crossorigin=anonymous></script><script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/languages/r.min.js></script><script>const code_highlighting=true;</script><script>const isSiteThemeDark=false;</script><script>const search_config={"indexURI":"/index.json","minLength":1,"threshold":0.3};const i18n={"no_results":"No results found","placeholder":"Search...","results":"results found"};const content_type={'post':"Posts",'project':"Projects",'publication':"Publications",'talk':"Talks"};</script><script id=search-hit-fuse-template type=text/x-template>
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script><script src=https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin=anonymous></script><script src=https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin=anonymous></script><script id=dsq-count-scr src=https://guozet-me.disqus.com/count.js async></script><script src=/js/academic.min.37431be2d92d7fb0160054761ab79602.js></script><div class=container><footer class=site-footer><p class=powered-by>guozet.me © 2020</p><p class=powered-by>Powered by the
+<a href=https://sourcethemes.com/academic/ target=_blank rel=noopener>Academic theme</a> for
+<a href=https://gohugo.io target=_blank rel=noopener>Hugo</a>.
+<span class=float-right aria-hidden=true><a href=# class=back-to-top><span class=button_icon><i class="fas fa-chevron-up fa-2x"></i></span></a></span></p></footer></div><div id=modal class="modal fade" role=dialog><div class=modal-dialog><div class=modal-content><div class=modal-header><h5 class=modal-title>Cite</h5><button type=button class=close data-dismiss=modal aria-label=Close>
+<span aria-hidden=true>&#215;</span></button></div><div class=modal-body><pre><code class="tex hljs"></code></pre></div><div class=modal-footer><a class="btn btn-outline-primary my-1 js-copy-cite" href=# target=_blank><i class="fas fa-copy"></i>Copy</a>
+<a class="btn btn-outline-primary my-1 js-download-cite" href=# target=_blank><i class="fas fa-download"></i>Download</a><div id=modal-error></div></div></div></div></div></body></html>

@@ -1,0 +1,269 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=generator content="Source Themes Academic 4.8.0"><meta name=author content="Terry Tang"><meta name=description content="前言
+Bro是一款非常优秀的网络协议分析器。Bro里面的Binpac解析器可以很方便的让我们使用Binpac语言书写协议解析器，并通过Binpac转换成C++语言，这在使用中能够很大程度的减少开发时间，也可以避免手写容易考虑不全的问题。但是在使用Binpac之前，我们需要去了解Bro在处理网络数据包的时候的处理流程，能够方便我们在Binpac使用中去掉和Bro耦合的部分，生成我们需要的协议解析器的C++文件。"><link rel=alternate hreflang=en-us href=http://www.guozet.me/post/Bro-source-codes-walkthought/><meta name=theme-color content="#3f51b5"><script src=/js/mathjax-config.js></script><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin=anonymous><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-1/css/all.min.css integrity="sha256-4w9DunooKSr3MFXHXWyFER38WmPdm361bQS/2KUWZbU=" crossorigin=anonymous><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin=anonymous><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/github.min.css crossorigin=anonymous title=hl-light><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/github.min.css crossorigin=anonymous title=hl-dark disabled><script src=https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.2/lazysizes.min.js integrity="sha256-Md1qLToewPeKjfAHU1zyPwOutccPAm5tahnaw7Osw0A=" crossorigin=anonymous async></script><script src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js integrity crossorigin=anonymous async></script><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CRoboto:400,400italic,700%7CRoboto+Mono&display=swap"><link rel=stylesheet href=/css/academic.css><link rel=manifest href=/index.webmanifest><link rel=icon type=image/png href=/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_32x32_fill_lanczos_center_2.png><link rel=apple-touch-icon type=image/png href=/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_192x192_fill_lanczos_center_2.png><link rel=canonical href=http://www.guozet.me/post/Bro-source-codes-walkthought/><meta property="twitter:card" content="summary"><meta property="og:site_name" content="Terry Tang"><meta property="og:url" content="http://www.guozet.me/post/Bro-source-codes-walkthought/"><meta property="og:title" content="Bro源代码分析---IP数据包处理流程 | Terry Tang"><meta property="og:description" content="前言
+Bro是一款非常优秀的网络协议分析器。Bro里面的Binpac解析器可以很方便的让我们使用Binpac语言书写协议解析器，并通过Binpac转换成C++语言，这在使用中能够很大程度的减少开发时间，也可以避免手写容易考虑不全的问题。但是在使用Binpac之前，我们需要去了解Bro在处理网络数据包的时候的处理流程，能够方便我们在Binpac使用中去掉和Bro耦合的部分，生成我们需要的协议解析器的C++文件。"><meta property="og:image" content="http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png"><meta property="twitter:image" content="http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png"><meta property="og:locale" content="en-us"><meta property="article:published_time" content="2018-06-09T01:02:39+00:00"><meta property="article:modified_time" content="2018-06-09T01:02:39+00:00"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://www.guozet.me/post/Bro-source-codes-walkthought/"},"headline":"Bro源代码分析---IP数据包处理流程","datePublished":"2018-06-09T01:02:39Z","dateModified":"2018-06-09T01:02:39Z","author":{"@type":"Person","name":"Terry Tang"},"publisher":{"@type":"Organization","name":"Terry Tang","logo":{"@type":"ImageObject","url":"http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_192x192_fill_lanczos_center_2.png"}},"description":"\u003ch1 id=\"前言\"\u003e前言\u003c/h1\u003e\n\u003cp\u003eBro是一款非常优秀的网络协议分析器。Bro里面的Binpac解析器可以很方便的让我们使用Binpac语言书写协议解析器，并通过Binpac转换成C++语言，这在使用中能够很大程度的减少开发时间，也可以避免手写容易考虑不全的问题。但是在使用Binpac之前，我们需要去了解Bro在处理网络数据包的时候的处理流程，能够方便我们在Binpac使用中去掉和Bro耦合的部分，生成我们需要的协议解析器的C++文件。\u003c/p\u003e"}</script><title>Bro源代码分析---IP数据包处理流程 | Terry Tang</title></head><body id=top data-spy=scroll data-offset=70 data-target=#TableOfContents><aside class=search-results id=search><div class=container><section class=search-header><div class="row no-gutters justify-content-between mb-3"><div class=col-6><h1>Search</h1></div><div class="col-6 col-search-close"><a class=js-search href=#><i class="fas fa-times-circle text-muted" aria-hidden=true></i></a></div></div><div id=search-box><input name=q id=search-query placeholder=Search... autocapitalize=off autocomplete=off autocorrect=off spellcheck=false type=search></div></section><section class=section-search-results><div id=search-hits></div></section></div></aside><nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id=navbar-main><div class=container><div class="d-none d-lg-inline-flex"><a class=navbar-brand href=/>Terry Tang</a></div><button type=button class=navbar-toggler data-toggle=collapse data-target=#navbar-content aria-controls=navbar aria-expanded=false aria-label="Toggle navigation">
+<span><i class="fas fa-bars"></i></span></button><div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none"><a class=navbar-brand href=/>Terry Tang</a></div><div class="navbar-collapse main-menu-item collapse justify-content-start" id=navbar-content><ul class="navbar-nav d-md-inline-flex"><li class=nav-item><a class="nav-link active" href=/post><span>Posts</span></a></li><li class=nav-item><a class=nav-link href=/#projects><span>Projects</span></a></li><li class=nav-item><a class=nav-link href=/#featured><span>Publications</span></a></li><li class=nav-item><a class=nav-link href=/courses/><span>Courses</span></a></li><li class=nav-item><a class=nav-link href=/leetcode><span>Leetcode</span></a></li><li class=nav-item><a class=nav-link href=/#contact><span>Contact</span></a></li></ul></div><ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2"><li class=nav-item><a class="nav-link js-search" href=#><i class="fas fa-search" aria-hidden=true></i></a></li><li class="nav-item dropdown theme-dropdown"><a href=# class="nav-link js-theme-selector" data-toggle=dropdown aria-haspopup=true><i class="fas fa-palette" aria-hidden=true></i></a><div class=dropdown-menu><a href=# class="dropdown-item js-set-theme-light"><span>Light</span></a>
+<a href=# class="dropdown-item js-set-theme-dark"><span>Dark</span></a>
+<a href=# class="dropdown-item js-set-theme-auto"><span>Automatic</span></a></div></li></ul></div></nav><article class=article><div class="article-container pt-3"><h1>Bro源代码分析---IP数据包处理流程</h1><div class=article-metadata><span class=article-date>Jun 9, 2018</span>
+<span class=middot-divider></span><span class=article-reading-time>6 min read</span>
+<span class=middot-divider></span><a href=/post/Bro-source-codes-walkthought/#disqus_thread></a><span class=middot-divider></span><span class=article-categories><i class="fas fa-folder mr-1"></i><a href=/category/Network/>Network</a></span></div></div><div class=article-container><div class=article-style><h1 id=前言>前言</h1><p>Bro是一款非常优秀的网络协议分析器。Bro里面的Binpac解析器可以很方便的让我们使用Binpac语言书写协议解析器，并通过Binpac转换成C++语言，这在使用中能够很大程度的减少开发时间，也可以避免手写容易考虑不全的问题。但是在使用Binpac之前，我们需要去了解Bro在处理网络数据包的时候的处理流程，能够方便我们在Binpac使用中去掉和Bro耦合的部分，生成我们需要的协议解析器的C++文件。</p><h1 id=源代码阅读>源代码阅读</h1><blockquote><p>重点：关注于网络数据包的处理部分代码</p></blockquote><h2 id=bro的网络数据包处理流程>Bro的网络数据包处理流程</h2><h3 id=bro启动初始化函数maincc>Bro启动初始化函数main.cc</h3><blockquote><p>int main(int argc, char** argv) (main.cc)</p></blockquote><p><img src=/images/in-post/2018-06-09Bro-Main.png alt=2018-06-09Bro-Main></p><p>在Bro的<code>main.cc</code>文件里面的Main函数是Bro启动过程中的首先执行的函数，而在这个<code>main</code>函数里面，和我们的数据包处理部分相关密切的函数是<code>net_run()</code>函数，这个函数是一个一直循环的函数，一旦出来这个函数之后，后面差不多就结束了。接下来阅读该函数代码。</p><h3 id=数据包处理的主要函数-net_run>数据包处理的主要函数： net_run()</h3><blockquote><p>net_run() (Net.cc)</p></blockquote><pre><code class=language-cpp>void net_run()
+	{
+	set_processing_status(&quot;RUNNING&quot;, &quot;net_run&quot;);
+
+	while ( iosource_mgr-&gt;Size() ||
+		(BifConst::exit_only_after_terminate &amp;&amp; ! terminating) )
+		{
+		double ts;
+		iosource::IOSource* src = iosource_mgr-&gt;FindSoonest(&amp;ts); //打开之后，获取所以的网卡或者文件的句柄
+
+		current_iosrc = src;
+		bool communication_enabled = using_communication;
+
+		if ( src )  //如果这个句柄不是空的话就进入Process()函数
+			src-&gt;Process();	// which will call net_packet_dispatch()
+
+		else if ( reading_live &amp;&amp; ! pseudo_realtime)
+			{ // live but  no source is currently active
+			double ct = current_time();
+			if ( ! net_is_processing_suspended() )
+				{
+				net_update_time(ct);
+				expire_timers();
+				usleep(1); // Just yield.
+				}
+			}
+
+		else if ( (have_pending_timers || communication_enabled) &amp;&amp;
+			  ! pseudo_realtime )
+			{
+
+			net_update_time(current_time());
+			expire_timers();
+
+			if ( ! communication_enabled )
+				usleep(100000);
+			else
+				usleep(1000);
+
+		mgr.Drain();
+
+		processing_start_time = 0.0;	// = &quot;we're not processing now&quot;
+		current_dispatched = 0;
+		current_iosrc = 0;
+
+		extern void termination_signal();
+
+		if ( signal_val == SIGTERM || signal_val == SIGINT )
+
+			termination_signal();
+
+		if ( ! reading_traces )
+			have_pending_timers = timer_mgr-&gt;Size() &gt; 0;
+		}
+	net_get_final_stats();
+	}
+
+</code></pre><p>这个函数并不是很长，仔细阅读，我们可以发现我们只需要关注函数<code>src->Process</code>, 其中<code>src</code>是<code>iosource::IOSource* src = iosource_mgr->FindSoonest(&ts);</code>相当于就是打开文件或者网卡数据的句柄（文件句柄或者网卡的句柄）。所以它的处理函数也就是我们想要的数据处理过程了。</p><p><img src=/images/in-post/2018-06-09-Bro_net_run.png alt=2018-06-09-Bro_net_run></p><p>接下来看<code>Process</code>函数,在这个函数中我们可以看到它处理了Packet，处理完之后，调用了一个<code>DoneWithPacket()</code>函数，但我们重点是关注的处理过程，所以我们需要关注函数<code>net_packet_dispatch(net_packet_dispatch(current_pseudo, &current_packet, this);)</code>,在这个函数中传入了当前数据包的指针。</p><blockquote><p>void Pktsrc::Process() (Pktsrc.cc)</p></blockquote><p><img src=/images/in-post/2018-06-09-src_process.png alt=2018-06-09-src_process></p><p>接下来阅读<code>net_packet_dispatch(current_pseudo, &current_packet, this);</code>的处理过程。这个函数是在<code>net.cc</code>文件中，和<code>net_run()</code>函数是在同一个文件中。</p><blockquote><p>void net_packet_dispatch(double t, const Packet* pkt, iosource::PktSrc* src_ps) (net.cc)</p></blockquote><p><img src=/images/in-post/2018-06-09-net_packet_dispatch.png alt=2018-06-09-net_packet_dispatch></p><p>在<code>net_packet_dispatch()</code>函数中，有一个特别重要的数据结构<code>sessions</code>,这是在<code>sessions.cc</code>文件中定义的一个全局变量。<br><code>NetSessions* sessions;</code><br>在这里我们需要阅读一下结构体<code>NetSessions</code>,这个结构体是在<code>sessions.h</code>文件中定义的。在这个结构体中有一个特别重要的函数<code>NextPacket</code>,这个函数也是在<code>net_packet_dispatch</code>中被调用的最重要的函数。</p><p><img src=/images/in-post/2018-06-09-NetSessions_class.png alt=2018-06-09-NetSessions_class></p><p>接下来阅读关键函数：<code>NextPacket</code></p><blockquote><p>void NetSessions::NextPacket(double t, const Packet* pkt) (sessions.cc)</p></blockquote><pre><code class=language-cpp>void NetSessions::NextPacket(double t, const Packet* pkt) //t可能是时间戳
+	{
+	SegmentProfiler(segment_logger, &quot;dispatching-packet&quot;);
+
+        .....
+  
+	if ( pkt-&gt;hdr_size &gt; pkt-&gt;cap_len ) //开始判断包的大小问题
+		{
+		Weird(&quot;truncated_link_frame&quot;, pkt);
+		return;
+		}
+
+	uint32 caplen = pkt-&gt;cap_len - pkt-&gt;hdr_size; 
+  //cap_len抓到的数据包的大小， hdr_size --- IP头里面的显示长度
+
+	if ( pkt-&gt;l3_proto == L3_IPV4 )
+		{
+		if ( caplen &lt; sizeof(struct ip) ) 
+			{
+			Weird(&quot;truncated_IP&quot;, pkt);
+			return;
+			}
+
+		const struct ip* ip = (const struct ip*) (pkt-&gt;data + pkt-&gt;hdr_size);
+		IP_Hdr ip_hdr(ip, false);
+		DoNextPacket(t, pkt, &amp;ip_hdr, 0);
+		}
+
+	else if ( pkt-&gt;l3_proto == L3_IPV6 )
+		{
+                  .....
+		DoNextPacket(t, pkt, &amp;ip_hdr, 0);
+		}
+
+	else if ( pkt-&gt;l3_proto == L3_ARP )
+		{
+		if ( arp_analyzer )
+			arp_analyzer-&gt;NextPacket(t, pkt);
+		}
+              .......
+
+	if ( dump_this_packet &amp;&amp; ! record_all_packets )
+		DumpPacket(pkt);
+	}
+
+</code></pre><p>经过分析，上述的代码中，最重要的是函数<code>DoNextPacket(t, pkt, &ip_hdr, 0)</code>,把数据包传入，指向ip头的指针传入。这个函数可以说是我们要找的最重要的函数了，在这个函数中，完成了<code>IP头</code>重组工作。</p><blockquote><p>void NetSessions::DoNextPacket(double t, const Packet* pkt, const IP_Hdr* ip_hdr,
+const EncapsulationStack* encapsulation) (Sessions.cc)</p></blockquote><p><img src=/images/in-post/2018-06-09-DoNextPacket_Main.png alt=2018-06-09-DoNextPacket_Main>
+这个函数已经开始处理IP数据包了,在这个函数里面，最主要的部分是处理片段的部分工作：</p><p><img src=/images/in-post/2018-06-09-DoNextPacket_fuction.png alt=2018-06-09-DoNextPacket_fuction></p><p>再初始化<code>f</code>之前，执行了：</p><pre><code class=language-cpp>	if ( discarder &amp;&amp; discarder-&gt;NextPacket(ip_hdr, len, caplen) )
+		return;
+
+	FragReassembler* f = 0;
+
+	if ( ip_hdr-&gt;IsFragment() )
+		{
+		dump_this_packet = 1;	// always record fragments
+</code></pre><p>主要看一下<code>NextPacket函数</code>的执行过程:
+在这个函数中主要检查了IP数据包，判断是TCP还是UDP，然后处理IP嵌套的情况。</p><pre><code class=language-cpp>
+int Discarder::NextPacket(const IP_Hdr* ip, int len, int caplen)
+	{
+	int discard_packet = 0;
+
+	if ( check_ip )
+		{
+		val_list* args = new val_list;
+		args-&gt;append(ip-&gt;BuildPktHdrVal());
+
+		try
+			{
+			discard_packet = check_ip-&gt;Call(args)-&gt;AsBool();
+			}
+
+		catch ( InterpreterException&amp; e )
+			{
+			discard_packet = false;
+			}
+
+		delete args;
+
+		if ( discard_packet )
+			return discard_packet;
+		}
+
+	int proto = ip-&gt;NextProto();
+	if ( proto != IPPROTO_TCP &amp;&amp; proto != IPPROTO_UDP &amp;&amp;
+	     proto != IPPROTO_ICMP )
+		// This is not a protocol we understand.
+		return 0;
+
+	// XXX shall we only check the first packet???
+	if ( ip-&gt;IsFragment() )
+		// Never check any fragment.
+		return 0;
+
+	int ip_hdr_len = ip-&gt;HdrLen();
+	len -= ip_hdr_len;	// remove IP header
+	caplen -= ip_hdr_len;
+
+	int is_tcp = (proto == IPPROTO_TCP);
+	int is_udp = (proto == IPPROTO_UDP);
+	int min_hdr_len = is_tcp ?
+		sizeof(struct tcphdr) :
+		(is_udp ? sizeof(struct udphdr) : sizeof(struct icmp));
+
+	if ( len &lt; min_hdr_len || caplen &lt; min_hdr_len )
+		// we don't have a complete protocol header
+		return 0;
+
+	// Where the data starts - if this is a protocol we know about,
+	// this gets advanced past the transport header.
+	const u_char* data = ip-&gt;Payload();
+
+	if ( is_tcp )
+		{
+		if ( check_tcp )
+			{
+			const struct tcphdr* tp = (const struct tcphdr*) data;
+			int th_len = tp-&gt;th_off * 4;
+
+			val_list* args = new val_list;
+			args-&gt;append(ip-&gt;BuildPktHdrVal());
+			args-&gt;append(BuildData(data, th_len, len, caplen));
+
+			try
+				{
+				discard_packet = check_tcp-&gt;Call(args)-&gt;AsBool();
+				}
+
+			catch ( InterpreterException&amp; e )
+				{
+				discard_packet = false;
+				}
+
+			delete args;
+			}
+		}
+
+	else if ( is_udp )
+		{
+		if ( check_udp )
+			{
+			const struct udphdr* up = (const struct udphdr*) data;
+			int uh_len = sizeof (struct udphdr);
+
+			val_list* args = new val_list;
+			args-&gt;append(ip-&gt;BuildPktHdrVal());
+			args-&gt;append(BuildData(data, uh_len, len, caplen));
+
+			try
+				{
+				discard_packet = check_udp-&gt;Call(args)-&gt;AsBool();
+				}
+
+			catch ( InterpreterException&amp; e )
+				{
+				discard_packet = false;
+				}
+
+			delete args;
+			}
+		}
+
+	else
+		{
+		if ( check_icmp )
+			{
+			const struct icmp* ih = (const struct icmp*) data;
+
+			val_list* args = new val_list;
+			args-&gt;append(ip-&gt;BuildPktHdrVal());
+
+			try
+				{
+				discard_packet = check_icmp-&gt;Call(args)-&gt;AsBool();
+				}
+
+			catch ( InterpreterException&amp; e )
+				{
+				discard_packet = false;
+				}
+
+			delete args;
+			}
+		}
+
+	return discard_packet;
+	}
+
+</code></pre><p>在这里主要是关键是四个部分</p><ul><li>FragReassembler* f = 0; 定义片段重组标志位为0</li><li>f = NextFragment(t, ip_hdr, pkt->data + pkt->hdr_size); 得到下一个片段的指针</li><li>const IP_Hdr* ih = f->ReassembledPkt();</li><li>FragReassemblerTracker frt(this, f);</li></ul><h3 id=详细分析donextpacket函数的处理过程>详细分析DoNextPacket函数的处理过程</h3><h4 id=fragreassembler类结构解析>FragReassembler类结构解析</h4><blockquote><p>class FragReassembler (Frag.h)</p></blockquote><p>需要看一下<code>FragReassembler</code>这个类里面的成员变量以及相应的函数。在这个类当中，最重要的函数是<code>ReassembledPkt</code><br><img src=/images/in-post/2018-06-09-class-FragReassembler.png alt=2018-06-09-class-FragReassembler></p><h4 id=nextfragment函数处理过程>NextFragment函数处理过程</h4><blockquote><p>FragReassembler* NetSessions::NextFragment(double t, const IP_Hdr* ip,
+const u_char* pkt) (sessions.cc)</p></blockquote><p><img src=/images/in-post/2018-06-09-FragReassembler-NextFragment.png alt=2018-06-09-FragReassembler-NextFragment></p><p>在这个函数中，主要查找了fragment，如果没有下一个，就新建一个新的Fragment并添加到<code>fragments</code>的结构体里面去。</p><h4 id=reassembledpkt函数处理过程>ReassembledPkt函数处理过程</h4><p>这个函数的处理过程只有一条。</p><blockquote><p>ReassembledPkt() (Frag.h)</p></blockquote><p><code>const IP_Hdr* ReassembledPkt() { return reassembled_pkt; }</code></p><p>对应的<code>IP_Hdr* reassembled_pkt;</code>,所以只是返回去了一个指针头</p><h4 id=fragreassemblertracker-frtthis-f处理过程>FragReassemblerTracker frt(this, f)处理过程</h4><h4 id=处理conn的过程>处理Conn的过程</h4><p>在<code>DoNextPacket</code>这个函数的最后，会去新建或者找到一个<code>Conn</code>处理处理数据包。执行代码:</p><blockquote><p>DoNextPacket() (Sessions.cc)</p></blockquote><p><img src=/images/in-post/2018-06-09-DoNextPacket-new-conn.png alt=2018-06-09-DoNextPacket-new-conn></p><p>在处理Conn这个部分的时候，检查是否有对应的<code>connection</code>,根据hash值去查询<code>HashKey* h = BuildConnIDHashKey(id);</code>,如果没有对应的<code>Conn</code>，那么就去新建一个，新建完之后，插入到connect的链表中。如果已经有了对应的<code>Conn</code>那就需要判断当前的<code>conn</code>是不是不正确的数据以及有没有被复用。如果有的话，删除对应的<code>conn</code>的Hash值。</p></div><div class=article-tags><a class="badge badge-light" href=/tag/Network/>Network</a></div><div class=share-box aria-hidden=true><ul class=share><li><a href="https://twitter.com/intent/tweet?url=http://www.guozet.me/post/Bro-source-codes-walkthought/&text=Bro%e6%ba%90%e4%bb%a3%e7%a0%81%e5%88%86%e6%9e%90---IP%e6%95%b0%e6%8d%ae%e5%8c%85%e5%a4%84%e7%90%86%e6%b5%81%e7%a8%8b" target=_blank rel=noopener class=share-btn-twitter><i class="fab fa-twitter"></i></a></li><li><a href="https://www.facebook.com/sharer.php?u=http://www.guozet.me/post/Bro-source-codes-walkthought/&t=Bro%e6%ba%90%e4%bb%a3%e7%a0%81%e5%88%86%e6%9e%90---IP%e6%95%b0%e6%8d%ae%e5%8c%85%e5%a4%84%e7%90%86%e6%b5%81%e7%a8%8b" target=_blank rel=noopener class=share-btn-facebook><i class="fab fa-facebook"></i></a></li><li><a href="mailto:?subject=Bro%e6%ba%90%e4%bb%a3%e7%a0%81%e5%88%86%e6%9e%90---IP%e6%95%b0%e6%8d%ae%e5%8c%85%e5%a4%84%e7%90%86%e6%b5%81%e7%a8%8b&body=http://www.guozet.me/post/Bro-source-codes-walkthought/" target=_blank rel=noopener class=share-btn-email><i class="fas fa-envelope"></i></a></li><li><a href="https://www.linkedin.com/shareArticle?url=http://www.guozet.me/post/Bro-source-codes-walkthought/&title=Bro%e6%ba%90%e4%bb%a3%e7%a0%81%e5%88%86%e6%9e%90---IP%e6%95%b0%e6%8d%ae%e5%8c%85%e5%a4%84%e7%90%86%e6%b5%81%e7%a8%8b" target=_blank rel=noopener class=share-btn-linkedin><i class="fab fa-linkedin-in"></i></a></li><li><a href="https://web.whatsapp.com/send?text=Bro%e6%ba%90%e4%bb%a3%e7%a0%81%e5%88%86%e6%9e%90---IP%e6%95%b0%e6%8d%ae%e5%8c%85%e5%a4%84%e7%90%86%e6%b5%81%e7%a8%8b%20http://www.guozet.me/post/Bro-source-codes-walkthought/" target=_blank rel=noopener class=share-btn-whatsapp><i class="fab fa-whatsapp"></i></a></li><li><a href="https://service.weibo.com/share/share.php?url=http://www.guozet.me/post/Bro-source-codes-walkthought/&title=Bro%e6%ba%90%e4%bb%a3%e7%a0%81%e5%88%86%e6%9e%90---IP%e6%95%b0%e6%8d%ae%e5%8c%85%e5%a4%84%e7%90%86%e6%b5%81%e7%a8%8b" target=_blank rel=noopener class=share-btn-weibo><i class="fab fa-weibo"></i></a></li></ul></div><div class="media author-card content-widget-hr"><img class="avatar mr-3 avatar-circle" src=/author/Terry-Tang/avatar_hu0d5a7b86078ca7c7d7d2e2c9e8f7e04b_578713_270x270_fill_q90_lanczos_center.jpg alt="Terry Tang"><div class=media-body><h5 class=card-title><a href=http://www.guozet.me/>Terry Tang</a></h5><h6 class=card-subtitle>Software Development Engineer</h6><p class=card-text>My research interests include distributed robotics, mobile computing and programmable matter.</p><ul class=network-icon aria-hidden=true><li><a href=/#contact><i class="fas fa-envelope"></i></a></li><li><a href=https://github.com/guozetang target=_blank rel=noopener><i class="fab fa-github"></i></a></li><li><a href=https://www.facebook.com/guozetang target=_blank rel=noopener><i class="fab fa-facebook"></i></a></li><li><a href=https://www.linkedin.com/in/guoze/ target=_blank rel=noopener><i class="fab fa-linkedin"></i></a></li><li><a href=https://instagram.com/guozetang target=_blank rel=noopener><i class="fab fa-instagram"></i></a></li><li><a href=https://leetcode.com/guozetang/ target=_blank rel=noopener><i class="fas fa-laptop-code"></i></a></li><li><a href=/files/cv.pdf><i class="ai ai-cv"></i></a></li></ul></div></div><section id=comments><div id=disqus_thread></div><script>let disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return;}
+var d=document,s=d.createElement('script');s.async=true;s.src='https://'+"guozet-me"+'.disqus.com/embed.js';s.setAttribute('data-timestamp',+new Date());(d.head||d.body).appendChild(s);})();</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></section><div class="article-widget content-widget-hr"><h3>Related</h3><ul><li><a href=/post/Write-your-first-Analyzer-en/>Complete your first analyzer - RIP in bro</a></li><li><a href=/post/Install-bro-Binpac/>Ubuntu 16.04安装bro和Binpac</a></li><li><a href=/post/Write-first-Analyzer-rip/>在Bro中完成第一个协议分析器—RIP协议</a></li></ul></div></div></article><script src=https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin=anonymous></script><script src=https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin=anonymous></script><script src=https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin=anonymous></script><script src=https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin=anonymous></script><script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js integrity="sha256-eOgo0OtLL4cdq7RdwRUiGKLX9XsIJ7nGhWEKbohmVAQ=" crossorigin=anonymous></script><script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/languages/r.min.js></script><script>const code_highlighting=true;</script><script>const isSiteThemeDark=false;</script><script>const search_config={"indexURI":"/index.json","minLength":1,"threshold":0.3};const i18n={"no_results":"No results found","placeholder":"Search...","results":"results found"};const content_type={'post':"Posts",'project':"Projects",'publication':"Publications",'talk':"Talks"};</script><script id=search-hit-fuse-template type=text/x-template>
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script><script src=https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin=anonymous></script><script src=https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin=anonymous></script><script id=dsq-count-scr src=https://guozet-me.disqus.com/count.js async></script><script src=/js/academic.min.37431be2d92d7fb0160054761ab79602.js></script><div class=container><footer class=site-footer><p class=powered-by>guozet.me © 2020</p><p class=powered-by>Powered by the
+<a href=https://sourcethemes.com/academic/ target=_blank rel=noopener>Academic theme</a> for
+<a href=https://gohugo.io target=_blank rel=noopener>Hugo</a>.
+<span class=float-right aria-hidden=true><a href=# class=back-to-top><span class=button_icon><i class="fas fa-chevron-up fa-2x"></i></span></a></span></p></footer></div><div id=modal class="modal fade" role=dialog><div class=modal-dialog><div class=modal-content><div class=modal-header><h5 class=modal-title>Cite</h5><button type=button class=close data-dismiss=modal aria-label=Close>
+<span aria-hidden=true>&#215;</span></button></div><div class=modal-body><pre><code class="tex hljs"></code></pre></div><div class=modal-footer><a class="btn btn-outline-primary my-1 js-copy-cite" href=# target=_blank><i class="fas fa-copy"></i>Copy</a>
+<a class="btn btn-outline-primary my-1 js-download-cite" href=# target=_blank><i class="fas fa-download"></i>Download</a><div id=modal-error></div></div></div></div></div></body></html>

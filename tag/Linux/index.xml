@@ -1,0 +1,628 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Linux | Terry Tang</title><link>http://www.guozet.me/tag/Linux/</link><atom:link href="http://www.guozet.me/tag/Linux/index.xml" rel="self" type="application/rss+xml"/><description>Linux</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><copyright>guozet.me © 2020</copyright><lastBuildDate>Mon, 25 Mar 2019 10:03:10 +0000</lastBuildDate><image><url>http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url><title>Linux</title><link>http://www.guozet.me/tag/Linux/</link></image><item><title>Linux Basic Concepts</title><link>http://www.guozet.me/post/Linux-Basic-Concepts/</link><pubDate>Mon, 25 Mar 2019 10:03:10 +0000</pubDate><guid>http://www.guozet.me/post/Linux-Basic-Concepts/</guid><description>&lt;h1 id="vfs-文件系统">VFS 文件系统&lt;/h1>
+&lt;p>VFS 是一个软件层,用来处理与 Unix/Linux 标准文件系统相关的所有系统调用。是用户应用程序与文件系统实现之间的抽象层,VFS 能为各种文件系统提供一个通用的、统一的接口。(作用)&lt;/p>
+&lt;p>VFS 中描述各对象的数据结构:&lt;/p>
+&lt;ul>
+&lt;li>超级块对象 super_block;&lt;/li>
+&lt;li>索引节点对象 inode;&lt;/li>
+&lt;li>文件对象 file;&lt;/li>
+&lt;li>目录项对象 dentry。&lt;/li>
+&lt;/ul>
+&lt;!-- more -->
+&lt;h2 id="超级块对象super-block">超级块对象(super block)&lt;/h2>
+&lt;p>超级块对象描述一个文件系统的信息;对于每个具体的文件系统来说,都有各自的超级块,如 Ext2 超级块,并被存放在磁盘特定扇区上。当内核对一个具体文件系统进行 mount 安装时,调用文件系统提供的函数为其分配一个 VFS 超级块,并从此判读取具体文件系统超级块中的信息填充进来。&lt;/p>
+&lt;p>VFS 超级块是各个具体文件系统安装时才建立的,并在这些具体文件系统卸载时被自动删除,故 VFS 超级块仅存于主存中&lt;/p>
+&lt;p>&lt;strong>具体文件系统的 VFS 超级块对象何时被创建?如何被创建?&lt;/strong>&lt;/p>
+&lt;p>在挂载的时候被创建,创建的方式是 get_sb 和 kill_sb 分别是在挂载(mount)和卸载(unmount)文件系统实例时会被调用的方法。VFS 通过 get_sb() 函数读取超级块,通过 kill_sb() 函数删除超级块。&lt;/p>
+&lt;p>&lt;strong>文件系统被挂载时该文件系统必须是注册过的原因?&lt;/strong>&lt;/p>
+&lt;p>在挂载的时候会检查该文件系统类型是不是已经注册过的文件系统的类型,如果是,则在系统中找到对应的文件系统的相关数据结构,用来填充 VFS 的超级块对象。&lt;/p>
+&lt;p>每个文件系统都有一个初始化函数,他用于向 VFS 注册,即填写有 file_systems 指向的文件系统注册表数据结构 file_system_type。每一个文件系统类型在注册表中有一个登记项,记录了该文件系统的类型名,文件系统特性,指向对应的 VFS 数据块读取函数的地址及已注册项的链指针等。当装入一个文件系统时,应首先向内核注册该文件及其类型,当卸载一个文件系统时,应向内核申请注销该系
+统及类型。文件系统类型的注册反映在以 file_systems 为链表头,以 file_system_type 为节点的链表中。链表的每一个 file_system_type 节点描述了一个已注册的文件系统类型。&lt;/p>
+&lt;h2 id="索引结点对象inode">索引结点对象(inode)&lt;/h2>
+&lt;p>Inode 对象内包含了内核在操作文件或目录时需要的全部信息,文件名可以更改,但 inode 对文件是唯一的, 且随文件的存在而存在。一个 Inode 代表文件系统中的一个文件,它可以是设备或管道这类特殊文件,故 Inode 中会包含特殊的项。VFS 把每个目录看作一个文件,如在路径/tmp/test 中,tmp 和 test 都是文件, tmp 是目录文件,而 test 是普通文件; tmp 和 test 都有一个 inode 对象表示。每一个文件除了有一个 inode 数据结构外,还有一个 dentry 数据结构与之关联,该结构中的 d_inode 指针指向相应的 inode 结构。&lt;/p>
+&lt;h2 id="文件对象file">文件对象(file)&lt;/h2>
+&lt;p>文件对象在磁盘上没有映像,在文件被打开时创建由一个 file 结构组成。文件对象中的信息主要是文件指针,即文件中当前的位置,下一个操作将在该位置发生。file 结构除保存文件当前位置外,还把指向该文件 inode 的指针放在其中,并形成一个双项链表,称系统打开文件表.&lt;/p>
+&lt;h2 id="目录项对象dentry">目录项对象(dentry)&lt;/h2>
+&lt;p>Dentry 数据结构可以加快对文件的快速定位,改进文件系统的效率。Dentry 描述文件的逻辑属性,它在磁盘上没有对应的映像; inode 结构记录文件的物理属性,在磁盘上有对应的映像.&lt;/p>
+&lt;hr>
+&lt;h2 id="与进程有关的文件系统的数据结构及作用files_struct-fs_struct">与进程有关的文件系统的数据结构及作用(Files_struct, fs_struct)&lt;/h2>
+&lt;h3 id="用户打开文件相关信息-files_struct">用户打开文件相关信息 files_struct&lt;/h3>
+&lt;p>&lt;img src="http://www.guozet.me/images/2019-03-25-11-03-01.png" alt="">&lt;/p>
+&lt;p>系统打开表信息&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/2019-03-25-11-03-59.png" alt="">&lt;/p>
+&lt;h3 id="进程的当前工作目录与根目录相关信息-fs_struct">进程的当前工作目录与根目录相关信息 fs_struct&lt;/h3>
+&lt;h2 id="open-的执行过程">Open 的执行过程&lt;/h2>
+&lt;p>读写文件之前必须先打开文件。在文件被打开的过程中,要根据给定的文件路径名搜索目录结构。在内存,常常缓存部分目录结构以便加速目录操作。一旦文件被找到,文件的 FCB 被复制到内存里的系统打开文件表里。该表不仅存储 FCB,还记录打开该文件的进程数。接着,在进程打开文件表里创建一个指针字段,指向系统打开文件表里相应的表项。&lt;/p>
+&lt;p>打开文件系统调用返回指向进程打开文件表相应项的指针,以后文件的操作都通过这个指针进行。在 UNIX 系统,打开文件系统调用返回的是文件描述符.&lt;/p>
+&lt;blockquote>
+&lt;p>注意:在 linux 中文件控制块为 inode 项&lt;/p>
+&lt;/blockquote>
+&lt;p>&lt;img src="http://www.guozet.me/images/2019-03-25-10-45-52.png" alt="">&lt;/p>
+&lt;p>当进程关闭文件时,相应的进程打开文件表项被删除,相应的系统打开文件表项里的文件打开次数减一。当所有打开该文件的进程都关闭该文件时,已修改的文件信息被写回磁盘,相应的系统打开文件表项被删除。&lt;/p>
+&lt;p>实际上,open 系统调用首先搜索系统打开文件表,看该文件是否已被其它进程打开了。如果已经打开了,在进程打开文件表里增加一个指针,指向该文件在系统打开文件表里所占用的表项即可。 VFS 系统调用的实现过程:&lt;/p>
+&lt;p>文件的打开与关闭&lt;/p>
+&lt;ul>
+&lt;li>用户进程在读/写一个文件之前必须先打开这个文件。所谓打开文件实质上是在进程与文件之间建立连接,而打开文件描述符唯一地标识着这个连接。&lt;/li>
+&lt;li>应用程序对 open ( )的调用将引起内核调用服务例程 sys_open ( )函数,该函数接收的参数为: 要打开文件的路径名和访问模式等。该系统调用成功后将返回一个文件描述符,也就是文件对象指
+针数组的一个索引;系统调用不成功时返回-1。&lt;/li>
+&lt;li>用户程序通过 close ( )系统调用关闭打开的文件,该函数接收的参数为要关闭文件的文件描述符。内核服务例程为 sys_close ( )函数。&lt;/li>
+&lt;/ul>
+&lt;p>文件的读与写&lt;/p>
+&lt;ul>
+&lt;li>文件的读/写主要是通过系统调用 read ( )和 write ( )完成的,对于读/写文件的进程,目标文件是由一个打开文件描述符代表的。&lt;/li>
+&lt;li>read ( )和 write ( )的服务例程分别是 sys_read ( )和 sys_write ( )函数。它们都需要三个参数:一个文件描述符 fd;一个包含要传送数据的内存缓冲区地址 buf;一个指定应该传送多少字节数的 count。read ( )把数据从文件传送到缓冲区,而 write ( )执行相反的操作。&lt;/li>
+&lt;li>两个系统调用都返回所成功传送的字节数,或者发一个错误信号并返回-1。读或写操作总是发生在由当前文件指针所指定的文件偏移量处(文件对象的 f_pos 域)。两个系统调用都通过把所传送的字节数加到文件指针来更新文件指针&lt;/li>
+&lt;/ul></description></item><item><title>Ubuntu里面update,upgrade和dist-upgrade的区别</title><link>http://www.guozet.me/post/Ubuntu-Update-Upgrade/</link><pubDate>Sun, 09 Sep 2018 15:09:31 +0000</pubDate><guid>http://www.guozet.me/post/Ubuntu-Update-Upgrade/</guid><description>&lt;h2 id="introduce">Introduce&lt;/h2>
+&lt;p>&lt;strong>常用的三个命令：&lt;/strong>&lt;/p>
+&lt;pre>&lt;code class="language-bash">sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get dist-upgrade
+&lt;/code>&lt;/pre>
+&lt;p>&lt;code>apt-get&lt;/code>是某些linux发行版使用的一个“包管理器”（还有别的发行版使用yum等，以及brew等其他平台上的包管理器，工作原理类似）。包管理器的作用是从源（Source）服务器那里下载最新的软件包列表，然后在你需要安装某个软件包（apt-get install）的时候从列表里面查询这个软件包的版本信息、系统要求、翻译、依赖项（该软件正常运行必须安装的其它软件）并且添加到同时安装的列表里面，再查询所有安装列表里面的软件包的.deb文件下载地址，最后批量下载，自动分析安装顺序然后安装完成。&lt;/p>
+&lt;hr>
+&lt;h2 id="update--upgrade--dist-upgrade">update &amp;amp; upgrade &amp;amp; dist-upgrade&lt;/h2>
+&lt;p>&lt;code>sudo apt-get update&lt;/code>和&lt;code>sudo apt-get upgrade&lt;/code>分别更新的是什么：&lt;/p>
+&lt;ul>
+&lt;li>update是下载源里面的metadata的. 包括这个源有什么包, 每个包什么版本之类的，最新版本是什么.&lt;/li>
+&lt;li>upgrade是根据update命令下载的metadata决定要更新什么包(同时获取每个包的位置)，对已经安装的软件包本身进行更新的过程。由于确定要更新的软件包需要对本地安装的版本和列表的版本进行比较，所以要在update以后运行这一条.&lt;/li>
+&lt;li>dist-upgrade:可以聪明的解决相依性的问题,如果有相依性问题,需要安装/移除新的Package,就会试着去安装/移除它. (所以通常这个会被认为是有点风险的升级)&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>注明：在install操作之前执行update和upgrade，实际上是确保本地软件列表信息和已安装软件均为最新的过程。这样做可以最大限度地确保新安装的软件包正常工作。&lt;/p>
+&lt;/blockquote>
+&lt;p>PS：软件源服务器地址可以在/etc/apt/sources.list里面看到。&lt;/p>
+&lt;p>&lt;strong>Example: upgrade and dist-upgrade&lt;/strong>&lt;/p>
+&lt;p>apt-get upgrade 和 apt-get dist-upgrade 本质上是没有什么不同的。只不过，dist-upgrade 会识别出当依赖关系改变的情形并作出处理，而upgrade对此情形不处理。&lt;/p>
+&lt;p>例如软件包 a 原先依赖 b c d，但是在源里面可能已经升级了，现在是 a 依赖 b c e。这种情况下，dist-upgrade 会删除 d 安装 e，并把 a 软件包升级，而 upgrade 会认为依赖关系改变而拒绝升级 a 软件包。&lt;/p></description></item><item><title>SSH协议解析</title><link>http://www.guozet.me/post/Linux-SSH-introduce/</link><pubDate>Sat, 12 May 2018 16:14:31 +0000</pubDate><guid>http://www.guozet.me/post/Linux-SSH-introduce/</guid><description>&lt;h1 id="前言">前言&lt;/h1>
+&lt;p>最近使用SSH来登陆DigitalOcean VPS的时候，第一次导入SSH的时候出现了一些问题，由此对SSH协议详细的学习了一番。在这里对自己SSH的学习做一个小结。&lt;/p>
+&lt;h1 id="基本概念">基本概念&lt;/h1>
+&lt;h2 id="什么是ssh">什么是SSH&lt;/h2>
+&lt;p>SSH(The Secure Shell)是指一种将所有传输的数据进行加密，这样&amp;quot;中间人&amp;quot;这种攻击方式就不可能实现了，而且也能够防止DNS欺骗和IP欺骗。使用SSH，还有一个额外的好处就是传输的数据是经过压缩的，所以可以加快传输的速度。SSH有很多功能，它既可以代替Telnet，又可以为FTP、Pop、甚至为PPP提供一个安全的&amp;quot;通道&amp;rdquo;。&lt;/p>
+&lt;blockquote>
+&lt;p>官方协议文档请参考:
+&lt;a href="https://www.ietf.org/rfc/rfc4251.txt" target="_blank" rel="noopener">The Secure Shell (SSH) Protocol Architecture&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="ssh基本框架">SSH基本框架&lt;/h2>
+&lt;p>SSH协议分三部分：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>传输层协议（The Transport Layer Protocol）提供服务器认证，数据机密性，信息完整性 等的支持；&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>用户认证协议（The User Authentication Protocol） 则为服务器提供客户端的身份鉴别；&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>连接协议（The Connection Protocol） 将加密的信息隧道复用成若干个逻辑通道，提供给更高层的应用协议使用； 各种高层应用协议可以相对地独立于SSH基本体系之外，并依靠这个基本框架，通过连接协议使用SSH的安全机制。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="ssh的秘钥管理">SSH的秘钥管理&lt;/h2>
+&lt;p>SSH协议要求每一个使用本协议的主机都必须至少有一个自己的主机密钥对，服务方通过对客户方主机密钥的认证之后，才能允许其连接请求。一个主机可以使用多个密钥，针对不同的密钥算法而拥有不同的密钥，但是至少有一种是必备的。SSH协议关于主机秘钥认证的方案有两种。&lt;/p>
+&lt;h3 id="方案一">方案一&lt;/h3>
+&lt;p>在第一种方案中，主机将自己的公用密钥分发给相关的客户机，客户机在访问主机时则使用该主机的公开密钥来加密数据，主机则使用自己的私有密钥来解密数据，从而实现主机密钥认证，确定客户机的可靠身份。在图2（a）中可以看到，用户从主机A上发起操作，去访问，主机B和主机C，此时，A成为客户机，它必须事先配置主机B和主机C的公开密钥，在访问的时候根据主机名来查找相应的公开密钥。对于被访问主机（也就是服务器端）来说则只要保证安全地存储自己的私有密钥就可以了。&lt;br>
+另外，SSH协议框架中还允许对主机密钥的一个折中处理，那就是首次访问免认证。首次访问免认证是指，在某客户机第一次访问主机时，主机不检查主机密钥，而向该客户都发放一个公开密钥的拷贝，这样在以后的访问中则必须使用该密钥，否则会被认为非法而拒绝其访问。
+&lt;img src="http://www.guozet.me/images/in-post/2018-05-21SSH%E4%B8%BB%E6%9C%BA%E7%A7%98%E9%92%A5%E8%AE%A4%E8%AF%81%E6%96%B9%E6%A1%88%E4%B8%80.png" alt="2018-05-21SSH主机秘钥认证方案一">&lt;/p>
+&lt;h3 id="方案二">方案二&lt;/h3>
+&lt;p>第二种方案中，存在一个密钥认证中心，所有系统中提供服务的主机都将自己的公开密钥提交给认证中心，而任何作为客户机的主机则只要保存一份认证中心的公开 密钥就可以了。在这种模式下，客户机在访问服务器主机之前，还必须向密钥认证中心请求认证，认证之后才能够正确地连接到目的主机上。&lt;br>
+&lt;img src="http://www.guozet.me/images/in-post/2018-05-21SSH%E4%B8%BB%E6%9C%BA%E7%A7%98%E9%92%A5%E8%AE%A4%E8%AF%81%E6%96%B9%E6%A1%88%E4%BA%8C.png" alt="2018-05-21SSH主机秘钥认证方案二">&lt;/p>
+&lt;h2 id="ssh的工作过程">SSH的工作过程&lt;/h2>
+&lt;p>在整个通讯过程中，为实现 SSH的安全连接，服务器端与客户端要经历如下五个阶段：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>客户端连接到服务器上，进行SSH协议版本协商&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>服务器向客户端提供自己的身份证明和会话参数&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>客户端给服务器发送一个（会话）密钥&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>双方启用加密并完成服务器认证&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>建立安全连接&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>每个阶段均涉及到客户端与服务端的多次交互，通过这些交互过程完成包括证书传输、算法协商、通道加密等过程。&lt;/p>
+&lt;h3 id="客户端连接到服务器上进行ssh协议版本协商">客户端连接到服务器上，进行SSH协议版本协商&lt;/h3>
+&lt;ol>
+&lt;li>
+&lt;p>服务器打开端口 22，等待客户端连接。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>客户端向服务器端发起 TCP初始连接请求，TCP连接建立后，服务器向客户端发送第一个报文，包括版本标志字符串，格式为“SSH－&amp;lt;主协议版本号&amp;gt;.&amp;lt;次协议版本号&amp;gt;－&amp;lt;软件版本号&amp;gt;”，协议版本号由主版本号和次版本号组成，软件版本号主要是为调试使用。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;blockquote>
+&lt;p>这些协议是以 ASCII 字符串(明文)表示，例如：SSH-1.5-1.2.27，其意义为SSH协议，版本号是V1.5，SSH1实现版本为1.2.27。&lt;/p>
+&lt;/blockquote>
+&lt;pre>&lt;code>➜ telnet 165.227.65.39(测试一个服务器地址)
+SSH-2.0-OpenSSH_7.2p2 Ubuntu-4ubuntu2.4
+&lt;/code>&lt;/pre>
+&lt;ol start="3">
+&lt;li>
+&lt;p>客户端收到报文后，解析该数据包，如果服务器端的协议版本号比自己的低，且客户端能支持服务器端的低版本，就使用服务器端的低版本协议号，否则使用自己的协议版本号。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>客户端回应服务器一个报文，包含了客户端决定使用的协议版本号。服务器比较客户端发来的版本号，决定是否能同客户端一起工作。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>如果协商成功，则进入密钥和算法协商阶段，否则服务器端断开 TCP连接。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;blockquote>
+&lt;p>如果客户端和服务器确定其协议版本号是兼容的，那么连按就继续进行，否则，双方都可能决定中断连接。例如，如果一个只使用 SSH-1 的客户端连接到一个只使用 SSH-2 的服务器上，那么客户端就会断开连接并打印一条错误消息。实际上还可能执行其他操作：例如，只使用SSH-2的服务器可以调用SSH-1服务器来处理这次连接请求。&lt;/p>
+&lt;/blockquote>
+&lt;p>Note： 版本号协商阶段报文都是采用明文方式传输的。&lt;br>
+协议版本号交换过程一旦完成，客户端和服务器都立即从下层的 TCP 连接切换到基于子报文的协议。每个报文都包含一个32位的字段，1 - 8字节的填充位[ 用来防止已知明文攻击unknown-plaintext attack ]，一个1字节的报文类型代码, 报文有效数据和一个4字节的完整性检査字段。&lt;/p>
+&lt;h3 id="服务器向客户端提供自己的身份证明和会话参数">服务器向客户端提供自己的身份证明和会话参数&lt;/h3>
+&lt;p>服务器向客户端发送以下信息(现在还沒有加密):&lt;/p>
+&lt;p>主机密钥（Host Key），用于后面证明服务器主机的身份
+服务器密钥（Server Key），用来帮助建立安全连接
+8个随机字节序列，称为检测字节（check bytes)。客户端在下一次响应中必须包括这些检测字节，否則服务器就会拒绝接收响应信息，这种方法可以防止某些 IP伪装攻击(IP spoofing attack)。
+该服务器支持的加密、压缩和认证方法
+此时，双方都要计算一个通用的 128 位会话标识符(Session ID)。它在某些协议中用来惟一标识这个 SSH 会话。该值是 主机密钥（Host Key）、服务器密钥（Server Key）和检测字节（check bytes)一起应用 MD5散列函数 得到的结果。&lt;/p>
+&lt;p>当客户端接收到 主机密钥（Host Key）时，它要进行询问：“之前我和这个服务器通信过吗？如果通信过，那么它的主机密钥是什么呢？”要回答这个问题，客户端就要査阅自己的已知名主机数据库。如果新近到达的主机密钥可以和数据库中以前的一个密钥匹，那么就没有问题了。&lt;/p>
+&lt;p>但是，此时还存在两种可能：已知名主机数据库中没有这个服务器，也可能有这个服务器但是其主机密钥不同。在这两种情况中，客户端要选择是信任这个新近到达的密钥还是拒绝接受该密钥。此时就需要人的指导参与了，例如，客户端用户可能被提示要求确定是接受还是拒绝该密钥。&lt;/p>
+&lt;pre>&lt;code>The authenticity of host 'ssh-server.example.com (12.18.429.21)' can't be established.
+RSA key fingerprint is 98:2e:d7:e0:de:9f:ac:67:28:c2:42:2d:37:16:58:4d.
+Are you sure you want to continue connecting (yes/no)?
+&lt;/code>&lt;/pre>
+&lt;p>如果客户端拒绝接受这个主机密钥，那么连接就中止了。让我们假设客户端接受该密钥，现在继续介绍。&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>客户端向服务器端发送认证请求，认证请求中包含用户名、认证方法、与该认证方法相关的内容（如：password认证时，内容为密码）。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>服务器端对客户端进行认证，如果认证失败，则向客户端发送认证失败消息，其中包含可以再次认证的方法列表。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>客户端从认证方法列表中选取一种认证方法再次进行认证。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>该过程反复进行， 直到认证成功或者认证次数达到上限， 服务器关闭连接为止。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;blockquote>
+&lt;p>SSH提供两种认证方式：&lt;/p>
+&lt;ol>
+&lt;li>password认证：客户端向服务器发出 password认证请求，将用户名和密码加密后发送给服务器；服务器将该信息解密后得到用户名和密码的明文，与设备上保存的用户名和密码进行比较，并返回认证成功或失败的消息。&lt;/li>
+&lt;li>publickey 认证：采用数字签名的方法来认证客户端。目前，设备上可以利用RSA和 DSA两种公共密钥算法实现数字签名。客户端发送包含用户名、公共密钥和公共密钥算法的 publickey 认证请求给服务器端。服务器对公钥进行合法性检查，如果不合法，则直接发送失败消息；否则，服务器利用数字签名对客户端进行认证，并返回认证成功或失败的消息&lt;/li>
+&lt;/ol>
+&lt;p>SSH2.0还提供了 password-publickey 认证和 any 认证:&lt;/p>
+&lt;ol>
+&lt;li>password-publickey 认证：指定该用户的认证方式为 password 和 publickey认证同时满足。客户端版本为 SSH1的用户只要通过其中一种认证即可登录；客户端版本为 SSH2的用户必须两种认证都通过才能登录。&lt;/li>
+&lt;li>any认证：指定该用户的认证方式可以是 password，也可以是 publickey。&lt;/li>
+&lt;/ol>
+&lt;/blockquote></description></item><item><title>在VMware内构建一个外网可以访问的Ubuntu服务器</title><link>http://www.guozet.me/post/Set-a-Ubuntu-in-the-VM/</link><pubDate>Sat, 12 May 2018 01:30:32 +0000</pubDate><guid>http://www.guozet.me/post/Set-a-Ubuntu-in-the-VM/</guid><description>&lt;h1 id="前言">前言&lt;/h1>
+&lt;p>每次使用学校Lab的时候，都会有在需要安装软件或者更新软件的时候，由于没有Root权限而导致自己需要重新想办法处理，或者换到VPS上去处理的情况发生。每当这个时候，都在考虑，是否可以在VM中构建一个自己在任何地方都可以访问的服务器？&lt;/p>
+&lt;h1 id="解决方案">解决方案&lt;/h1>
+&lt;h2 id="设置静态ip地址">设置静态IP地址&lt;/h2>
+&lt;p>背景&lt;/p>
+&lt;p>在虚拟机下运行操作系统，尤其是Linux系统已经是非常常见的做法。有时你想在虚拟机下搭建一个(模拟)服务器来供主机访问，比如搭建一个telnet/ssh。此时你会发现，每次启动虚拟机，VMWare为虚拟机系统分配一个动态IP，这样每次去连接虚拟机的telnet时很不方便。如果设成静态IP就好了。&lt;/p>
+&lt;p>VMnet8和NAT&lt;/p>
+&lt;p>如果你的虚拟机是以NAT方式连入互联网的话，那么虚拟机的IP地址非配，网关以及互联网访问权限均由VMWare提供的叫做VMnet8虚拟网卡所提供。所以一切和设置静态IP有关的设置都可以从这里找到。通VMnet8虚拟网卡，主机可以访问虚拟机的IP，虚拟机可以连入主机的互联网连接连入外网。&lt;/p>
+&lt;p>确认VMnet8虚拟网卡已启用&lt;/p>
+&lt;p>在默认情况下，VMWare Workstation已经启用VMnet8虚拟网卡，Windows 7下，通过进入 控制面板&amp;gt;网络和Internet&amp;gt;网络和共享中心&amp;gt;更改适配器设置 可以查看该虚拟网卡的状态。如图1-1所示。&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-05-20NATNetworkInformation.png" alt="2018-05-20 NAT network information">&lt;/p>
+&lt;p>得到可用IP范围、网关和子网掩码&lt;/p>
+&lt;p>在VMWare主界面，点击Edit&amp;gt;Virtual Network Editor菜单进入虚拟网卡参数设置界面（图1-2）。选择VMnet8条目，点击NAT Settings按钮后可以看到我们的VMWare Workstation为NAT连接的虚拟机设定的默认网关，此处为192.168.91.2，以及子网掩码，此处为255.255.255.0, 如图1-3所示。&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/getSomeIpaddressWhichYouCanUse.png" alt="Get some ipaddress which you can use">&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-05-20.png" alt="2018-05-20 ">
+点击DHCP Settings按钮，可以看到VMnet8为虚拟机分配的可用的子网IP范围，如图1-4所示。&lt;/p>
+&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-05-20%E5%8F%AF%E7%94%A8%E7%9A%84IP%E5%9C%B0%E5%9D%80%E8%8C%83%E5%9B%B4.png" alt="2018-05-20可用的IP地址范围">&lt;/p>
+&lt;p>在这里，我们可以得到
+OK，至此，所有我们需要的信息都已经获取到，这里汇总一下，&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>子网IP可用范围：192.168.91.128~192.168.91.254&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>子网掩码：255.255.255.0&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>网关: 192.168.91.2&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>下面开始进入Ubuntu虚拟机设置静态IP。&lt;/p>
+&lt;p>Ubuntu设置IP得知&lt;/p>
+&lt;ol>
+&lt;li>启动虚拟机Ubuntu系统，打开终端，利用如下命令打开并编辑网络接口配置文件：&lt;/li>
+&lt;/ol>
+&lt;p>sudo vi /etc/network/interfaces
+2. 编辑文件如下：&lt;/p>
+&lt;p>复制代码
+auto lo
+iface lo inet loopback&lt;/p>
+&lt;h1 id="assgin-static-ip-by-eric-on-26-sep-2012">Assgin static IP by eric on 26-SEP-2012&lt;/h1>
+&lt;p>iface eth0 inet static
+address 192.168.91.200 #change to your static IP
+netmask 255.255.255.0 #change to your netmask
+gateway 192.168.91.2 #change to your getway
+#We must specify dns-nameserver here
+#in order to get internet access from host
+dns-nameservers 192.168.91.2
+auto eth0
+复制代码
+说明&lt;/p>
+&lt;p>address是你要分配给你虚拟机的静态IP地址，可以从刚才我们找到的可用的子网IP范围中随便选择一个放在此处。&lt;/p>
+&lt;p>netmask是子网掩码&lt;/p>
+&lt;p>gateway是网关&lt;/p>
+&lt;p>注意：在相对较早的版本中，你需要设置/etc下的resolv.conf文件，并加入nameserver，这样才可以连接互联网。但在Ubuntu 12.04之后，已经不推荐这种方式了，因为无论你想该配置文件中设置什么值，重新启动之后都会被还原为初始状态。推荐的做法是直接在interfaces配置文件中加入dns-nameserver &amp;lt;网关IP&amp;gt;这一行。&lt;/p>
+&lt;ol start="3">
+&lt;li>重启ubuntu的网卡&lt;/li>
+&lt;/ol>
+&lt;p>sudo /etc/init.d/networking restart
+4. ping测试互联网连通性&lt;/p>
+&lt;p>ping &lt;a href="http://www.baidu.com">www.baidu.com&lt;/a>
+如果ping有响应，那么恭喜你，你已经成功将虚拟机设置为静态IP，并且也已连入互联网。&lt;/p>
+&lt;p>开启防火墙
+ufw enable&lt;/p>
+&lt;p>关闭防火墙
+ufw disable&lt;/p>
+&lt;p>如果虚拟机里能ping同本机，而本机却ping不通虚拟机，或者虚拟机不能ping通本机，可能有如下原因：&lt;/p>
+&lt;p>一，如果是桥接模式，那么可能性1：虚拟机防火墙禁ping，请关闭虚拟机防火墙重试；可能性2：桥接设置的ip有冲突或者是虚拟机桥接服务不正常。&lt;/p>
+&lt;p>二，如果是nat模式，那么可能性1：虚拟机防火墙禁ping，请关闭虚拟机防火墙重试；可能性2：本机上的vmnet8网卡被禁用了。可能性3：vbox的nat模式，vpc的共享模式，本来就这样的。&lt;/p>
+&lt;p>三，如果主机同时装了visualbox和vm，也会导致其中一个虚拟机ping不通主机，因此使用vm或vb时，在主机上禁用另一个虚拟网卡即可。&lt;/p>
+&lt;p>SSH分客户端openssh-client和openssh-server
+如果你只是想登陆别的机器的SSH只需要安装openssh-client（ubuntu有默认安装，如果没有则sudo
+apt-get install openssh-client），如果要使本机开放SSH服务就需要安装openssh-server
+sudo apt-get install openssh-server
+然后确认sshserver是否启动了：
+ps -e |grep ssh
+如果看到sshd那说明ssh-server已经启动了。
+如果没有则可以这样启动：sudo /etc/init.d/ssh start 或者 service ssh start
+ssh-server配置文件位于/etc/ssh/sshd_config，在这里可以定义SSH的服务端口，默认端口是22，你可以自己定义成其他端口号，如222。
+然后重启SSH服务：
+sudo
+/etc/init.d/ssh stop
+sudo /etc/init.d/ssh start
+然后使用以下方式登陆SSH：
+ssh &lt;a href="mailto:username@192.168.1.112">username@192.168.1.112&lt;/a> username为192.168.1.112 机器上的用户，需要输入密码。&lt;/p>
+&lt;p>在刚安装完ubuntu后，屏幕不能全屏显示，此时：&lt;/p>
+&lt;p>1、安装VMware Tools&lt;/p>
+&lt;p>步骤：&lt;/p>
+&lt;pre>&lt;code>1.1 进入ubuntu系统后，点击虚拟机上的【虚拟机】-&amp;gt;【安装 vmware tools】，回到桌面回看到一个vmware tools的
+&lt;/code>&lt;/pre>
+&lt;p>cdrom图标。&lt;/p>
+&lt;pre>&lt;code>1.2 复制 VMwareTools-10.0.10-4301679.tar.gz（版本根据自己的实际情况） 到/home/lance/目录下。 用命令【tar -xzvf VMwareTools-10.0.10-4301679.tar.gz】解压。
+1.3 解压后 cd vmware_tools_distrib，打开终端
+1.4 输入“sudo ./vmware-install.pl”，输入用户密码便可开始安装了。
+1.5 接下来N多的enter，N多的YES，自己慢慢按吧。
+1.6 直到你看到—the vmware team 后 reboot 重启即可
+1.7 若还没有全屏显示，则将虚拟机的【查看】-&amp;gt;【自动调整大小】-&amp;gt;【自适应客户机】,都选上。即可实现全屏。
+1.8 安装vmware tools实现全屏后，即也实现了在主机（WIN7）和虚拟机VMware （ubuntu）间直接拖拽文件。
+&lt;/code>&lt;/pre>
+&lt;p>enjoy yourself&lt;/p>
+&lt;p>Ubuntu 16.04 执行下面命令默认启动到命令行：
+$ sudo systemctl set-default multi-user.target
+执行如下命令启动到桌面：
+$ sudo systemctl start lightdm&lt;/p></description></item><item><title>Linux透明加密文件系统1_代码分析</title><link>http://www.guozet.me/post/Linux-Transparent-Encrypted-File-System/</link><pubDate>Tue, 08 May 2018 14:12:25 +0000</pubDate><guid>http://www.guozet.me/post/Linux-Transparent-Encrypted-File-System/</guid><description>&lt;p>主要分为三个部分：&lt;/p>
+&lt;blockquote>
+&lt;p>第一部分是交互脚本与自动化脚本(Ubuntu)&lt;br>
+第二部分是界面设计&lt;br>
+第三部分是开源项目代码的说明&lt;/p>
+&lt;/blockquote>
+&lt;p>用户使用的是基于QT的用户界面，可以选择需要加密的文件路径，已经加密之后的路径。当图形界面接收到这些信息之后，会将该信息转换成一段包含了8个参数的数据包传递给shell脚本进行处理。&lt;/p>
+&lt;!-- more -->
+&lt;h2 id="一交互脚本与自动化脚本">一.交互脚本与自动化脚本&lt;/h2>
+&lt;h3 id="1-处理交互式过程的脚本">1. 处理交互式过程的脚本&lt;/h3>
+&lt;pre>&lt;code class="language-sh">#!/usr/bin/expect
+#该文件是处理交互式过程的主要文件，用来对输出信息进行解析，并自动输入对应的信息
+set timeout 2
+set ecryptfs_real [lindex $argv 0]
+#真实文件路径,实际的加密文件位置
+set ecryptfs_mount [lindex $argv 1]
+#挂载点路径，解密文件的位置
+set tangpassword [lindex $argv 2]
+#用户密码
+set key_type1 [lindex $argv 3]
+#密码管理方式
+set Passphrase [lindex $argv 4]
+#文件加密密码
+set ecryptfs_type [lindex $argv 5]
+#文件加密类型
+set key_bytes [lindex $argv 6]
+#文件加密位数
+set ecryptfs_fspath [lindex $argv 7]
+#路径是否加密
+set ecryptfs_filename [lindex $argv 8]
+#文件名是否加密
+spawn sudo mount -t ecryptfs $ecryptfs_real $ecryptfs_mount#挂载加密文件系统
+expect &amp;quot;password for tang:&amp;quot;
+send &amp;quot;$tangpassword\n&amp;quot;
+#填充用户密码
+expect &amp;quot;Select key type to use for newly created files:&amp;quot;
+send &amp;quot;$key_type1\n&amp;quot;
+expect
+#填充加密方式类型 &amp;quot;Passphrase:&amp;quot;
+send &amp;quot;$Passphrase\n&amp;quot;
+#填充文件加密密码
+expect &amp;quot;aes&amp;quot;
+send &amp;quot;$ecryptfs_type\n&amp;quot;
+#填充文件加密类型
+expect &amp;quot;Select key bytes:&amp;quot;
+send &amp;quot;$key_bytes\n&amp;quot;
+#填写文件加密位数
+expect &amp;quot;Enable plaintext passthrough&amp;quot;
+send &amp;quot;$ecryptfs_fspath\n&amp;quot;
+#选择是否对路径加密
+expect &amp;quot;Enable filename encryption&amp;quot;
+send &amp;quot;$ecryptfs_filename\r&amp;quot;
+interact
+#选择是否对文件名加密
+#expect eof
+#exit
+&lt;/code>&lt;/pre>
+&lt;h3 id="2-与qt交互的脚本">2. 与QT交互的脚本&lt;/h3>
+&lt;pre>&lt;code class="language-sh">#!/bin/bash
+##该脚本主要作用是接收QT传递过来的变量，并进行解析，之后，调用相应的交互处理脚本##接收QT传递过来的变量
+ECRYPTFS_REAL=$1 ##获取加密路径
+PASSWD=$2 ##用户密码
+PASS_TYPE=$3 ##密码类型
+PASSPHRASE=$4 ##加密路径，挂载点
+ECRYPTFS_TYPE=$5 ##加密类型
+ECRYPTFS_BIT=$6 ##加密位数
+ECRYPTFS_FS=$7 ##路径是否加密
+ECRYPTFS_FILENAME=$8 ##文件名是否加密
+count=0 ##初始值
+dir=&amp;quot;/tmp/mnt/ecryptfs$count&amp;quot; ##初始挂载点
+echo &amp;quot;Ecryptfs加密程序启动中...&amp;quot;
+echo &amp;quot;申请超级用户权限,请输入用户密码&amp;quot;
+##/bin/testpass
+df 1&amp;gt;/tmp/1.txt 2&amp;gt;/dev/null
+##检测当前已经使用的挂载点，建立一个新的挂载点来使用
+echo &amp;quot;已经挂载的加密目录有：&amp;quot;
+while cat /tmp/1.txt | grep -q $dir 2&amp;gt;/dev/null
+##挂载点 是否使用了
+do
+echo $dir
+let count=$count+1 ##一定要是/bin/bash如是/bin/sh这里就会出错
+dir=&amp;quot;/tmp/mnt/ecryptfs$count&amp;quot; ###新挂载点
+done
+rm /tmp/1.txt
+echo &amp;quot;新增挂载目录：&amp;quot; ###创建新的挂载点
+if [ ! -d $dir ];then ##判断目录是否存在
+mkdir -p $dir ###建立新挂载点目录,选项p，可以创建连续文件夹
+fi
+echo &amp;quot;加密程序启动，开始加密……
+echo &amp;quot;请输入加密密码，选择加密方式：&amp;quot;
+## sudo mount -t ecryptfs $(pwd) $dir ### $( )为引用命令结果
+##调用交互脚本来处理和用户的交互过程
+echo $ECRYPTFS_REAL $dir $PASSWD $ECRYPTFS_TYPE $ECRYPTFS_BIT $ECRYPTFS_FS $ECRYPTFS_FILENAME
+/bin/automount $ECRYPTFS_REAL $dir $PASSWD $PASS_TYPE $PASSPHRASE $ECRYPTFS_TYPE $ECRYPTFS_BIT $ECRYPTFS_FS $ECRYPTFS_FILENAME
+&lt;/code>&lt;/pre>
+&lt;h3 id="3-挂载点操作脚本">3. 挂载点操作脚本&lt;/h3>
+&lt;pre>&lt;code class="language-sh">#!/bin/bash
+##用来对当前挂载点进行卸载删除
+count=0
+dir=&amp;quot;/tmp/mnt/ecryptfs$count&amp;quot;
+gksudo df 1&amp;gt;/tmp/1.txt
+while cat /tmp/1.txt |grep -q $dir 2&amp;gt;/dev/null ##检查现在存在的挂载
+do
+echo $dir
+let count=$count+1
+sudo umount $dir &amp;amp;&amp;amp; rmdir $dir　　##卸载挂载点，卸载成功的前提下删除挂载点
+dir=&amp;quot;/tmp/mnt/ecryptfs$count&amp;quot;
+done
+&lt;/code>&lt;/pre>
+&lt;h3 id="4-添加到鼠标右键菜单的执行脚本">4. 添加到鼠标右键菜单的执行脚本&lt;/h3>
+&lt;pre>&lt;code class="language-sh">#!/bin/bash
+##添加到右键的执行脚本，用来打开QT交互式界面，获取用户的输入信息
+/home/tang/ecryptfs/imageconverter
+#/bin/ecryptfs_mounted.sh&amp;amp;
+&lt;/code>&lt;/pre>
+&lt;h3 id="5-在qt调用执行挂载脚本">5. 在QT调用执行挂载脚本&lt;/h3>
+&lt;pre>&lt;code class="language-sh"> #!/bin/bash
+##在QT中调用该脚本，该脚本的主要功能是执行挂载脚本ecryptfs_mounted.sh
+REALFILE=$1
+ECRYPTFSPATH=&amp;quot;/bin/ecryptfs_mounted.sh $REALFILE&amp;quot;
+echo $REALFILE 1&amp;gt;/TMP/2.txt
+echo
+$ECRYPTFSPATH 1&amp;gt;&amp;gt;/tmp/2.txt
+exec
+$ECRYPTFSPATH
+#exec gnome-terminal -x
+$ECRYPTFSPATH
+#/bin/ecryptfs_mounted.sh&amp;amp;
+&lt;/code>&lt;/pre>
+&lt;h2 id="二-ｑｔ界面程序设计">二. ＱＴ界面程序设计&lt;/h2>
+&lt;pre>&lt;code class="language-c++">#include &amp;lt;QtGui&amp;gt;
+#include &amp;quot;convertdialog.h&amp;quot;
+ConvertDialog::ConvertDialog(QWidget *parent)
+: QDialog(parent)
+{
+setupUi(this); //创建并布局好所有的窗口部件
+passwordEdit-&amp;gt;setEchoMode (QLineEdit::Password);//用户口令输入框
+filepasswordEdit-&amp;gt;setEchoMode (QLineEdit::Password);//文件密码输入框
+}
+void ConvertDialog::on_browseButton_clicked()//选择路径按钮触发
+{
+QString initialName = sourceFileEdit-&amp;gt;text();//加密文件夹路径输入框
+if (initialName.isEmpty())
+initialName = QDir::homePath();//为空，使用默认路径
+QString fileName =
+QFileDialog::getExistingDirectory(this, tr(&amp;quot;Choose File&amp;quot;),
+initialName);//弹出计算机路径选择框，选择路径加密
+fileName = QDir::toNativeSeparators(fileName);//加密路径
+if (!fileName.isEmpty()) {
+sourceFileEdit-&amp;gt;setText(fileName);//将路径信息保存起来
+// buttonBox-&amp;gt;button(QDialogButtonBox::Ok)-&amp;gt;setEnabled(true);
+}
+}
+void ConvertDialog::on_passwordEdit_textEdited(const QString &amp;amp;arg1)//password密码框
+{
+QRegExp regx (&amp;quot;^[^ ]+$&amp;quot;);// 设定正则表达式，不能输入空格
+QValidator *validator=new QRegExpValidator(regx,this);
+passwordEdit-&amp;gt;setValidator(validator);
+filepasswordEdit-&amp;gt;setValidator(validator);//正则表达式控制输入框字符格式
+}
+void ConvertDialog::on_filepasswordEdit_textEdited(const QString &amp;amp;arg1)//filepassword密码框
+{
+QRegExp regx (&amp;quot;^[^ ]+$&amp;quot;);// 不能输入空格
+QValidator *validator2=new QRegExpValidator(regx,this);
+passwordEdit-&amp;gt;setValidator(validator2);
+filepasswordEdit-&amp;gt;setValidator(validator2);//正则表达式控制输入框字符格式
+}
+void ConvertDialog::on_shellButton_clicked()//确定加密按钮触发
+{
+//system(&amp;quot;/bin/ecryptfs_mounted.sh /home/tang/&amp;quot;); //直接调用的方式，会阻塞进程
+//QProcess::execute(&amp;quot;/opt/run&amp;quot;)　　//调用QT里面的函数来实现，会阻塞进程
+passwordEdit-&amp;gt;setInputMask(&amp;quot;&amp;quot;);//提取password输入框内容
+filepasswordEdit-&amp;gt;setInputMask(&amp;quot;&amp;quot;);//提取filepassword输入框内容
+if(sourceFileEdit-&amp;gt;text().isEmpty()) // 必须输入加密路径，否则报错
+{
+QMessageBox::warning(this,tr(&amp;quot;worning&amp;quot;),tr(&amp;quot; Please select the path to encrypt !&amp;quot;),QMessageBox::Yes);//报错信息
+sourceFileEdit-&amp;gt;setFocus();//移动光标到加密路径输入框
+}
+else if(passwordEdit-&amp;gt;text().isEmpty()||filepasswordEdit-&amp;gt;text().isEmpty())//如果任一密码为空，直接报错
+{
+QMessageBox::warning(this,tr(&amp;quot;worning&amp;quot;),tr(&amp;quot; user password or file password can't be empty!&amp;quot;),QMessageBox::Yes);
+//报错信息
+passwordEdit-&amp;gt;clear();//清空用户密码输入框
+filepasswordEdit-&amp;gt;clear();//清空文件密码输入框
+passwordEdit-&amp;gt;setFocus();//移动光标到用户密码输入框
+}
+else
+{
+QString p1=passwordEdit-&amp;gt;text().trimmed();//去除首尾空格
+QString f1=filepasswordEdit-&amp;gt;text().trimmed();// 去除首尾空格
+QString p2,f2;
+int length1=p1.length();
+int length2=f1.length();
+for (int i=0;i&amp;lt;length1;i++)
+{if (p1[i]!=' ') p2+=p1[i];}//去除password中的空格
+for (int i=0;i&amp;lt;length2;i++)
+{if (f1[i]!=' ') f2+=f1[i];}//去除filepassword中的空格
+QString define = p2+&amp;quot; &amp;quot;+&amp;quot;1 &amp;quot;+f2+&amp;quot; &amp;quot;+ecryptfstypeComboBox-&amp;gt;currentText().toLower()
++&amp;quot; &amp;quot;+ecryptfsbitComboBox-&amp;gt;currentText().toLower()
++&amp;quot; &amp;quot;+fileecryptfsComboBox-&amp;gt;currentText().toLower()
++&amp;quot; &amp;quot;+filenameecryptfsComboBox-&amp;gt;currentText().toLower();//输出需要的信息
+qDebug()&amp;lt;&amp;lt;define;
+QString ecryptfs_sh = sourceFileEdit-&amp;gt;text()+&amp;quot; &amp;quot;+define;//写出保存的信息
+//ecryptfs_sh.insert(0,QString(&amp;quot;/bin/tangguoze &amp;quot;));
+qDebug()&amp;lt;&amp;lt;ecryptfs_sh;
+QStringList arguments;
+arguments &amp;lt;&amp;lt; ecryptfs_sh;//输出信息到脚本中
+QProcess *poc = new QProcess;//定义新进程
+poc -&amp;gt; start (&amp;quot;/bin/tangguoze&amp;quot;,arguments);//在QT中调用启动进程运行
+}
+}
+&lt;/code>&lt;/pre>
+&lt;h2 id="三ecryptfs开源部分的分析">三．eCryptfs开源部分的分析&lt;/h2>
+&lt;p>主要分为7个部分：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>keystore&lt;br>
+Keystore部件从文件中提供文件头信息，并将信息数据转发给callout应用程序。Keystore与callout应用程序之前使用netlink机制通信，通信的发起者为keystore。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Callout应用程序&lt;br>
+Callout应用程序根据目标策略对头文件信息作出评估，并给出各种操作，如：调用后台给应用程序弹出对话框要求密码短语，或用私钥解密一个会话秘钥。&lt;br>
+eCryptfs内核模块和用户空间秘钥管理代码之间的主要通信是请求秘钥，由内核秘钥环发起。Callout应用程序从目录分析策略信息，解析每个文件的头信息。为了满足挂起的公钥请求，他可以调用PKI API，或者用特殊的签名搜索带盐值得密码短语。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>eCryptfs后台弹出对话框输入密码短语&lt;br>
+为了能给用户弹出对话框来输入密码短语，eCryptfs必须提供得到X会话的通道。这可能通过运行一个后台来实现。eCryptfs后台侦听一个socket，它的地址信息写在用户的会话秘钥环中，无论何时策略需要弹出一个对话框请求密码短语时，callout应用程序都能提取socket的地址信息，并用它请求后台给用户弹出对话框，接着，后台将用户的密码短语返回给callout应用程序。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>内核秘钥环&lt;br>
+内核秘钥环用于管理和保护秘钥和认证特征。eCryptfs用内核秘钥环存储认证特征、节点加密统计信息和秘钥。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>PAM&lt;br>
+PAM（可插入的认证模块）提供了灵活的认证机制。eCryptfs含有一个模块，能捕获用户注册的密码短语，并将它放在用户的会话秘钥环中，这个密码短语作为无盐值密码短语认证特征。
+eCryptfs可以基于策略，使用这个密码短语进行加密操作。如：用这个密码短语从用户的GunPG秘钥环中提取他的私钥；通过字符串到秘钥操作，将这个密码短语直接用于保护文件的会话秘钥；这个秘钥短语还可以与存在TPM中的秘钥结合在一起，用来提供两个因子的认证，即用户为了访问一个文件，他必须注册到特殊主机，还需要使用特征的密码短语。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>公钥设施&lt;br>
+eCryptfs提供了可插入的PKI（公钥设施）接口，eCryptfs的PKI模块利用GPGME（GuuPG Made Easy）接口访问用户的GnuPG秘钥环。这个模块能使用用户的注册密码解密用户保存的私钥。&lt;br>
+eCryptfs的TMP PKI模块的TrouSerS使用接口与TPM（可信平台模块）通信，用来使用存在硬件中的私钥，将文件绑定到一个特定的主机上。
+eCryptfs openCryptoki PKCS#11框架PKI通过各种open Crytok的硬件设备，对在硬件上执行公钥操作的机制提供了支持。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>目标中心策略（Target-centric Polocies）&lt;br>
+当应用程序创建一个新文件时，eCryptfs必须作出许多的决策，如：文件是否加密？用哪个对称密码加密数据？文件是否加入HMAC并附加IV？会话秘钥长度是多少？如何保护会话秘钥？等等。
+eCryptfs将策略定义文件应用于目标。&lt;br>
+eCryptfs文件系统由内核空间系统和用户空间系统两部分组成。内核空间系统由内核空间的内核keystore、内核加密API、eCryptfs层、加密元数据和底层文件系统组成。而用户空间由callout应用程序，eCryptfs后台和PKI API等组成。&lt;br>
+另外，eCryptfs文件系统使用了Linux内核的密钥环服务、Linux可插入认证模块(Pluggable Authentication Modules, PAM)、可信平台模块（Trusten Platform Module, TPM）和GnuPG密钥环，Ecryptfs超级块私有数据主要包括加密的各种信息，如：认证特征、密钥环等。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;pre>
+/* superblock private data. */
+struct ecryptfs_sb_info {
+struct super_block *wsi_sb;
+struct ecryptfs_mount_crypt_stat mount_crypt_stat;
+};
+/* dentry private data. Each dentry must keep track of a lower
+* vfsmount too. */
+struct ecryptfs_dentry_info {
+struct path lower_path;
+struct ecryptfs_crypt_stat *crypt_stat;
+};
+/* inode private data. */
+struct ecryptfs_inode_info {
+struct inode vfs_inode;
+struct inode *wii_inode;
+struct file *lower_file;
+struct mutex lower_file_mutex;
+struct ecryptfs_crypt_stat crypt_stat;
+};
+/* file private data. */
+struct ecryptfs_file_info {
+struct file *wfi_file;
+struct ecryptfs_crypt_stat *crypt_stat;
+};
+eCryptfs的认证特征包括会话密钥、口令和私钥等以及他们的签名。会话密钥将口令进行加密。结构eCryptfs_auth_toke存放了eCryptfs文件系统范围内的的认证特征。
+/* May be a password or a private key */
+struct ecryptfs_auth_tok {
+u16 version; /* 8-bit major and 8-bit minor */
+u16 token_type;
+#define ECRYPTFS_ENCRYPT_ONLY 0x00000001
+u32 flags;
+struct ecryptfs_session_key session_key;
+u8 reserved[32];
+union {
+struct ecryptfs_password password;
+struct ecryptfs_private_key private_key;
+} token;
+} __attribute__ ((packed));
+加密统计信息结构ecryptfs_crypt_stat存入了与每个加密文件相关的加密信息。如：文件的加密操作标识、文件头的结构信息等。列出如下：
+/**
+* This is the primary struct associated with each encrypted file.
+*
+* TODO: cache align/pack?
+*/
+struct ecryptfs_crypt_stat {
+#define ECRYPTFS_STRUCT_INITIALIZED 0x00000001
+#define ECRYPTFS_POLICY_APPLIED 0x00000002
+#define ECRYPTFS_NEW_FILE 0x00000004
+#define ECRYPTFS_ENCRYPTED 0x00000008
+#define ECRYPTFS_SECURITY_WARNING 0x00000010
+#define ECRYPTFS_ENABLE_HMAC 0x00000020
+#define ECRYPTFS_ENCRYPT_IV_PAGES 0x00000040
+#define ECRYPTFS_KEY_VALID 0x00000080
+#define ECRYPTFS_METADATA_IN_XATTR 0x00000100
+#define ECRYPTFS_VIEW_AS_ENCRYPTED 0x00000200
+#define ECRYPTFS_KEY_SET 0x00000400
+u32 flags;
+unsigned int file_version;
+size_t iv_bytes;
+size_t num_header_bytes_at_front;
+size_t extent_size; /* Data extent size; default is 4096 */
+size_t key_size;
+size_t extent_shift;
+unsigned int extent_mask;
+struct ecryptfs_mount_crypt_stat *mount_crypt_stat;
+struct crypto_blkcipher *tfm;
+struct crypto_hash *hash_tfm; /* Crypto context for generating
+* the initialization vectors */
+unsigned char cipher[ECRYPTFS_MAX_CIPHER_NAME_SIZE];
+unsigned char key[ECRYPTFS_MAX_KEY_BYTES];
+unsigned char root_iv[ECRYPTFS_MAX_IV_BYTES];
+struct list_head keysig_list;
+struct mutex keysig_list_mutex;
+struct mutex cs_tfm_mutex;
+struct mutex cs_hash_tfm_mutex;
+struct mutex cs_mutex;
+};
+&lt;/pre></description></item></channel></rss>

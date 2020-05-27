@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Laptop | Terry Tang</title><link>http://www.guozet.me/category/Laptop/</link><atom:link href="http://www.guozet.me/category/Laptop/index.xml" rel="self" type="application/rss+xml"/><description>Laptop</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><copyright>guozet.me © 2020</copyright><lastBuildDate>Wed, 30 May 2018 20:30:32 +0000</lastBuildDate><image><url>http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url><title>Laptop</title><link>http://www.guozet.me/category/Laptop/</link></image><item><title>Acer Chromebook R11 ChromeOS 使用手册(坑)</title><link>http://www.guozet.me/post/Acer-Chromebook-R11/</link><pubDate>Wed, 30 May 2018 20:30:32 +0000</pubDate><guid>http://www.guozet.me/post/Acer-Chromebook-R11/</guid><description>&lt;h2 id="前言">前言&lt;/h2>
+&lt;p>之前使用了两年的MSI GE60 2PG 笔记本散热问题越来越严重，导致风扇永远转到最高转速，否则CPU温度一直无法降下来。但是，风扇转到最高转速，这台电脑产生的噪音会非常大，如果咋图书馆或者实验室使用，很容易就影响到周围学习的其他同学了，于是考虑到都买另外一个轻便的，待机时间比较长的笔记本到学校，能够支持自己的常规使用。&lt;/p>
+&lt;h2 id="购买-acer-chromebook-r11">购买 Acer Chromebook R11&lt;/h2>
+&lt;p>综合对比的自己的预算以及网友的评价，最后选择了
+&lt;a href="https://www.acer.com/ac/en/US/content/series/acerchromebookr11" target="_blank" rel="noopener">Acer Chromebook R11&lt;/a>(内存4G, SSD:32G), 主要考虑的是只需要279刀，待机时间到10小时左右，屏幕触屏，画面显示给力，触摸板键盘比较舒服。
+个人使用Chromebook的目标是是：&lt;/p>
+&lt;ul>
+&lt;li>阅读网页，PDF文档，使用Google doc书写文档&lt;/li>
+&lt;li>简单使用SSH登陆到服务器书写代码&lt;/li>
+&lt;li>代码阅读，简单编译一些练习代码&lt;/li>
+&lt;li>远程连接MSI GE60 电脑完成开发或处理紧急问题
+我并不想使用一台279刀的Chromebook来完成自己的项目开发或者运行Matlab之类的软件，它的定位就是辅助自己完成一些简单的不需要消耗太大内存资源的工作，后续我对Acer Chromebook的使用过程中也是这样去安排的。&lt;/li>
+&lt;/ul>
+&lt;h2 id="使用手册">使用手册&lt;/h2>
+&lt;h3 id="常用功能插件">常用功能&amp;amp;插件&lt;/h3>
+&lt;ul>
+&lt;li>
+&lt;p>
+&lt;a href="https://www.kamihq.com/" target="_blank" rel="noopener">Kami&lt;/a> ： 这并不能算作是一个插件，这是一个在线的PDF阅读标注网站，你可以绑定Google邮箱，上传自己本地的文件，然后在线阅读并做笔记，然后它会自动把你的笔记以及文档保存到Google云盘里面，十分方便，随时在何地都可以通过浏览器来打开使用，一样的笔记，一样的阅读进度，很适合作为云端的PDF阅读工具。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>
+&lt;a href="https://stackedit.io/app#" target="_blank" rel="noopener">stackedit&lt;/a>: 网页应用，这是开源世界的markdown利器，让你随时随地做笔记、做记录。如果你喜欢写博客，或者喜欢Markdown这种专注于写作的方式，强烈推荐尝试。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>
+&lt;a href="https://chrome.google.com/webstore/detail/evernote-web-clipper/pioclpoplcdbaefihamjohnefbikjilc?hl=en-US" target="_blank" rel="noopener">Evernote Web&lt;/a> : 这是chrome端的Evernote笔记的收集插件，能够快速的把网页资料收集到自己的Evernote里面去。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>
+&lt;a href="https://chrome.google.com/webstore/detail/desktop-messenger-for-tel/dafiggkhlbbhfcpgggcfeeoliillkabn?hl=en-US" target="_blank" rel="noopener">Telegram&lt;/a> : 这是一款加密的通信软件，可以很好的在手机端和电脑端同步消息，互传文件(大小没有限制)，并且消息和文件永久保存，并不会因为你换收集或者电脑而导致你的消息和文件丢失。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>
+&lt;a href="https://chrome.google.com/webstore/detail/gmail-offline/ejidjjhkpiempkbhmpbfngldlkglhimk?hl=en" target="_blank" rel="noopener">Gmail Ofline&lt;/a>: 这是没有办法的时候，总是有周围没有无线的地方，所以你就需要一个离线的Gmail，让自己能够离线编辑一些邮件消息，当Chromebook连接到网络的时候，能够快速发送邮件出去。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>
+&lt;a href="https://chrome.google.com/webstore/detail/chrome-remote-desktop/gbchcmhmhahfdphkhkmpfmihenigjmpp?hl=en" target="_blank" rel="noopener">Chrome Remote Desktop&lt;/a> 但我们的资料在家里的电脑上，或者在公司的电脑上面时，我们需要短暂的连接过去，处理一些工作的时候，这个插件就能够很好的帮助你快速的完成任务。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>
+&lt;a href="https://chrome.google.com/webstore/detail/caret/fljalecfjciodhpcledpamjachpmelml?hl=en" target="_blank" rel="noopener">Caret&lt;/a>: Chromebook端的代码阅读工具，对中文支持比较友好。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>
+&lt;a href="https://chrome.google.com/webstore/detail/mathstudio/pcpedkecdcnobiheblbhgleenlbdoknp?hl=en-US" target="_blank" rel="noopener">MathStudio&lt;/a>: 很小但是功能很强大的数学工具，能够画出简单的正弦图形，以及一些常用的数学图形，当然也可以作为数学计算器来使用，很方便。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>
+&lt;a href="https://chrome.google.com/webstore/detail/pdf-merge-pdf-files-merge/ndolbcaghkmhjhgggldkgjibdilpbdbm?hl=en-US" target="_blank" rel="noopener">PDF Mergy&lt;/a>: 小插件，完成PDF文件的合并工作&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Write: 书写小插件，能够打开一个很绚丽的网页，让你专注的书写内容&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>
+&lt;a href="https://github.com/listen1/listen1_chrome_extension" target="_blank" rel="noopener">listen1_chrome_extension&lt;/a> 听歌利器，在 Chromebook 里更是神器，不用安装不兼容的 Android apps&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>
+&lt;a href="https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en-US" target="_blank" rel="noopener">Tampermonkey&lt;/a> 和 ublock 这种神器就不介绍了&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>
+&lt;a href="https://chrome.google.com/webstore/detail/cog-system-info-viewer/difcjdggkffcfgcfconafogflmmaadco?utm_source=chrome-app-launcher-info-dialog" target="_blank" rel="noopener">Cog - System Info Viewer&lt;/a> 查看性能的工具&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>这些插件是我使用过一段时间之后，依旧还保留在我的Chromebook上面的内容，如果你感兴趣，不妨尝试一下。&lt;/p>
+&lt;h3 id="进阶操作远程桌面">进阶操作：远程桌面&lt;/h3>
+&lt;h4 id="场景">场景&lt;/h4>
+&lt;p>长时间使用Chromebook连接到公司或者家里自己的主机进行工作，完成项目等，这就需要考虑使用远程桌面来很好的完成工作。经过一个月的时间，陆续地尝试了能够支持Chromebook的远程桌面软件。
+个人要求：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>通过Chromebook的chrome插件或者App能够进行远程连接(并不是通过安卓APP)&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>使用过程中不通过IP地址直接连接(尝试过这种方式，但是并不能达到我的画质要求)&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>长时间(超过10小时)连接使用比较稳定&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>操作方便，Chromebook的按键能够正常工作&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>经过对比Teamviewer, Splashtop, Chrome Remote Desktop app, UltraVNC这几款能够在Chromebook上面使用的插件或者APP，去掉了收费的Splashtop，以及需要IP地址点对点连接的UltraVNC，最后保留了Teamviewer和Chrome Remote Desktop.&lt;/p>
+&lt;h4 id="teamviewer">Teamviewer&lt;/h4>
+&lt;p>Teamviewer在chromebook上连接Win10的画面效果，延时情况应该是上述软件里面最好的了，并且面向个人使用是完全免费的，你只需要登录你的账号，就可以免费无广告的连接自己的远程主机，并不需要考虑IP地址，防火墙以及NAT代理之类的。但也有这么几个缺点。&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>Chromebook端的软件功能不完善，必须每次登录到网页端才能够看到自己账号下面的机器，通过在网页端点击然后调用APP连接，过程比较繁琐&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>对Chromebook的键盘没有适配，导致操作起来并不是很方便。比如：不能使用&lt;code>Windows&lt;/code>按键&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h4 id="chrome-remote-desktop">Chrome Remote Desktop&lt;/h4>
+&lt;p>谷歌自己的远程桌面软件，所以对Chromebook的支持比较好，把Chromebook右侧的&lt;code>Ctrl&lt;/code>按键转换为了&lt;code>Windows&lt;/code>按键，以及很多的Chromebook快捷键也可以在远程桌面的时候使用。初次之外，和Teamviewer对比起来有这么几个缺点：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>图像质量不是太好，打字的时候，能够明显感觉到字体周围模糊&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>延时有时候比较大&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>综合起来，我同时保留的这两个远程桌面软件，在需要长时间工作的时候，那我就会选用Teamviewer, 因为这个时候图像的清晰对我很重要，我不想对着有些模糊的图像长达八个小时。但当我只是需要快速远程连接过去，提交文件或者发一封简短的邮件的时候，我就会选择Chrome Remote Desktop，它能够让我以最快的速度完成我远程连接的工作。&lt;/p>
+&lt;h3 id="进阶操作ssh连接----secure-shellhttpschromegooglecomwebstoredetailsecure-shell-apppnhechapfaindjhompbnflcldabbghjohlen">进阶操作：SSH连接 &amp;mdash;&lt;strong>
+&lt;a href="https://chrome.google.com/webstore/detail/secure-shell-app/pnhechapfaindjhompbnflcldabbghjo?hl=en" target="_blank" rel="noopener">Secure Shell&lt;/a>&lt;/strong>&lt;/h3>
+&lt;p>这是google官方出的SSH插件，到google应用商店下载扩展即可，下载之后打开即可。
+使用说明：&lt;/p>
+&lt;pre>&lt;code>username@hostname or free form text //填写你想为这个session定制的名字,比如：lab.university
+username位置：填写你要连接的服务器的账号名称，比如:root
+hostname位置：这里可以直接填写IP地址，也可以填写域名，一致的。比如：192.168.2.121
+port：填写服务器开放的SSH端口连接地址,一般服务器默认的是：22
+SSH relay severs options：这个位置不用填写，可以空出来
+&lt;/code>&lt;/pre>
+&lt;p>填完上述的内容，就可以选择连接了，上述内容相当于你在终端输入了：&lt;code>ssh -p 22 root@192.168.2.121&lt;/code>，根据反馈的提示内容，输入你的登陆密码就可以了。
+但是如果每次连接都需要你时输入密码，这就是一个比较烦躁的事情了，所以你需要导入你的秘钥信息&lt;/p>
+&lt;pre>&lt;code>Identity:[default] 这个位置可以导入你的秘钥信息，点击`import`，同时选中自己的id_rsa和id_rsa.pub文件之后，点击`open`.（注意：这需要同时导入两个文件）
+&lt;/code>&lt;/pre>
+&lt;p>到这里你还不能够直接免密码登陆到服务器，需要你将自己的&lt;code>id_rsa.pub&lt;/code>文件中的字符内容拷贝到服务器端的&lt;code>~/.ssh/authorized_keys&lt;/code>文件中。至于如何生成秘钥文件，请参考
+&lt;a href="http://cs.umw.edu/~finlayson/class/cpsc225/notes/01-ssh-chrome.html" target="_blank" rel="noopener">教程&lt;/a>。&lt;/p>
+&lt;h3 id="进阶操作-通过crouton安装ubuntu">进阶操作: 通过crouton安装Ubuntu&lt;/h3>
+&lt;h4 id="进入开发者模式">进入开发者模式&lt;/h4>
+&lt;p>关机之后，同时按下 esc + 刷新键(第一排左边数过去第四个）+电源键即可。然后 Chromebook 重启，然后按 Ctrl+D 继续，回车确定关闭chromebook 的安全认证，然后chromebook重启，上面的进度条走完了之后自动重启，就进入开发者模式了。&lt;/p>
+&lt;h4 id="通过crouton安装ubuntu">通过Crouton安装Ubuntu&lt;/h4>
+&lt;ul>
+&lt;li>
+&lt;p>crouton的下载链接：
+&lt;a href="https://github.com/dnschneid/crouton/raw/master/installer/crouton" target="_blank" rel="noopener">crouton&lt;/a>, 下载之后默认在&lt;code>Downloads&lt;/code>文件夹下面&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>用 &lt;code>Ctrl+ALT+ t&lt;/code> 调出 &lt;code>crosh&lt;/code> 窗口，输入 &lt;code>shell&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>输入&lt;code>sh ~/Downloads/crouton -r list&lt;/code>查看croutonz支持的Ubuntu版本&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>安装Ubuntu unity: &lt;code>sudo sh ~/Downloads/crouton -t unity&lt;/code> 这里我选择的是Ubuntu的unity桌面，如果你喜欢其他桌面，可以把&lt;code>unity&lt;/code>换成&lt;code>xfce&lt;/code>&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>如果你不想安装桌面，或者Chromebook的资源比较少，就可以只输入: &lt;code>sudo sh ~/Downloads/crouton -t core&lt;/code>，这样就只会安装最简单的终端CLI&lt;/p>
+&lt;/blockquote>
+&lt;ul>
+&lt;li>进入桌面：&lt;code>sudo startunity&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>其他命令：
+&lt;code>sudo enter-chroot&lt;/code> 进入终端
+&lt;code>sudo startxfce4&lt;/code> 启动 xfce 桌面
+在 Chrome os 和 Linux 之间切换：
+从 Chrome os 到 Linux：&lt;code>shift + ctrl + alt + 前进键（第1排第3个键）&lt;/code>
+从 Linux 到 Chrome os ：&lt;code>shift + ctrl + alt + 后退键（第1排第2个键）&lt;/code>&lt;/p>
+&lt;/blockquote>
+&lt;p>官方通过Crouton安装Ubuntu的教程：
+&lt;a href="https://tutorials.ubuntu.com/tutorial/install-ubuntu-on-chromebook#0" target="_blank" rel="noopener">Installing Ubuntu with crouton&lt;/a>&lt;/p>
+&lt;h4 id="ubuntu环境配置">Ubuntu环境配置&lt;/h4>
+&lt;p>我们通过&lt;code>sudo sh ~/Downloads/crouton -t unity&lt;/code>这条命令安装的Ubuntu并不是完整版本的，并没有软件管理中心，也没完整的系统设置功能。所以，如果你的电脑是32G以上的SSD的话，&lt;/p>
+&lt;h5 id="安装完整的ubuntu桌面版">安装完整的Ubuntu桌面版&lt;/h5>
+&lt;p>在Ubuntu内打开终端：&lt;/p>
+&lt;pre>&lt;code class="language-bash">sudo apt-get install ubuntu-desktop //下载完整版 Ubuntu
+sudo apt-get remove libreoffice-common -y //删除 libreoffice
+sudo apt-get remove unity-webapps-common -y //删除 amazon
+sudo apt-get remove thunderbird totem rhythmbox empathy brasero simple-scan gnome-mahjongg aisleriot gnome-mines cheese transmission-common gnome-orca webbrowser-app gnome-sudoku landscape-client-ui-install onboard deja-dup -y
+&lt;/code>&lt;/pre>
+&lt;h5 id="设置中文工作环境">设置中文工作环境&lt;/h5>
+&lt;pre>&lt;code class="language-bash">sudo apt-get install language-pack-zh-hans language-pack-zh-hans-base language-pack-gnome-zh-hans language-pack-gnome-zh-hans-base
+sudo apt-get install `check-language-support -l zh`
+sudo localectl set-locale LANG=zh_CN.UTF-8
+&lt;/code>&lt;/pre>
+&lt;h4 id="crouton常规使用chromebook中的crosh中操作">crouton常规使用(chromebook中的crosh中操作)&lt;/h4>
+&lt;h5 id="crouton的升级">crouton的升级&lt;/h5>
+&lt;pre>&lt;code class="language-bash">sudo ~/Downloads/crouton -u -n croutonname
+&lt;/code>&lt;/pre>
+&lt;p>这里的croutonname替换成你安装的版本：如xenial&lt;/p>
+&lt;h5 id="crouton内的ubuntu关机">crouton内的Ubuntu关机&lt;/h5>
+&lt;p>一般选择在Ubuntu里面点击关机按钮(右上角设置里面)，然后自动退出到Chrome OS里面&lt;/p>
+&lt;h5 id="删除crouton安装的ubuntu">删除crouton安装的ubuntu&lt;/h5>
+&lt;pre>&lt;code class="language-bash">sudo delete-chroot chrootname //chrootname: 所安装 ubuntu 的版本代号，比如xenial：代表的是Ubuntu16。04
+&lt;/code>&lt;/pre>
+&lt;h5 id="备份与恢复crouton里面的ubuntu">备份与恢复Crouton里面的Ubuntu&lt;/h5>
+&lt;p>&lt;strong>备份&lt;/strong>&lt;/p>
+&lt;pre>&lt;code class="language-bash">sudo edit-chroot -b xenial
+&lt;/code>&lt;/pre>
+&lt;p>注：xenial为ubuntu的版本名称，即16.04为xenial&lt;/p>
+&lt;p>&lt;strong>恢复&lt;/strong>&lt;/p>
+&lt;pre>&lt;code class="language-bash">sudo sh ~/Downloads/crouton -f ~/Downloads/*.tar.gz
+&lt;/code>&lt;/pre>
+&lt;p>注：将*.tar.gz改为你的备份文件名。&lt;/p>
+&lt;p>&lt;strong>删除备份&lt;/strong>&lt;/p>
+&lt;pre>&lt;code class="language-bash">sudo edit-chroot -d xenial
+&lt;/code>&lt;/pre>
+&lt;h5 id="解决音频的bug问题">解决音频的Bug问题&lt;/h5>
+&lt;p>暂时没有解决(遗留)
+网上解决方案(未在我的Chromebook上面成功)：&lt;/p>
+&lt;ol>
+&lt;li>在Chrome OS中shift+alt+T调出crosh窗口，输入&lt;code>shell&lt;/code>。&lt;/li>
+&lt;li>输入&lt;code>sudo enter-chroot -n trusty&lt;/code>&lt;/li>
+&lt;li>输入&lt;code>sudo apt-get dist-upgrade&lt;/code>&lt;/li>
+&lt;li>Ctrl+D登出&lt;/li>
+&lt;li>输入&lt;code>sudo sh -e ~/Downloads/crouton-master/installer/main.sh(下载的哪个文件用哪个文件名） -u -n xenial&lt;/code> 等待更新完成。一般出现的无声音、不能播放视频等BUG都可以解决。
+&lt;strong>注：xenial为版本号，你使用哪个版本填写哪个版本号&lt;/strong>x&lt;/li>
+&lt;/ol>
+&lt;h4 id="crouton进阶操作">crouton进阶操作&lt;/h4>
+&lt;h5 id="在chromebook里面的chrome中以窗口的方式运行ubuntu">在Chromebook里面的chrome中以窗口的方式运行Ubuntu&lt;/h5>
+&lt;p>先在Chromebook的chrome 网上应用商店里下载
+&lt;a href="https://chrome.google.com/webstore/detail/crouton-integration/gcpneefbbnfalgjniomfjknbcgkbijom" target="_blank" rel="noopener">cronton-integration&lt;/a>
+然后在crosh中，安装xiwi桌面&lt;/p>
+&lt;pre>&lt;code class="language-bash">sudo sh ~/Downloads/crouton -t unity,extension,xorg,xiwi //我是在 xfce 桌面下使用的 unity 也可行 但要求下载 extension,xorg,xiwi
+sudo startxunity -X xiwi // 使用 xiwi 来实现 窗口化
+&lt;/code>&lt;/pre>
+&lt;h2 id="使用中遇到的问题">使用中遇到的问题&lt;/h2>
+&lt;h3 id="wifi开关无法开启的问题">Wifi开关无法开启的问题&lt;/h3>
+&lt;p>问题描述：在Chrome OS系统中，当休眠状态恢复之后，出现过Wifi无法连接，系统的Wifi状态是关闭的，即使点击的开启的按钮，但是在三到五秒之后就会自动关闭。
+解决方案：经过自己检查，发现是Wifi模块有一些松动，所以拆机之后，重新固定了Wifi模块就可以使用了。&lt;/p></description></item></channel></rss>

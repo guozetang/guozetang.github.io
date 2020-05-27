@@ -1,0 +1,1065 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>C++ | Terry Tang</title><link>http://www.guozet.me/tag/C-/</link><atom:link href="http://www.guozet.me/tag/C-/index.xml" rel="self" type="application/rss+xml"/><description>C++</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><copyright>guozet.me © 2020</copyright><lastBuildDate>Tue, 27 Nov 2018 10:14:31 +0000</lastBuildDate><image><url>http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url><title>C++</title><link>http://www.guozet.me/tag/C-/</link></image><item><title>C++中两个类相互引用的情况</title><link>http://www.guozet.me/post/C++-Two-Class-include-other-one/</link><pubDate>Tue, 27 Nov 2018 10:14:31 +0000</pubDate><guid>http://www.guozet.me/post/C++-Two-Class-include-other-one/</guid><description>&lt;h1 id="question">Question&lt;/h1>
+&lt;p>现在有两个类A和B需要定义，定义A的时候需要用到B，定义B的时候需要用到A。&lt;/p>
+&lt;pre>&lt;code class="language-cpp">//A.h
+#include &amp;quot;B.h&amp;quot;
+class A
+{
+B b;
+};
+&lt;/code>&lt;/pre>
+&lt;pre>&lt;code class="language-cpp">//B.h
+#include &amp;quot;A.h&amp;quot;
+class B
+{
+A a;
+};
+&lt;/code>&lt;/pre>
+&lt;!-- more -->
+&lt;hr>
+&lt;h1 id="analyze">Analyze&lt;/h1>
+&lt;p>A和B的定义和调用都放在一个文件中肯定是不可以的，这样就会造成两个循环调用的死循环。&lt;/p>
+&lt;p>根本原因是：定义A的时候，A的里面有B，所以就需要去查看B的占空间大小，但是查看的时候又发现需要知道A的占空间大小，造成死循环。&lt;/p>
+&lt;hr>
+&lt;h1 id="solution">Solution&lt;/h1>
+&lt;ul>
+&lt;li>写两个头文件A.h和B.h分别用于声明类A和B；&lt;/li>
+&lt;li>写两个.cpp文件分别用于定义类A和B；&lt;/li>
+&lt;li>在A的头文件中导入B的头文件；&lt;/li>
+&lt;li>在B的头文件中不导入A的头文件，但是用extern 的方式声明类A，并且，在B中使用A的时候要用指针的形式。&lt;/li>
+&lt;/ul>
+&lt;p>原理：在B中用指针调用A，那么在A需要知道B占空间大小的时候，就会去找到B的定义文件，虽然B的定义文件中并没有导入A的头文件，不知道A的占空间大小，但是由于在B中调用A的时候用的指针形式，B只知道指针占4个字节就可以，不需要知道A真正占空间大小，也就是说，A也是知道B的占空间大小的。&lt;/p>
+&lt;p>参考博客：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;a href="https://blog.csdn.net/qq_22488067/article/details/73195621" target="_blank" rel="noopener">C++ 两个类头文件互相引用&lt;/a>&lt;/li>
+&lt;li>
+&lt;a href="https://blog.csdn.net/xiqingnian/article/details/41214539" target="_blank" rel="noopener">C++中两个类互相引用的解决方法&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;hr></description></item><item><title>C++ vector push_back() Vs emplace_back</title><link>http://www.guozet.me/post/C++-Vector-pushback-vs-emplaceback/</link><pubDate>Tue, 23 Oct 2018 02:09:31 +0000</pubDate><guid>http://www.guozet.me/post/C++-Vector-pushback-vs-emplaceback/</guid><description>&lt;h1 id="introduce">Introduce&lt;/h1>
+&lt;h2 id="stdvectorpush_back">std::vector::push_back()&lt;/h2>
+&lt;p>Appends the given element value to the end of the container.&lt;/p>
+&lt;ul>
+&lt;li>The new element is initialized as a copy of value.&lt;/li>
+&lt;li>value is moved into the new element.&lt;/li>
+&lt;/ul>
+&lt;p>If the new &lt;code>size()&lt;/code> is greater than &lt;code>capacity()&lt;/code> then all iterators and references (including the past-the-end iterator) are invalidated. Otherwise only the past-the-end iterator is invalidated. (Cite from:
+&lt;a href="https://en.cppreference.com/w/cpp/container/vector/push_back" target="_blank" rel="noopener">cppreference.com&lt;/a>)&lt;/p>
+&lt;hr>
+&lt;h3 id="example">Example&lt;/h3>
+&lt;p>Firstly, if we have a class &lt;code>String&lt;/code>, then we can use this class to test the &lt;code>push_back()&lt;/code> functions.&lt;/p>
+&lt;pre>&lt;code class="language-cpp">#include &amp;lt;iostream&amp;gt;
+#include &amp;lt;cstring&amp;gt;
+#include &amp;lt;vector&amp;gt;
+class string {
+public:
+string() : buf(new char[1]) {
+std::cout &amp;lt;&amp;lt; &amp;quot;default&amp;quot; &amp;lt;&amp;lt; std::endl;
+buf[0] = '\0';
+}
+string(const char* s) : buf(new char[strlen(s) + 1]) {
+std::cout &amp;lt;&amp;lt; &amp;quot;convert&amp;quot; &amp;lt;&amp;lt; std::endl;
+strcpy(buf, s);
+}
+explicit string(const string&amp;amp; s) : buf(new char[strlen(s.buf) + 1]) {
+std::cout &amp;lt;&amp;lt; &amp;quot;copy&amp;quot; &amp;lt;&amp;lt; std::endl;
+strcpy(buf, s.buf);
+}
+~string() {
+std::cout &amp;lt;&amp;lt; &amp;quot;destructor&amp;quot; &amp;lt;&amp;lt; std::endl;
+delete[] buf;
+}
+string&amp;amp; operator=(const string&amp;amp; rhs) {
+std::cout &amp;lt;&amp;lt; &amp;quot;copy assign&amp;quot; &amp;lt;&amp;lt; std::endl;
+if (this == &amp;amp;rhs) return *this;
+delete[] buf;
+buf = new char[strlen(rhs.buf) + 1];
+strcpy(buf, rhs.buf);
+return *this;
+}
+const char* getBuf() const { return buf; }
+private:
+char* buf;
+};
+std::ostream&amp;amp; operator&amp;lt;&amp;lt;(std::ostream&amp;amp; out, const string&amp;amp; s) {
+return out &amp;lt;&amp;lt; s.getBuf();
+}
+&lt;/code>&lt;/pre>
+&lt;p>&lt;strong>Understand:&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>The new element is initialized as a copy of value.&lt;/li>
+&lt;li>value is moved into the new element.&lt;/li>
+&lt;/ul>
+&lt;pre>&lt;code class="language-cpp">int main() {
+std::vector&amp;lt;string&amp;gt; vec;
+vec.push_back(&amp;quot;test&amp;quot;);
+vec.push_back(&amp;quot;test2&amp;quot;);
+}
+&lt;/code>&lt;/pre>
+&lt;p>Output:&lt;/p>
+&lt;pre>&lt;code class="language-bash">convert // Covert &amp;quot;test&amp;quot; to class string
+copy // Copy string(test) to vector
+destructor
+convert // Covert &amp;quot;test2&amp;quot; to class string
+copy // Size() &amp;gt; capacity(), then apply for a new memory, and copy &amp;quot;test&amp;quot; to new vector.
+copy // Copy string(test2) to vector
+destructor
+destructor
+destructor
+destructor
+&lt;/code>&lt;/pre>
+&lt;p>In the case, I used this example to test how to initialize a new element in the vector. Like this case, when we new an object, we copy this object into vector. After that, we can delete this object.&lt;/p>
+&lt;ul>
+&lt;li>Convert a new string object 1&lt;/li>
+&lt;li>Copy the string object 1 to the string object 2, and move string object 2 into the new element.&lt;/li>
+&lt;li>Delete the string object 1&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;h2 id="stdvectoremplace_back-since-c-11">std::vector::emplace_back (Since C++ 11)&lt;/h2>
+&lt;p>Appends a new element to the end of the container. The element is constructed through std::allocator_traits::construct, which typically uses placement-new to construct the element in-place at the location provided by the container. The arguments args&amp;hellip; are forwarded to the constructor as std::forward&lt;Args>(args)&amp;hellip;.&lt;/p>
+&lt;p>If the new size() is greater than capacity() then all iterators and references (including the past-the-end iterator) are invalidated. Otherwise only the past-the-end iterator is invalidated.&lt;/p>
+&lt;h3 id="example-1">Example&lt;/h3>
+&lt;pre>&lt;code class="language-cpp">int main() {
+std::vector&amp;lt;string&amp;gt; vec;
+vec.emplace_back(&amp;quot;TEST&amp;quot;);
+vec.emplace_back(&amp;quot;TES3&amp;quot;);
+}
+&lt;/code>&lt;/pre>
+&lt;p>&lt;strong>Output:&lt;/strong>&lt;/p>
+&lt;pre>&lt;code class="language-bash">convert
+convert
+copy // Copy the first one from the old vector memory to the new memory
+destructor
+destructor
+destructor
+&lt;/code>&lt;/pre></description></item><item><title>Translation of Programming Languages(CU CPSC8270)</title><link>http://www.guozet.me/post/Translation-of-Programming-Languages-index/</link><pubDate>Fri, 05 Oct 2018 13:04:27 +0000</pubDate><guid>http://www.guozet.me/post/Translation-of-Programming-Languages-index/</guid><description>&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-10-04-Translation-of-Programming-Languages-index/2018-10-07-18-16-06.png" alt="">&lt;/p>
+&lt;p>编译原理这门课程是我在CU的2018 Fall选修的一门专业核心课程，老师是Clemson CS系比较受欢迎的
+&lt;a href="https://people.cs.clemson.edu/~malloy/" target="_blank" rel="noopener">Brian Malloy教授&lt;/a>。在他的个人主页上面也有Python, C++， 2D游戏的教程，非常适合对CS感兴趣的同学学习。&lt;/p>
+&lt;hr>
+&lt;h1 id="课程内容">课程内容&lt;/h1>
+&lt;h3 id="week1">Week1&lt;/h3>
+&lt;p>&lt;strong>Aug 28, Tue&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>Read Section 1, the Introduction, to grammarware paper&lt;/li>
+&lt;li>Discuss slides about Grammars&lt;/li>
+&lt;li>Answer questions about Basics and Classes&lt;/li>
+&lt;li>Do the Rule of 3&lt;/li>
+&lt;/ul>
+&lt;p>本周的重点内容是&lt;code>C++的基本语法以及Classes的使用&lt;/code> 和 &lt;code>C++ Rule of 3&lt;/code>的规则应用。在这里分别整理了两个部分的博客文章：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;a href="http://www.guozet.me/post/C&amp;#43;&amp;#43;-Rule-Of-Three/">C++ Rule of 3&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;!-- TODO:完成关于Basics and Classes的内容 -->
+&lt;p>&lt;strong>Aug 30, Thu&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>Regular grammars and regular expressions&lt;/li>
+&lt;li>Review Rule of 3&lt;/li>
+&lt;li>What gets called&lt;/li>
+&lt;li>The Rule of 5&lt;/li>
+&lt;li>The Rule of Zero&lt;/li>
+&lt;/ul>
+&lt;!-- TODO:Post: Rule of 5
+TODO:Post: Rule of Zero
+TODO:Post: what get called.
+TODO:Regular expressions -->
+&lt;h2 id="week2">Week2&lt;/h2>
+&lt;p>&lt;strong>Sep 4, Tue&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>What gets called
+&lt;ul>
+&lt;li>Why prefer init over assign?!&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Introduce vectors
+&lt;ul>
+&lt;li>size vs capacity&lt;/li>
+&lt;li>value semantics&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Intro to Flex&lt;/li>
+&lt;li>Project #2&lt;/li>
+&lt;li>Quiz #1 &amp;ndash; Thursday&lt;/li>
+&lt;/ul>
+&lt;h2 id="week3">Week3&lt;/h2>
+&lt;p>&lt;strong>Sep 13, Thu&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>Questions about move semantics?
+&lt;ul>
+&lt;li>Well I have one?&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>flex:
+&lt;ul>
+&lt;li>ambiguity:&lt;/li>
+&lt;li>codes&lt;/li>
+&lt;li>first&lt;/li>
+&lt;li>wc&lt;/li>
+&lt;li>states&lt;/li>
+&lt;li>line numbers: lineno&lt;/li>
+&lt;li>debug mode&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>static varsux&lt;/li>
+&lt;li>Singleton Pattern (单例设计模式)&lt;/li>
+&lt;/ul>
+&lt;p>理解为什么要使用 Singleton设计模式，已详细分析了为什么要使用singleton模式，以及Singleton设计模式的好处和如何来书写Singleton. 请参考博客:&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;a href="http://www.guozet.me/post/C&amp;#43;&amp;#43;Singleton-pattern/">C++软件设计模式之Singleton&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h2 id="week4">Week4&lt;/h2>
+&lt;p>&lt;strong>Sep 20, Thu&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>The Bison Parser Generator: shift/reduce parsing LALR(1)&lt;/li>
+&lt;li>Balanced Parens &amp;ndash; adding sets of them&lt;/li>
+&lt;li>sum &amp;ndash; adding numbers&lt;/li>
+&lt;/ul>
+&lt;h2 id="week-5">Week 5&lt;/h2>
+&lt;p>&lt;strong>Sep 25, Tue&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>conflicts &amp;ndash; the pointer model
+&lt;ul>
+&lt;li>Inserting semantic actions:&lt;/li>
+&lt;li>simple &amp;ndash; no actions but prec set&lt;/li>
+&lt;li>noPrec &amp;ndash; grammar refactored, no prec set&lt;/li>
+&lt;li>calc &amp;ndash; calculator example &amp;ndash; no variables&lt;/li>
+&lt;li>typedStack &amp;ndash; calculator w/ variables&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Project #3&lt;/li>
+&lt;li>Exam #1 &amp;ndash; everything up to and incl today&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>Sep 27. Thu&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>Exam #1 &amp;ndash; everything up to and incl today&lt;/li>
+&lt;/ul>
+&lt;h2 id="week-6">Week 6&lt;/h2>
+&lt;p>&lt;strong>Oct 2. Tue&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>Containers
+&lt;ul>
+&lt;li>vectors&lt;/li>
+&lt;li>List&lt;/li>
+&lt;li>Map&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Review Exam
+&lt;ul>
+&lt;li>Singleton&lt;/li>
+&lt;li>Exponent&lt;/li>
+&lt;li>Radon&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Inheritance&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>Oct 4. Thu&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>emplace_back &amp;ndash; When it help?&lt;/li>
+&lt;/ul>
+&lt;h1 id="项目内容">项目内容&lt;/h1>
+&lt;h2 id="项目">项目&lt;/h2>
+&lt;hr>
+&lt;h1 id="自己动手写python编译器">自己动手写Python编译器&lt;/h1>
+&lt;!--TODO:完成下面每一个被部分的博客文章 -->
+&lt;ul>
+&lt;li>概述&lt;/li>
+&lt;li>Python 源程序&lt;/li>
+&lt;li>使用flex做词法分析&lt;/li>
+&lt;li>上下文无关语法及分析&lt;/li>
+&lt;li>自顶向下分析&lt;/li>
+&lt;li>自底向上分析&lt;/li>
+&lt;li>使用Bison做语法分析&lt;/li>
+&lt;li>Python编译器&lt;/li>
+&lt;/ul></description></item><item><title>C++软件设计模式之Singleton</title><link>http://www.guozet.me/post/C++Singleton-pattern/</link><pubDate>Thu, 04 Oct 2018 15:09:31 +0000</pubDate><guid>http://www.guozet.me/post/C++Singleton-pattern/</guid><description>&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-10-04-C++Singleton-pattern/2018-10-09-07-43-58.png" alt="">&lt;/p>
+&lt;p>什么是&lt;code>Singleton&lt;/code>? 单例模式（Singleton），保证一个类仅有一个实例，并提供一个访问它的全局访问点。&lt;/p>
+&lt;blockquote>
+&lt;p>可以考虑在下面的一些场景中应用：&lt;/p>
+&lt;ul>
+&lt;li>Windows的Task Manager（任务管理器）就是很典型的单例模式（这个很熟悉吧），想想看，是不是呢，你能打开两个windows task manager吗？ 不信你自己试试看哦~ &lt;/li>
+&lt;li>windows的Recycle Bin（回收站）也是典型的单例应用。在整个系统运行过程中，回收站一直维护着仅有的一个实例。&lt;/li>
+&lt;li>网站的计数器，一般也是采用单例模式实现，否则难以同步。&lt;/li>
+&lt;li>应用程序的日志应用，一般都何用单例模式实现，这一般是由于共享的日志文件一直处于打开状态，因为只能有一个实例去操作，否则内容不好追加。&lt;/li>
+&lt;li>Web应用的配置对象的读取，一般也应用单例模式，这个是由于配置文件是共享的资源。&lt;/li>
+&lt;li>在数据库连接池的设计一般也是采用单例模式，因为数据库连接是一种数据库资源。数据库软件系统中使用数据库连接池，主要是节省打开或者关闭数据库连接所引起的效率损耗，这种效率上的损耗还是非常昂贵的，因为何用单例模式来维护，就可以大大降低这种损耗。&lt;/li>
+&lt;li>多线程的线程池的设计一般也是采用单例模式，这是由于线程池要方便对池中的线程进行控制。&lt;/li>
+&lt;li>操作系统的文件系统，也是大的单例模式实现的具体例子，一个操作系统只能有一个文件系统
+上述内容来自于：
+&lt;a href="https://blog.csdn.net/tanyujing/article/details/14160941?utm_source=copy" target="_blank" rel="noopener">单例模式的常见应用场景&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/blockquote>
+&lt;p>单例模式应用的场景一般发现在以下条件下：&lt;/p>
+&lt;ul>
+&lt;li>资源共享的情况下，避免由于资源操作时导致的性能或损耗等。如上述中的日志文件，应用配置&lt;/li>
+&lt;li>控制资源的情况下，方便资源之间的互相通信。如线程池等。&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;h2 id="如果不使用单例模式是什么样子呢">如果不使用单例模式是什么样子呢？&lt;/h2>
+&lt;p>&lt;strong>应用场景：&lt;/strong> 我们使用&lt;code>srand(time(0))&lt;/code>去生产一个随机数字，因为这个函数生成的是伪随机数，所以如果我们很快的频率去调用这个函数的话，就会出现这个函数给出一个同样的随机数字。&lt;/p>
+&lt;pre>&lt;code class="language-cpp">#include &amp;lt;cstdlib&amp;gt; // for rand()
+#include &amp;lt;iostream&amp;gt;
+class Random {
+public:
+Random() {
+int seed = time(0);
+srand(seed);
+}
+int operator()(int a, int b) const { return (rand() % b) + a; }
+private:
+Random(const Random&amp;amp;);
+Random&amp;amp; operator=(const Random&amp;amp;);
+};
+int main() {
+Random random;
+std::cout &amp;lt;&amp;lt; random(1, 100) &amp;lt;&amp;lt; std::endl;
+}
+&lt;/code>&lt;/pre>
+&lt;p>Output:&lt;/p>
+&lt;pre>&lt;code class="language-bash">$./run
+44
+$./run //和第一次间隔时间比较长
+72
+$./run //后面三个运行程序的速度比较快的话，就会出现得到一样的随机数
+44
+$./run
+44
+$./run
+44
+&lt;/code>&lt;/pre>
+&lt;blockquote>
+&lt;p>Function rand () Vs srand()&lt;/p>
+&lt;ul>
+&lt;li>rand() function is used in C to generate random numbers. If we generate a sequence of random number with rand() function, it will create the same sequence again and again every time program runs. Say if we are generating 5 random numbers in C with the help of rand() in a loop, then every time we compile and run the program our output must be the same sequence of numbers.&lt;/li>
+&lt;li>The srand() function sets the starting point for producing a series of pseudo-random integers. If srand() is not called, the rand() seed is set as if srand(1) were called at program start. Any other value for seed sets the generator to a different starting point. Standard prac tice is to use the result of a call to srand(time(0)) as the seed&lt;/li>
+&lt;/ul>
+&lt;/blockquote>
+&lt;h2 id="使用单例模式">使用单例模式&lt;/h2>
+&lt;p>单一模式的实现方式：&lt;/p>
+&lt;ul>
+&lt;li>Place constructors and assignment in private section.&lt;/li>
+&lt;li>Declare a static instance variable as a data attribute of the class&lt;/li>
+&lt;li>Define the static instance variable somewhere in the anonymous namespace.&lt;/li>
+&lt;li>Define a static class member function(&lt;code>getInstance&lt;/code>) to access the instance variable.&lt;/li>
+&lt;/ul>
+&lt;h2 id="glut实现模式-懒汉模式线程不安全">glut实现模式 (懒汉模式（线程不安全）)&lt;/h2>
+&lt;pre>&lt;code class="language-cpp">#include &amp;lt;cstdlib&amp;gt; // for rand()
+#include &amp;lt;iostream&amp;gt;
+class Random {
+public:
+static Random* getInstance(); //Define a static class member function
+int operator()(int a, int b) const {
+return (rand() % b) + a;
+}
+private:
+static Random* instance; //Declare a static instance variable
+Random(const Random&amp;amp;);
+Random&amp;amp; operator=(const Random&amp;amp;); // Constructors and assignment in private
+Random() {
+int seed = time(0);
+srand(seed);
+}
+};
+Random* Random::getInstance() {
+if ( !instance ) instance = new Random;
+return instance;
+}
+Random* Random::instance = NULL; //Define the static instance variable somewherr
+int main() {
+Random* random = Random::getInstance();
+std::cout &amp;lt;&amp;lt; (*random)(1,100) &amp;lt;&amp;lt; std::endl;
+delete random;
+}
+&lt;/code>&lt;/pre>
+&lt;p>这种&lt;code>glut&lt;/code>的单例模式存在这一定的问题，在《程序员的自我修养》中给出了一个例子。在单例模式中，这是一段典型的 double-check 的代码.&lt;/p>
+&lt;pre>&lt;code class="language-cpp">volatile T* pInst = nullptr;
+T* GetInstance() {
+if (nullptr == pInst) {
+lock();
+if (nullptr == pInst) {
+pInst = new T;
+}
+unlock();
+}
+return pInst;
+}
+&lt;/code>&lt;/pre>
+&lt;ul>
+&lt;li>&lt;code>if (nulptr == pInst)&lt;/code> 中的if 确保仅在 pInst 是空指针的情况下才去获取锁并尝试构造对象；&lt;/li>
+&lt;li>&lt;code>if (nullptr == pInst)&lt;/code> 的 if 则是为了防止这样一种可能，避免重复操作和内存泄露：在外层 if 检测是，pInst 尚为空，但是，待 lock() 执行完毕后，别的线程已经为 pInst 赋值。&lt;/li>
+&lt;/ul>
+&lt;p>这段代码，乍一看是没有问题的；但仍需小心揣摩。我们看 &lt;code>pInst = new T&lt;/code>; 这一行代码，它基本完成了三件事情&lt;/p>
+&lt;ul>
+&lt;li>为 T 类型的对象分配内存；&lt;/li>
+&lt;li>在这片内存上执行 T 的构造函数；&lt;/li>
+&lt;li>将这片内存的起始地址赋值给 pInst。&lt;/li>
+&lt;/ul>
+&lt;p>由于构造函数的执行和指针的赋值是互不依赖的，所以 CPU 可能会交换这两个步骤的顺序。因此，在线程执行的过程中，可能存在这样一种情况：nullptr != pInst，但是它指向的对象尚未构造成功。于是，如果在这一时刻，当前线程被中断，并且其它线程调用 GetInstance 函数，那么函数在外层 if 执行之后，会直接返回 pInst 的值。而此时 pInst 实际上指向的是一片尚未初始化的内存。如果线程代码对 pInst 进行访问，那么程序很有可能就会崩溃。&lt;/p>
+&lt;p>为了解决这类 CPU 动态调度导致的问题，我们需要有在某些情况下阻止指令换序执行的能力。然而遗憾的是，由于动态调度是 CPU 的功能，所以在高级语言的层次，我们没有通用的解决办法——只能依赖具体的 CPU 架构，对代码进行调整。对于 i386 架构的 CPU 来说，它提供了一条指令 mfence（memory fence 的缩写），可以阻止这种换序执行。&lt;/p>
+&lt;pre>&lt;code class="language-cpp">#define barrier() __asm__ volatile(&amp;quot;mfence&amp;quot;)
+volatile T* pInst = nullptr;
+T* GetInstance() {
+if (nullptr == pInst) {
+lock();
+if (nullptr == pInst) {
+T* temp = new T;
+barrier();
+pInst = temp;
+}
+unlock();
+}
+return pInst;
+}
+&lt;/code>&lt;/pre>
+&lt;p>用 barrier() 保证了在 pInst 被赋值之前，相关内存区域已经正确地初始化了。&lt;/p>
+&lt;h2 id="meyers单例模式实现">Meyers单例模式实现&lt;/h2>
+&lt;pre>&lt;code class="language-cpp">#include &amp;lt;cstdlib&amp;gt; // for rand()
+#include &amp;lt;iostream&amp;gt;
+class Random {
+public:
+static Random&amp;amp; getInstance();
+int operator()(int a, int b) const {
+return (rand() % b) + a;
+}
+private:
+Random(const Random&amp;amp;);
+Random&amp;amp; operator=(const Random&amp;amp;);
+Random() {
+int seed = time(0);
+srand(seed);
+}
+};
+Random&amp;amp; Random::getInstance() {
+static Random instance;
+return instance;
+}
+int main() {
+Random&amp;amp; random = Random::getInstance();
+std::cout &amp;lt;&amp;lt; random(1,100) &amp;lt;&amp;lt; std::endl;
+}
+&lt;/code>&lt;/pre>
+&lt;p>第二种实现方式和之前一种实现方式的区别在：
+第一种&lt;/p>
+&lt;ul>
+&lt;li>懒汉模式申明了一个静态对象，在用户第一次调用时初始化，虽然节约了资源，但第一次加载时需要实例化，反映稍慢一些，而且在多线程不能正常工作。&lt;/li>
+&lt;/ul>
+&lt;pre>&lt;code class="language-cpp">//First one
+Random* Random::getInstance() {
+if ( !instance ) instance = new Random;
+return instance;
+}
+Random* Random::instance = NULL; //Define the static instance variable somewherr
+&lt;/code>&lt;/pre>
+&lt;p>第二种：&lt;/p>
+&lt;ul>
+&lt;li>在类加载时就完成了初始化，所以类加载较慢，但获取对象的速度快。 这种方式基于类加载机制避免了多线程的同步问题，但是也不能确定有其他的方式（或者其他的静态方法）导致类装载，这时候初始化instance显然没有达到懒加载的效果。&lt;/li>
+&lt;/ul>
+&lt;pre>&lt;code class="language-cpp">//Second One
+Random&amp;amp; Random::getInstance() {
+static Random instance;
+return instance;
+}
+&lt;/code>&lt;/pre>
+&lt;p>推荐阅读：
+&lt;a href="https://blog.csdn.net/itachi85/article/details/50510124" target="_blank" rel="noopener">设计模式（二）单例模式的七种写法&lt;/a>&lt;/p></description></item><item><title>C++ Static关键字的用法说明</title><link>http://www.guozet.me/post/C++-Static-keyword/</link><pubDate>Tue, 18 Sep 2018 14:00:00 +0000</pubDate><guid>http://www.guozet.me/post/C++-Static-keyword/</guid><description>&lt;h1 id="c中static关键字的应用">C++中Static关键字的应用&lt;/h1>
+&lt;p>由于C++是一种源自于C的语言，所以我们需要先分析Static在C语言中的应用。在&lt;code>C语言&lt;/code>中, 使用Static关键字的作用是:&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>用于函数内部修饰变量，即函数内的静态变量。这种变量的生存期长于该函数，使得函数具有一定的“状态”。使用静态变量的函数一般是不可重入的，也不是线程安全的，比如strtok(3)。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>用在文件级别（函数体之外），修饰变量或函数，表示该变量或函数只在本文件可见，其他文件看不到也访问不到该变量或函数。专业的说法叫“具有internal linkage”（简言之：不暴露给别的translation unit）。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>在C++中引出的C语言没有的类，所以我们就需要分析在C++的类里面使用&lt;code>Static关键字的&lt;/code>作用与方式。&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>用于&lt;code>修饰类的数据成员&lt;/code>，即所谓“静态成员”。这种数据成员的生存期大于class的对象（实例/instance）。静态数据成员是每个class有一份，普通数据成员是每个instance 有一份。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>用于&lt;code>修饰class的成员函数&lt;/code>，即所谓“静态成员函数”。这种成员函数&lt;code>只能访问静态成员和其他静态程员函数&lt;/code>，不能访问非静态成员和非静态成员函数。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="c-类中的static数据成员的初始化和特点">C++ 类中的static数据成员的初始化和特点&lt;/h2>
+&lt;pre>&lt;code class="language-cpp">class CTypeInit{
+public:
+CTypeInit( int c):m_c(c),m_ra(c){ }
+private:
+int m_a; //通过初始化列表初始化，或者构造函数初始化
+/*引用*/
+int &amp;amp;m_ra; //只能通过初始化列表初始化
+/*静态变量*/
+static int m_b;
+/*常量*/
+const int m_c;
+/*静态整型常量*/
+static const int m_d;
+/*静态非整型常量*/
+static const double m_e;
+};
+//静态成员变量，必须在类外初始化,且要去掉static关键字
+int CTypeInit::m_b = 6;
+const int CTypeInit::m_d = 6;
+const double CTypeInit::m_e = 3.1415926;
+int main()
+{
+CTypeInit obT(2);
+return 0;
+}
+&lt;/code>&lt;/pre>
+&lt;p>分为下面几种情况&lt;/p>
+&lt;h4 id="静态变量">静态变量&lt;/h4>
+&lt;p>&lt;code>static int m_b;&lt;/code>&lt;/p>
+&lt;p>static成员变量需要在&lt;strong>类定义体外&lt;/strong>进行初始化与定义，因为static数据成员独立该类的任意对象存在，&lt;strong>它是与类关联的对象，不与类对象关联&lt;/strong>。例如：上述程序中的c变量的初始化。&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>只能在类外初始化&lt;/code>&lt;/li>
+&lt;li>不能通过初始化列表初始化，&lt;/li>
+&lt;li>不能在类内进行初始化，&lt;/li>
+&lt;li>不能在构造函数中初始化，&lt;/li>
+&lt;/ul>
+&lt;h4 id="常量">常量&lt;/h4>
+&lt;p>&lt;code>const int m_c;&lt;/code>&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>只能通过初始化列表初始化&lt;/code>&lt;/li>
+&lt;li>不能在类内进行初始化&lt;/li>
+&lt;li>不能在构造函数中初始化&lt;/li>
+&lt;li>不能在类外初始化&lt;/li>
+&lt;/ul>
+&lt;h4 id="引用变量">引用变量&lt;/h4>
+&lt;p>&lt;code>int &amp;amp;m_ra;&lt;/code>&lt;/p>
+&lt;p>只能通过初始化列表初始化且必须用变量初始化，不能在类的定义外（内）初始化，不能通过构造函数初始化。&lt;/p>
+&lt;h4 id="静态整型常量">静态整型常量&lt;/h4>
+&lt;p>&lt;code>static const int m_d;&lt;/code>&lt;/p>
+&lt;ul>
+&lt;li>（整型）能否在类中初始化，取决于编译器&lt;/li>
+&lt;li>能在在类外初始化，不能带static&lt;/li>
+&lt;/ul>
+&lt;h4 id="静态非整型常量">静态非整型常量&lt;/h4>
+&lt;p>&lt;code>static const double m_e;&lt;/code>&lt;/p>
+&lt;ul>
+&lt;li>(double型）能否在类中初始化，取决于编译器&lt;/li>
+&lt;li>能在在类外初始化，不能带static&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>静态整型常量和静态非整形常量在类定义内部初始化时，在VC6.0中都不能编译通过，而在GCC中都可以编译通过，在不同编译器下有不同的结果，但前三个是确定的。当然，如果不习惯类内初始化，可以将静态常量和静态变量的初始化统一起来，将静态常量和静态变量的初始化全部都移动类定义之外初始化（推荐使用这种方式）。另外，如果编译器不支持类内初始化，而此时类在编译期又恰恰需要定义的成员常量的值，身出如此左右为难的境地，我们应该考虑使用enum！因为enum本质也是一个整型常量。&lt;/p>
+&lt;/blockquote>
+&lt;hr>
+&lt;h3 id="小结">小结&lt;/h3>
+&lt;p>类的静态成员属于类作用域，但不属于类对象，它的生命周期和普通的全局静态变量一样，程序运行时进行分配内存和初始化，程序结束时则被释放。所以不能在类的构造函数中进行初始化。&lt;/p>
+&lt;p>&lt;strong>优点&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>static成员的名字是在类的作用域中，因此可以&lt;strong>避免与其它类成员或全局对象名字冲突&lt;/strong>。&lt;/li>
+&lt;li>可以实施封装，&lt;strong>static成员可以是私有的，而全局对象不可以&lt;/strong>。&lt;/li>
+&lt;li>阅读程序容易看出static成员与某个类相关联，这种可见性可以&lt;strong>清晰地反映程序员的意图&lt;/strong>。&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;h2 id="c-类里面的static成员函数">C++ 类里面的Static成员函数&lt;/h2>
+&lt;pre>&lt;code class="language-cpp">#include &amp;lt;iostream&amp;gt;
+using namespace std;
+class test2
+{
+public:
+test2(int num) : y(num){}
+~test2(){}
+static void testStaticFun()
+{
+cout &amp;lt;&amp;lt; &amp;quot;y = &amp;quot; &amp;lt;&amp;lt; y &amp;lt;&amp;lt; endl; //Error:静态成员函数不能访问非静态成员
+}
+void testFun()
+{
+cout &amp;lt;&amp;lt; &amp;quot;x = &amp;quot; &amp;lt;&amp;lt; x &amp;lt;&amp;lt; endl;
+}
+private:
+static int x;//静态成员变量的引用性说明
+int y;
+};
+int test2::x = 10;//静态成员变量的定义性说明
+int main(void)
+{
+test2 t(100);
+t.testFun();
+return 0;
+}
+&lt;/code>&lt;/pre>
+&lt;h3 id="小结--成员函数特点">小结 -成员函数特点&lt;/h3>
+&lt;ul>
+&lt;li>因为&lt;strong>static成员函数没有this指针&lt;/strong>，所以静态成员函数不可以访问非静态成员。&lt;/li>
+&lt;li>非静态成员函数可以访问静态成员。&lt;/li>
+&lt;li>静态数据成员与类的大小无关，因为静态成员只是作用在类的范围而已。&lt;/li>
+&lt;/ul>
+&lt;h1 id="补充c语言中static关键字">补充：C语言中Static关键字&lt;/h1>
+&lt;p>C语言程序可以看成由一系列外部对象构成，这些外部对象可能是变量或函数。而内部变量是指定义在函数内部的函数参数及变量。外部变量定义在函数之外，因此可以在许多函数中使用。由于C语言不允许在一个函数中定义其它函数，因此函数本身只能是“外部的”。&lt;br>
+由于C语言代码是以文件为单位来组织的，在一个源程序所有源文件中，一个外部变量或函数只能在某个文件中定义一次，而其它文件可以通过extern声明来访问它（定义外部变量或函数的源文件中也可以包含对该外部变量的extern声明）。&lt;br>
+而static则可以限定变量或函数为静态存储。如果用static限定外部变量与函数，则可以将该对象的作用域限定为被编译源文件的剩余部分。通过static限定外部对象，可以达到隐藏外部对象的目的。因而，static限定的变量或函数不会和同一程序中其它文件中同名的相冲突。如果用static限定内部变量，则该变量从程序一开始就拥有内存，不会随其所在函数的调用和退出而分配和消失。&lt;/p>
+&lt;h3 id="c语言中使用静态函数的好处">C语言中使用静态函数的好处&lt;/h3>
+&lt;p>静态函数会被自动分配在一个一直使用的存储区，直到退出应用程序实例，避免了调用函数时压栈出栈，速度快很多。&lt;/p>
+&lt;p>关键字“static”，译成中文就是“静态的”，所以内部函数又称静态函数。但此处“static”的含义不是指存储方式，而是指对函数的作用域仅局限于本文件。 使用内部函数的好处是：不同的人编写不同的函数时，不用担心自己定义的函数，是否会与其它文件中的函数同名，因为同名也没有关系。&lt;/p>
+&lt;p>&lt;strong>c语言中static的语义&lt;/strong>
+1.static变量:&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>局部&lt;br>
+静态局部变量在函数内定义,生存期为整个源程序，但作用域与自动变量相同，只能在定义该变量的函数内使用。退出该函数后， 尽管该变量还继续存在，但不能使用它。 对基本类型的静态局部变量若在说明时未赋以初值，则系统自动赋予0值。而对自动变量不赋初值，则其值是不定的。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>全局&lt;br>
+全局变量本身就是静态存储方式， 静态全局变量当然也是静态存储方式。但是他们的作用域，非静态全局 变量的作用域是整个源程序（多个源文件可以共同使用）； 而静态全局变量则限制了其作用域， 即只在定义该变量的源文件内有效， 在同一源程序的其它源文件中不能使用它。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>2.static函数（也叫内部函数）&lt;/p>
+&lt;ul>
+&lt;li>只能被本文件中的函数调用，而不能被同一程序其它文件中的函数调用。区别于一般的非静态函数（外部函数）&lt;/li>
+&lt;li>static在c里面可以用来修饰变量，也可以用来修饰函数。&lt;/li>
+&lt;li>先看用来修饰变量的时候。变量在c里面可分为存在全局数据区、栈和堆里。其实我们平时所说的堆栈是栈而不包含对，不要弄混。&lt;/li>
+&lt;/ul>
+&lt;pre>&lt;code class="language-c">int a ;
+main()
+{
+int b ;
+int c* = (int *)malloc(sizeof(int));
+}
+&lt;/code>&lt;/pre>
+&lt;p>a是全局变量，b是栈变量，c是堆变量。&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>static对全局变量的修饰，可以认为是限制了只能是本文件引用此变量。有的程序是由好多.c文件构成。彼此可以互相引用变量，但加入static修饰之后，只能被本文件中函数引用此变量。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>static对栈变量的修饰，可以认为栈变量的生命周期延长到程序执行结束时。一般来说，栈变量的生命周期由OS管理，在退栈的过程中，栈变量的生命也就结束了。但加入static修饰之后，变量已经不在存储在栈中，而是和全局变量一起存储。同时，离开定义它的函数后不能使用，但如再次调用定义它的函数时，它又可继续使用， 而且保存了前次被调用后留下的值。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>static对函数的修饰与对全局变量的修饰相似，只能被本文件中的函数调用，而不能被同一程序其它文件中的函数调用。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="小结-1">小结&lt;/h3>
+&lt;p>static 声明的变量在C语言中有两方面的特征：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>变量会被放在程序的全局存储区中，这样可以在下一次调用的时候还可以保持原来的赋值。这一点是它与堆栈变量和堆变量的区别。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>变量用static告知编译器，自己仅仅在变量的作用范围内可见。这一点是它与全局变量的区别。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="例子">例子&lt;/h3>
+&lt;ul>
+&lt;li>
+&lt;p>[正确] 若全局变量仅在单个C文件中访问，则可以将这个变量修改为静态全局变量，以降低模块间的耦合度；&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>[正确] 若全局变量仅由单个函数访问，则可以将这个变量改为该函数的静态局部变量，以降低模块间的耦合度；&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>[正确] 设计和使用访问动态全局变量、静态全局变量、静态局部变量的函数时，需要考虑重入问题；&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>[错误] 静态全局变量过大，可那会导致堆栈溢出。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;pre>&lt;code class="language-c">unsigned int sum_int( unsigned int base )
+{
+　unsigned int index;
+　static unsigned int sum = 0; // 注意，是static类型的。
+　for (index = 1; index &amp;lt;= base; index++)
+　{
+　　sum += index;
+　}
+　return sum;
+}
+&lt;/code>&lt;/pre>
+&lt;p>所谓的函数是可重入的（也可以说是可预测的），即：只要输入数据相同就应产生相同的输出。&lt;/p>
+&lt;p>这个函数之所以是不可预测的，就是因为函数中使用了static变量，因为static变量的特征，这样的函数被称为：带“内部存储器”功能的的函数。因此如果我们需要一个可重入的函数，那么，我们一定要避免函数中使用static变量，这种函数中的static变量，使用原则是，能不用尽量不用。&lt;/p>
+&lt;p>将上面的函数修改为可重入的函数很简单，只要将声明sum变量中的static关键字去掉，变量sum即变为一个auto 类型的变量，函数即变为一个可重入的函数。&lt;/p>
+&lt;p>当然，有些时候，在函数中是必须要使用static变量的，比如当某函数的返回值为指针类型时，则必须是static的局部变量的地址作为返回值，若为auto类型，则返回为错指针。&lt;/p>
+&lt;blockquote>
+&lt;p>全局变量以及全局变量与静态变量的关系：
+顾名思义，全局变量是指能够在全局引用的变量，相对于局部变量的概念，也叫外部变量；同静态变量一样，全局变量位于静态数据区，全局变量一处定义，多处引用，用关键字“extern”引用“外部”的变量。
+全局变量也可以是静态的，在前面有过说明，静态全局变量的意义就是不让“外部”引用，是单个源文件里的全局变量，即是编译阶段的全局变量，而不是连接阶段的全局变量。&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="code">Code&lt;/h3>
+&lt;pre>&lt;code class="language-cpp">#include &amp;lt;iostream&amp;gt;
+using namespace std;
+class TestStatic
+{
+public:
+TestStatic() : y(1), r(y), d(3),private_y(4){++c;} //对于常量型成员变量和引用型成员变量，必须通过参数化列表的方式进行初始化。
+~TestStatic(){}
+int y; //普通变量成员
+int &amp;amp;r; //引用成员变量
+const int d; //常量成员变量
+static int c; //静态成员变量
+static const int x; //静态常量整型成员变量
+static void testStaticFunErr() {
+std::cout &amp;lt;&amp;lt; std::endl;
+}
+static void testStaticFun() {
+std::cout &amp;lt;&amp;lt; &amp;quot;Call Static Function: &amp;quot; &amp;lt;&amp;lt; xx &amp;lt;&amp;lt; std::endl;
+}
+private:
+int private_y;
+static const int xx; //静态常量整型成员变量声明
+static const double z; //静态常量非整型成员变量声明
+static const float zz; //静态常量非整型成员变量
+};
+const int TestStatic::xx = 4; //静态常量整型成员变量定义
+const double TestStatic::z = 5.1; ////静态常量非整型成员变量定义
+int TestStatic::c = 2;
+// int TestStatic::x;
+const int TestStatic::x = 5;
+int main(void)
+{
+TestStatic a, b, c;
+std::cout &amp;lt;&amp;lt; &amp;quot;Class Static variable x:&amp;quot; &amp;lt;&amp;lt; TestStatic::x &amp;lt;&amp;lt; std::endl;
+std::cout &amp;lt;&amp;lt; &amp;quot;Class Static variable c:&amp;quot; &amp;lt;&amp;lt; TestStatic::c &amp;lt;&amp;lt; std::endl;
+return 0;
+}
+&lt;/code>&lt;/pre></description></item><item><title>C++ 变量的初始化问题</title><link>http://www.guozet.me/post/C++-initialization-of-variable/</link><pubDate>Tue, 11 Sep 2018 02:09:31 +0000</pubDate><guid>http://www.guozet.me/post/C++-initialization-of-variable/</guid><description>&lt;h1 id="介绍">介绍&lt;/h1>
+&lt;p>在C++语言中int a;表示声明了整型a但未初始化，而C++中的对象总是会被初始化的，无论是否写了圆括号或者是否写了参数列表，例如：&lt;/p>
+&lt;pre>&lt;code class="language-c++">int basic_var; // 未初始化：应用&amp;quot;默认初始化&amp;quot;机制
+CPerson person; // 初始化：以空的参数列表调用构造函数
+&lt;/code>&lt;/pre>
+&lt;p>参考链接：
+&lt;a href="https://harttle.land/2015/10/05/cpp-variable-init.html" target="_blank" rel="noopener">C++手稿：哪些变量会自动初始化？&lt;/a>&lt;/p>
+&lt;p>&lt;strong>默认初始化规则&lt;/strong>
+定义基本数据类型变量（单个值、数组）的同时可以指定初始值，如果未指定C++会去执行默认初始化(default-initialization)。 那么什么是”默认初始化”呢？&lt;/p>
+&lt;ul>
+&lt;li>栈中的变量（函数体中的自动变量）和堆中的变量（动态内存）会保有不确定的值；&lt;/li>
+&lt;li>全局变量和静态变量（包括局部静态变量）会初始化为零(它们存储在进程的BSS段（这是全零的一段内存空间）)。&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>C++11: If no initializer is specified for an object, the object is default-initialized; if no initialization is performed, an ?
+object with automatic or dynamic storage duration has indeterminate value. Note: Objects with static or thread storage
+duration are zero-initialized, see 3.6.2.&lt;/p>
+&lt;/blockquote>
+&lt;p>所以函数体中的变量定义是这样的规则：&lt;/p>
+&lt;pre>&lt;code class="language-c++">int i; // 不确定值
+int i = int(); // 0
+int *p = new int; // 不确定值
+int *p = new int(); // 0
+&lt;/code>&lt;/pre>
+&lt;h2 id="几种初始化情况对比">几种初始化情况对比&lt;/h2>
+&lt;h3 id="全局变量全局静态变量-vs-局部变量局部静态变量">全局变量(全局静态变量) Vs 局部变量(局部静态变量)&lt;/h3>
+&lt;p>全局变量，全局静态变量和局部静态变量是存放在BSS段的，所以默认初始化为 &lt;code>0&lt;/code>。局部变量是在栈里面，所以初始化情况不确定。&lt;/p>
+&lt;h3 id="类成员变量初始化">类成员变量初始化&lt;/h3>
+&lt;p>可见内置类型的成员变量的”默认初始化”行为取决于所在对象的存储类型，而存储类型对应的默认初始化规则是不变的。 所以为了避免不确定的初值，通常会在构造函数中初始化所有内置类型的成员。&lt;/p>
+&lt;h3 id="嵌套类的变量初始化">嵌套类的变量初始化&lt;/h3>
+&lt;p>规则还是是一样的，默认初始化行为取决于它所属对象的存储类型。封闭类（Enclosing）中成员对象的内置类型成员变量的”默认初始化”行为取决于当前封闭类对象的存储类型，而存储类型对应的默认初始化规则仍然是不变&lt;/p>
+&lt;h2 id="代码例子">代码例子&lt;/h2>
+&lt;pre>&lt;code class="language-cpp">#include &amp;lt;iostream&amp;gt;
+//1. 全局变量与静态全局变量
+int g_var;
+int *g_pointer;
+static int g_static;
+class A{
+public:
+int v;
+};
+class B{
+public:
+int v;
+A a;
+};
+//2. 全局成员变量
+A class_g_var;
+B class_b_g_var;
+int main(){
+//1. 局部变量与静态局部变量
+int l_var;
+int *l_pointer;
+static int l_static;
+// 2. 具备成员变量
+A class_l_var;
+static A class_l_static;
+B class_b_l_var;
+std::cout&amp;lt;&amp;lt;&amp;quot;--------Global Vs Local Variate---------&amp;quot;&amp;lt;&amp;lt; std::endl;
+std::cout&amp;lt;&amp;lt;&amp;quot;Global Variate: &amp;quot;&amp;lt;&amp;lt; g_var &amp;lt;&amp;lt; std::endl;
+std::cout&amp;lt;&amp;lt;&amp;quot;Global Point: &amp;quot;&amp;lt;&amp;lt; g_pointer &amp;lt;&amp;lt; std::endl;
+std::cout&amp;lt;&amp;lt;&amp;quot;Global Static Variate: &amp;quot;&amp;lt;&amp;lt; g_static &amp;lt;&amp;lt; std::endl;
+std::cout&amp;lt;&amp;lt;&amp;quot;Local Variate: &amp;quot;&amp;lt;&amp;lt; l_var &amp;lt;&amp;lt; std::endl;
+std::cout&amp;lt;&amp;lt;&amp;quot;Local Point: &amp;quot;&amp;lt;&amp;lt; l_pointer &amp;lt;&amp;lt; std::endl;
+std::cout&amp;lt;&amp;lt;&amp;quot;Local Static Variate: &amp;quot;&amp;lt;&amp;lt; l_static &amp;lt;&amp;lt; std::endl;
+std::cout&amp;lt;&amp;lt;&amp;quot;--------Global Vs Local Class Variate---------&amp;quot;&amp;lt;&amp;lt; std::endl;
+std::cout&amp;lt;&amp;lt;&amp;quot;Global Class Variate: &amp;quot;&amp;lt;&amp;lt; class_g_var.v &amp;lt;&amp;lt; std::endl;
+std::cout&amp;lt;&amp;lt;&amp;quot;Local Class Variate: &amp;quot;&amp;lt;&amp;lt; class_l_var.v &amp;lt;&amp;lt; std::endl;
+std::cout&amp;lt;&amp;lt;&amp;quot;Local Static Class variate: &amp;quot;&amp;lt;&amp;lt; class_l_static.v &amp;lt;&amp;lt; std::endl;
+std::cout&amp;lt;&amp;lt;&amp;quot;--------2lGlobal Vs Local Class Variate---------&amp;quot;&amp;lt;&amp;lt; std::endl;
+std::cout&amp;lt;&amp;lt;&amp;quot;Global Class Variate: &amp;quot;&amp;lt;&amp;lt; class_b_g_var.v &amp;lt;&amp;lt; &amp;quot; &amp;quot; &amp;lt;&amp;lt; class_b_g_var.a.v &amp;lt;&amp;lt; std::endl;
+std::cout&amp;lt;&amp;lt;&amp;quot;Local Class Variate: &amp;quot;&amp;lt;&amp;lt; class_b_l_var.v &amp;lt;&amp;lt; &amp;quot; &amp;quot; &amp;lt;&amp;lt; class_b_l_var.a.v &amp;lt;&amp;lt;std::endl;
+return 0;
+};
+&lt;/code>&lt;/pre>
+&lt;p>&lt;strong>Makefile&lt;/strong>&lt;/p>
+&lt;pre>&lt;code class="language-makefile">CXX = g++
+# Warnings frequently signal eventual errors:
+CXXFLAGS=-g -std=c++11 -W -Wall -Weffc++ -Wextra -pedantic -O0
+OBJS = \
+main.o
+EXEC = run
+%.o: %.cpp
+$(CXX) $(CXXFLAGS) -c $&amp;lt; -o $@
+$(EXEC): $(OBJS)
+$(CXX) $(CXXFLAGS) -o $@ $(OBJS) $(LDFLAGS)
+main.o: main.cpp
+clean:
+rm -rf $(OBJS)
+rm -rf $(EXEC)
+&lt;/code>&lt;/pre></description></item><item><title>C++声明与定义的区别</title><link>http://www.guozet.me/post/c++-declaration-definition-initialization/</link><pubDate>Tue, 11 Sep 2018 02:09:31 +0000</pubDate><guid>http://www.guozet.me/post/c++-declaration-definition-initialization/</guid><description>&lt;h1 id="introduce">Introduce&lt;/h1>
+&lt;h2 id="声明">声明&lt;/h2>
+&lt;p>声明一个变量只是将变量名标识符的有关信息告诉编译器，使编译器“认识”该标识符，但声明&lt;code>不一定引起内存的分配&lt;/code>(没有内存分配)。声明有两个作用：&lt;/p>
+&lt;ul>
+&lt;li>告诉编译器，这个名字已经匹配到一块内存上，下面的代码用到变量或者对象是在别的地方定义的。声明可以出现多次。&lt;/li>
+&lt;li>告诉编译器，这个名字已经被预定了，别的地方再也不能用它来作为变量名或对象名。&lt;/li>
+&lt;/ul>
+&lt;pre>&lt;code class="language-cpp">class MyClass
+{
+//数据成员细节...
+//成员函数细节...
+};
+&lt;/code>&lt;/pre>
+&lt;p>上述声明仅告诉编译器有自定义类型MyClass,编译器仅对其进行语汇分析及名字的决议，并未占用内存!&lt;/p>
+&lt;h2 id="定义">定义&lt;/h2>
+&lt;p>定义就是（编译器）创建一个对象，为这个对象&lt;code>分配一块内存&lt;/code>，并给它取上一个名字，这个名字就是就是我们经常所说的变量名或对象名。&lt;/p>
+&lt;p>在C++程序中，大多数情况下变量声明也就是变量定义，声明变量的同时也就完成了变量的定义，只有声明外部变量时例外。&lt;/p>
+&lt;p>&lt;strong>声明Vs定义&lt;/strong>： 是声明还是定义，判断的原则是看是否占用内存&lt;/p>
+&lt;pre>&lt;code class="language-cpp">class MyClass //类的声明，无内存占有
+{
+string myString; //string的声明
+};
+&lt;/code>&lt;/pre>
+&lt;p>这里面的&lt;code>string myString;&lt;/code>实在类的声明里面，并没有实际申请内存，所以这就是声明，因为它并没有实际申请内存。&lt;/p>
+&lt;pre>&lt;code class="language-cpp">#include&amp;lt;iostream&amp;gt;
+//全局作用域
+string myString;//定义，myString是实例化的string！
+int main()
+{
+//Main函数体内
+string myAnotherString;//定义，myAnotherString是实例化的string！
+return 0;
+}
+&lt;/code>&lt;/pre>
+&lt;p>这里面的&lt;code>string myString;&lt;/code>是全局定义，全局对象一开始就是要申请内存的。&lt;/p>
+&lt;p>小结：变量和对象不加extern永远是定义,类中的除外。 函数只有函数头是声明，有函数体的是定义。类永远只是声明。类成员函数的函数体是定义。&lt;/p>
+&lt;pre>&lt;code class="language-cpp">class MyClass
+{
+static int x; //这里的x是声明
+static const int a; //这里的a是声明
+//非static变量在类实例化时才分配内存.
+MyClass();//这里的函数是声明
+};
+int MyClass::x;//这是定义
+const int MyClass::a=11;//这是定义
+&lt;/code>&lt;/pre>
+&lt;pre>&lt;code class="language-cpp">//这里的Fun是定义，因为有函数体
+int fun(int a,int b)
+{
+int c;
+c=a+b;
+return c;
+}
+//这里的Fun是声明，因为这里只有函数头
+int fun(int a,int b)；
+&lt;/code>&lt;/pre></description></item><item><title>C++之Rule of Five</title><link>http://www.guozet.me/post/C++-Rule-Of-Five/</link><pubDate>Wed, 05 Sep 2018 10:14:31 +0000</pubDate><guid>http://www.guozet.me/post/C++-Rule-Of-Five/</guid><description>&lt;h3 id="rule-of-five">Rule of five&lt;/h3>
+&lt;p>Because the presence of a user-defined destructor, copy-constructor, or copy-assignment operator prevents implicit definition of the
+&lt;a href="https://en.cppreference.com/w/cpp/language/move_constructor" title="cpp/language/move constructor" target="_blank" rel="noopener">move constructor&lt;/a> and the
+&lt;a href="https://en.cppreference.com/w/cpp/language/move_operator" title="cpp/language/move operator" target="_blank" rel="noopener">move assignment operator&lt;/a>, any class for which move semantics are desirable, has to declare all five special member functions:&lt;/p>
+&lt;pre>&lt;code class="language-cpp">class rule_of_five
+{
+char* cstring; // raw pointer used as a handle to a dynamically-allocated memory block
+rule_of_five(const char* s, [std::size_t](http://en.cppreference.com/w/cpp/types/size_t) n) // to avoid counting twice
+: cstring(new char[n]) // allocate
+{
+[std::memcpy](http://en.cppreference.com/w/cpp/string/byte/memcpy)(cstring, s, n); // populate
+}
+public:
+rule_of_five(const char* s = &amp;quot;&amp;quot;)
+: rule_of_five(s, [std::strlen](http://en.cppreference.com/w/cpp/string/byte/strlen)(s) + 1)
+{}
+~rule_of_five()
+{
+delete[] cstring; // deallocate
+}
+rule_of_five(const rule_of_five&amp;amp; other) // copy constructor
+: rule_of_five(other.cstring)
+{}
+rule_of_five(rule_of_five&amp;amp;&amp;amp; other) noexcept // move constructor
+: cstring([std::exchange](http://en.cppreference.com/w/cpp/utility/exchange)(other.cstring, nullptr))
+{}
+rule_of_five&amp;amp; operator=(const rule_of_five&amp;amp; other) // copy assignment
+{
+return *this = rule_of_five(other);
+}
+rule_of_five&amp;amp; operator=(rule_of_five&amp;amp;&amp;amp; other) noexcept // move assignment
+{
+[std::swap](http://en.cppreference.com/w/cpp/algorithm/swap)(cstring, other.cstring);
+return *this;
+}
+// alternatively, replace both assignment operators with
+// rule_of_five&amp;amp; operator=(rule_of_five other) noexcept
+// {
+// std::swap(cstring, other.cstring);
+// return *this;
+// }
+};
+&lt;/code>&lt;/pre>
+&lt;p>Unlike Rule of Three, failing to provide move constructor and move assignment is usually not an error, but a missed optimization opportunity.&lt;/p>
+&lt;p>&lt;strong>第五条：再谈重载、覆盖和隐藏&lt;/strong>&lt;/p>
+&lt;p>在C++中，无论在类作用域内还是外，两个（或多个）同名的函数，可能且仅可能是以下三种关系：重载（Overload）、覆盖（Override）和隐藏（Hide），因为同名，区分这些关系则是根据参数是否相同、是否带有const成员函数性质、是否有virtual关键字修饰以及是否在同一作用域来判断。在第四条中，我们曾提到了一些关于重载、覆盖的概念，但只是一带而过，也没有提到隐藏，这一篇我们将详细讨论。&lt;/p>
+&lt;p>1、首先说的是重载，有一个前提必须要弄清楚的是，如果不在类作用域内进行讨论，两个（或多个）同名函数之间的关系只可能是重载或隐藏，这里先说重载。考虑以下事实：&lt;/p>
+&lt;pre>&lt;code class="language-cpp">int foo(char c){...}
+void foo(int x){...}
+&lt;/code>&lt;/pre>
+&lt;p>这两个函数之间的关系是&lt;strong>重载（overload），即相同函数名但参数不同，并注意返回类型是否相同并不会对重载产生任何影响&lt;/strong>。&lt;/p>
+&lt;p>也就是说，&lt;strong>如果仅仅是返回类型不相同，而函数名和参数都完全相同的两个函数，不能构成重载&lt;/strong>，编译器会告知&amp;quot;ambiguous&amp;rdquo;（二义性）等词以表达其不满：&lt;/p>
+&lt;pre>&lt;code class="language-cpp">//Can't be compiled!
+int fooo(char c){...}
+void fooo(char c){...}
+char c = 'A';
+fooo(c); // Which one? ambiguous
+&lt;/code>&lt;/pre>
+&lt;p>在第四条中，已经讲述过，重载是编译期绑定的静态行为，不是真正的多态性，那么，编译器是根据什么来进行静态绑定呢？又是如何确定两个（或多个）函数之间的关系是重载呢？&lt;/p>
+&lt;p>有以下判定依据：&lt;/p>
+&lt;p>（1）相同的范围：即作用域，这里指在同一个类中，或同一个名字空间，即&lt;strong>C++的函数重载不支持跨越作用域进行&lt;/strong>（读者可再次对比Java在这问题上的神奇处理，既上次Java给我们提供了未卜先知的动态绑定能力后，Java超一流的意识和大局观再次给Java程序员提供了跨类重载的能力，如有兴趣可详细阅读《Thinking in Java》的相关章节，其实对于学好C++来讲，去学一下Java是很有帮助的，它会告诉你，同样或类似的问题，为什么Java要做这样的改进），这也是区别重载和隐藏的最重要依据。&lt;/p>
+&lt;p>关于“C++不能支持跨类重载”，稍后笔者会给出代码来例证这一点。&lt;/p>
+&lt;p>（2）函数名字相同（基本前提）&lt;/p>
+&lt;p>（3）函数参数不同（基本前提，否则在同一作用域内有两个或多个同名同参数的函数，将产生ambiguous，另外注意，对于成员函数，是否是const成员函数，即函数声明之后是否带有const标志， 可理解为“参数不同“），第（2）和第（3）点统称“函数特征标”不同&lt;/p>
+&lt;p>（4）virtual关键字可有可无不产生影响（因为第（1）点已经指出，这是在同一个类中）&lt;/p>
+&lt;p>即**“相同的范围，特征标不同（当然同名是肯定的），发生重载“**。&lt;/p>
+&lt;p>2、覆盖（override），真正的多态行为，通过虚函数来实现，所以，编译器根据以下依据来进行判定两个（注意只可能是两个，即使在继承链中，也只是最近两个为一组）函数之间的关系是覆盖：&lt;/p>
+&lt;p>（1）不同的范围：即使用域，两个函数分别位于基类和派生类中&lt;/p>
+&lt;p>（2）函数名字相同（基本前提）&lt;/p>
+&lt;p>（3）函数参数也相同（基本前提），第（2）和第（3）点统称“函数特征标”相同&lt;/p>
+&lt;p>（4）基类函数必须用virtual关键字修饰&lt;/p>
+&lt;p>即**“不同的范围，特征标相同，且基类有virtual声明，发生覆盖“**。&lt;/p>
+&lt;p>3、隐藏（Hide），即：&lt;/p>
+&lt;p>（1）如果派生类函数与基类函数同名，但参数不同（特征标不同），此时，无论是否有virtual关键字，基类的所有同名函数都将被隐藏，而不会重载，因为不在同一个类中；&lt;/p>
+&lt;p>（2）如果派生类函数与基类函数同名，且参数也相同（特征标相同），但基类函数没有用virtual关键字声明，则基类的所有同名函数都将被隐藏，而不会覆盖，因为没有声明为虚函数。&lt;/p>
+&lt;p>即**“不同的范围，特征标不同（当然同名是肯定的），发生隐藏”**，或**&amp;ldquo;不同的范围，特征标相同，但基类没有virtual声明，发生隐藏“**。&lt;/p>
+&lt;p>可见有两种产生隐藏的情况，分别对应不能满足重载和覆盖条件的情况。&lt;/p>
+&lt;p>另外必须要注意的是，在类外讨论时，也可能发生隐藏，如在名字空间中，如下述代码所示：&lt;/p>
+&lt;pre>&lt;code class="language-cpp">#include &amp;lt;iostream&amp;gt;
+using namespace std;
+void foo(void) { cout &amp;lt;&amp;lt; &amp;quot;global foo()&amp;quot; &amp;lt;&amp;lt; endl; }
+int foo(int x) { cout &amp;lt;&amp;lt; &amp;quot;global foo(int)&amp;quot; &amp;lt;&amp;lt; endl; return x; }
+namespace a
+{
+void foo(void) { cout &amp;lt;&amp;lt; &amp;quot;a::foo()&amp;quot; &amp;lt;&amp;lt; endl; }
+void callFoo(void)
+{ foo();
+// foo(10); Can't be compiled! }
+}
+int main(int argc, char** argv)
+{
+foo();
+a::callFoo();
+return 0;
+}
+&lt;/code>&lt;/pre>
+&lt;p>输出结果：&lt;/p>
+&lt;pre>&lt;code class="language-cpp">global foo()
+a::foo()
+&lt;/code>&lt;/pre>
+&lt;p>注意，名字空间a中的foo隐藏了其它作用域（这里是全局作用域）中的所有foo名称，foo(10)不能通过编译，因为全局作用域中的int foo(int)版本也已经被a::foo()隐藏了，除非使用::foo(10)显式进行调用。&lt;/p>
+&lt;p>这也告诉我们，无论何时，都&lt;strong>使用完整名称修饰（作用域解析符调用函数，或指针、对象调用成员函数）是一种好的编程习惯&lt;/strong>。&lt;/p>
+&lt;p>好了，上面零零散散说了太多理论的东西，我们需要一段实际的代码，来验证上述所有的结论：&lt;/p>
+&lt;pre>&lt;code class="language-cpp">#include &amp;lt;iostream&amp;gt;
+using namespace std;
+class Other
+{
+void* p;
+};
+class Base
+{
+public:
+int iBase;
+Base():iBase(10){}
+virtual void f(int x = 20){ cout &amp;lt;&amp;lt; &amp;quot;Base::f()--&amp;quot; &amp;lt;&amp;lt; x &amp;lt;&amp;lt; endl; }
+virtual void g(float f) { cout &amp;lt;&amp;lt; &amp;quot;Base::g(float)--&amp;quot; &amp;lt;&amp;lt; f &amp;lt;&amp;lt; endl; }
+void g(Other&amp;amp; o) { cout &amp;lt;&amp;lt; &amp;quot;Base::g(Other&amp;amp;)&amp;quot; &amp;lt;&amp;lt; endl; }
+void g(Other&amp;amp; o) const { cout &amp;lt;&amp;lt; &amp;quot;Base::g(Other&amp;amp;) const&amp;quot; &amp;lt;&amp;lt; endl;}
+};
+class Derived : public Base
+{
+public:
+int iDerived;
+Derived():iDerived(100){}
+void f(int x = 200){ cout &amp;lt;&amp;lt; &amp;quot;Derived::f()--&amp;quot; &amp;lt;&amp;lt; x &amp;lt;&amp;lt; endl; }
+virtual void g(int x) { cout &amp;lt;&amp;lt; &amp;quot;Derived::g(int)--&amp;quot; &amp;lt;&amp;lt; x &amp;lt;&amp;lt; endl; }
+};
+int main(int argc, char** argv)
+{
+Base* pBase = NULL;
+Derived* pDerived = NULL;
+Base b;
+Derived d;
+pBase = &amp;amp;b;
+pDerived = &amp;amp;d;
+Base* pBD = &amp;amp;d;
+const Base* pC = &amp;amp;d;
+const Base* const pCCP = &amp;amp;d;
+Base* const pCP = &amp;amp;d;
+int x = 5;
+Other o;
+float f = 3.1415926;
+b.f();
+pBase-&amp;gt;f();
+d.f();
+pDerived-&amp;gt;f();
+pBD-&amp;gt;f();
+b.g(x);
+b.g(o);
+d.g(x);
+d.g(f);
+// Can't be compiled!
+// d.g(o);
+pBD-&amp;gt;g(x);
+pBD-&amp;gt;g(f);
+pC-&amp;gt;g(o);
+pCCP-&amp;gt;g(o);
+pCP-&amp;gt;g(o);
+return 0;
+}
+&lt;/code>&lt;/pre>
+&lt;p>在笔者Ubuntu 12.04 + gcc 4.6.3运行结果：&lt;/p>
+&lt;pre>&lt;code class="language-bash">Base::f()--20 //b.f()，通过对象调用，无虚特性，静态绑定
+Base::f()--20 //基类指针指向基类对象，虽然是动态绑定，但没有使用到覆盖
+Derived::f()--200 //d.f，通过对象调用，无虚特性，静态绑定
+Derived::f()--200 //子类指针指向子类对象，虽然是动态绑定，但没有使用到覆盖
+Derived::f()--20 //基类指针指向子类对象，动态绑定，子类f()覆盖基类版本。但函数参数默认值，是静态联编行为，pBD的类型是基类指针，所以使用了基类的参数默认值，注意此处！
+Base::g(float)--5 //通过对象调用，int被提升为float
+Base::g(Other&amp;amp;) //没什么问题，基类中三个g函数之间的关系是重载
+Derived::g(int)--5 //没什么问题
+Derived::g(int)--3 //注意基类的g(float)已经被隐藏！所以传入的float参数调用的却是子类的g(int)方法！
+Base::g(float)--5 //注意！pBD是基类指针，虽然它指向了子类对象，但基类中的所有g函数版本它是可见的！所以pBD-&amp;gt;g(5)调用到了g(float)！虽然产生了动态联编也发生了隐藏，但子类对象的虚表中，仍可以找到g(float)的地址，即基类版本！
+Base::g(float)--3.14159 //原理同上
+//d.g(o)
+//注意此处！再注意代码中被注释了的一行，d.g(o)不能通过编译，因为d是子类对象，在子类中，基类中定义的三个g函数版本都被隐藏了，编译时不可见！不会重载
+Base::g(Other&amp;amp;) const //pC是指向const对象的指针，将调用const版本的g函数
+Base::g(Other&amp;amp;) const //pCCP是指向const对象的const指针，也调用const版本的g函数
+Base::g(Other&amp;amp;) //pCP是指向非cosnt对象的const指针，由于不指向const对象，调用非const版本的g函数
+&lt;/code>&lt;/pre>
+&lt;p>上述结果，是否和预想的是否又有些出入呢？问题主要集中于结果的第5、12、13和15行。&lt;/p>
+&lt;p>第5行输出结果证明：&lt;strong>当函数参数有默认值，又发生多态行为时，函数参数默认值是静态行为，在编译时就已经确定，将使用基类版本的函数参数默认值而不是子类的&lt;/strong>。&lt;/p>
+&lt;p>而第12、13、15行输出结果则说明，尽管已经证明我们之前说的隐藏是正确的（因为d.g(o)不可以通过编译，确实发生了隐藏），但却可以**利用基类指针指向派生类对象后，来绕开这种限制！**也就是说，编译器根据参数匹配函数原型的时候，是在编译时根据指针的类型，或对象的类型来确定，指针类型是基类，那么基类中的g函数版本就是可见的；指针类型是子类，由于发生了隐藏，基类中的g函数版本就是不可见的。而到动态绑定时，基类指针指向了子类对象，在子类对象的虚函数表中，就可以找到基类中g虚函数的地址。&lt;/p>
+&lt;p>写到这里，不知道读者是否已经明白，这些绕来绕去的关系。在实际代码运用中，可能并不会写出含有这么多“陷阱”的测试代码，我们只要弄清楚重载、覆盖和隐藏的具体特征，并头脑清醒地知道，我现在需要的是哪一种功能（通常也不会需要隐藏），就能写出清析的代码。上面的代码其实是一个糟糕的例子，因为在这个例子中，重载、覆盖、隐藏并存，我们编写代码，就是要尽可能防止这种含混不清的情况发生。&lt;/p>
+&lt;p>记住一个原则：&lt;strong>每一个方法，功能和职责尽可能单一，否则，尝试将它拆分成为多个方法&lt;/strong>。&lt;/p></description></item><item><title>C++之Rule of Zero</title><link>http://www.guozet.me/post/C++-Rule-of-Zero/</link><pubDate>Wed, 05 Sep 2018 10:14:31 +0000</pubDate><guid>http://www.guozet.me/post/C++-Rule-of-Zero/</guid><description>&lt;!-- TODO:理解Rule of Zero的真正含义 -->
+&lt;p>Classes that have custom destructors, copy/move constructors or copy/move assignment operators should deal exclusively with ownership (which follows from the
+&lt;a href="https://en.wikipedia.org/wiki/Single_responsibility_principle" title="enwiki:Single responsibility principle" target="_blank" rel="noopener">Single Responsibility Principle&lt;/a>). Other classes should not have custom destructors, copy/move constructors or copy/move assignment operators.
+&lt;a href="https://en.cppreference.com/w/cpp/language/rule_of_three#cite_note-1" target="_blank" rel="noopener">[1]&lt;/a>&lt;/p>
+&lt;pre>&lt;code class="language-cpp">class rule_of_zero {
+std::string cppstring;
+public:
+rule_of_zero(const std::string&amp;amp; arg) : cppstring(arg) {}
+};
+&lt;/code>&lt;/pre>
+&lt;p>When a base class is intended for polymorphic use, its destructor may have to be declared public and virtual. This blocks implicit moves (and deprecates implicit copies), and so the special member functions have to be declared as defaulted
+&lt;a href="https://en.cppreference.com/w/cpp/language/rule_of_three#cite_note-2" target="_blank" rel="noopener">[2]&lt;/a>&lt;/p>
+&lt;pre>&lt;code class="language-cpp">class base_of_five_defaults {
+public:
+base_of_five_defaults(const base_of_five_defaults&amp;amp;) = default;
+base_of_five_defaults(base_of_five_defaults&amp;amp;&amp;amp;) = default;
+base_of_five_defaults&amp;amp; operator=(const base_of_five_defaults&amp;amp;) = default;
+base_of_five_defaults&amp;amp; operator=(base_of_five_defaults&amp;amp;&amp;amp;) = default;
+virtual ~base_of_five_defaults() = default;
+};
+&lt;/code>&lt;/pre>
+&lt;p>however, this can be avoided if the objects of the derived class are not dynamically allocated, or are dynamically allocated only to be stored in a
+&lt;a href="https://en.cppreference.com/w/cpp/memory/shared_ptr" title="cpp/memory/shared ptr" target="_blank" rel="noopener">std::shared_ptr&lt;/a> (such as by
+&lt;a href="https://en.cppreference.com/w/cpp/memory/shared_ptr/make_shared" title="cpp/memory/shared ptr/make shared" target="_blank" rel="noopener">std::make_shared&lt;/a>): shared pointers invoke the derived class destructor even after casting to &lt;code>std::shared_ptr&amp;lt;Base&amp;gt;&lt;/code>.&lt;/p></description></item></channel></rss>

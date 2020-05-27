@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>CPSC8270 | Terry Tang</title><link>http://www.guozet.me/category/CPSC8270/</link><atom:link href="http://www.guozet.me/category/CPSC8270/index.xml" rel="self" type="application/rss+xml"/><description>CPSC8270</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><copyright>guozet.me © 2020</copyright><lastBuildDate>Wed, 05 Sep 2018 10:14:31 +0000</lastBuildDate><image><url>http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url><title>CPSC8270</title><link>http://www.guozet.me/category/CPSC8270/</link></image><item><title>编译原理---编译器概念</title><link>http://www.guozet.me/post/CPSC8270-Quiz1/</link><pubDate>Wed, 05 Sep 2018 10:14:31 +0000</pubDate><guid>http://www.guozet.me/post/CPSC8270-Quiz1/</guid><description>&lt;p>Quiz 1 Date: 09/06/2018&lt;/p>
+&lt;h2 id="some-questions-about-the-paper">Some questions about the paper&lt;/h2>
+&lt;ol>
+&lt;li>
+&lt;p>What is grammarware?
+Grammarware comprises grammars and grammar-dependent software.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>What is Chomskys controversial definition of the “universal grammar?”
+He think that the essence of human language is the system of principles, conditions, and rules that are elements or properties of all human languages.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Basically, what’s the “research agenda” described in the paper?
+It promotes an engineering discipline for grammarware.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>The authors claim that “Grammarware seems to be second-class software.” What do they mean by this? (talk about refactoring)
+Grammarware seems to be second-class software. For instance, program refactoring is a well-established practice according to modern object-oriented methodology. By contrast, grammar refactoring is weakly understood and hardly practiced.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>The authors ask the question: “what is a good grammar?” How would you address this issue?
+A good grammar can help programmers to automate many tasks that are tedious and error prone when performed manually. Can help the programmers to find each set of string in the computer languages.&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>Def: Formally, a grammar G is a four tu-ple (N, T, S, P) where N &amp;amp; T are disjount sets of symbols known as non-terminals and terminals, S ∈ N is the start symbol, and P is a relation on N ∪ T of production rules.&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>N : non-terminals are generally represented as cap letters, and do not appear in the language; they are used to derive sentences in the language.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>T : terminals are symbols in the language&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>S is one of the non-terminals that indicates where to start when deriving a sentence in the language.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>P : rules used to derive a sentence.&lt;/p>
+&lt;/li>
+&lt;/ul></description></item></channel></rss>
