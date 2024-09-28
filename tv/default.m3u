@@ -55,8 +55,6 @@ http://148.135.93.213:81/live.php?id=%E6%B1%9F%E8%A5%BF%E5%8D%AB%E8%A7%86
 http://148.135.93.213:81/live.php?id=%E5%B9%BF%E4%B8%9C%E5%8D%AB%E8%A7%86
 #EXTINF:-1 tvg-id="东南卫视" tvg-name="东南卫视" tvg-logo="https://assets.livednow.com/logo/东南卫视.png" group-title="卫视IPV4",东南卫视
 https://pi.0472.org/live/dnws.m3u8?token=162210
-#EXTINF:-1 tvg-id="北京卫视" tvg-name="北京卫视" tvg-logo="https://assets.livednow.com/logo/北京卫视.png" group-title="卫视IPV4",北京卫视
-http://119.62.36.174:9901/tsfile/live/0135_1.m3u8?key=txiptv&playlive=0&authid=0
 #EXTINF:-1 tvg-id="吉林卫视" tvg-name="吉林卫视" tvg-logo="https://assets.livednow.com/logo/吉林卫视.png" group-title="卫视IPV4",吉林卫视
 http://14.204.46.68:9901/tsfile/live/0118_1.m3u8?key=txiptv&playlive=0&authid=0
 #EXTINF:-1 tvg-id="四川卫视" tvg-name="四川卫视" tvg-logo="https://assets.livednow.com/logo/四川卫视.png" group-title="卫视IPV4",四川卫视
@@ -111,10 +109,6 @@ http://148.135.93.213:81/live.php?id=%E5%87%A4%E5%87%B0%E8%B5%84%E8%AE%AF
 http://148.135.93.213:81/live.php?id=%E5%87%A4%E5%87%B0%E4%B8%AD%E6%96%87
 #EXTINF:-1 tvg-id="凤凰香港" tvg-name="凤凰香港" tvg-logo="https://live.fanmingming.com/tv/凤凰卫视香港台.png" group-title="卫视IPV4",凤凰香港
 http://148.135.93.213:81/live.php?id=%E5%87%A4%E5%87%B0%E9%A6%99%E6%B8%AF
-#EXTINF:-1 tvg-id="CCTV4K" tvg-name="CCTV4K" tvg-logo="https://live.fanmingming.com/tv/CCTV4K.png" group-title="央视-4K",CCTV4K
-http://148.135.93.213:81/live.php?id=CCTV4K
-#EXTINF:-1 tvg-id="CCTV16" tvg-name="CCTV16" tvg-logo="https://live.fanmingming.com/tv/CCTV16.png" group-title="央视-4K",CCTV16-4K
-http://148.135.93.213:81/live.php?id=CCTV16-4K
 #EXTINF:-1 group-title="国际",TBS
 http://143.244.60.30/TBS/index.m3u8
 #EXTINF:-1 group-title="国际",Rakuten Action
