@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Leetcode | Terry Tang</title><link>http://www.guozet.me/tag/Leetcode/</link><atom:link href="http://www.guozet.me/tag/Leetcode/index.xml" rel="self" type="application/rss+xml"/><description>Leetcode</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><copyright>guozet.me © 2020</copyright><lastBuildDate>Tue, 15 Jan 2019 21:52:04 +0000</lastBuildDate><image><url>http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url><title>Leetcode</title><link>http://www.guozet.me/tag/Leetcode/</link></image><item><title>Leetcode Algorithms. Binary Search</title><link>http://www.guozet.me/post/Algorithms-Binary-Search/</link><pubDate>Tue, 15 Jan 2019 21:52:04 +0000</pubDate><guid>http://www.guozet.me/post/Algorithms-Binary-Search/</guid><description>&lt;blockquote>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Leetcode | Terry Tang</title><link>http://www.guozet.me/tag/Leetcode/</link><atom:link href="http://www.guozet.me/tag/Leetcode/index.xml" rel="self" type="application/rss+xml"/><description>Leetcode</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en</language><copyright>guozet.me © 2020</copyright><lastBuildDate>Tue, 15 Jan 2019 21:52:04 +0000</lastBuildDate><image><url>http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_3.png</url><title>Leetcode</title><link>http://www.guozet.me/tag/Leetcode/</link></image><item><title>Leetcode Algorithms. Binary Search</title><link>http://www.guozet.me/post/Algorithms-Binary-Search/</link><pubDate>Tue, 15 Jan 2019 21:52:04 +0000</pubDate><guid>http://www.guozet.me/post/Algorithms-Binary-Search/</guid><description>&lt;blockquote>
 &lt;p>All the pictures in this post are coming from the video:
 &lt;a href="https://www.youtube.com/watch?v=v57lNF2mb_s" target="_blank" rel="noopener">花花酱 LeetCode Binary Search - 刷题找工作 SP5&lt;/a>&lt;/p>
 &lt;/blockquote>
@@ -68,10 +68,10 @@ width: 50%;
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th align="left">#&lt;/th>
-&lt;th align="left">Title&lt;/th>
-&lt;th align="left">Difficulty&lt;/th>
-&lt;th align="left">Topics&lt;/th>
+&lt;th style="text-align:left">#&lt;/th>
+&lt;th style="text-align:left">Title&lt;/th>
+&lt;th style="text-align:left">Difficulty&lt;/th>
+&lt;th style="text-align:left">Topics&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;/table></description></item></channel></rss>

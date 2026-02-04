@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>C++ | Terry Tang</title><link>http://www.guozet.me/category/C-/</link><atom:link href="http://www.guozet.me/category/C-/index.xml" rel="self" type="application/rss+xml"/><description>C++</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><copyright>guozet.me © 2020</copyright><lastBuildDate>Tue, 27 Nov 2018 10:14:31 +0000</lastBuildDate><image><url>http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url><title>C++</title><link>http://www.guozet.me/category/C-/</link></image><item><title>C++中两个类相互引用的情况</title><link>http://www.guozet.me/post/C++-Two-Class-include-other-one/</link><pubDate>Tue, 27 Nov 2018 10:14:31 +0000</pubDate><guid>http://www.guozet.me/post/C++-Two-Class-include-other-one/</guid><description>&lt;h1 id="question">Question&lt;/h1>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>C++ | Terry Tang</title><link>http://www.guozet.me/category/C-/</link><atom:link href="http://www.guozet.me/category/C-/index.xml" rel="self" type="application/rss+xml"/><description>C++</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en</language><copyright>guozet.me © 2020</copyright><lastBuildDate>Tue, 27 Nov 2018 10:14:31 +0000</lastBuildDate><image><url>http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_3.png</url><title>C++</title><link>http://www.guozet.me/category/C-/</link></image><item><title>C++中两个类相互引用的情况</title><link>http://www.guozet.me/post/C++-Two-Class-include-other-one/</link><pubDate>Tue, 27 Nov 2018 10:14:31 +0000</pubDate><guid>http://www.guozet.me/post/C++-Two-Class-include-other-one/</guid><description>&lt;h1 id="question">Question&lt;/h1>
 &lt;p>现在有两个类A和B需要定义，定义A的时候需要用到B，定义B的时候需要用到A。&lt;/p>
 &lt;pre>&lt;code class="language-cpp">//A.h
 #include &amp;quot;B.h&amp;quot;
@@ -768,7 +768,7 @@ return *this;
 void foo(int x){...}
 &lt;/code>&lt;/pre>
 &lt;p>这两个函数之间的关系是&lt;strong>重载（overload），即相同函数名但参数不同，并注意返回类型是否相同并不会对重载产生任何影响&lt;/strong>。&lt;/p>
-&lt;p>也就是说，&lt;strong>如果仅仅是返回类型不相同，而函数名和参数都完全相同的两个函数，不能构成重载&lt;/strong>，编译器会告知&amp;quot;ambiguous&amp;rdquo;（二义性）等词以表达其不满：&lt;/p>
+&lt;p>也就是说，&lt;strong>如果仅仅是返回类型不相同，而函数名和参数都完全相同的两个函数，不能构成重载&lt;/strong>，编译器会告知&amp;quot;ambiguous&amp;quot;（二义性）等词以表达其不满：&lt;/p>
 &lt;pre>&lt;code class="language-cpp">//Can't be compiled!
 int fooo(char c){...}
 void fooo(char c){...}
@@ -792,7 +792,7 @@ fooo(c); // Which one? ambiguous
 &lt;p>3、隐藏（Hide），即：&lt;/p>
 &lt;p>（1）如果派生类函数与基类函数同名，但参数不同（特征标不同），此时，无论是否有virtual关键字，基类的所有同名函数都将被隐藏，而不会重载，因为不在同一个类中；&lt;/p>
 &lt;p>（2）如果派生类函数与基类函数同名，且参数也相同（特征标相同），但基类函数没有用virtual关键字声明，则基类的所有同名函数都将被隐藏，而不会覆盖，因为没有声明为虚函数。&lt;/p>
-&lt;p>即**“不同的范围，特征标不同（当然同名是肯定的），发生隐藏”**，或**&amp;ldquo;不同的范围，特征标相同，但基类没有virtual声明，发生隐藏“**。&lt;/p>
+&lt;p>即**“不同的范围，特征标不同（当然同名是肯定的），发生隐藏”&lt;strong>，或&lt;/strong>&amp;ldquo;不同的范围，特征标相同，但基类没有virtual声明，发生隐藏“**。&lt;/p>
 &lt;p>可见有两种产生隐藏的情况，分别对应不能满足重载和覆盖条件的情况。&lt;/p>
 &lt;p>另外必须要注意的是，在类外讨论时，也可能发生隐藏，如在名字空间中，如下述代码所示：&lt;/p>
 &lt;pre>&lt;code class="language-cpp">#include &amp;lt;iostream&amp;gt;

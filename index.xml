@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Terry Tang</title><link>http://www.guozet.me/</link><atom:link href="http://www.guozet.me/index.xml" rel="self" type="application/rss+xml"/><description>Terry Tang</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><copyright>guozet.me © 2020</copyright><lastBuildDate>Thu, 14 Nov 2019 21:42:52 +0000</lastBuildDate><image><url>http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url><title>Terry Tang</title><link>http://www.guozet.me/</link></image><item><title>Example Page 1</title><link>http://www.guozet.me/courses/example/example1/</link><pubDate>Sun, 05 May 2019 00:00:00 +0100</pubDate><guid>http://www.guozet.me/courses/example/example1/</guid><description>&lt;p>In this tutorial, I&amp;rsquo;ll share my top 10 tips for getting started with Academic:&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Terry Tang</title><link>http://www.guozet.me/</link><atom:link href="http://www.guozet.me/index.xml" rel="self" type="application/rss+xml"/><description>Terry Tang</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en</language><copyright>guozet.me © 2020</copyright><lastBuildDate>Thu, 14 Nov 2019 21:42:52 +0000</lastBuildDate><image><url>http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_3.png</url><title>Terry Tang</title><link>http://www.guozet.me/</link></image><item><title>Example Page 1</title><link>http://www.guozet.me/courses/example/example1/</link><pubDate>Sun, 05 May 2019 00:00:00 +0100</pubDate><guid>http://www.guozet.me/courses/example/example1/</guid><description>&lt;p>In this tutorial, I&amp;rsquo;ll share my top 10 tips for getting started with Academic:&lt;/p>
 &lt;h2 id="tip-1">Tip 1&lt;/h2>
 &lt;p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat. Proin tincidunt magna sed ex sollicitudin condimentum. Sed ac faucibus dolor, scelerisque sollicitudin nisi. Cras purus urna, suscipit quis sapien eu, pulvinar tempor diam. Quisque risus orci, mollis id ante sit amet, gravida egestas nisl. Sed ac tempus magna. Proin in dui enim. Donec condimentum, sem id dapibus fringilla, tellus enim condimentum arcu, nec volutpat est felis vel metus. Vestibulum sit amet erat at nulla eleifend gravida.&lt;/p>
 &lt;p>Nullam vel molestie justo. Curabitur vitae efficitur leo. In hac habitasse platea dictumst. Sed pulvinar mauris dui, eget varius purus congue ac. Nulla euismod, lorem vel elementum dapibus, nunc justo porta mi, sed tempus est est vel tellus. Nam et enim eleifend, laoreet sem sit amet, elementum sem. Morbi ut leo congue, maximus velit ut, finibus arcu. In et libero cursus, rutrum risus non, molestie leo. Nullam congue quam et volutpat malesuada. Sed risus tortor, pulvinar et dictum nec, sodales non mi. Phasellus lacinia commodo laoreet. Nam mollis, erat in feugiat consectetur, purus eros egestas tellus, in auctor urna odio at nibh. Mauris imperdiet nisi ac magna convallis, at rhoncus ligula cursus.&lt;/p>
@@ -54,7 +54,7 @@
 &lt;p>Information:&lt;/p>
 &lt;ul>
 &lt;li>2018 year&lt;/li>
-&lt;li>11.6&amp;rdquo; HD (1366 x 768) 16:9 IPS&lt;/li>
+&lt;li>11.6&amp;quot; HD (1366 x 768) 16:9 IPS&lt;/li>
 &lt;li>4 GB, DDR3L SDRAM, 32 GB SSD&lt;/li>
 &lt;li>Intel® Celeron® N3150 processor Quad-core 1.60 GHz&lt;/li>
 &lt;li>System: GalliumOS(xUbuntu)&lt;/li>
@@ -149,14 +149,14 @@ data.head()
 {\left \|\nabla F(\mathbf{x}_{n}) - \nabla F(\mathbf{x}_{n-1}) \right \|^2}$$
 &lt;/code>&lt;/pre>
 &lt;p>renders as&lt;/p>
-&lt;p>$$\gamma_{n} = \frac{ \left | \left (\mathbf x_{n} - \mathbf x_{n-1} \right )^T \left [\nabla F (\mathbf x_{n}) - \nabla F (\mathbf x_{n-1}) \right ] \right |}{\left |\nabla F(\mathbf{x}_{n}) - \nabla F(\mathbf{x}_{n-1}) \right |^2}$$&lt;/p>
+&lt;p>$$\gamma_{n} = \frac{ \left | \left (\mathbf x_{n} - \mathbf x_{n-1} \right )^T \left [\nabla F (\mathbf x_{n}) - \nabla F (\mathbf x_{n-1}) \right ] \right |}{\left |\nabla F(\mathbf{x}&lt;em>{n}) - \nabla F(\mathbf{x}&lt;/em>{n-1}) \right |^2}$$&lt;/p>
 &lt;p>Example &lt;strong>inline math&lt;/strong> &lt;code>$\nabla F(\mathbf{x}_{n})$&lt;/code> renders as $\nabla F(\mathbf{x}_{n})$.&lt;/p>
 &lt;p>Example &lt;strong>multi-line math&lt;/strong> using the &lt;code>\\\\&lt;/code> math linebreak:&lt;/p>
 &lt;pre>&lt;code class="language-tex">$$f(k;p_0^*) = \begin{cases} p_0^* &amp;amp; \text{if }k=1, \\\\
 1-p_0^* &amp;amp; \text {if }k=0.\end{cases}$$
 &lt;/code>&lt;/pre>
 &lt;p>renders as&lt;/p>
-&lt;p>$$f(k;p_0^*) = \begin{cases} p_0^* &amp;amp; \text{if }k=1, \\&lt;br>
+&lt;p>$$f(k;p_0^&lt;em>) = \begin{cases} p_0^&lt;/em> &amp;amp; \text{if }k=1, \\
 1-p_0^* &amp;amp; \text {if }k=0.\end{cases}$$&lt;/p>
 &lt;h3 id="diagrams">Diagrams&lt;/h3>
 &lt;p>Academic supports a Markdown extension for diagrams. You can enable this feature by toggling the &lt;code>diagram&lt;/code> option in your &lt;code>config/_default/params.toml&lt;/code> file or by adding &lt;code>diagram: true&lt;/code> to your page front matter.&lt;/p>
@@ -555,7 +555,8 @@ date: 2019-09-01
 &lt;pre>&lt;code class="language-bash">jupyter nbconvert index.ipynb --to markdown --NbConvertApp.output_files_dir=.
 &lt;/code>&lt;/pre>
 &lt;h2 id="example">Example&lt;/h2>
-&lt;p>This post was created with Jupyter. The orginal files can be found at &lt;a href="https://github.com/gcushen/hugo-academic/tree/master/exampleSite/content/post/jupyter">https://github.com/gcushen/hugo-academic/tree/master/exampleSite/content/post/jupyter&lt;/a>&lt;/p></description></item><item><title>Slides</title><link>http://www.guozet.me/slides/example/</link><pubDate>Tue, 05 Feb 2019 00:00:00 +0000</pubDate><guid>http://www.guozet.me/slides/example/</guid><description>&lt;h1 id="create-slides-in-markdown-with-academic">Create slides in Markdown with Academic&lt;/h1>
+&lt;p>This post was created with Jupyter. The orginal files can be found at
+&lt;a href="https://github.com/gcushen/hugo-academic/tree/master/exampleSite/content/post/jupyter" target="_blank" rel="noopener">https://github.com/gcushen/hugo-academic/tree/master/exampleSite/content/post/jupyter&lt;/a>&lt;/p></description></item><item><title>Slides</title><link>http://www.guozet.me/slides/example/</link><pubDate>Tue, 05 Feb 2019 00:00:00 +0000</pubDate><guid>http://www.guozet.me/slides/example/</guid><description>&lt;h1 id="create-slides-in-markdown-with-academic">Create slides in Markdown with Academic&lt;/h1>
 &lt;p>
 &lt;a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic&lt;/a> |
 &lt;a href="https://sourcethemes.com/academic/docs/managing-content/#create-slides" target="_blank" rel="noopener">Documentation&lt;/a>&lt;/p>
@@ -604,15 +605,15 @@ $$&lt;/p>
 {{% fragment %}} Three {{% /fragment %}}
 &lt;/code>&lt;/pre>
 &lt;p>Press &lt;code>Space&lt;/code> to play!&lt;/p>
-&lt;p>&lt;span class="fragment " >
+&lt;span class="fragment " >
 One
 &lt;/span>
 &lt;span class="fragment " >
-&lt;strong>Two&lt;/strong>
+**Two**
 &lt;/span>
 &lt;span class="fragment " >
 Three
-&lt;/span>&lt;/p>
+&lt;/span>
 &lt;hr>
 &lt;p>A fragment can accept two optional parameters:&lt;/p>
 &lt;ul>
@@ -2394,26 +2395,26 @@ Eventual consistency is a consistency model used in distributed computing to ach
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th align="left">Null&lt;/th>
-&lt;th align="left">Amazon SNS&lt;/th>
-&lt;th align="left">Amazon SQS&lt;/th>
+&lt;th style="text-align:left">Null&lt;/th>
+&lt;th style="text-align:left">Amazon SNS&lt;/th>
+&lt;th style="text-align:left">Amazon SQS&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td align="left">Manage Persistence&lt;/td>
-&lt;td align="left">No&lt;/td>
-&lt;td align="left">Yes&lt;/td>
+&lt;td style="text-align:left">Manage Persistence&lt;/td>
+&lt;td style="text-align:left">No&lt;/td>
+&lt;td style="text-align:left">Yes&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td align="left">Delivery Mechanism&lt;/td>
-&lt;td align="left">Push(Passive)&lt;/td>
-&lt;td align="left">Poll(Active)&lt;/td>
+&lt;td style="text-align:left">Delivery Mechanism&lt;/td>
+&lt;td style="text-align:left">Push(Passive)&lt;/td>
+&lt;td style="text-align:left">Poll(Active)&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td align="left">Producer/Consumer&lt;/td>
-&lt;td align="left">Publish(subscriber)&lt;/td>
-&lt;td align="left">Send(receive)&lt;/td>
+&lt;td style="text-align:left">Producer/Consumer&lt;/td>
+&lt;td style="text-align:left">Publish(subscriber)&lt;/td>
+&lt;td style="text-align:left">Send(receive)&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -2896,7 +2897,7 @@ All-in Cloud, Hybrid Cloud, Private Cloud(On-premises).
 &lt;li>
 &lt;p>Explain the difference between a hybrid cloud deployment model and an All-In cloud deployment model.&lt;/p>
 &lt;ul>
-&lt;li>All-In&amp;rdquo; Cloud is a cloud-based application that is &lt;code>fully deployed in the cloud&lt;/code>, and all parts of the application run in the cloud.&lt;/li>
+&lt;li>All-In&amp;quot; Cloud is a cloud-based application that is &lt;code>fully deployed in the cloud&lt;/code>, and all parts of the application run in the cloud.&lt;/li>
 &lt;li>A hybrid deployment is a way to &lt;code>connect infrastructure and applications between cloud-based resources and existing resources&lt;/code> that are not located in the cloud.&lt;/li>
 &lt;/ul>
 &lt;/li>
@@ -4132,15 +4133,18 @@ int fun(int a,int b)；
 &lt;hr>
 &lt;h1 id="conclusions-and-future-study">Conclusions and Future Study&lt;/h1>
 &lt;p>When ostrich encounters their enemy in the desert, they would bury their head in the sand and think that the enemy can not see them.The Chinese government built an Internet wall like an ostrich shielding of the best-known websites, such as Google. Ironically, the Internet wall is useless to block libertarian news. Most Chinese people know that even the government blocks “thing,” someone also can read it in the foreign countries. Nowadays, the international information exchange is frequent. For example, there were 2.59 million Chinese people who traveled to the US during last year. They can easily read every new they liked. Also, some Chinese people often over the Internet wall to read foreign news. As they say, that “Good news never goes beyond the gate, while bad news spread far and wide.” The more blocking, the more attention.&lt;/p>
-&lt;p>The Chinese government is blocking some famous websites in the world just because they want to protect small, influential group and individual. Some expect who supports the Internet control policies in China, has often been cited a word, &amp;ldquo;I have no way to change you, but I have the right to choose our friends.&amp;rdquo; said by LuHui, the director of the state Internet information office. He is the manager of the Chinese Internet as most foreign media. He said, “we are welcome any Internet company to enter the Chinese market, but you must observe two regulations: don’t harmful on China’s national security and don’t harmful on Chinese consumers’ rights.” According to his opinion, the Chinese government shielding Google Google, Facebook, Twitter, YouTube, and thousands of websites such as Wikipedia Wikipedia, is to protect &amp;quot; the consumers’ rights&amp;rdquo; and &amp;ldquo;national security&amp;rdquo; But the analysis of the above in this essay, we already know that it is not entirely correct. This censorship system only works for small group and individual interests to block world-famous sites to maintain a popular figure.&lt;/p>
+&lt;p>The Chinese government is blocking some famous websites in the world just because they want to protect small, influential group and individual. Some expect who supports the Internet control policies in China, has often been cited a word, &amp;ldquo;I have no way to change you, but I have the right to choose our friends.&amp;rdquo; said by LuHui, the director of the state Internet information office. He is the manager of the Chinese Internet as most foreign media. He said, “we are welcome any Internet company to enter the Chinese market, but you must observe two regulations: don’t harmful on China’s national security and don’t harmful on Chinese consumers’ rights.” According to his opinion, the Chinese government shielding Google Google, Facebook, Twitter, YouTube, and thousands of websites such as Wikipedia Wikipedia, is to protect &amp;quot; the consumers’ rights&amp;quot; and &amp;ldquo;national security&amp;rdquo; But the analysis of the above in this essay, we already know that it is not entirely correct. This censorship system only works for small group and individual interests to block world-famous sites to maintain a popular figure.&lt;/p>
 &lt;p>If this country always hides in the back of the internet walls by governments, it may be relatively safe. But they can’t catch up with other advanced power in the world in the future. Besides, it also unable to obtain the respect of other nations or countries. &amp;ldquo;I have no way to change you, but I have the right to choose friends, &amp;quot; said by LuHui is good, but this sentence also applies to the Chinese people. They will have the right to choose which news they want to read.&lt;/p>
 &lt;hr>
 &lt;h1 id="references">References&lt;/h1>
-&lt;p>A new approach to China. (2010, January 12). Retrieved from &lt;a href="https://googleblog.blogspot.com/2010/01/new-approach-to-china.html">https://googleblog.blogspot.com/2010/01/new-approach-to-china.html&lt;/a>&lt;/p>
-&lt;p>In U.S., Fear Is Spreading Faster Than SARS. (2003, April 16). Retrieved from &lt;a href="http://www.nytimes.com/2003/04/17/world/the-sars-epidemic-asian-americans-in-us-fear-is-spreading-faster-than-sars.html">http://www.nytimes.com/2003/04/17/world/the-sars-epidemic-asian-americans-in-us-fear-is-spreading-faster-than-sars.html&lt;/a>&lt;/p>
+&lt;p>A new approach to China. (2010, January 12). Retrieved from
+&lt;a href="https://googleblog.blogspot.com/2010/01/new-approach-to-china.html" target="_blank" rel="noopener">https://googleblog.blogspot.com/2010/01/new-approach-to-china.html&lt;/a>&lt;/p>
+&lt;p>In U.S., Fear Is Spreading Faster Than SARS. (2003, April 16). Retrieved from
+&lt;a href="http://www.nytimes.com/2003/04/17/world/the-sars-epidemic-asian-americans-in-us-fear-is-spreading-faster-than-sars.html" target="_blank" rel="noopener">http://www.nytimes.com/2003/04/17/world/the-sars-epidemic-asian-americans-in-us-fear-is-spreading-faster-than-sars.html&lt;/a>&lt;/p>
 &lt;p>King, G., Pan, J., &amp;amp; Roberts, M. E. (2013, 05). How Censorship in China Allows Government Criticism but Silences Collective Expression. American Political Science Review, 107(02), 326-343. doi:10.1017/s0003055413000014&lt;/p>
 &lt;p>Qiu, J. L. (1999). Virtual censorship in China: Keeping the gate between the cyberspaces. International Journal of Communications Law and Policy, 4(1), 25.&lt;/p>
-&lt;p>Revised U.S. Surveillance Case Definition for Severe Acute Respiratory Syndrome (SARS) and Update on SARS Cases, United States and Worldwide, December 2003. (n.d.). Retrieved from &lt;a href="https://www.cdc.gov/mmwr/preview/mmwrhtml/mm5249a2.htm">https://www.cdc.gov/mmwr/preview/mmwrhtml/mm5249a2.htm&lt;/a>&lt;/p>
+&lt;p>Revised U.S. Surveillance Case Definition for Severe Acute Respiratory Syndrome (SARS) and Update on SARS Cases, United States and Worldwide, December 2003. (n.d.). Retrieved from
+&lt;a href="https://www.cdc.gov/mmwr/preview/mmwrhtml/mm5249a2.htm" target="_blank" rel="noopener">https://www.cdc.gov/mmwr/preview/mmwrhtml/mm5249a2.htm&lt;/a>&lt;/p>
 &lt;p>Sorenson, A.(2013). Internet Censorship in China. Mankato, MN:Undergraduate Research Symposium.&lt;/p>
 &lt;p>Xu, X., Mao, Z. M., &amp;amp; Halderman, J. A. (2011). Internet Censorship in China: Where Does the Filtering Occur? Passive and Active Measurement Lecture Notes in Computer Science, 133-142. doi:10.1007/978-3-642-19260-9_14&lt;/p></description></item><item><title>Ubuntu里面update,upgrade和dist-upgrade的区别</title><link>http://www.guozet.me/post/Ubuntu-Update-Upgrade/</link><pubDate>Sun, 09 Sep 2018 15:09:31 +0000</pubDate><guid>http://www.guozet.me/post/Ubuntu-Update-Upgrade/</guid><description>&lt;h2 id="introduce">Introduce&lt;/h2>
 &lt;p>&lt;strong>常用的三个命令：&lt;/strong>&lt;/p>
@@ -4255,7 +4259,7 @@ return *this;
 void foo(int x){...}
 &lt;/code>&lt;/pre>
 &lt;p>这两个函数之间的关系是&lt;strong>重载（overload），即相同函数名但参数不同，并注意返回类型是否相同并不会对重载产生任何影响&lt;/strong>。&lt;/p>
-&lt;p>也就是说，&lt;strong>如果仅仅是返回类型不相同，而函数名和参数都完全相同的两个函数，不能构成重载&lt;/strong>，编译器会告知&amp;quot;ambiguous&amp;rdquo;（二义性）等词以表达其不满：&lt;/p>
+&lt;p>也就是说，&lt;strong>如果仅仅是返回类型不相同，而函数名和参数都完全相同的两个函数，不能构成重载&lt;/strong>，编译器会告知&amp;quot;ambiguous&amp;quot;（二义性）等词以表达其不满：&lt;/p>
 &lt;pre>&lt;code class="language-cpp">//Can't be compiled!
 int fooo(char c){...}
 void fooo(char c){...}
@@ -4279,7 +4283,7 @@ fooo(c); // Which one? ambiguous
 &lt;p>3、隐藏（Hide），即：&lt;/p>
 &lt;p>（1）如果派生类函数与基类函数同名，但参数不同（特征标不同），此时，无论是否有virtual关键字，基类的所有同名函数都将被隐藏，而不会重载，因为不在同一个类中；&lt;/p>
 &lt;p>（2）如果派生类函数与基类函数同名，且参数也相同（特征标相同），但基类函数没有用virtual关键字声明，则基类的所有同名函数都将被隐藏，而不会覆盖，因为没有声明为虚函数。&lt;/p>
-&lt;p>即**“不同的范围，特征标不同（当然同名是肯定的），发生隐藏”**，或**&amp;ldquo;不同的范围，特征标相同，但基类没有virtual声明，发生隐藏“**。&lt;/p>
+&lt;p>即**“不同的范围，特征标不同（当然同名是肯定的），发生隐藏”&lt;strong>，或&lt;/strong>&amp;ldquo;不同的范围，特征标相同，但基类没有virtual声明，发生隐藏“**。&lt;/p>
 &lt;p>可见有两种产生隐藏的情况，分别对应不能满足重载和覆盖条件的情况。&lt;/p>
 &lt;p>另外必须要注意的是，在类外讨论时，也可能发生隐藏，如在名字空间中，如下述代码所示：&lt;/p>
 &lt;pre>&lt;code class="language-cpp">#include &amp;lt;iostream&amp;gt;
@@ -4574,10 +4578,10 @@ width: 50%;
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th align="left">#&lt;/th>
-&lt;th align="left">Title&lt;/th>
-&lt;th align="left">Difficulty&lt;/th>
-&lt;th align="left">Topics&lt;/th>
+&lt;th style="text-align:left">#&lt;/th>
+&lt;th style="text-align:left">Title&lt;/th>
+&lt;th style="text-align:left">Difficulty&lt;/th>
+&lt;th style="text-align:left">Topics&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;/table></description></item><item><title>Hexo+Github+Travis CI完成博客的自动部署</title><link>http://www.guozet.me/post/hexo-and-travisci-to-implement-auto-setting/</link><pubDate>Thu, 09 Aug 2018 14:14:14 +0000</pubDate><guid>http://www.guozet.me/post/hexo-and-travisci-to-implement-auto-setting/</guid><description>&lt;blockquote>
@@ -4640,30 +4644,30 @@ fi
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th align="left">时间&lt;/th>
-&lt;th align="left">行程&lt;/th>
+&lt;th style="text-align:left">时间&lt;/th>
+&lt;th style="text-align:left">行程&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td align="left">D1(23:30,08/10)&lt;/td>
-&lt;td align="left">抵达奥兰多机场(我从Atlanta -&amp;gt; Orlando, 她从Hartford-&amp;gt;Orlando))&lt;/td>
+&lt;td style="text-align:left">D1(23:30,08/10)&lt;/td>
+&lt;td style="text-align:left">抵达奥兰多机场(我从Atlanta -&amp;gt; Orlando, 她从Hartford-&amp;gt;Orlando))&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td align="left">D2(08/11)&lt;/td>
-&lt;td align="left">迪斯尼&lt;code>Magic Kingdom Pack&lt;/code>&lt;/td>
+&lt;td style="text-align:left">D2(08/11)&lt;/td>
+&lt;td style="text-align:left">迪斯尼&lt;code>Magic Kingdom Pack&lt;/code>&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td align="left">D3(08/12)&lt;/td>
-&lt;td align="left">Universal Studios &amp;amp; Islands of Adventure&lt;/td>
+&lt;td style="text-align:left">D3(08/12)&lt;/td>
+&lt;td style="text-align:left">Universal Studios &amp;amp; Islands of Adventure&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td align="left">D4(08/13)&lt;/td>
-&lt;td align="left">Universal Studios &amp;amp; Islands of Adventure&lt;/td>
+&lt;td style="text-align:left">D4(08/13)&lt;/td>
+&lt;td style="text-align:left">Universal Studios &amp;amp; Islands of Adventure&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td align="left">D5(07:30,08/14)&lt;/td>
-&lt;td align="left">离开奥兰多&lt;/td>
+&lt;td style="text-align:left">D5(07:30,08/14)&lt;/td>
+&lt;td style="text-align:left">离开奥兰多&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -4681,15 +4685,48 @@ fi
 &lt;a href="http://www.wdwinfo.com/maps/index.htm" target="_blank" rel="noopener">Disney Theme Park Maps&lt;/a>&lt;/p>
 &lt;h1 id="迪斯尼魔术王国disney-magic-kindom一天行程">迪斯尼魔术王国(Disney Magic Kindom)一天行程&lt;/h1>
 &lt;h2 id="项目游玩安排">项目游玩安排&lt;/h2>
-&lt;p>在这里记录我们亲自去尝试过的项目
-| 项目 | 介绍 | 推荐指数 |
-| :&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;ndash; | :&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;- | :&amp;mdash;&amp;mdash;- |
-| Tomorrowland Speedway(Tomorrowland) | 固定的几个赛车道，可以在里面开赛车，速度并不是很快，但是可以后面的车撞前面的车，这是比较爽的 | 3+ |
-| Space Mountain(Tomorrowland) | 室内过山车，比较火爆，我们使用了Fast Pass | 4+ |
-| Buzz Lightyear&amp;rsquo;s Space Ranger Spin(Tomorrowland) | 巴斯光年射击游戏, 感觉不是很好玩 | 3 |
-| Prince Charming Regal Carrousel(Tomorrowland) | 旋转木马 | 2 |
-| Space Mountain(Tomorrowland) | 室内过山车，比较火爆，我们使用了Fast Pass | 4+ |
-| Buzz Lightyear&amp;rsquo;s Space Ranger Spin(Tomorrowland) | 巴斯光年射击游戏, 感觉不是很好玩 | 3 |&lt;/p>
+&lt;p>在这里记录我们亲自去尝试过的项目&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align:left">项目&lt;/th>
+&lt;th style="text-align:left">介绍&lt;/th>
+&lt;th style="text-align:left">推荐指数&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align:left">Tomorrowland Speedway(Tomorrowland)&lt;/td>
+&lt;td style="text-align:left">固定的几个赛车道，可以在里面开赛车，速度并不是很快，但是可以后面的车撞前面的车，这是比较爽的&lt;/td>
+&lt;td style="text-align:left">3+&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">Space Mountain(Tomorrowland)&lt;/td>
+&lt;td style="text-align:left">室内过山车，比较火爆，我们使用了Fast Pass&lt;/td>
+&lt;td style="text-align:left">4+&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">Buzz Lightyear&amp;rsquo;s Space Ranger Spin(Tomorrowland)&lt;/td>
+&lt;td style="text-align:left">巴斯光年射击游戏, 感觉不是很好玩&lt;/td>
+&lt;td style="text-align:left">3&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">Prince Charming Regal Carrousel(Tomorrowland)&lt;/td>
+&lt;td style="text-align:left">旋转木马&lt;/td>
+&lt;td style="text-align:left">2&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">Space Mountain(Tomorrowland)&lt;/td>
+&lt;td style="text-align:left">室内过山车，比较火爆，我们使用了Fast Pass&lt;/td>
+&lt;td style="text-align:left">4+&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:left">Buzz Lightyear&amp;rsquo;s Space Ranger Spin(Tomorrowland)&lt;/td>
+&lt;td style="text-align:left">巴斯光年射击游戏, 感觉不是很好玩&lt;/td>
+&lt;td style="text-align:left">3&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
 &lt;p>推荐&lt;code>Buzz Lightyear's Space Ranger spin&lt;/code>,这是一个射击类游戏，但是两个人玩是比较有意思的;另外&lt;code>Space Mountain&lt;/code>非常刺激，虽然是室内过山车，但是感觉很棒。&lt;/p>
 &lt;h2 id="迪斯尼推荐餐厅">迪斯尼推荐餐厅&lt;/h2>
 &lt;p>根据这两天在外吃饭的体会，迪斯尼里面餐厅的整体价格还算比较正常，快餐的话人均花费大致在15-25刀一餐，由于我们没有提前预订餐厅，所以我们只能在里面吃快餐了。餐厅推荐：&lt;/p>
@@ -4699,51 +4736,51 @@ fi
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th align="left">项目(位置)&lt;/th>
-&lt;th align="left">介绍&lt;/th>
-&lt;th align="left">推荐指数&lt;/th>
+&lt;th style="text-align:left">项目(位置)&lt;/th>
+&lt;th style="text-align:left">介绍&lt;/th>
+&lt;th style="text-align:left">推荐指数&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td align="left">Despicable Me Minion(Production Central)&lt;/td>
-&lt;td align="left">小黄人电影，推荐一早进园就去看，排队的人比较少&lt;/td>
-&lt;td align="left">5+&lt;/td>
+&lt;td style="text-align:left">Despicable Me Minion(Production Central)&lt;/td>
+&lt;td style="text-align:left">小黄人电影，推荐一早进园就去看，排队的人比较少&lt;/td>
+&lt;td style="text-align:left">5+&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td align="left">Shrek 4-D&lt;/td>
-&lt;td align="left">史莱克的4D电影，但是感觉没有小黄人精彩&lt;/td>
-&lt;td align="left">3&lt;/td>
+&lt;td style="text-align:left">Shrek 4-D&lt;/td>
+&lt;td style="text-align:left">史莱克的4D电影，但是感觉没有小黄人精彩&lt;/td>
+&lt;td style="text-align:left">3&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td align="left">Hollywood rip ride Rocket&lt;/td>
-&lt;td align="left">强烈推荐，90度直上，然后连续几个360度的旋转，而且可以选择在过山车上面听的音乐，坐过的最刺激的过山车&lt;/td>
-&lt;td align="left">5+&lt;/td>
+&lt;td style="text-align:left">Hollywood rip ride Rocket&lt;/td>
+&lt;td style="text-align:left">强烈推荐，90度直上，然后连续几个360度的旋转，而且可以选择在过山车上面听的音乐，坐过的最刺激的过山车&lt;/td>
+&lt;td style="text-align:left">5+&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td align="left">Transformers the Ride-3D&lt;/td>
-&lt;td align="left">变形金刚的3D，非常的精彩，感觉是在和变形金刚共同战斗&lt;/td>
-&lt;td align="left">5+&lt;/td>
+&lt;td style="text-align:left">Transformers the Ride-3D&lt;/td>
+&lt;td style="text-align:left">变形金刚的3D，非常的精彩，感觉是在和变形金刚共同战斗&lt;/td>
+&lt;td style="text-align:left">5+&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td align="left">Revenge of the Mummy&lt;/td>
-&lt;td align="left">室内过山车项目，木乃伊主题，非常刺激，效果很赞&lt;/td>
-&lt;td align="left">5&lt;/td>
+&lt;td style="text-align:left">Revenge of the Mummy&lt;/td>
+&lt;td style="text-align:left">室内过山车项目，木乃伊主题，非常刺激，效果很赞&lt;/td>
+&lt;td style="text-align:left">5&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td align="left">Men in Black alien attack&lt;/td>
-&lt;td align="left">打外星人的射击类游戏，个人感觉一般，和迪斯尼的巴斯光年类似&lt;/td>
-&lt;td align="left">3&lt;/td>
+&lt;td style="text-align:left">Men in Black alien attack&lt;/td>
+&lt;td style="text-align:left">打外星人的射击类游戏，个人感觉一般，和迪斯尼的巴斯光年类似&lt;/td>
+&lt;td style="text-align:left">3&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td align="left">The Simpsons ride&lt;/td>
-&lt;td align="left">辛普森的一家，室内3D, 体验很不错&lt;/td>
-&lt;td align="left">5&lt;/td>
+&lt;td style="text-align:left">The Simpsons ride&lt;/td>
+&lt;td style="text-align:left">辛普森的一家，室内3D, 体验很不错&lt;/td>
+&lt;td style="text-align:left">5&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td align="left">E.T advanture&lt;/td>
-&lt;td align="left">自行车模样的游览车，没意思&lt;/td>
-&lt;td align="left">3&lt;/td>
+&lt;td style="text-align:left">E.T advanture&lt;/td>
+&lt;td style="text-align:left">自行车模样的游览车，没意思&lt;/td>
+&lt;td style="text-align:left">3&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -4751,46 +4788,46 @@ fi
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th align="left">项目(位置)&lt;/th>
-&lt;th align="left">介绍&lt;/th>
-&lt;th align="left">推荐指数&lt;/th>
+&lt;th style="text-align:left">项目(位置)&lt;/th>
+&lt;th style="text-align:left">介绍&lt;/th>
+&lt;th style="text-align:left">推荐指数&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td align="left">The incredible hunk Coaster(Super hero island)&lt;/td>
-&lt;td align="left">绿巨人过山车，很喜欢刚开始加速冲出去的感觉，很刺激&lt;/td>
-&lt;td align="left">5+&lt;/td>
+&lt;td style="text-align:left">The incredible hunk Coaster(Super hero island)&lt;/td>
+&lt;td style="text-align:left">绿巨人过山车，很喜欢刚开始加速冲出去的感觉，很刺激&lt;/td>
+&lt;td style="text-align:left">5+&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td align="left">Stom Force acelatron&lt;/td>
-&lt;td align="left">坐在里面，不停转动的圆形机器，头晕，无聊&lt;/td>
-&lt;td align="left">2&lt;/td>
+&lt;td style="text-align:left">Stom Force acelatron&lt;/td>
+&lt;td style="text-align:left">坐在里面，不停转动的圆形机器，头晕，无聊&lt;/td>
+&lt;td style="text-align:left">2&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td align="left">The amazing adventures of spider-man&lt;/td>
-&lt;td align="left">3D模拟情景类，跟着蜘蛛侠各种打怪兽&lt;/td>
-&lt;td align="left">5+&lt;/td>
+&lt;td style="text-align:left">The amazing adventures of spider-man&lt;/td>
+&lt;td style="text-align:left">3D模拟情景类，跟着蜘蛛侠各种打怪兽&lt;/td>
+&lt;td style="text-align:left">5+&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td align="left">Dudley do-right Ripsaw falls&lt;/td>
-&lt;td align="left">激流勇进，最后一下可能会湿衣服，但是整体还行，不用存包，衣服不会湿透&lt;/td>
-&lt;td align="left">5+&lt;/td>
+&lt;td style="text-align:left">Dudley do-right Ripsaw falls&lt;/td>
+&lt;td style="text-align:left">激流勇进，最后一下可能会湿衣服，但是整体还行，不用存包，衣服不会湿透&lt;/td>
+&lt;td style="text-align:left">5+&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td align="left">Harry potter and the Forbidden journey&lt;/td>
-&lt;td align="left">超级火爆，不能使用express,推荐进园就来这里先玩这个&lt;/td>
-&lt;td align="left">5&lt;/td>
+&lt;td style="text-align:left">Harry potter and the Forbidden journey&lt;/td>
+&lt;td style="text-align:left">超级火爆，不能使用express,推荐进园就来这里先玩这个&lt;/td>
+&lt;td style="text-align:left">5&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td align="left">Fight of the hippogriff&lt;/td>
-&lt;td align="left">小型过山车，坐过绿巨人之后，就会觉得这个很无聊了&lt;/td>
-&lt;td align="left">3&lt;/td>
+&lt;td style="text-align:left">Fight of the hippogriff&lt;/td>
+&lt;td style="text-align:left">小型过山车，坐过绿巨人之后，就会觉得这个很无聊了&lt;/td>
+&lt;td style="text-align:left">3&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td align="left">Doctor Doom&amp;rsquo;s fearfall(跳楼机，没有玩)&lt;/td>
-&lt;td align="left">在室外，高度有点恐怖，没有玩&lt;/td>
-&lt;td align="left">5+(博客推荐)&lt;/td>
+&lt;td style="text-align:left">Doctor Doom&amp;rsquo;s fearfall(跳楼机，没有玩)&lt;/td>
+&lt;td style="text-align:left">在室外，高度有点恐怖，没有玩&lt;/td>
+&lt;td style="text-align:left">5+(博客推荐)&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table></description></item><item><title>How to install RAMcloud on Ubuntu16.04</title><link>http://www.guozet.me/post/How-to-install-RAMcloud-on-Ubuntu16-04/</link><pubDate>Sun, 15 Jul 2018 11:38:13 +0000</pubDate><guid>http://www.guozet.me/post/How-to-install-RAMcloud-on-Ubuntu16-04/</guid><description>&lt;h1 id="introduce">Introduce&lt;/h1>
@@ -5722,7 +5759,7 @@ usage: bro [options] [file ...]
 &lt;h4 id="download-rip-network-data">Download RIP Network data&lt;/h4>
 &lt;p>We can directly download a RIPv2 packet which can be used for testing on Internet.
 &lt;code>$ wget http://packetlife.net/captures/RIPv2.cap&lt;/code>&lt;/p>
-&lt;p>After download, use the command &amp;lsquo;tcpdump&amp;rsquo; to determine whether the data packet contains RIP data.&lt;/p>
+&lt;p>After download, use the command &amp;rsquo;tcpdump&amp;rsquo; to determine whether the data packet contains RIP data.&lt;/p>
 &lt;pre>&lt;code class="language-bash">Guoze@node-0:~/00_Workbench$ tcpdump -nr RIPv2.cap
 reading from file RIPv2.cap, link-type EN10MB (Ethernet)
 23:06:26.942558 IP 10.0.0.1.520 &amp;gt; 224.0.0.9.520: RIPv2, Response, length: 84
@@ -6482,7 +6519,7 @@ github https://github.com/zxbetter/test.git (push)
 &lt;p>最近使用SSH来登陆DigitalOcean VPS的时候，第一次导入SSH的时候出现了一些问题，由此对SSH协议详细的学习了一番。在这里对自己SSH的学习做一个小结。&lt;/p>
 &lt;h1 id="基本概念">基本概念&lt;/h1>
 &lt;h2 id="什么是ssh">什么是SSH&lt;/h2>
-&lt;p>SSH(The Secure Shell)是指一种将所有传输的数据进行加密，这样&amp;quot;中间人&amp;quot;这种攻击方式就不可能实现了，而且也能够防止DNS欺骗和IP欺骗。使用SSH，还有一个额外的好处就是传输的数据是经过压缩的，所以可以加快传输的速度。SSH有很多功能，它既可以代替Telnet，又可以为FTP、Pop、甚至为PPP提供一个安全的&amp;quot;通道&amp;rdquo;。&lt;/p>
+&lt;p>SSH(The Secure Shell)是指一种将所有传输的数据进行加密，这样&amp;quot;中间人&amp;quot;这种攻击方式就不可能实现了，而且也能够防止DNS欺骗和IP欺骗。使用SSH，还有一个额外的好处就是传输的数据是经过压缩的，所以可以加快传输的速度。SSH有很多功能，它既可以代替Telnet，又可以为FTP、Pop、甚至为PPP提供一个安全的&amp;quot;通道&amp;quot;。&lt;/p>
 &lt;blockquote>
 &lt;p>官方协议文档请参考:
 &lt;a href="https://www.ietf.org/rfc/rfc4251.txt" target="_blank" rel="noopener">The Secure Shell (SSH) Protocol Architecture&lt;/a>&lt;/p>
@@ -6659,7 +6696,8 @@ auto eth0
 &lt;/ol>
 &lt;p>sudo /etc/init.d/networking restart
 4. ping测试互联网连通性&lt;/p>
-&lt;p>ping &lt;a href="http://www.baidu.com">www.baidu.com&lt;/a>
+&lt;p>ping
+&lt;a href="https://www.baidu.com" target="_blank" rel="noopener">www.baidu.com&lt;/a>
 如果ping有响应，那么恭喜你，你已经成功将虚拟机设置为静态IP，并且也已连入互联网。&lt;/p>
 &lt;p>开启防火墙
 ufw enable&lt;/p>
@@ -6683,7 +6721,8 @@ sudo
 /etc/init.d/ssh stop
 sudo /etc/init.d/ssh start
 然后使用以下方式登陆SSH：
-ssh &lt;a href="mailto:username@192.168.1.112">username@192.168.1.112&lt;/a> username为192.168.1.112 机器上的用户，需要输入密码。&lt;/p>
+ssh
+&lt;a href="mailto:username@192.168.1.112">username@192.168.1.112&lt;/a> username为192.168.1.112 机器上的用户，需要输入密码。&lt;/p>
 &lt;p>在刚安装完ubuntu后，屏幕不能全屏显示，此时：&lt;/p>
 &lt;p>1、安装VMware Tools&lt;/p>
 &lt;p>步骤：&lt;/p>
@@ -8188,7 +8227,7 @@ update-initramfs –c –k 2.6.39
 &lt;pre>&lt;code class="language-bash">uname -r
 &lt;/code>&lt;/pre>
 &lt;p>该命令会告诉你当前使用的内核版本，在登录时候，不能卸载当前的内核，以免造成无法启动的悲剧~~&lt;br>
-接下来，如果你是自己**动手编译**的内核的话，请删除以下文件和文件夹&lt;/p>
+接下来，如果你是自己&lt;strong>动手编译&lt;/strong>的内核的话，请删除以下文件和文件夹&lt;/p>
 &lt;ol>
 &lt;li>删除掉/lib/modules/目录下过时的内核库文件&lt;/li>
 &lt;li>删除掉/usr/src/kernels/目录下过时的内核源代码&lt;/li>
@@ -8232,7 +8271,7 @@ update-initramfs –c –k 2.6.39
 安装必备软件编译工具:#apt-get installlibncurses5-dev build-essential kernel-package 的时候，无法更新，输入#sudo apt-get update也无法更新数据。&lt;/p>
 &lt;p>&lt;img src="http://www.guozet.me/images/in-post/2016-07-12-Linux-kernel-update/2018-09-19-02-33-19.png" alt="">&lt;/p>
 &lt;p>在这里是由于ubuntu10.10的源出现问题，导致无法更新、下载软件，这里需要重新修改源文件。处理如下：&lt;br>
-&lt;a href="http://www.cnblogs.com/linuxcat/archive/2012/12/29/2839216.html">http://www.cnblogs.com/linuxcat/archive/2012/12/29/2839216.html&lt;/a>&lt;/p>
+&lt;a href="http://www.cnblogs.com/linuxcat/archive/2012/12/29/2839216.html" target="_blank" rel="noopener">http://www.cnblogs.com/linuxcat/archive/2012/12/29/2839216.html&lt;/a>&lt;/p>
 &lt;p>参考该网站内容后，将源换为http://old-releases.ubuntu.com/ubuntu/地址，即可更新、下载软件（当然，其他可用的源地址也是可以的）。&lt;/p>
 &lt;p>2.权限问题&lt;br>
 在这个内核的编译、安装过程中，涉及到的操作都是需要root权限才能进行操作的，如果权限不够，则产生错误。处理方法：使用sudo(必须给了给用户申请root的权限)或者直接su root切换到root用户下进行整个过程操作。&lt;/p></description></item><item><title>External Project</title><link>http://www.guozet.me/project/external-project/</link><pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate><guid>http://www.guozet.me/project/external-project/</guid><description/></item><item><title>Internal Project</title><link>http://www.guozet.me/project/internal-project/</link><pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate><guid>http://www.guozet.me/project/internal-project/</guid><description>&lt;p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat. Proin tincidunt magna sed ex sollicitudin condimentum. Sed ac faucibus dolor, scelerisque sollicitudin nisi. Cras purus urna, suscipit quis sapien eu, pulvinar tempor diam. Quisque risus orci, mollis id ante sit amet, gravida egestas nisl. Sed ac tempus magna. Proin in dui enim. Donec condimentum, sem id dapibus fringilla, tellus enim condimentum arcu, nec volutpat est felis vel metus. Vestibulum sit amet erat at nulla eleifend gravida.&lt;/p>
@@ -8261,7 +8300,7 @@ update-initramfs –c –k 2.6.39
 &lt;li>⬆️ &lt;strong>Updating?&lt;/strong> View the
 &lt;a href="https://sourcethemes.com/academic/docs/update/" target="_blank" rel="noopener">Update Guide&lt;/a> and
 &lt;a href="https://sourcethemes.com/academic/updates/" target="_blank" rel="noopener">Release Notes&lt;/a>&lt;/li>
-&lt;li>❤️ &lt;strong>Support development&lt;/strong> of Academic:
+&lt;li>&amp;#x2764;&amp;#xfe0f; &lt;strong>Support development&lt;/strong> of Academic:
 &lt;ul>
 &lt;li>☕️
 &lt;a href="https://paypal.me/cushen" target="_blank" rel="noopener">&lt;strong>Donate a coffee&lt;/strong>&lt;/a>&lt;/li>
@@ -8271,7 +8310,7 @@ update-initramfs –c –k 2.6.39
 &lt;a href="https://www.redbubble.com/people/neutreno/works/34387919-academic" target="_blank" rel="noopener">Decorate your laptop or journal with an Academic &lt;strong>sticker&lt;/strong>&lt;/a>&lt;/li>
 &lt;li>👕
 &lt;a href="https://academic.threadless.com/" target="_blank" rel="noopener">Wear the &lt;strong>T-shirt&lt;/strong>&lt;/a>&lt;/li>
-&lt;li>👩‍💻
+&lt;li>&amp;#x1f469;&amp;zwj;&amp;#x1f4bb;
 &lt;a href="https://sourcethemes.com/academic/docs/contribute/" target="_blank" rel="noopener">&lt;strong>Contribute&lt;/strong>&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;/li>
@@ -8481,8 +8520,8 @@ UNIX United System中，各个子UNIX System拥有自己独立的users,user grou
 &lt;h2 id="１进程调度的时机">１.进程调度的时机&lt;/h2>
 &lt;p>中断处理过程（包括&lt;strong>时钟中断、I/O中断、系统调用和异常&lt;/strong>）中，直接调用schedule()，或者返回用户态时根据need_resched标记调用schedule()；&lt;/p>
 &lt;blockquote>
-&lt;p>&lt;strong>内核线程&lt;/strong>可以&lt;strong>直接&lt;/strong>调用&lt;strong>schedule()&lt;strong>进行进程切换，也可以在中断处理过程中进行调度，也就是说内核线程作为一类的特殊的进程可以主动调度，也可以被动调度；&lt;br>
-&lt;/strong>用户态进程无法实现主动调度，仅能通过陷入内核态后的某个时机点进行调度&lt;/strong>，即在中断处理过程中进行调度。&lt;/p>
+&lt;p>&lt;strong>内核线程&lt;/strong>可以&lt;strong>直接&lt;/strong>调用**schedule()**进行进程切换，也可以在中断处理过程中进行调度，也就是说内核线程作为一类的特殊的进程可以主动调度，也可以被动调度；&lt;br>
+&lt;strong>用户态进程无法实现主动调度，仅能通过陷入内核态后的某个时机点进行调度&lt;/strong>，即在中断处理过程中进行调度。&lt;/p>
 &lt;/blockquote>
 &lt;h2 id="2进程的切换">2.进程的切换&lt;/h2>
 &lt;p>为了控制进程的执行，内核必须有能力挂起正在CPU上执行的进程，并恢复以前挂起的某个进程的执行，这叫做进程切换、任务切换、上下文切换；&lt;/p>
@@ -8544,7 +8583,7 @@ prev = rq-&amp;gt;curr; //运行队列中的curr指针赋予prev。&lt;/p>
 　　　　|&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;-|
 　　　　 return prev;
 　　　　}&lt;/p>
-&lt;h3 id="４switch_to函数解析--">４)switch_to（）函数解析 　&lt;/h3>
+&lt;h3 id="４switch_to函数解析">４)switch_to（）函数解析 　&lt;/h3>
 &lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-07-24-Linux-kernel-analysis-task-management/2018-09-19-02-06-38.png" alt="">&lt;/p>
 &lt;p>switch_to(prev, next, prev)：切换堆栈和寄存器的状态．&lt;/p>
 &lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-07-24-Linux-kernel-analysis-task-management/2018-09-19-02-06-51.png" alt="">&lt;/p>
@@ -8607,7 +8646,7 @@ prev = rq-&amp;gt;curr; //运行队列中的curr指针赋予prev。&lt;/p>
 &lt;/li>
 &lt;li>
 &lt;p>参数传递方式：exec函数族的参数传递有两种：一种是逐个列举的方式，而另一种则是将所有参数整体构造指针数组传递。在这里是以函数名的第5位字母来区分的，字母为 &amp;ldquo;l&amp;rdquo;(list)的表示逐个列举参数的方式，其语法为：&lt;br>
-`const char *arg;字母为“v”(vector)的表示将所有参数整体构造指针数组传递，其语法为 char *const argv[]&amp;lsquo;``。&lt;br>
+`const char *arg;字母为“v”(vector)的表示将所有参数整体构造指针数组传递，其语法为 char *const argv[]&amp;rsquo;``。&lt;br>
 这里的参数实际上就是用户在使用这个可执行文件时所需的全部命令选项字符串（包括该可执行程序命令本身）。要注意的是，这些参数必须以NULL结束。&lt;/p>
 &lt;/li>
 &lt;li>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cloud computing | Terry Tang</title><link>http://www.guozet.me/category/Cloud-computing/</link><atom:link href="http://www.guozet.me/category/Cloud-computing/index.xml" rel="self" type="application/rss+xml"/><description>Cloud computing</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><copyright>guozet.me © 2020</copyright><lastBuildDate>Thu, 04 Oct 2018 15:09:31 +0000</lastBuildDate><image><url>http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url><title>Cloud computing</title><link>http://www.guozet.me/category/Cloud-computing/</link></image><item><title>Cloud computing Basic concepts 2</title><link>http://www.guozet.me/post/CPSC6440-CloudComputing-basic-concepts2/</link><pubDate>Thu, 04 Oct 2018 15:09:31 +0000</pubDate><guid>http://www.guozet.me/post/CPSC6440-CloudComputing-basic-concepts2/</guid><description>&lt;p>Exam_2 Review Questions. Approximately 60% of the exam will be derived from these questions.&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cloud computing | Terry Tang</title><link>http://www.guozet.me/category/Cloud-computing/</link><atom:link href="http://www.guozet.me/category/Cloud-computing/index.xml" rel="self" type="application/rss+xml"/><description>Cloud computing</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en</language><copyright>guozet.me © 2020</copyright><lastBuildDate>Thu, 04 Oct 2018 15:09:31 +0000</lastBuildDate><image><url>http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_3.png</url><title>Cloud computing</title><link>http://www.guozet.me/category/Cloud-computing/</link></image><item><title>Cloud computing Basic concepts 2</title><link>http://www.guozet.me/post/CPSC6440-CloudComputing-basic-concepts2/</link><pubDate>Thu, 04 Oct 2018 15:09:31 +0000</pubDate><guid>http://www.guozet.me/post/CPSC6440-CloudComputing-basic-concepts2/</guid><description>&lt;p>Exam_2 Review Questions. Approximately 60% of the exam will be derived from these questions.&lt;/p>
 &lt;ol>
 &lt;li>
 &lt;p>True or &lt;code>False&lt;/code>: Users should store dynamic web content in S3.&lt;/p>
@@ -153,26 +153,26 @@ Eventual consistency is a consistency model used in distributed computing to ach
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th align="left">Null&lt;/th>
-&lt;th align="left">Amazon SNS&lt;/th>
-&lt;th align="left">Amazon SQS&lt;/th>
+&lt;th style="text-align:left">Null&lt;/th>
+&lt;th style="text-align:left">Amazon SNS&lt;/th>
+&lt;th style="text-align:left">Amazon SQS&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td align="left">Manage Persistence&lt;/td>
-&lt;td align="left">No&lt;/td>
-&lt;td align="left">Yes&lt;/td>
+&lt;td style="text-align:left">Manage Persistence&lt;/td>
+&lt;td style="text-align:left">No&lt;/td>
+&lt;td style="text-align:left">Yes&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td align="left">Delivery Mechanism&lt;/td>
-&lt;td align="left">Push(Passive)&lt;/td>
-&lt;td align="left">Poll(Active)&lt;/td>
+&lt;td style="text-align:left">Delivery Mechanism&lt;/td>
+&lt;td style="text-align:left">Push(Passive)&lt;/td>
+&lt;td style="text-align:left">Poll(Active)&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td align="left">Producer/Consumer&lt;/td>
-&lt;td align="left">Publish(subscriber)&lt;/td>
-&lt;td align="left">Send(receive)&lt;/td>
+&lt;td style="text-align:left">Producer/Consumer&lt;/td>
+&lt;td style="text-align:left">Publish(subscriber)&lt;/td>
+&lt;td style="text-align:left">Send(receive)&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -424,7 +424,7 @@ All-in Cloud, Hybrid Cloud, Private Cloud(On-premises).
 &lt;li>
 &lt;p>Explain the difference between a hybrid cloud deployment model and an All-In cloud deployment model.&lt;/p>
 &lt;ul>
-&lt;li>All-In&amp;rdquo; Cloud is a cloud-based application that is &lt;code>fully deployed in the cloud&lt;/code>, and all parts of the application run in the cloud.&lt;/li>
+&lt;li>All-In&amp;quot; Cloud is a cloud-based application that is &lt;code>fully deployed in the cloud&lt;/code>, and all parts of the application run in the cloud.&lt;/li>
 &lt;li>A hybrid deployment is a way to &lt;code>connect infrastructure and applications between cloud-based resources and existing resources&lt;/code> that are not located in the cloud.&lt;/li>
 &lt;/ul>
 &lt;/li>

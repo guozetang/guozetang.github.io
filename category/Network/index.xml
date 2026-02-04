@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Network | Terry Tang</title><link>http://www.guozet.me/category/Network/</link><atom:link href="http://www.guozet.me/category/Network/index.xml" rel="self" type="application/rss+xml"/><description>Network</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><copyright>guozet.me © 2020</copyright><lastBuildDate>Mon, 29 Oct 2018 06:09:31 +0000</lastBuildDate><image><url>http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url><title>Network</title><link>http://www.guozet.me/category/Network/</link></image><item><title>Mirai源代码分析1--Loader的工作过程</title><link>http://www.guozet.me/post/Mirai-loader-Code-Walking-thought/</link><pubDate>Mon, 29 Oct 2018 06:09:31 +0000</pubDate><guid>http://www.guozet.me/post/Mirai-loader-Code-Walking-thought/</guid><description>&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-10-29-Mirai-loader-Code-Walking-thought/2018-10-30-12-42-01.png" alt="">&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Network | Terry Tang</title><link>http://www.guozet.me/category/Network/</link><atom:link href="http://www.guozet.me/category/Network/index.xml" rel="self" type="application/rss+xml"/><description>Network</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en</language><copyright>guozet.me © 2020</copyright><lastBuildDate>Mon, 29 Oct 2018 06:09:31 +0000</lastBuildDate><image><url>http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_3.png</url><title>Network</title><link>http://www.guozet.me/category/Network/</link></image><item><title>Mirai源代码分析1--Loader的工作过程</title><link>http://www.guozet.me/post/Mirai-loader-Code-Walking-thought/</link><pubDate>Mon, 29 Oct 2018 06:09:31 +0000</pubDate><guid>http://www.guozet.me/post/Mirai-loader-Code-Walking-thought/</guid><description>&lt;p>&lt;img src="http://www.guozet.me/images/in-post/2018-10-29-Mirai-loader-Code-Walking-thought/2018-10-30-12-42-01.png" alt="">&lt;/p>
 &lt;h1 id="前言">前言&lt;/h1>
 &lt;blockquote>
 &lt;p>The Mirai internet of things (IoT) botnet is infamous for targeting connected household consumer products. It attaches itself to cameras, alarm systems and personal routers, and spreads quickly. The damage can be quite substantial. People might not realize that their internet-enabled webcam was actually responsible for attacking Netflix. Cite:
@@ -914,7 +914,8 @@ auto eth0
 &lt;/ol>
 &lt;p>sudo /etc/init.d/networking restart
 4. ping测试互联网连通性&lt;/p>
-&lt;p>ping &lt;a href="http://www.baidu.com">www.baidu.com&lt;/a>
+&lt;p>ping
+&lt;a href="https://www.baidu.com" target="_blank" rel="noopener">www.baidu.com&lt;/a>
 如果ping有响应，那么恭喜你，你已经成功将虚拟机设置为静态IP，并且也已连入互联网。&lt;/p>
 &lt;p>开启防火墙
 ufw enable&lt;/p>
@@ -938,7 +939,8 @@ sudo
 /etc/init.d/ssh stop
 sudo /etc/init.d/ssh start
 然后使用以下方式登陆SSH：
-ssh &lt;a href="mailto:username@192.168.1.112">username@192.168.1.112&lt;/a> username为192.168.1.112 机器上的用户，需要输入密码。&lt;/p>
+ssh
+&lt;a href="mailto:username@192.168.1.112">username@192.168.1.112&lt;/a> username为192.168.1.112 机器上的用户，需要输入密码。&lt;/p>
 &lt;p>在刚安装完ubuntu后，屏幕不能全屏显示，此时：&lt;/p>
 &lt;p>1、安装VMware Tools&lt;/p>
 &lt;p>步骤：&lt;/p>

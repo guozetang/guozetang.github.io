@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Linux kernel | Terry Tang</title><link>http://www.guozet.me/tag/Linux-kernel/</link><atom:link href="http://www.guozet.me/tag/Linux-kernel/index.xml" rel="self" type="application/rss+xml"/><description>Linux kernel</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><copyright>guozet.me © 2020</copyright><lastBuildDate>Mon, 07 May 2018 13:04:27 +0000</lastBuildDate><image><url>http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url><title>Linux kernel</title><link>http://www.guozet.me/tag/Linux-kernel/</link></image><item><title>基于Linux透明加密文件系统的设计与实现</title><link>http://www.guozet.me/post/Design-and-Implementation-of-Transparent-Encrypted-File-System-Based-on-Linux/</link><pubDate>Mon, 07 May 2018 13:04:27 +0000</pubDate><guid>http://www.guozet.me/post/Design-and-Implementation-of-Transparent-Encrypted-File-System-Based-on-Linux/</guid><description>&lt;hr>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Linux kernel | Terry Tang</title><link>http://www.guozet.me/tag/Linux-kernel/</link><atom:link href="http://www.guozet.me/tag/Linux-kernel/index.xml" rel="self" type="application/rss+xml"/><description>Linux kernel</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en</language><copyright>guozet.me © 2020</copyright><lastBuildDate>Mon, 07 May 2018 13:04:27 +0000</lastBuildDate><image><url>http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_3.png</url><title>Linux kernel</title><link>http://www.guozet.me/tag/Linux-kernel/</link></image><item><title>基于Linux透明加密文件系统的设计与实现</title><link>http://www.guozet.me/post/Design-and-Implementation-of-Transparent-Encrypted-File-System-Based-on-Linux/</link><pubDate>Mon, 07 May 2018 13:04:27 +0000</pubDate><guid>http://www.guozet.me/post/Design-and-Implementation-of-Transparent-Encrypted-File-System-Based-on-Linux/</guid><description>&lt;hr>
 &lt;h1 id="选题背景">选题背景&lt;/h1>
 &lt;p>现在人们对计算机系统安全问题考虑的越来越多，对计算机系统安全的要求也越来越严格，数据安全早已不在是军方和政府要害部门的特殊需求。现在，几乎所有的应用领域包括银行、电子交易、政府、互联网络、专用网络和企业内部网络都有数据安全的需求。与此同时个人计算机的数据泄密问题也日益突出。加密技术在现代计算机系统安全中扮演着越来越重要的角色。而加密文件系统是加密技术中比较成熟和通用的方式。&lt;/p>
 &lt;!-- more -->
@@ -748,7 +748,7 @@ update-initramfs –c –k 2.6.39
 &lt;pre>&lt;code class="language-bash">uname -r
 &lt;/code>&lt;/pre>
 &lt;p>该命令会告诉你当前使用的内核版本，在登录时候，不能卸载当前的内核，以免造成无法启动的悲剧~~&lt;br>
-接下来，如果你是自己**动手编译**的内核的话，请删除以下文件和文件夹&lt;/p>
+接下来，如果你是自己&lt;strong>动手编译&lt;/strong>的内核的话，请删除以下文件和文件夹&lt;/p>
 &lt;ol>
 &lt;li>删除掉/lib/modules/目录下过时的内核库文件&lt;/li>
 &lt;li>删除掉/usr/src/kernels/目录下过时的内核源代码&lt;/li>
@@ -792,7 +792,7 @@ update-initramfs –c –k 2.6.39
 安装必备软件编译工具:#apt-get installlibncurses5-dev build-essential kernel-package 的时候，无法更新，输入#sudo apt-get update也无法更新数据。&lt;/p>
 &lt;p>&lt;img src="http://www.guozet.me/images/in-post/2016-07-12-Linux-kernel-update/2018-09-19-02-33-19.png" alt="">&lt;/p>
 &lt;p>在这里是由于ubuntu10.10的源出现问题，导致无法更新、下载软件，这里需要重新修改源文件。处理如下：&lt;br>
-&lt;a href="http://www.cnblogs.com/linuxcat/archive/2012/12/29/2839216.html">http://www.cnblogs.com/linuxcat/archive/2012/12/29/2839216.html&lt;/a>&lt;/p>
+&lt;a href="http://www.cnblogs.com/linuxcat/archive/2012/12/29/2839216.html" target="_blank" rel="noopener">http://www.cnblogs.com/linuxcat/archive/2012/12/29/2839216.html&lt;/a>&lt;/p>
 &lt;p>参考该网站内容后，将源换为http://old-releases.ubuntu.com/ubuntu/地址，即可更新、下载软件（当然，其他可用的源地址也是可以的）。&lt;/p>
 &lt;p>2.权限问题&lt;br>
 在这个内核的编译、安装过程中，涉及到的操作都是需要root权限才能进行操作的，如果权限不够，则产生错误。处理方法：使用sudo(必须给了给用户申请root的权限)或者直接su root切换到root用户下进行整个过程操作。&lt;/p></description></item><item><title>Linux内核分析课程_学习索引</title><link>http://www.guozet.me/post/Linux-kernel-analysis-catalogue/</link><pubDate>Sun, 14 Jun 2015 13:04:27 +0000</pubDate><guid>http://www.guozet.me/post/Linux-kernel-analysis-catalogue/</guid><description>&lt;p>
@@ -928,8 +928,8 @@ UNIX United System中，各个子UNIX System拥有自己独立的users,user grou
 &lt;h2 id="１进程调度的时机">１.进程调度的时机&lt;/h2>
 &lt;p>中断处理过程（包括&lt;strong>时钟中断、I/O中断、系统调用和异常&lt;/strong>）中，直接调用schedule()，或者返回用户态时根据need_resched标记调用schedule()；&lt;/p>
 &lt;blockquote>
-&lt;p>&lt;strong>内核线程&lt;/strong>可以&lt;strong>直接&lt;/strong>调用&lt;strong>schedule()&lt;strong>进行进程切换，也可以在中断处理过程中进行调度，也就是说内核线程作为一类的特殊的进程可以主动调度，也可以被动调度；&lt;br>
-&lt;/strong>用户态进程无法实现主动调度，仅能通过陷入内核态后的某个时机点进行调度&lt;/strong>，即在中断处理过程中进行调度。&lt;/p>
+&lt;p>&lt;strong>内核线程&lt;/strong>可以&lt;strong>直接&lt;/strong>调用**schedule()**进行进程切换，也可以在中断处理过程中进行调度，也就是说内核线程作为一类的特殊的进程可以主动调度，也可以被动调度；&lt;br>
+&lt;strong>用户态进程无法实现主动调度，仅能通过陷入内核态后的某个时机点进行调度&lt;/strong>，即在中断处理过程中进行调度。&lt;/p>
 &lt;/blockquote>
 &lt;h2 id="2进程的切换">2.进程的切换&lt;/h2>
 &lt;p>为了控制进程的执行，内核必须有能力挂起正在CPU上执行的进程，并恢复以前挂起的某个进程的执行，这叫做进程切换、任务切换、上下文切换；&lt;/p>
@@ -991,7 +991,7 @@ prev = rq-&amp;gt;curr; //运行队列中的curr指针赋予prev。&lt;/p>
 　　　　|&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;-|
 　　　　 return prev;
 　　　　}&lt;/p>
-&lt;h3 id="４switch_to函数解析--">４)switch_to（）函数解析 　&lt;/h3>
+&lt;h3 id="４switch_to函数解析">４)switch_to（）函数解析 　&lt;/h3>
 &lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-07-24-Linux-kernel-analysis-task-management/2018-09-19-02-06-38.png" alt="">&lt;/p>
 &lt;p>switch_to(prev, next, prev)：切换堆栈和寄存器的状态．&lt;/p>
 &lt;p>&lt;img src="http://www.guozet.me/images/in-post/2015-07-24-Linux-kernel-analysis-task-management/2018-09-19-02-06-51.png" alt="">&lt;/p>
@@ -1054,7 +1054,7 @@ prev = rq-&amp;gt;curr; //运行队列中的curr指针赋予prev。&lt;/p>
 &lt;/li>
 &lt;li>
 &lt;p>参数传递方式：exec函数族的参数传递有两种：一种是逐个列举的方式，而另一种则是将所有参数整体构造指针数组传递。在这里是以函数名的第5位字母来区分的，字母为 &amp;ldquo;l&amp;rdquo;(list)的表示逐个列举参数的方式，其语法为：&lt;br>
-`const char *arg;字母为“v”(vector)的表示将所有参数整体构造指针数组传递，其语法为 char *const argv[]&amp;lsquo;``。&lt;br>
+`const char *arg;字母为“v”(vector)的表示将所有参数整体构造指针数组传递，其语法为 char *const argv[]&amp;rsquo;``。&lt;br>
 这里的参数实际上就是用户在使用这个可执行文件时所需的全部命令选项字符串（包括该可执行程序命令本身）。要注意的是，这些参数必须以NULL结束。&lt;/p>
 &lt;/li>
 &lt;li>

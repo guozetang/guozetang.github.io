@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Linux | Terry Tang</title><link>http://www.guozet.me/tag/Linux/</link><atom:link href="http://www.guozet.me/tag/Linux/index.xml" rel="self" type="application/rss+xml"/><description>Linux</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><copyright>guozet.me © 2020</copyright><lastBuildDate>Mon, 25 Mar 2019 10:03:10 +0000</lastBuildDate><image><url>http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url><title>Linux</title><link>http://www.guozet.me/tag/Linux/</link></image><item><title>Linux Basic Concepts</title><link>http://www.guozet.me/post/Linux-Basic-Concepts/</link><pubDate>Mon, 25 Mar 2019 10:03:10 +0000</pubDate><guid>http://www.guozet.me/post/Linux-Basic-Concepts/</guid><description>&lt;h1 id="vfs-文件系统">VFS 文件系统&lt;/h1>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Linux | Terry Tang</title><link>http://www.guozet.me/tag/Linux/</link><atom:link href="http://www.guozet.me/tag/Linux/index.xml" rel="self" type="application/rss+xml"/><description>Linux</description><generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en</language><copyright>guozet.me © 2020</copyright><lastBuildDate>Mon, 25 Mar 2019 10:03:10 +0000</lastBuildDate><image><url>http://www.guozet.me/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_3.png</url><title>Linux</title><link>http://www.guozet.me/tag/Linux/</link></image><item><title>Linux Basic Concepts</title><link>http://www.guozet.me/post/Linux-Basic-Concepts/</link><pubDate>Mon, 25 Mar 2019 10:03:10 +0000</pubDate><guid>http://www.guozet.me/post/Linux-Basic-Concepts/</guid><description>&lt;h1 id="vfs-文件系统">VFS 文件系统&lt;/h1>
 &lt;p>VFS 是一个软件层,用来处理与 Unix/Linux 标准文件系统相关的所有系统调用。是用户应用程序与文件系统实现之间的抽象层,VFS 能为各种文件系统提供一个通用的、统一的接口。(作用)&lt;/p>
 &lt;p>VFS 中描述各对象的数据结构:&lt;/p>
 &lt;ul>
@@ -76,7 +76,7 @@ sudo apt-get dist-upgrade
 &lt;p>最近使用SSH来登陆DigitalOcean VPS的时候，第一次导入SSH的时候出现了一些问题，由此对SSH协议详细的学习了一番。在这里对自己SSH的学习做一个小结。&lt;/p>
 &lt;h1 id="基本概念">基本概念&lt;/h1>
 &lt;h2 id="什么是ssh">什么是SSH&lt;/h2>
-&lt;p>SSH(The Secure Shell)是指一种将所有传输的数据进行加密，这样&amp;quot;中间人&amp;quot;这种攻击方式就不可能实现了，而且也能够防止DNS欺骗和IP欺骗。使用SSH，还有一个额外的好处就是传输的数据是经过压缩的，所以可以加快传输的速度。SSH有很多功能，它既可以代替Telnet，又可以为FTP、Pop、甚至为PPP提供一个安全的&amp;quot;通道&amp;rdquo;。&lt;/p>
+&lt;p>SSH(The Secure Shell)是指一种将所有传输的数据进行加密，这样&amp;quot;中间人&amp;quot;这种攻击方式就不可能实现了，而且也能够防止DNS欺骗和IP欺骗。使用SSH，还有一个额外的好处就是传输的数据是经过压缩的，所以可以加快传输的速度。SSH有很多功能，它既可以代替Telnet，又可以为FTP、Pop、甚至为PPP提供一个安全的&amp;quot;通道&amp;quot;。&lt;/p>
 &lt;blockquote>
 &lt;p>官方协议文档请参考:
 &lt;a href="https://www.ietf.org/rfc/rfc4251.txt" target="_blank" rel="noopener">The Secure Shell (SSH) Protocol Architecture&lt;/a>&lt;/p>
@@ -253,7 +253,8 @@ auto eth0
 &lt;/ol>
 &lt;p>sudo /etc/init.d/networking restart
 4. ping测试互联网连通性&lt;/p>
-&lt;p>ping &lt;a href="http://www.baidu.com">www.baidu.com&lt;/a>
+&lt;p>ping
+&lt;a href="https://www.baidu.com" target="_blank" rel="noopener">www.baidu.com&lt;/a>
 如果ping有响应，那么恭喜你，你已经成功将虚拟机设置为静态IP，并且也已连入互联网。&lt;/p>
 &lt;p>开启防火墙
 ufw enable&lt;/p>
@@ -277,7 +278,8 @@ sudo
 /etc/init.d/ssh stop
 sudo /etc/init.d/ssh start
 然后使用以下方式登陆SSH：
-ssh &lt;a href="mailto:username@192.168.1.112">username@192.168.1.112&lt;/a> username为192.168.1.112 机器上的用户，需要输入密码。&lt;/p>
+ssh
+&lt;a href="mailto:username@192.168.1.112">username@192.168.1.112&lt;/a> username为192.168.1.112 机器上的用户，需要输入密码。&lt;/p>
 &lt;p>在刚安装完ubuntu后，屏幕不能全屏显示，此时：&lt;/p>
 &lt;p>1、安装VMware Tools&lt;/p>
 &lt;p>步骤：&lt;/p>
